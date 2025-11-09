@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb32c6dbc07c2b4293194528fb0b516, type: 3}
+  m_Name: 0_Chicken
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  _playerPrefab: {fileID: 4449419947464300697, guid: 36ffc472d8c95ae49980b122bce942ac, type: 3}
+  _playerVisualPrefab: {fileID: 4431583437467178658, guid: 1881f2f86bd2777448c8e1e0192288f1, type: 3}
+  _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
