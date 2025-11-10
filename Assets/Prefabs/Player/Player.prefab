@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4192056432058072830}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2793177509042435080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1438618672588264346}
+  m_Layer: 0
+  m_Name: WeaponPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1438618672588264346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2793177509042435080}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4192056432058072830}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5600250369316941197
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,8 +72,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4192056432058072830}
   - component: {fileID: 4806248263658678794}
-  - component: {fileID: 4449419947464300697}
   - component: {fileID: 6521700762898082741}
+  - component: {fileID: 4449419947464300697}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -64,6 +95,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3222255418078917787}
+  - {fileID: 1438618672588264346}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &4806248263658678794
@@ -91,19 +123,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &4449419947464300697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5600250369316941197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: defc4308e69470a4ca967cb5b378b761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
-  _cameraPivot: {fileID: 3222255418078917787}
 --- !u!114 &6521700762898082741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,3 +135,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c51fb7d6dcdc544780b3aaa9e529604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+--- !u!114 &4449419947464300697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5600250369316941197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defc4308e69470a4ca967cb5b378b761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player

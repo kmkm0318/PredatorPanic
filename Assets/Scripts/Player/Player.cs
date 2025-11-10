@@ -1,42 +1,42 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 /// <summary>
 /// 플레이어 클래스
 /// 플레이어 데이터와 컴포넌트 초기화 담당
+/// 각 컴포넌트 간의 연결 관리
 /// </summary>
 [RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerAttack))]
 public class Player : MonoBehaviour
 {
-    #region 카메라 피벗
-    [SerializeField] private Transform _cameraPivot;
-    public Transform CameraPivot => _cameraPivot;
-    #endregion
-
     #region 플레이어 데이터
-    public PlayerData PlayerData { get; private set; }
+    private PlayerData _playerData;
     #endregion
 
     #region 컴포넌트
-    public PlayerController PlayerController { get; private set; }
+    private PlayerController _playerController;
+    private PlayerAttack _playerAttack;
     #endregion
 
     #region 플레이어 비주얼 객체
-    private Transform _playerVisual;
+    private PlayerVisual _playerVisual;
     #endregion
 
-    public void Init(PlayerData playerData)
+    public void Init(PlayerData playerData, WeaponData weaponData)
     {
-        PlayerData = playerData;
+        _playerData = playerData;
         InitPlayerVisual();
         InitComponents();
+        InitWeapon(weaponData);
     }
 
     // 플레이어 비주얼 초기화
     private void InitPlayerVisual()
     {
-        if (PlayerData.PlayerVisualPrefab != null)
+        if (_playerData.PlayerVisualPrefab != null)
         {
-            _playerVisual = Instantiate(PlayerData.PlayerVisualPrefab, transform);
+            _playerVisual = Instantiate(_playerData.PlayerVisualPrefab, transform);
             _playerVisual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
     }
@@ -44,7 +44,36 @@ public class Player : MonoBehaviour
     // 컴포넌트 초기화
     private void InitComponents()
     {
-        PlayerController = GetComponent<PlayerController>();
-        PlayerController.Init(PlayerData.PlayerControllerData, _cameraPivot, _playerVisual);
+        _playerController = GetComponent<PlayerController>();
+        _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual);
+
+        _playerAttack = GetComponent<PlayerAttack>();
+    }
+
+    // 무기 초기화
+    private void InitWeapon(WeaponData weaponData)
+    {
+        if (weaponData.WeaponPrefab != null)
+        {
+            var weapon = Instantiate(weaponData.WeaponPrefab, _playerVisual.WeaponPivot);
+            weapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            weapon.Init(weaponData);
+            _playerAttack.SetWeapon(weapon);
+        }
+    }
+
+    // 시네머신 카메라의 팔로우 타겟 설정
+    public void SetCameraFollowTarget(CinemachineCamera camera)
+    {
+        if (camera != null)
+        {
+            camera.Follow = _playerVisual.CameraPivot;
+        }
+    }
+
+    // 공격 실행
+    public void Attack()
+    {
+        _playerAttack.Attack();
     }
 }

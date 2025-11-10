@@ -9,10 +9,13 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    #region 플레이어 컨트롤러 데이터, 카메라 피벗, 플레이어 비주얼
+
+    #region 데이터 및 참조 변수
+    private Player _player;
     public PlayerControllerData PlayerControllerData { get; private set; }
+    private PlayerVisual _playerVisual;
     private Transform _cameraPivot;
-    private Transform _playerVisual;
+    private Transform _weaponPivot;
     #endregion
 
     #region 컨트롤 변수
@@ -52,7 +55,8 @@ public class PlayerController : MonoBehaviour
     public bool IsJumpPressed { get; private set; } = false;
     public bool IsJumpBuffer { get; set; } = false;
     public bool IsCoyoteTime { get; set; } = false;
-    public bool IsFirePressed { get; private set; } = false;
+    public bool IsAttackPressed { get; private set; } = false;
+    public bool CanAttack { get; set; } = true;
     private InputDevice _currentDecive;
     #endregion
 
@@ -86,8 +90,8 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Jump.performed += OnJump;
         inputActions.Player.Jump.canceled += OnJump;
 
-        inputActions.Player.Fire.performed += OnFire;
-        inputActions.Player.Fire.canceled += OnFire;
+        inputActions.Player.Attack.performed += OnAttack;
+        inputActions.Player.Attack.canceled += OnAttack;
     }
 
     //입력 이벤트 구독 해제
@@ -104,8 +108,8 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Jump.performed -= OnJump;
         inputActions.Player.Jump.canceled -= OnJump;
 
-        inputActions.Player.Fire.performed -= OnFire;
-        inputActions.Player.Fire.canceled -= OnFire;
+        inputActions.Player.Attack.performed -= OnAttack;
+        inputActions.Player.Attack.canceled -= OnAttack;
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -135,17 +139,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnFire(InputAction.CallbackContext context)
+    private void OnAttack(InputAction.CallbackContext context)
     {
-        IsFirePressed = context.ReadValueAsButton();
+        IsAttackPressed = context.ReadValueAsButton();
     }
     #endregion
 
-    public void Init(PlayerControllerData playerControllerData, Transform cameraPivot, Transform playerVisual)
+    public void Init(Player player, PlayerControllerData playerControllerData, PlayerVisual playerVisual)
     {
+        _player = player;
         PlayerControllerData = playerControllerData;
-        _cameraPivot = cameraPivot;
         _playerVisual = playerVisual;
+        _cameraPivot = _playerVisual.CameraPivot;
+        _weaponPivot = _playerVisual.WeaponPivot;
 
         InitComponents();
         InitJumpVariables();
@@ -188,6 +194,7 @@ public class PlayerController : MonoBehaviour
         //바라보는 방향에 따라 움직이는 방향이 결정되기 때문에 HandleRotation 뒤에 HandleMovement가 와야 함
         HandleRotation();
         HandleMovement();
+        HandleAttack();
 
         StateMachine.Update();
     }
@@ -208,6 +215,12 @@ public class PlayerController : MonoBehaviour
         {
             _cameraPivot.localEulerAngles = new(Pitch, 0, 0);
         }
+
+        //카메라 피벗에 맞춰 무기 피벗도 회전
+        if (_weaponPivot != null)
+        {
+            _weaponPivot.localEulerAngles = new(Pitch, 0, 0);
+        }
     }
 
     private void HandleMovement()
@@ -215,6 +228,14 @@ public class PlayerController : MonoBehaviour
         //플레이어가 바라보는 방향을 기준으로 이동
         Vector3 localMove = transform.right * _movement.x + Vector3.up * _movement.y + transform.forward * _movement.z;
         CharacterController.Move(PlayerControllerData.MoveSpeed * Time.deltaTime * localMove);
+    }
+
+    private void HandleAttack()
+    {
+        if (CanAttack && IsAttackPressed)
+        {
+            _player.Attack();
+        }
     }
 
     #region 점프 버퍼 코루틴

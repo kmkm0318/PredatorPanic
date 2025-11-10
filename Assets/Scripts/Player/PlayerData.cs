@@ -12,8 +12,8 @@ public class PlayerData : ScriptableObject
     public Player PlayerPrefab => _playerPrefab;
 
     [Header("Player Visual Prefab")]
-    [SerializeField] private Transform _playerVisualPrefab;
-    public Transform PlayerVisualPrefab => _playerVisualPrefab;
+    [SerializeField] private PlayerVisual _playerVisualPrefab;
+    public PlayerVisual PlayerVisualPrefab => _playerVisualPrefab;
 
     [Header("Player Controller Data")]
     [SerializeField] private PlayerControllerData _playerControllerData;

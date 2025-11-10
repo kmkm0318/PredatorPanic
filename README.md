@@ -20,6 +20,14 @@
 - **PlayerControllerData (ScriptableObject)**: 플레이어 컨트롤에 필요한 데이터 관리
 - **PlayerBaseState**: 플레이어 상태의 기본 추상 클래스
 - **PlayerStateFactory**: 상태 객체 생성 및 관리
+- **PlayerVisual**: 플레이어의 비주얼 객체에 붙은 클래스. CameraPivot과 WeaponPivot을 전달하는 역할.
+- **PlayerAttack**: Weapon을 저장하고 현재 Weapon을 통해 공격을 수행하는 역할
+
+### 무기
+- **Weapon**: 플레이어의 공격에 사용되는 무기를 위한 추상 클래스
+- **WeaponData (ScriptableObject)**: 무기 데이터 클래스를 위한 추상 클래스
+- **Gun**: 원거리 공격을 위한 클래스. Weapon을 상속함. 히트스캔으로 공격을 하며 Trail을 통해 잔상을 남김. Trail은 ObjectPool을 통해 최적화.
+- **GunData (ScriptableObject)**: Gun을 위한 데이터 클래스. WeaponData를 상속함. 공격 속도, 공격력, 사거리, Trail 프리팹, Trail 이동 속도 등을 포함함.
 
 ### 상태 기계
 - **IState**: 상태 인터페이스
