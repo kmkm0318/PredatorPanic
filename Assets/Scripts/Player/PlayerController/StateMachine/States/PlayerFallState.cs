@@ -12,7 +12,7 @@ public class PlayerFallState : PlayerBaseState
 
     public override void Enter()
     {
-        Owner.Animator.SetBool(Owner.IsFallingHash, true);
+        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsFallingHash, true);
         InitSubState();
         SubState?.Enter();
     }
@@ -28,7 +28,7 @@ public class PlayerFallState : PlayerBaseState
     public override void Exit()
     {
         SubState?.Exit();
-        Owner.Animator.SetBool(Owner.IsFallingHash, false);
+        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsFallingHash, false);
     }
 
     public override void InitSubState()

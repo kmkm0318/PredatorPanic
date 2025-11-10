@@ -127,9 +127,13 @@ public class Gun : Weapon
     {
         _muzzleFlash.Play();
 
+        //카메라에서 총구까지의 거리보다 가까운 물체는 무시하기 위한 거리 계산
+        float minDistance = Vector3.Distance(_mainCamera.transform.position, _muzzleFlash.transform.position);
+
         //화면 중앙을 발사 방향으로 설정
         Vector3 screenCenter = new(Screen.width / 2f, Screen.height / 2f, 0f);
         Ray aimRay = _mainCamera.ScreenPointToRay(screenCenter);
+        aimRay = new Ray(aimRay.origin + aimRay.direction * minDistance, aimRay.direction);
         if (!Physics.Raycast(aimRay, out var aimHitInfo, _gunData.Range, _gunData.HitLayerMask))
         {
             aimHitInfo = new RaycastHit { point = aimRay.origin + aimRay.direction * _gunData.Range };
@@ -142,6 +146,7 @@ public class Gun : Weapon
 
         //최종 히트 포인트 계산
         Ray fireRay = new(_muzzleFlash.transform.position, fireDirection);
+        fireRay = new Ray(fireRay.origin + fireRay.direction * minDistance, fireRay.direction);
         if (!Physics.Raycast(fireRay, out var fireHitInfo, _gunData.Range, _gunData.HitLayerMask))
         {
             fireHitInfo = new RaycastHit { point = fireRay.origin + fireRay.direction * _gunData.Range };

@@ -10,7 +10,7 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void Enter()
     {
-        Owner.Animator.SetBool(Owner.IsJumpingHash, true);
+        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsJumpingHash, true);
         Owner.MovementY = Owner.InitialJumpSpeed;
         InitSubState();
         SubState?.Enter();
@@ -26,7 +26,7 @@ public class PlayerJumpState : PlayerBaseState
     public override void Exit()
     {
         SubState?.Exit();
-        Owner.Animator.SetBool(Owner.IsJumpingHash, false);
+        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsJumpingHash, false);
     }
 
     public override void InitSubState()

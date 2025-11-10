@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     public void Init(PlayerData playerData, WeaponData weaponData)
     {
         _playerData = playerData;
+
         InitPlayerVisual();
         InitComponents();
         InitWeapon(weaponData);

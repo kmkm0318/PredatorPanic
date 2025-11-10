@@ -4,7 +4,7 @@ using UnityEngine;
 /// 플레이어 데이터 스크립터블 오브젝트
 /// 플레이어 프리팹, 비주얼 프리팹, 컨트롤러 데이터 포함
 /// </summary>
-[CreateAssetMenu(fileName = "PlayerData", menuName = "SO/PlayerData", order = 0)]
+[CreateAssetMenu(fileName = "PlayerData", menuName = "SO/Player/PlayerData", order = 0)]
 public class PlayerData : ScriptableObject
 {
     [Header("Player Prefab")]

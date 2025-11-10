@@ -9,11 +9,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-
     #region 데이터 및 참조 변수
     private Player _player;
     public PlayerControllerData PlayerControllerData { get; private set; }
-    private PlayerVisual _playerVisual;
+    public PlayerVisual PlayerVisual { get; private set; }
     private Transform _cameraPivot;
     private Transform _weaponPivot;
     #endregion
@@ -29,18 +28,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region 컴포넌트
-    public PlayerInputActions InputActions { get; private set; }
     public CharacterController CharacterController { get; private set; }
-    public Animator Animator { get; private set; }
-    #endregion
-
-    #region 애니메이션 이름, 해시
-    private const string IS_MOVING = "isMoving";
-    private const string IS_JUMPING = "isJumping";
-    private const string IS_FALLING = "isFalling";
-    public int IsMovingHash { get; private set; }
-    public int IsJumpingHash { get; private set; }
-    public int IsFallingHash { get; private set; }
     #endregion
 
     #region 상태 기계
@@ -173,13 +161,12 @@ public class PlayerController : MonoBehaviour
     {
         _player = player;
         PlayerControllerData = playerControllerData;
-        _playerVisual = playerVisual;
-        _cameraPivot = _playerVisual.CameraPivot;
-        _weaponPivot = _playerVisual.WeaponPivot;
+        PlayerVisual = playerVisual;
+        _cameraPivot = PlayerVisual.CameraPivot;
+        _weaponPivot = PlayerVisual.WeaponPivot;
 
         InitComponents();
         InitJumpVariables();
-        InitAnimationHash();
         InitStateMachine();
     }
 
@@ -187,7 +174,6 @@ public class PlayerController : MonoBehaviour
     private void InitComponents()
     {
         CharacterController = GetComponent<CharacterController>();
-        Animator = _playerVisual.GetComponent<Animator>();
     }
 
     //점프 변수 초기화. 중력과 시작 점프 속도 결정
@@ -196,14 +182,6 @@ public class PlayerController : MonoBehaviour
         float timeToApex = PlayerControllerData.MaxJumpDuration / 2f;
         Gravity = -2 * PlayerControllerData.MaxJumpHeight / Mathf.Pow(timeToApex, 2);
         InitialJumpSpeed = 2 * PlayerControllerData.MaxJumpHeight / timeToApex;
-    }
-
-    //애니메이션 해시 초기화
-    private void InitAnimationHash()
-    {
-        IsMovingHash = Animator.StringToHash(IS_MOVING);
-        IsJumpingHash = Animator.StringToHash(IS_JUMPING);
-        IsFallingHash = Animator.StringToHash(IS_FALLING);
     }
 
     private void InitStateMachine()
@@ -249,8 +227,12 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         //플레이어가 바라보는 방향을 기준으로 이동
-        Vector3 localMove = transform.right * _movement.x + Vector3.up * _movement.y + transform.forward * _movement.z;
-        CharacterController.Move(PlayerControllerData.MoveSpeed * Time.deltaTime * localMove);
+
+        Vector3 localMove =
+        PlayerControllerData.MoveSpeed * (transform.right * _movement.x + transform.forward * _movement.z) +
+        Vector3.up * _movement.y;
+
+        CharacterController.Move(localMove * Time.deltaTime);
     }
 
     #region 점프 버퍼 코루틴
