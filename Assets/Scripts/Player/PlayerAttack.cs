@@ -13,11 +13,19 @@ public class PlayerAttack : MonoBehaviour
         _weapon = weapon;
     }
 
-    public void Attack()
+    public void StartAttack()
     {
         if (_weapon != null)
         {
-            _weapon.Attack();
+            _weapon.StartAttack();
+        }
+    }
+
+    public void StopAttack()
+    {
+        if (_weapon != null)
+        {
+            _weapon.StopAttack();
         }
     }
 }

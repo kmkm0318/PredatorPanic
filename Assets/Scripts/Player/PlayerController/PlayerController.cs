@@ -56,7 +56,19 @@ public class PlayerController : MonoBehaviour
     public bool IsJumpBuffer { get; set; } = false;
     public bool IsCoyoteTime { get; set; } = false;
     public bool IsAttackPressed { get; private set; } = false;
-    public bool CanAttack { get; set; } = true;
+    private bool _canAttack = true;
+    public bool CanAttack
+    {
+        get => _canAttack;
+        set
+        {
+            _canAttack = value;
+            if (!value)
+            {
+                _player.StopAttack();
+            }
+        }
+    }
     private InputDevice _currentDecive;
     #endregion
 
@@ -142,6 +154,18 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         IsAttackPressed = context.ReadValueAsButton();
+
+        if (CanAttack)
+        {
+            if (IsAttackPressed)
+            {
+                _player.StartAttack();
+            }
+            else
+            {
+                _player.StopAttack();
+            }
+        }
     }
     #endregion
 
@@ -194,7 +218,6 @@ public class PlayerController : MonoBehaviour
         //바라보는 방향에 따라 움직이는 방향이 결정되기 때문에 HandleRotation 뒤에 HandleMovement가 와야 함
         HandleRotation();
         HandleMovement();
-        HandleAttack();
 
         StateMachine.Update();
     }
@@ -228,14 +251,6 @@ public class PlayerController : MonoBehaviour
         //플레이어가 바라보는 방향을 기준으로 이동
         Vector3 localMove = transform.right * _movement.x + Vector3.up * _movement.y + transform.forward * _movement.z;
         CharacterController.Move(PlayerControllerData.MoveSpeed * Time.deltaTime * localMove);
-    }
-
-    private void HandleAttack()
-    {
-        if (CanAttack && IsAttackPressed)
-        {
-            _player.Attack();
-        }
     }
 
     #region 점프 버퍼 코루틴

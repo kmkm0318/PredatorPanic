@@ -7,11 +7,20 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     protected WeaponData WeaponData { get; private set; }
+    protected bool IsAttacking { get; private set; }
 
     public virtual void Init(WeaponData weaponData)
     {
         WeaponData = weaponData;
     }
 
-    public abstract void Attack();
+    public virtual void StartAttack()
+    {
+        IsAttacking = true;
+    }
+
+    public virtual void StopAttack()
+    {
+        IsAttacking = false;
+    }
 }

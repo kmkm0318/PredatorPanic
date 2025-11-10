@@ -1134,7 +1134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _playerData: {fileID: 11400000, guid: 4f1ef008dda880b4e842cf646af6c030, type: 2}
   _playerSpawnPoint: {fileID: 1560699115}
-  _weaponData: {fileID: 11400000, guid: a84891e904c0d1343a580925eedfce52, type: 2}
+  _weaponData: {fileID: 11400000, guid: ff6ed94a5f08dbd42b605e8369190430, type: 2}
 --- !u!1 &1560699114
 GameObject:
   m_ObjectHideFlags: 0

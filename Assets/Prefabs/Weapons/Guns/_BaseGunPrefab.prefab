@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acebca5e3d44bd44e877f36286cef22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gun
-  _shootSystem: {fileID: 5421495729618786812}
+  _muzzleFlash: {fileID: 5421495729618786812}
 --- !u!1001 &4882624105574631741
 PrefabInstance:
   m_ObjectHideFlags: 0

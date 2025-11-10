@@ -71,9 +71,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    // 공격 실행
-    public void Attack()
+    // 공격 시작, 종료
+    public void StartAttack()
     {
-        _playerAttack.Attack();
+        _playerAttack.StartAttack();
+    }
+
+    public void StopAttack()
+    {
+        _playerAttack.StopAttack();
     }
 }

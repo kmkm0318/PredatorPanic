@@ -19,8 +19,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _fireRate: 0.25
-  _spread: 0.1
+  _spreadIncreaseRate: 0.1
+  _spreadDecreaseRate: 0.1
+  _spreadMax: 0.1
+  _range: 100
   _damage: 10
   _trailRendererPrefab: {fileID: 6185253221049616136, guid: c36662d8bd2e7384ab6659e0c54c2421, type: 3}
-  _range: 100
   _speed: 100

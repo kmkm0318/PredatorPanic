@@ -13,15 +13,21 @@ public class GunData : WeaponData
     public GunType Type => _type;
     public string Name => _name;
 
-    [Header("Shoot Data")]
+    [Header("Fire Data")]
     [SerializeField] private LayerMask _hitLayerMask;
     [SerializeField] private float _fireRate = 0.25f;
-    [SerializeField] private float _spread = 0.1f;
+    [SerializeField] private float _spreadIncreaseRate = 0.1f;
+    [SerializeField] private float _spreadDecreaseRate = 0.1f;
+    [SerializeField] private float _spreadMin = 0f;
+    [SerializeField] private float _spreadMax = 0.1f;
     [SerializeField] private float _range = 100f;
-    [SerializeField] private float _damage;
+    [SerializeField] private float _damage = 10f;
     public LayerMask HitLayerMask => _hitLayerMask;
     public float FireRate => _fireRate;
-    public float Spread => _spread;
+    public float SpreadIncreaseRate => _spreadIncreaseRate;
+    public float SpreadDecreaseRate => _spreadDecreaseRate;
+    public float SpreadMin => _spreadMin;
+    public float SpreadMax => _spreadMax;
     public float Range => _range;
     public float Damage => _damage;
 
