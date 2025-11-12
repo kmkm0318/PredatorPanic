@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -18,4 +19,8 @@ public class PlayerData : ScriptableObject
     [Header("Player Controller Data")]
     [SerializeField] private PlayerControllerData _playerControllerData;
     public PlayerControllerData PlayerControllerData => _playerControllerData;
+
+    [Header("Stats")]
+    [SerializeField] private List<PlayerStatEntity> _initialStats;
+    public List<PlayerStatEntity> InitialStats => _initialStats;
 }

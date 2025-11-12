@@ -52,11 +52,9 @@ public class PlayerFallState : PlayerBaseState
         else if (Owner.IsJumpPressed && Owner.IsJumpBuffer && Owner.IsCoyoteTime)
         {
             //점프 버퍼와 코요테 타임을 모두 만족할 때 점프
-            Owner.IsJumpBuffer = false;
+            Owner.StopJumpBufferCoroutine();
             Owner.StopCoyoteTimeCoroutine();
             Owner.StateMachine.ChangeState(Owner.StateFactory.Jump());
-
-            Debug.Log("Coyote Time Jump");
         }
     }
 }

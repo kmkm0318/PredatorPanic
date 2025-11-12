@@ -1,17 +1,17 @@
-using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AI;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
+    private Enemy _enemy;
     private EnemyControllerData _enemyControllerData;
     private Transform _target;
-    private CharacterController _characterController;
+    private NavMeshAgent _navMeshAgent;
 
-    private Vector3 _movement;
-
-    public void Init(EnemyControllerData enemyControllerData)
+    public void Init(Enemy enemy, EnemyControllerData enemyControllerData)
     {
+        _enemy = enemy;
         _enemyControllerData = enemyControllerData;
 
         InitComponents();
@@ -19,44 +19,20 @@ public class EnemyController : MonoBehaviour
 
     private void InitComponents()
     {
-        _characterController = GetComponent<CharacterController>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        HandleGravity();
-        HandleRotation();
         HandleMovement();
-    }
-
-    private void HandleGravity()
-    {
-        if (_characterController.isGrounded)
-        {
-            _movement.y = _enemyControllerData.GroundedGravitySpeed;
-        }
-        else
-        {
-            _movement.y += _enemyControllerData.Gravity * Time.deltaTime;
-        }
-    }
-
-    private void HandleRotation()
-    {
-        if (_target != null)
-        {
-            Vector3 directionToTarget = _target.position - transform.position;
-            directionToTarget.y = 0;
-
-            if (directionToTarget.magnitude < 0.1f) return;
-            transform.rotation = Quaternion.LookRotation(directionToTarget);
-        }
     }
 
     private void HandleMovement()
     {
-        Vector3 moveVal = transform.forward * _enemyControllerData.MoveSpeed + Vector3.up * _movement.y;
-        _characterController.Move(moveVal * Time.deltaTime);
+        if (_target != null)
+        {
+            _navMeshAgent.SetDestination(_target.position);
+        }
     }
 
     public void SetTarget(Transform target)

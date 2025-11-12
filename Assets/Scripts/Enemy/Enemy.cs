@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyController))]
-[RequireComponent(typeof(EnemyHealth))]
+[RequireComponent(typeof(Health))]
 public class Enemy : MonoBehaviour
 {
     #region 데이터
@@ -12,7 +13,12 @@ public class Enemy : MonoBehaviour
 
     #region 컴포넌트
     private EnemyController _enemyController;
-    private EnemyHealth _enemyHealth;
+    private Health _health;
+    #endregion
+
+    #region 적 스탯
+    private Stats<EnemyStatType> _enemyStats;
+    public Stats<EnemyStatType> EnemyStats => _enemyStats;
     #endregion
 
     #region 이벤트
@@ -23,20 +29,26 @@ public class Enemy : MonoBehaviour
     {
         _enemyData = enemyData;
 
+        InitStats();
         InitComponents();
+    }
+
+    private void InitStats()
+    {
+        _enemyStats = new Stats<EnemyStatType>(_enemyData.InitialStats.Cast<IStatEntity<EnemyStatType>>().ToList());
     }
 
     private void InitComponents()
     {
         _enemyController = GetComponent<EnemyController>();
-        _enemyController.Init(_enemyData.EnemyControllerData);
+        _enemyController.Init(this, _enemyData.EnemyControllerData);
 
-        _enemyHealth = GetComponent<EnemyHealth>();
-        _enemyHealth.Init(_enemyData);
-        _enemyHealth.OnDeath += OnDeath;
+        _health = GetComponent<Health>();
+        _health.Init(_enemyStats.GetStat(EnemyStatType.Health).FinalValue);
+        _health.OnDeath += OnDeath;
     }
 
-    private void OnDeath(Vector3 vector)
+    private void OnDeath()
     {
         StartCoroutine(DelayedRelease(0.5f));
     }

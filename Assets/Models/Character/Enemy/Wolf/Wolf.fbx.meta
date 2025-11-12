@@ -3,7 +3,27 @@ guid: ad66c5fc1dfb12f41a30493280881bcb
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eyes_Black
+    second: {fileID: 2100000, guid: 2c60f4f2d7bf8264381eb28850fa4044, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Main
+    second: {fileID: 2100000, guid: aed713714ff15054f9c1c9c4f9a6ac4d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Main_Light
+    second: {fileID: 2100000, guid: ff4fa259bb56fcf42b1a3cf067f039e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Nose
+    second: {fileID: 2100000, guid: 4f54f0e7b248cc44a880a6ae9d65d526, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

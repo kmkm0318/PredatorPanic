@@ -15,3 +15,12 @@ MonoBehaviour:
   _playerPrefab: {fileID: 4449419947464300697, guid: 36ffc472d8c95ae49980b122bce942ac, type: 3}
   _playerVisualPrefab: {fileID: 3192004505189945086, guid: 1881f2f86bd2777448c8e1e0192288f1, type: 3}
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
+  _initialStats:
+  - _statType: 0
+    _value: 50
+  - _statType: 1
+    _value: 50
+  - _statType: 2
+    _value: 50
+  - _statType: 3
+    _value: 5

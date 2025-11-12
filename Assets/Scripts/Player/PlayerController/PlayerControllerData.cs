@@ -2,17 +2,15 @@ using UnityEngine;
 
 /// <summary>
 /// 플레이어 컨트롤러 데이터 스크립터블 오브젝트
-/// 플레이어 이동, 점프, 회전에 관한 설정 값 보유
+/// 플레이어 중력, 점프, 회전에 관한 설정 값 보유
 /// </summary>
 [CreateAssetMenu(fileName = "PlayerControllerData", menuName = "SO/Player/PlayerControllerData", order = 0)]
 public class PlayerControllerData : ScriptableObject
 {
-    [Header("Movement")]
-    [SerializeField] private float _moveSpeed = 5f;
+    [Header("Gravity")]
     [SerializeField] private float _groundedGravitySpeed = -0.5f;
     [SerializeField] private float _fallGravityMultiplier = 2f;
     [SerializeField] private float _fallSpeedMin = -20f;
-    public float MoveSpeed => _moveSpeed;
     public float GroundedGravitySpeed => _groundedGravitySpeed;
     public float FallGravityMultiplier => _fallGravityMultiplier;
     public float FallSpeedMin => _fallSpeedMin;

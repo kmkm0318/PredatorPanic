@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     #region 컨트롤 변수
     public float Gravity { get; private set; } = -9.8f;
-    public float Pitch { get; private set; } = 0f;
+    private float _pitch = 0f;
     public float InitialJumpSpeed { get; private set; }
     private Vector3 _movement;
     public float MovementX { get => _movement.x; set => _movement.x = value; }
@@ -184,6 +184,7 @@ public class PlayerController : MonoBehaviour
         InitialJumpSpeed = 2 * PlayerControllerData.MaxJumpHeight / timeToApex;
     }
 
+    //상태 기계 초기화. 낙하 상태로 시작
     private void InitStateMachine()
     {
         StateMachine = new StateMachine();
@@ -209,28 +210,37 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up, yaw);
 
         //상하 회전은 카메라 피벗을 회전. 카메라 피벗이 있을 경우에만 실행
-        Pitch -= LookInput.y * sensitivity * Time.deltaTime;
-        Pitch = Mathf.Clamp(Pitch, PlayerControllerData.PitchMin, PlayerControllerData.PitchMax);
+        _pitch -= LookInput.y * sensitivity * Time.deltaTime;
+        _pitch = Mathf.Clamp(_pitch, PlayerControllerData.PitchMin, PlayerControllerData.PitchMax);
 
         if (_cameraPivot != null)
         {
-            _cameraPivot.localEulerAngles = new(Pitch, 0, 0);
+            _cameraPivot.localEulerAngles = new(_pitch, 0, 0);
         }
 
         //카메라 피벗에 맞춰 무기 피벗도 회전
         if (_weaponPivot != null)
         {
-            _weaponPivot.localEulerAngles = new(Pitch, 0, 0);
+            _weaponPivot.localEulerAngles = new(_pitch, 0, 0);
         }
     }
 
     private void HandleMovement()
     {
         //플레이어가 바라보는 방향을 기준으로 이동
+        if (_player == null)
+        {
+            Debug.LogError("PlayerController: _player is null in HandleMovement");
+        }
+        else if (_player.PlayerStats == null)
+        {
+            Debug.LogError("PlayerController: _player.PlayerStats is null in HandleMovement");
+        }
 
-        Vector3 localMove =
-        PlayerControllerData.MoveSpeed * (transform.right * _movement.x + transform.forward * _movement.z) +
-        Vector3.up * _movement.y;
+        float moveSpeed = _player.PlayerStats.GetStat(PlayerStatType.MoveSpeed).FinalValue;
+        Vector3 horizontalMove = transform.right * _movement.x + transform.forward * _movement.z;
+        Vector3 verticalMove = Vector3.up * _movement.y;
+        Vector3 localMove = moveSpeed * horizontalMove + verticalMove;
 
         CharacterController.Move(localMove * Time.deltaTime);
     }

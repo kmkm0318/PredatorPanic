@@ -50,7 +50,7 @@ public class PlayerGroundedState : PlayerBaseState
         }
         else if (Owner.IsJumpPressed && Owner.IsJumpBuffer)
         {
-            Owner.IsJumpBuffer = false;
+            Owner.StopJumpBufferCoroutine();
             Owner.StateMachine.ChangeState(Owner.StateFactory.Jump());
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -13,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform _playerSpawnPoint;
     [SerializeField] private WeaponData _weaponData;
     [SerializeField] private EnemyManager _enemyManager;
+    [SerializeField] private int _initialEnemyCount = 10;
 
     public Player Player { get; private set; }
 
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     // 플레이어 생성 및 초기화
     private void InitPlayer()
     {
-        Player = Instantiate(_playerData.PlayerPrefab, _playerSpawnPoint.position, Quaternion.identity);
+        Player = Instantiate(_playerData.PlayerPrefab, _playerSpawnPoint.position, _playerSpawnPoint.rotation);
         Player.Init(_playerData, _weaponData);
     }
 
@@ -49,6 +49,6 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        _enemyManager.SpawnEnemies(Player.transform, 10);
+        _enemyManager.SpawnEnemies(Player.transform, _initialEnemyCount);
     }
 }

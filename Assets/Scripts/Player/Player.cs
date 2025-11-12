@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerAttack))]
+[RequireComponent(typeof(Health))]
 public class Player : MonoBehaviour
 {
     #region 플레이어 데이터
@@ -17,6 +19,12 @@ public class Player : MonoBehaviour
     #region 컴포넌트
     private PlayerController _playerController;
     private PlayerAttack _playerAttack;
+    private Health _health;
+    #endregion
+
+    #region 플레이어 스탯
+    private Stats<PlayerStatType> _playerStats;
+    public Stats<PlayerStatType> PlayerStats => _playerStats;
     #endregion
 
     #region 플레이어 비주얼 객체
@@ -27,9 +35,15 @@ public class Player : MonoBehaviour
     {
         _playerData = playerData;
 
+        InitStats();
         InitPlayerVisual();
         InitComponents();
         InitWeapon(weaponData);
+    }
+
+    private void InitStats()
+    {
+        _playerStats = new Stats<PlayerStatType>(_playerData.InitialStats.Cast<IStatEntity<PlayerStatType>>().ToList());
     }
 
     // 플레이어 비주얼 초기화
@@ -49,6 +63,9 @@ public class Player : MonoBehaviour
         _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual);
 
         _playerAttack = GetComponent<PlayerAttack>();
+
+        _health = GetComponent<Health>();
+        _health.Init(_playerStats.GetStat(PlayerStatType.Health).FinalValue);
     }
 
     // 무기 초기화
