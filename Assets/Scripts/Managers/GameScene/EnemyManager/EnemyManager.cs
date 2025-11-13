@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 적 매니저 클래스
+/// 적 스폰 및 관리 기능 담당
+/// </summary>
 [RequireComponent(typeof(EnemySpawner))]
 public class EnemyManager : MonoBehaviour
 {
@@ -30,6 +34,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    //랜덤 스폰 포인트 계산
     private Vector3 GetRandomSpawnPoint(Transform target)
     {
         Vector2 randomCircle = Random.insideUnitCircle.normalized * _spawnRadius;

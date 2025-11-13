@@ -1,14 +1,15 @@
+using System;
 using System.Collections.Generic;
 
 /// <summary>
 /// 스탯을 모아두는 제너럴 클래스
 /// T는 스탯 타입 Enum
 /// </summary>
-public class Stats<T> where T : System.Enum
+public class Stats<T> where T : Enum
 {
     private Dictionary<T, Stat> _stats = new();
 
-    public Stats(List<IStatEntity<T>> initialStats)
+    public Stats(List<StatEntity<T>> initialStats)
     {
         foreach (var statEntity in initialStats)
         {

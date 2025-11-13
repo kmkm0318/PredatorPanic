@@ -34,6 +34,8 @@ public class Health : MonoBehaviour, IDamageable
         OnDamaged?.Invoke(damageTaken);
         OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
 
+        Debug.Log($"Took {damageTaken} damage. Current Health: {CurrentHealth}/{MaxHealth}");
+
         if (CurrentHealth <= 0)
         {
             CurrentHealth = 0;

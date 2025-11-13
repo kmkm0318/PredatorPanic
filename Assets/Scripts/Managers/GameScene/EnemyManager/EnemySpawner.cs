@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+/// <summary>
+/// 적 스포너 클래스
+/// 적 오브젝트 풀링 및 스폰 기능 담당
+/// </summary>
 public class EnemySpawner : MonoBehaviour
 {
     private Dictionary<EnemyData, ObjectPool<Enemy>> _enemyPools = new();
@@ -28,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
     private void InitPool(EnemyData enemyData)
     {
         ObjectPool<Enemy> pool = new(
-            createFunc: () =>
+            () =>
             {
                 Enemy enemy = Instantiate(enemyData.EnemyPrefab);
                 enemy.Init(enemyData);
@@ -36,21 +40,12 @@ public class EnemySpawner : MonoBehaviour
                 enemy.gameObject.SetActive(false);
                 return enemy;
             },
-            actionOnGet: (enemy) =>
-            {
-                enemy.gameObject.SetActive(true);
-            },
-            actionOnRelease: (enemy) =>
-            {
-                enemy.gameObject.SetActive(false);
-            },
-            actionOnDestroy: (enemy) =>
-            {
-                Destroy(enemy.gameObject);
-            },
-            collectionCheck: false,
-            defaultCapacity: 10,
-            maxSize: 50
+            (enemy) => enemy.gameObject.SetActive(true),
+            (enemy) => enemy.gameObject.SetActive(false),
+            (enemy) => Destroy(enemy.gameObject),
+            false,
+            10,
+            1000
         );
 
         _enemyPools[enemyData] = pool;

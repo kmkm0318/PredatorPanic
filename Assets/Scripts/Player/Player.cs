@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
 
     private void InitStats()
     {
-        _playerStats = new Stats<PlayerStatType>(_playerData.InitialStats.Cast<IStatEntity<PlayerStatType>>().ToList());
+        _playerStats = new(_playerData.InitialStats);
     }
 
     // 플레이어 비주얼 초기화
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
         {
             var weapon = Instantiate(weaponData.WeaponPrefab, _playerVisual.WeaponPivot);
             weapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            weapon.Init(weaponData);
+            weapon.Init(weaponData, this);
             _playerAttack.SetWeapon(weapon);
         }
     }

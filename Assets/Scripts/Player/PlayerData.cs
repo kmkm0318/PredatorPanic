@@ -21,6 +21,6 @@ public class PlayerData : ScriptableObject
     public PlayerControllerData PlayerControllerData => _playerControllerData;
 
     [Header("Stats")]
-    [SerializeField] private List<PlayerStatEntity> _initialStats;
-    public List<PlayerStatEntity> InitialStats => _initialStats;
+    [SerializeField] private List<StatEntity<PlayerStatType>> _initialStats;
+    public List<StatEntity<PlayerStatType>> InitialStats => _initialStats;
 }

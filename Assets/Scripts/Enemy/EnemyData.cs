@@ -18,6 +18,6 @@ public class EnemyData : ScriptableObject
     public EnemyControllerData EnemyControllerData => _enemyControllerData;
 
     [Header("Stats")]
-    [SerializeField] private List<EnemyStatEntity> _initialStats;
-    public List<EnemyStatEntity> InitialStats => _initialStats;
+    [SerializeField] private List<StatEntity<EnemyStatType>> _initialStats;
+    public List<StatEntity<EnemyStatType>> InitialStats => _initialStats;
 }

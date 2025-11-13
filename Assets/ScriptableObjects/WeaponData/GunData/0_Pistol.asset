@@ -15,14 +15,28 @@ MonoBehaviour:
   _weaponPrefab: {fileID: 2572145977664975070, guid: 32f715ab434ed454fa9d2a698e4ff4bb, type: 3}
   _type: 0
   _name: Pistol
+  _isHitScan: 0
+  _bulletPrefab: {fileID: -6739877800168031272, guid: 68be54c0a018d304c975597cedeb26fe, type: 3}
   _hitLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  _fireRate: 0.25
-  _spreadIncreaseRate: 0.1
-  _spreadDecreaseRate: 0.1
-  _spreadMax: 0.1
-  _range: 100
-  _damage: 10
   _trailRendererPrefab: {fileID: 6185253221049616136, guid: c36662d8bd2e7384ab6659e0c54c2421, type: 3}
-  _speed: 100
+  _initialStats:
+  - _statType: 0
+    _value: 10
+  - _statType: 1
+    _value: 0.25
+  - _statType: 2
+    _value: 100
+  - _statType: 3
+    _value: 100
+  - _statType: 3
+    _value: 100
+  - _statType: 4
+    _value: 0
+  - _statType: 5
+    _value: 0.25
+  - _statType: 6
+    _value: 0.25
+  - _statType: 7
+    _value: 0.5

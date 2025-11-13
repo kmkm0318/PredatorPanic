@@ -1564,7 +1564,7 @@ MonoBehaviour:
   _playerSpawnPoint: {fileID: 1560699115}
   _weaponData: {fileID: 11400000, guid: a84891e904c0d1343a580925eedfce52, type: 2}
   _enemyManager: {fileID: 773417688}
-  _initialEnemyCount: 1000
+  _initialEnemyCount: 10
 --- !u!1 &1560699114
 GameObject:
   m_ObjectHideFlags: 0

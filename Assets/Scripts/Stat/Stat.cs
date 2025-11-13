@@ -1,34 +1,27 @@
+using System;
 using System.Collections.Generic;
 
 /// <summary>
 /// 스탯 클래스
 /// 기본 값과 스탯 모디파이어 리스트를 보유
-/// 최종 스탯 값 계산은 _isDirty 플래그를 통해 최적화
+/// 값 변경 시 이벤트 발생
 /// </summary>
 public class Stat
 {
-    private float _baseValue;
+    //초기값
+    public float BaseValue { get; private set; }
+    //스탯 모디파이어 리스트
     private readonly List<StatModifier> _statModifiers;
-    private bool _isDirty;
-    private float _finalValue;
-    public float FinalValue
-    {
-        get
-        {
-            if (_isDirty)
-            {
-                CalculateFinalValue();
-                _isDirty = false;
-            }
-            return _finalValue;
-        }
-    }
+    //최종값
+    public float FinalValue { get; private set; }
+    //값 변경 이벤트
+    public event Action<float> OnValueChanged;
 
     public Stat(float baseValue)
     {
-        _baseValue = baseValue;
+        BaseValue = baseValue;
         _statModifiers = new();
-        _isDirty = true;
+        CalculateFinalValue();
     }
 
     /// <summary>
@@ -37,7 +30,7 @@ public class Stat
     public void AddModifier(StatModifier mod)
     {
         _statModifiers.Add(mod);
-        _isDirty = true;
+        CalculateFinalValue();
     }
 
     /// <summary>
@@ -47,7 +40,7 @@ public class Stat
     {
         if (_statModifiers.Remove(mod))
         {
-            _isDirty = true;
+            CalculateFinalValue();
             return true;
         }
         return false;
@@ -61,7 +54,7 @@ public class Stat
         int numRemoved = _statModifiers.RemoveAll(mod => mod.Source == source);
         if (numRemoved > 0)
         {
-            _isDirty = true;
+            CalculateFinalValue();
             return true;
         }
         return false;
@@ -90,8 +83,10 @@ public class Stat
             }
         }
 
-        _finalValue = _baseValue + finalFlat;
-        _finalValue *= 1 + finalPercentAdd;
-        _finalValue *= finalPercentMult;
+        FinalValue = BaseValue + finalFlat;
+        FinalValue *= 1 + finalPercentAdd;
+        FinalValue *= finalPercentMult;
+
+        OnValueChanged?.Invoke(FinalValue);
     }
 }

@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
 
     private void InitStats()
     {
-        _enemyStats = new Stats<EnemyStatType>(_enemyData.InitialStats.Cast<IStatEntity<EnemyStatType>>().ToList());
+        _enemyStats = new Stats<EnemyStatType>(_enemyData.InitialStats);
     }
 
     private void InitComponents()
