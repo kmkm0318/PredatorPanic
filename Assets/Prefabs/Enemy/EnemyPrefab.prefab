@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2647224068484891181}
   - component: {fileID: 2997803578386279448}
   - component: {fileID: 2368423656105576427}
+  - component: {fileID: 4486638514088411778}
+  - component: {fileID: 2343017840163401876}
   m_Layer: 7
   m_Name: EnemyPrefab
   m_TagString: Untagged
@@ -79,7 +81,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!114 &2997803578386279448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,3 +106,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53375d7dd0e402b43a538c757c8a53d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+--- !u!114 &4486638514088411778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7182360297640397748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da94c4012d2b33f42a29fe76583e6e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+--- !u!205 &2343017840163401876
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7182360297640397748}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers: []
+  - screenRelativeHeight: 0.05
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1

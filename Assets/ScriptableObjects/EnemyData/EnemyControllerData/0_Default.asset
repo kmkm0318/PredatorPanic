@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9fcd1f5c09e7f48889b23d51cb8a44, type: 3}
   m_Name: 0_Default
   m_EditorClassIdentifier: Assembly-CSharp::EnemyControllerData
-  _moveSpeed: 2
   _groundedGravitySpeed: -0.5
   _gravity: -9.8
+  _pathUpdateRate: 0.1

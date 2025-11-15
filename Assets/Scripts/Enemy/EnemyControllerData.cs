@@ -9,6 +9,8 @@ public class EnemyControllerData : ScriptableObject
     [Header("Movement")]
     [SerializeField] private float _groundedGravitySpeed = -0.5f;
     [SerializeField] private float _gravity = -9.8f;
+    [SerializeField] private float _pathUpdateRate = 0.1f;
     public float GroundedGravitySpeed => _groundedGravitySpeed;
     public float Gravity => _gravity;
+    public float PathUpdateRate => _pathUpdateRate;
 }

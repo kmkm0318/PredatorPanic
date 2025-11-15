@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,17 +29,22 @@ public class EnemyController : MonoBehaviour
         _navMeshAgent.speed = _enemy.EnemyStats.GetStat(EnemyStatType.MoveSpeed).FinalValue;
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        HandleMovement();
+        if (_enemyControllerData != null)
+            StartCoroutine(HandleMovementCoroutine());
     }
 
-    //적 이동 처리. Update에서 호출하는 것이 최적화에 문제가 없을 것으로 판단.
-    private void HandleMovement()
+    //적 이동 처리. Update에서 호출하게 되면 성능에 영향을 줄 수 있으므로 코루틴으로 처리
+    private IEnumerator HandleMovementCoroutine()
     {
-        if (_target != null)
+        while (true)
         {
-            _navMeshAgent.SetDestination(_target.position);
+            if (_target != null)
+            {
+                _navMeshAgent.SetDestination(_target.position);
+            }
+            yield return new WaitForSeconds(_enemyControllerData.PathUpdateRate);
         }
     }
 
