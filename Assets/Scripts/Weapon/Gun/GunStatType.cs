@@ -5,7 +5,7 @@ public enum GunStatType
 {
     Damage,
     FireRate,
-    Speed,
+    BulletSpeed,
     Range,
     SpreadMin,
     SpreadMax,

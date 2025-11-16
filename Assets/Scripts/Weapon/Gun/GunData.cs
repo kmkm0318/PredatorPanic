@@ -10,8 +10,10 @@ public class GunData : WeaponData
 {
     [Header("Basic Data")]
     [SerializeField] private GunType _type;
+    [SerializeField] private GunFireMode _fireMode;
     [SerializeField] private string _name;
     public GunType Type => _type;
+    public GunFireMode FireMode => _fireMode;
     public string Name => _name;
 
     [Header("Fire Data")]

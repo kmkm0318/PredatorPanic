@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// 스탯 클래스
@@ -10,10 +11,10 @@ public class Stat
 {
     //초기값
     public float BaseValue { get; private set; }
-    //스탯 모디파이어 리스트
-    private readonly List<StatModifier> _statModifiers;
     //최종값
     public float FinalValue { get; private set; }
+    //스탯 모디파이어 리스트
+    private readonly List<StatModifier> _statModifiers;
     //값 변경 이벤트
     public event Action<float> OnValueChanged;
 
@@ -86,6 +87,8 @@ public class Stat
         FinalValue = BaseValue + finalFlat;
         FinalValue *= 1 + finalPercentAdd;
         FinalValue *= finalPercentMult;
+
+        FinalValue = Mathf.Max(0, FinalValue); // 음수 방지
 
         OnValueChanged?.Invoke(FinalValue);
     }

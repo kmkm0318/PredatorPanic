@@ -21,6 +21,7 @@ public class Gun : Weapon
     #region 변수
     private Camera _mainCamera;
     private float _currentSpread;
+    private bool _canFire = true;
     #endregion
 
     #region 스탯
@@ -35,6 +36,7 @@ public class Gun : Weapon
 
     #region 코루틴
     private Coroutine _fireCoroutine;
+    private Coroutine _fireCooldownCoroutine;
     #endregion
 
     public override void Init(WeaponData weaponData, Player owner)
@@ -90,20 +92,16 @@ public class Gun : Weapon
     //스프레드 처리
     private void HandleSpread()
     {
-        if (IsAttacking)
-        {
-            IncreaseSpread();
-        }
-        else
+        if (!IsAttacking)
         {
             DecreaseSpread();
         }
     }
 
-    //스프레드 증가
+    //스프레드 증가. Fire 시마다 호출
     private void IncreaseSpread()
     {
-        _currentSpread += _gunStats.GetStat(GunStatType.SpreadIncreaseRate).FinalValue * Time.deltaTime;
+        _currentSpread += _gunStats.GetStat(GunStatType.SpreadIncreaseRate).FinalValue;
         float maxSpread = _gunStats.GetStat(GunStatType.SpreadMax).FinalValue;
         if (_currentSpread > maxSpread)
         {
@@ -111,7 +109,7 @@ public class Gun : Weapon
         }
     }
 
-    //스프레드 감소
+    //스프레드 감소. Update에서 호출
     private void DecreaseSpread()
     {
         float minSpread = _gunStats.GetStat(GunStatType.SpreadMin).FinalValue;
@@ -129,13 +127,29 @@ public class Gun : Weapon
     public override void StartAttack()
     {
         base.StartAttack();
-        StartFireCoroutine();
+
+        if (_gunData.FireMode == GunFireMode.Automatic)
+        {
+            StartFireCoroutine();
+        }
+        else
+        {
+            if (_canFire)
+            {
+                Fire();
+                StartFireCooldownCoroutine();
+            }
+        }
     }
 
     public override void StopAttack()
     {
         base.StopAttack();
-        StopFireCoroutine();
+
+        if (_gunData.FireMode == GunFireMode.Automatic)
+        {
+            StopFireCoroutine();
+        }
     }
 
     #region 발사 코루틴
@@ -160,6 +174,31 @@ public class Gun : Weapon
         {
             StopCoroutine(_fireCoroutine);
             _fireCoroutine = null;
+        }
+    }
+    #endregion
+
+    #region 발사 쿨다운 코루틴
+    private IEnumerator FireCooldownCoroutine()
+    {
+        yield return new WaitForSeconds(_gunStats.GetStat(GunStatType.FireRate).FinalValue);
+        StopFireCooldownCoroutine();
+    }
+
+    private void StartFireCooldownCoroutine()
+    {
+        StopFireCooldownCoroutine();
+        _canFire = false;
+        _fireCooldownCoroutine = StartCoroutine(FireCooldownCoroutine());
+    }
+
+    private void StopFireCooldownCoroutine()
+    {
+        if (_fireCooldownCoroutine != null)
+        {
+            StopCoroutine(_fireCooldownCoroutine);
+            _fireCooldownCoroutine = null;
+            _canFire = true;
         }
     }
     #endregion
@@ -195,6 +234,8 @@ public class Gun : Weapon
         {
             FireBullet(fireDirection);
         }
+
+        IncreaseSpread();
     }
 
     //히트스캔 발사
@@ -232,7 +273,7 @@ public class Gun : Weapon
         yield return null; // 한 프레임 대기하여 Trail Renderer가 시작 위치에 위치하도록 함
 
         float distance = Vector3.Distance(startPosition, endPosition);
-        float speed = _gunStats.GetStat(GunStatType.Speed).FinalValue;
+        float speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
         float duration = distance / speed;
         float elapsedTime = 0f;
 
@@ -248,13 +289,20 @@ public class Gun : Weapon
         StartCoroutine(DelayDisable(trail));
     }
 
+    //총알 궤적 이펙트 지연 해제
+    private IEnumerator DelayDisable(TrailRenderer trail)
+    {
+        yield return new WaitForSeconds(trail.time);
+        _trailPool.Release(trail);
+    }
+
     //총알 발사
     private void FireBullet(Vector3 fireDirection)
     {
         var bullet = _bulletPool.Get();
         bullet.OnBulletCollision += OnBulletCollision;
         bullet.transform.position = _muzzleFlash.transform.position;
-        float speed = _gunStats.GetStat(GunStatType.Speed).FinalValue;
+        float speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
         Vector3 initialSpeed = fireDirection * speed;
         float lifetime = _gunStats.GetStat(GunStatType.Range).FinalValue / speed;
         bullet.Fire(initialSpeed, lifetime);
@@ -295,13 +343,6 @@ public class Gun : Weapon
                 damageable.TakeDamage(damage);
             }
         }
-    }
-
-    //총알 궤적 이펙트 지연 해제
-    private IEnumerator DelayDisable(TrailRenderer trail)
-    {
-        yield return new WaitForSeconds(trail.time);
-        _trailPool.Release(trail);
     }
     #endregion
 }

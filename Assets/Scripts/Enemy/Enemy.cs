@@ -50,12 +50,6 @@ public class Enemy : MonoBehaviour
 
     private void OnDeath()
     {
-        StartCoroutine(DelayedRelease(0.5f));
-    }
-
-    private IEnumerator DelayedRelease(float delay)
-    {
-        yield return new WaitForSeconds(delay);
         OnRelease?.Invoke(this);
     }
 

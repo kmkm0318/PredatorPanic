@@ -9,7 +9,7 @@ using UnityEngine;
 public class StatEntity<T> where T : Enum
 {
     [SerializeField] private T _statType;
-    [SerializeField] private float _value;
+    [SerializeField] private float _baseValue;
     public T StatType => _statType;
-    public float Value => _value;
+    public float BaseValue => _baseValue;
 }

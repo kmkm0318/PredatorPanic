@@ -12,6 +12,10 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Player : MonoBehaviour
 {
+    #region 플레이어 비주얼 객체
+    [SerializeField] private PlayerVisual _playerVisual;
+    #endregion
+
     #region 플레이어 데이터
     private PlayerData _playerData;
     #endregion
@@ -27,16 +31,11 @@ public class Player : MonoBehaviour
     public Stats<PlayerStatType> PlayerStats => _playerStats;
     #endregion
 
-    #region 플레이어 비주얼 객체
-    private PlayerVisual _playerVisual;
-    #endregion
-
     public void Init(PlayerData playerData, WeaponData weaponData)
     {
         _playerData = playerData;
 
         InitStats();
-        InitPlayerVisual();
         InitComponents();
         InitWeapon(weaponData);
     }
@@ -44,16 +43,6 @@ public class Player : MonoBehaviour
     private void InitStats()
     {
         _playerStats = new(_playerData.InitialStats);
-    }
-
-    // 플레이어 비주얼 초기화
-    private void InitPlayerVisual()
-    {
-        if (_playerData.PlayerVisualPrefab != null)
-        {
-            _playerVisual = Instantiate(_playerData.PlayerVisualPrefab, transform);
-            _playerVisual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        }
     }
 
     // 컴포넌트 초기화
