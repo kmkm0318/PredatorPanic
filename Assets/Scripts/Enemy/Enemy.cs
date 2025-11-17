@@ -25,6 +25,12 @@ public class Enemy : MonoBehaviour
     public event Action<Enemy> OnRelease;
     #endregion
 
+    private void Awake()
+    {
+        _enemyController = GetComponent<EnemyController>();
+        _health = GetComponent<Health>();
+    }
+
     public void Init(EnemyData enemyData)
     {
         _enemyData = enemyData;
@@ -40,11 +46,12 @@ public class Enemy : MonoBehaviour
 
     private void InitComponents()
     {
-        _enemyController = GetComponent<EnemyController>();
         _enemyController.Init(this, _enemyData.EnemyControllerData);
 
-        _health = GetComponent<Health>();
-        _health.Init(_enemyStats.GetStat(EnemyStatType.Health).FinalValue);
+        float maxHealth = _enemyStats.GetStat(EnemyStatType.Health).FinalValue;
+        float defense = _enemyStats.GetStat(EnemyStatType.Defense).FinalValue;
+
+        _health.Init(maxHealth, defense);
         _health.OnDeath += OnDeath;
     }
 

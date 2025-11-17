@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public PlayerControllerData PlayerControllerData { get; private set; }
     public PlayerVisual PlayerVisual { get; private set; }
     private Transform _cameraPivot;
-    private Transform _weaponPivot;
+    private List<Transform> _weaponPivots;
     #endregion
 
     #region 컨트롤 변수
@@ -64,6 +65,11 @@ public class PlayerController : MonoBehaviour
     private Coroutine _jumpBufferCoroutine;
     private Coroutine _coyoteTimeCoroutine;
     #endregion
+
+    private void Awake()
+    {
+        CharacterController = GetComponent<CharacterController>();
+    }
 
     private void OnEnable()
     {
@@ -163,17 +169,10 @@ public class PlayerController : MonoBehaviour
         PlayerControllerData = playerControllerData;
         PlayerVisual = playerVisual;
         _cameraPivot = PlayerVisual.CameraPivot;
-        _weaponPivot = PlayerVisual.WeaponPivot;
+        _weaponPivots = PlayerVisual.WeaponPivots;
 
-        InitComponents();
         InitJumpVariables();
         InitStateMachine();
-    }
-
-    //컴포넌트 초기화
-    private void InitComponents()
-    {
-        CharacterController = GetComponent<CharacterController>();
     }
 
     //점프 변수 초기화. 중력과 시작 점프 속도 결정
@@ -219,9 +218,9 @@ public class PlayerController : MonoBehaviour
         }
 
         //카메라 피벗에 맞춰 무기 피벗도 회전
-        if (_weaponPivot != null)
+        foreach (var weaponPivot in _weaponPivots)
         {
-            _weaponPivot.localEulerAngles = new(_pitch, 0, 0);
+            weaponPivot.localEulerAngles = new(_pitch, 0, 0);
         }
     }
 

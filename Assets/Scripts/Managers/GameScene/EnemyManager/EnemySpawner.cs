@@ -35,12 +35,15 @@ public class EnemySpawner : MonoBehaviour
             () =>
             {
                 Enemy enemy = Instantiate(enemyData.EnemyPrefab);
-                enemy.Init(enemyData);
                 enemy.OnRelease += (e) => ReleaseEnemy(enemyData, e);
                 enemy.gameObject.SetActive(false);
                 return enemy;
             },
-            (enemy) => enemy.gameObject.SetActive(true),
+            (enemy) =>
+            {
+                enemy.gameObject.SetActive(true);
+                enemy.Init(enemyData);
+            },
             (enemy) => enemy.gameObject.SetActive(false),
             (enemy) => Destroy(enemy.gameObject),
             false,

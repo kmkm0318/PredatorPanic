@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,9 +10,9 @@ public class PlayerVisual : MonoBehaviour
 {
     #region 카메라, 무기 피벗
     [SerializeField] private Transform _cameraPivot;
-    [SerializeField] private Transform _weaponPivot;
+    [SerializeField] private List<Transform> _weaponPivots = new();
     public Transform CameraPivot => _cameraPivot;
-    public Transform WeaponPivot => _weaponPivot;
+    public List<Transform> WeaponPivots => _weaponPivots;
     #endregion
 
     #region 컴포넌트
@@ -30,5 +31,16 @@ public class PlayerVisual : MonoBehaviour
     private void Awake()
     {
         Animator = GetComponent<Animator>();
+    }
+
+    public Transform GetWeaponPivot(int idx)
+    {
+        if (idx < 0 || idx >= _weaponPivots.Count)
+        {
+            Debug.LogWarning("무기 피벗 인덱스 범위 초과");
+            return null;
+        }
+
+        return _weaponPivots[idx];
     }
 }

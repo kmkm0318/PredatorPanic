@@ -8,6 +8,7 @@ public interface IDamageable
     //현재, 최대 체력
     public float CurrentHealth { get; }
     public float MaxHealth { get; }
+    public float Defense { get; }
 
     //대미지 및 사망 이벤트
     public event Action<float, float> OnHealthChanged;

@@ -19,4 +19,8 @@ public class PlayerData : ScriptableObject
     [Header("Stats")]
     [SerializeField] private List<StatEntity<PlayerStatType>> _initialStats;
     public List<StatEntity<PlayerStatType>> InitialStats => _initialStats;
+
+    [Header("Weapon Count")]
+    [SerializeField] private int _weaponCountMax = 6;
+    public int WeaponCountMax => _weaponCountMax;
 }

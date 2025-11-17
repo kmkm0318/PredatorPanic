@@ -20,8 +20,6 @@ public class Gun : Weapon
 
     #region 변수
     private Camera _mainCamera;
-    private float _currentSpread;
-    private bool _canFire = true;
     #endregion
 
     #region 스탯
@@ -34,9 +32,8 @@ public class Gun : Weapon
     private ObjectPool<Bullet> _bulletPool;
     #endregion
 
-    #region 코루틴
-    private Coroutine _fireCoroutine;
-    private Coroutine _fireCooldownCoroutine;
+    #region 타이머
+    private float _nextTimeToFire = 0f;
     #endregion
 
     public override void Init(WeaponData weaponData, Player owner)
@@ -45,7 +42,6 @@ public class Gun : Weapon
 
         _gunData = weaponData as GunData;
         _gunStats = new(_gunData.InitialStats);
-        _currentSpread = _gunStats.GetStat(GunStatType.SpreadMin).FinalValue;
         _mainCamera = Camera.main;
         InitPool();
     }
@@ -85,123 +81,21 @@ public class Gun : Weapon
 
     private void Update()
     {
-        HandleSpread();
+        HandleFire();
     }
 
-    #region 스프레드
-    //스프레드 처리
-    private void HandleSpread()
+    private void HandleFire()
     {
-        if (!IsAttacking)
-        {
-            DecreaseSpread();
-        }
+        if (!IsAttacking) return;
+        if (_nextTimeToFire > Time.time) return;
+
+        Fire();
+
+        float fireSpeed = _gunStats.GetStat(GunStatType.FireSpeed).FinalValue;
+        float fireInterval = 1f / fireSpeed;
+
+        _nextTimeToFire = Time.time + fireInterval;
     }
-
-    //스프레드 증가. Fire 시마다 호출
-    private void IncreaseSpread()
-    {
-        _currentSpread += _gunStats.GetStat(GunStatType.SpreadIncreaseRate).FinalValue;
-        float maxSpread = _gunStats.GetStat(GunStatType.SpreadMax).FinalValue;
-        if (_currentSpread > maxSpread)
-        {
-            _currentSpread = maxSpread;
-        }
-    }
-
-    //스프레드 감소. Update에서 호출
-    private void DecreaseSpread()
-    {
-        float minSpread = _gunStats.GetStat(GunStatType.SpreadMin).FinalValue;
-        if (_currentSpread > minSpread)
-        {
-            _currentSpread -= _gunStats.GetStat(GunStatType.SpreadDecreaseRate).FinalValue * Time.deltaTime;
-            if (_currentSpread < minSpread)
-            {
-                _currentSpread = minSpread;
-            }
-        }
-    }
-    #endregion
-
-    public override void StartAttack()
-    {
-        base.StartAttack();
-
-        if (_gunData.FireMode == GunFireMode.Automatic)
-        {
-            StartFireCoroutine();
-        }
-        else
-        {
-            if (_canFire)
-            {
-                Fire();
-                StartFireCooldownCoroutine();
-            }
-        }
-    }
-
-    public override void StopAttack()
-    {
-        base.StopAttack();
-
-        if (_gunData.FireMode == GunFireMode.Automatic)
-        {
-            StopFireCoroutine();
-        }
-    }
-
-    #region 발사 코루틴
-    private IEnumerator FireCoroutine()
-    {
-        while (true)
-        {
-            Fire();
-            yield return new WaitForSeconds(_gunStats.GetStat(GunStatType.FireRate).FinalValue);
-        }
-    }
-
-    private void StartFireCoroutine()
-    {
-        StopFireCoroutine();
-        _fireCoroutine = StartCoroutine(FireCoroutine());
-    }
-
-    private void StopFireCoroutine()
-    {
-        if (_fireCoroutine != null)
-        {
-            StopCoroutine(_fireCoroutine);
-            _fireCoroutine = null;
-        }
-    }
-    #endregion
-
-    #region 발사 쿨다운 코루틴
-    private IEnumerator FireCooldownCoroutine()
-    {
-        yield return new WaitForSeconds(_gunStats.GetStat(GunStatType.FireRate).FinalValue);
-        StopFireCooldownCoroutine();
-    }
-
-    private void StartFireCooldownCoroutine()
-    {
-        StopFireCooldownCoroutine();
-        _canFire = false;
-        _fireCooldownCoroutine = StartCoroutine(FireCooldownCoroutine());
-    }
-
-    private void StopFireCooldownCoroutine()
-    {
-        if (_fireCooldownCoroutine != null)
-        {
-            StopCoroutine(_fireCooldownCoroutine);
-            _fireCooldownCoroutine = null;
-            _canFire = true;
-        }
-    }
-    #endregion
 
     #region 히트스캔 및 총알 발사
     private void Fire()
@@ -213,43 +107,32 @@ public class Gun : Weapon
 
         //화면 중앙을 발사 방향으로 설정
         Vector3 screenCenter = new(Screen.width / 2f, Screen.height / 2f, 0f);
-        Ray aimRay = _mainCamera.ScreenPointToRay(screenCenter);
-        aimRay = new Ray(aimRay.origin + aimRay.direction * minDistance, aimRay.direction);
-        float range = _gunStats.GetStat(GunStatType.Range).FinalValue;
-        if (!Physics.Raycast(aimRay, out var aimHitInfo, range, _gunData.HitLayerMask))
-        {
-            aimHitInfo = new RaycastHit { point = aimRay.origin + aimRay.direction * range };
-        }
+        Ray fireRay = _mainCamera.ScreenPointToRay(screenCenter);
 
-        //발사 방향에 스프레드 적용
-        Vector3 fireDirection = (aimHitInfo.point - _muzzleFlash.transform.position).normalized;
-        fireDirection += Random.insideUnitSphere * _currentSpread;
-        fireDirection.Normalize();
-
-        if (_gunData.IsHitScan)
-        {
-            FireHitscan(fireDirection, minDistance);
-        }
-        else
-        {
-            FireBullet(fireDirection);
-        }
-
-        IncreaseSpread();
-    }
-
-    //히트스캔 발사
-    private void FireHitscan(Vector3 fireDirection, float minDistance)
-    {
-        //최종 히트 포인트 계산
-        Ray fireRay = new(_muzzleFlash.transform.position, fireDirection);
+        //카메라와 총구 거리만큼 떨어진 지점에서 발사
         fireRay = new Ray(fireRay.origin + fireRay.direction * minDistance, fireRay.direction);
         float range = _gunStats.GetStat(GunStatType.Range).FinalValue;
+
         if (!Physics.Raycast(fireRay, out var fireHitInfo, range, _gunData.HitLayerMask))
         {
             fireHitInfo = new RaycastHit { point = fireRay.origin + fireRay.direction * range };
         }
 
+        //히트스캔 발사 또는 총알 발사
+        if (_gunData.IsHitScan)
+        {
+            FireHitscan(fireHitInfo);
+        }
+        else
+        {
+            Vector3 fireDirection = (fireHitInfo.point - _muzzleFlash.transform.position).normalized;
+            FireBullet(fireDirection);
+        }
+    }
+
+    //히트스캔 발사
+    private void FireHitscan(RaycastHit fireHitInfo)
+    {
         //데미지 처리
         if (fireHitInfo.collider != null && fireHitInfo.collider.TryGetComponent<IDamageable>(out var damageable))
         {

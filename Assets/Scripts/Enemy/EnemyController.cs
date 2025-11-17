@@ -15,6 +15,11 @@ public class EnemyController : MonoBehaviour
     private Transform _target;
     private NavMeshAgent _navMeshAgent;
 
+    private void Awake()
+    {
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+    }
+
     public void Init(Enemy enemy, EnemyControllerData enemyControllerData)
     {
         _enemy = enemy;
@@ -25,14 +30,7 @@ public class EnemyController : MonoBehaviour
 
     private void InitComponents()
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.speed = _enemy.EnemyStats.GetStat(EnemyStatType.MoveSpeed).FinalValue;
-    }
-
-    private void OnEnable()
-    {
-        if (_enemyControllerData != null)
-            StartCoroutine(HandleMovementCoroutine());
     }
 
     //적 이동 처리. Update에서 호출하게 되면 성능에 영향을 줄 수 있으므로 코루틴으로 처리
@@ -51,5 +49,7 @@ public class EnemyController : MonoBehaviour
     public void SetTarget(Transform target)
     {
         _target = target;
+
+        StartCoroutine(HandleMovementCoroutine());
     }
 }

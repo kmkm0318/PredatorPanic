@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// 적 매니저 클래스
@@ -10,6 +11,10 @@ public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private List<EnemyData> _enemyDataList;
     [SerializeField] private float _spawnRadius = 20f;
+    [SerializeField] private float _spawnHeightMax = 20f;
+    [SerializeField] private int _maxTryCount = 10;
+    [SerializeField] private LayerMask _groundLayerMask;
+
     private EnemySpawner _enemySpawner;
 
     private void Awake()
@@ -25,20 +30,40 @@ public class EnemyManager : MonoBehaviour
             if (enemyData == null)
             {
                 Debug.LogError("EnemyManager: EnemyData is null.");
-                return;
+                continue;
             }
 
-            Vector3 spawnPoint = GetRandomSpawnPoint(target);
+            if (!TryGetRandomSpawnPoint(target, out var spawnPoint))
+            {
+                Debug.LogWarning("EnemyManager: Failed to find valid spawn point.");
+                continue;
+            }
+
             Enemy enemy = _enemySpawner.SpawnEnemy(enemyData, spawnPoint);
             enemy.SetTarget(target);
         }
     }
 
-    //랜덤 스폰 포인트 계산
-    private Vector3 GetRandomSpawnPoint(Transform target)
+    //랜덤 스폰 포인트 계산. NavMesh 위의 유효한 위치 반환
+    private bool TryGetRandomSpawnPoint(Transform target, out Vector3 pos)
     {
-        Vector2 randomCircle = Random.insideUnitCircle.normalized * _spawnRadius;
-        Vector3 spawnPoint = target.position + new Vector3(randomCircle.x, 0, randomCircle.y);
-        return spawnPoint;
+        for (int i = 0; i < _maxTryCount; i++)
+        {
+            Vector2 randomPosXZ = Random.insideUnitCircle.normalized * _spawnRadius;
+            Vector3 rayOrigin = target.position + new Vector3(randomPosXZ.x, _spawnHeightMax, randomPosXZ.y);
+            Ray ray = new(rayOrigin, Vector3.down);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, _spawnHeightMax * 2f, _groundLayerMask))
+            {
+                //Enemy Controller가 NavMeshAgent를 사용하기 때문에 NavMesh 위의 위치인지 확인
+                if (NavMesh.SamplePosition(hitInfo.point, out var navHit, 1f, NavMesh.AllAreas))
+                {
+                    pos = navHit.position;
+                    return true;
+                }
+            }
+        }
+
+        pos = Vector3.zero;
+        return false;
     }
 }

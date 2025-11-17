@@ -11,9 +11,9 @@ public static class GunUtility
         float baseDamage = gun.GunStats.GetStat(GunStatType.Damage).FinalValue;
         float attackMultiplier = player.PlayerStats.GetStat(PlayerStatType.Attack).FinalValue;
 
-        float distanceFactor = 1.0f;
         float range = gun.GunStats.GetStat(GunStatType.Range).FinalValue;
         float halfRange = range / 2f;
+        float distanceFactor = 1.0f;
         if (distanceTraveled > halfRange)
         {
             distanceFactor = 1f - (distanceTraveled - halfRange) / halfRange * 0.5f; // 최대 50% 감소

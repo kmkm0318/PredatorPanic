@@ -12,18 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb32c6dbc07c2b4293194528fb0b516, type: 3}
   m_Name: 0_Chicken
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
-  _playerPrefab: {fileID: 4449419947464300697, guid: 36ffc472d8c95ae49980b122bce942ac, type: 3}
+  _playerPrefab: {fileID: 347489321014641408, guid: f3211ced68d72484e918623866b82a9d, type: 3}
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
   _initialStats:
   - _statType: 0
     _baseValue: 50
-    _minValue: 0
   - _statType: 1
     _baseValue: 50
-    _minValue: 0
   - _statType: 2
     _baseValue: 50
-    _minValue: 0
   - _statType: 3
     _baseValue: 5
-    _minValue: 0
+  _weaponCountMax: 6

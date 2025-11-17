@@ -1,4 +1,3 @@
-using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -31,13 +30,20 @@ public class Player : MonoBehaviour
     public Stats<PlayerStatType> PlayerStats => _playerStats;
     #endregion
 
+    private void Awake()
+    {
+        _playerController = GetComponent<PlayerController>();
+        _playerAttack = GetComponent<PlayerAttack>();
+        _health = GetComponent<Health>();
+    }
+
     public void Init(PlayerData playerData, WeaponData weaponData)
     {
         _playerData = playerData;
 
         InitStats();
         InitComponents();
-        InitWeapon(weaponData);
+        AddWeapon(weaponData);
     }
 
     private void InitStats()
@@ -48,26 +54,63 @@ public class Player : MonoBehaviour
     // 컴포넌트 초기화
     private void InitComponents()
     {
-        _playerController = GetComponent<PlayerController>();
         _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual);
 
-        _playerAttack = GetComponent<PlayerAttack>();
-
-        _health = GetComponent<Health>();
-        _health.Init(_playerStats.GetStat(PlayerStatType.Health).FinalValue);
+        var maxHealth = _playerStats.GetStat(PlayerStatType.Health).FinalValue;
+        var defense = _playerStats.GetStat(PlayerStatType.Defense).FinalValue;
+        _health.Init(maxHealth, defense);
     }
 
-    // 무기 초기화
-    private void InitWeapon(WeaponData weaponData)
+    #region 무기
+    // WeaponData로 무기 추가
+    public void AddWeapon(WeaponData weaponData)
     {
-        if (weaponData.WeaponPrefab != null)
+        var curWeaponCount = _playerAttack.WeaponCount;
+        if (curWeaponCount >= _playerData.WeaponCountMax)
         {
-            var weapon = Instantiate(weaponData.WeaponPrefab, _playerVisual.WeaponPivot);
-            weapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            weapon.Init(weaponData, this);
-            _playerAttack.SetWeapon(weapon);
+            Debug.LogWarning("최대 무기 개수 초과");
+            return;
+        }
+
+        var weaponPivot = _playerVisual.GetWeaponPivot(curWeaponCount);
+        if (weaponPivot == null)
+        {
+            Debug.LogWarning("무기 피벗이 null입니다.");
+            return;
+        }
+
+        if (weaponData == null || weaponData.WeaponPrefab == null)
+        {
+            Debug.LogWarning("무기 데이터가 올바르지 않습니다.");
+            return;
+        }
+
+        var weapon = Instantiate(weaponData.WeaponPrefab, weaponPivot);
+        weapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        weapon.Init(weaponData, this);
+        _playerAttack.AddWeapon(weapon);
+    }
+
+    //Weapon으로 무기 제거
+    public void RemoveWeapon(Weapon weapon)
+    {
+        if (weapon == null)
+        {
+            Debug.LogWarning("제거할 무기가 null입니다.");
+            return;
+        }
+
+        bool removed = _playerAttack.RemoveWeapon(weapon);
+        if (removed)
+        {
+            Destroy(weapon.gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("무기 제거에 실패했습니다.");
         }
     }
+    #endregion
 
     // 시네머신 카메라의 팔로우 타겟 설정
     public void SetCameraFollowTarget(CinemachineCamera camera)

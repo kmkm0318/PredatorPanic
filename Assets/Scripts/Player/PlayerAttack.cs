@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,26 +7,32 @@ using UnityEngine;
 /// </summary>
 public class PlayerAttack : MonoBehaviour
 {
-    private Weapon _weapon;
+    private List<Weapon> _weapons = new();
+    public int WeaponCount => _weapons.Count;
 
-    public void SetWeapon(Weapon weapon)
+    public void AddWeapon(Weapon weapon)
     {
-        _weapon = weapon;
+        _weapons.Add(weapon);
+    }
+
+    public bool RemoveWeapon(Weapon weapon)
+    {
+        return _weapons.Remove(weapon);
     }
 
     public void StartAttack()
     {
-        if (_weapon != null)
+        foreach (var weapon in _weapons)
         {
-            _weapon.StartAttack();
+            weapon.StartAttack();
         }
     }
 
     public void StopAttack()
     {
-        if (_weapon != null)
+        foreach (var weapon in _weapons)
         {
-            _weapon.StopAttack();
+            weapon.StopAttack();
         }
     }
 }
