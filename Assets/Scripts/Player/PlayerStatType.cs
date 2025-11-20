@@ -7,4 +7,8 @@ public enum PlayerStatType
     Attack,
     Defense,
     MoveSpeed,
+    AttackSpeed,
+    CriticalRate,
+    CriticalDamageRate,
+    ExpGainRate
 }

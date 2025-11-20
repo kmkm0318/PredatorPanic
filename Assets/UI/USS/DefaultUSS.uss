@@ -1,0 +1,4 @@
+.default-font {
+    -unity-font-definition: url("project://database/Assets/Fonts/Galmuri9.ttf?fileID=12800000&guid=134a1a940d4306e458fd9091db49e0c8&type=3#Galmuri9");
+    color: white;
+}

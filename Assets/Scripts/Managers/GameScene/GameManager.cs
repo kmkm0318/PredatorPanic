@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -8,17 +9,24 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField] private PlayerData _playerData;
     [SerializeField] private Transform _playerSpawnPoint;
     [SerializeField] private WeaponData _weaponData;
+
+    [Header("Enemy")]
     [SerializeField] private EnemyManager _enemyManager;
     [SerializeField] private int _initialEnemyCount = 10;
+
+    [Header("UI")]
+    [SerializeField] private PlayerUIPresenter _playerUIPresenter;
 
     public Player Player { get; private set; }
 
     private void Start()
     {
         StartGame();
+        InitUI();
     }
 
     // 플레이어 생성 및 카메라 타겟 설정
@@ -50,5 +58,11 @@ public class GameManager : MonoBehaviour
     private void SpawnEnemies()
     {
         _enemyManager.SpawnEnemies(Player.transform, _initialEnemyCount);
+    }
+
+    //UI들 초기화
+    private void InitUI()
+    {
+        _playerUIPresenter.Init(Player);
     }
 }

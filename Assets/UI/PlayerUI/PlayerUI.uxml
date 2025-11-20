@@ -1,0 +1,14 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/DefaultUSS.uss?fileID=7433441132597879392&amp;guid=1dbfcd38598d917448fef43c1ade74b4&amp;type=3" />
+    <Style src="project://database/Assets/UI/USS/PlayerUIUSS.uss?fileID=7433441132597879392&amp;guid=442776bf5a90b104f8c663a6070eb04f&amp;type=3" />
+    <ui:VisualElement name="root" class="root default-font" style="flex-grow: 1;">
+        <ui:VisualElement name="TopContainer" class="top-container" style="flex-grow: 1;">
+            <ui:VisualElement name="StatsGroup" class="stats-group" style="flex-grow: 1;">
+                <ui:Label text="LV.00" name="LevelLabel" class="level-label" />
+                <ui:ProgressBar name="HealthBar" value="50" title="50/50" class="health-bar" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="BottomContainer" class="bottom-container" style="flex-grow: 1;" />
+        <ui:ProgressBar name="ExpBar" value="50" title="100/500" class="exp-bar" style="justify-content: center;" />
+    </ui:VisualElement>
+</ui:UXML>

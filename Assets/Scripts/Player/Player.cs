@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
     #region 컴포넌트
     private PlayerController _playerController;
     private PlayerAttack _playerAttack;
-    private Health _health;
+    public Health Health { get; private set; }
     #endregion
 
     #region 플레이어 스탯
@@ -30,11 +31,22 @@ public class Player : MonoBehaviour
     public Stats<PlayerStatType> PlayerStats => _playerStats;
     #endregion
 
+    #region 레벨, 경험치
+    public int Level { get; private set; }
+    public float CurExp { get; private set; }
+    public float MaxExp { get; private set; }
+    #endregion
+
+    #region 이벤트
+    public event Action<int> OnLevelChanged;
+    public event Action<float, float> OnExpChanged;
+    #endregion
+
     private void Awake()
     {
         _playerController = GetComponent<PlayerController>();
         _playerAttack = GetComponent<PlayerAttack>();
-        _health = GetComponent<Health>();
+        Health = GetComponent<Health>();
     }
 
     public void Init(PlayerData playerData, WeaponData weaponData)
@@ -46,9 +58,15 @@ public class Player : MonoBehaviour
         AddWeapon(weaponData);
     }
 
+    // 스탯 초기화
     private void InitStats()
     {
         _playerStats = new(_playerData.InitialStats);
+        Level = 1;
+        CurExp = 0;
+
+        //최대 경험치 자동 계산
+        UpdateMaxExp();
     }
 
     // 컴포넌트 초기화
@@ -58,7 +76,7 @@ public class Player : MonoBehaviour
 
         var maxHealth = _playerStats.GetStat(PlayerStatType.Health).FinalValue;
         var defense = _playerStats.GetStat(PlayerStatType.Defense).FinalValue;
-        _health.Init(maxHealth, defense);
+        Health.Init(maxHealth, defense);
     }
 
     #region 무기
@@ -131,4 +149,27 @@ public class Player : MonoBehaviour
     {
         _playerAttack.StopAttack();
     }
+
+    #region 레벨, 경험치
+    // 최대 경험치 업데이트
+    private void UpdateMaxExp()
+    {
+        MaxExp = _playerData.BaseExp * Mathf.Pow(_playerData.ExpGrowthRate, Level);
+    }
+
+    public void AddExp(float amount)
+    {
+        CurExp += amount;
+        OnExpChanged?.Invoke(CurExp, MaxExp);
+
+        while (CurExp >= MaxExp)
+        {
+            CurExp -= MaxExp;
+            Level++;
+            UpdateMaxExp();
+            OnLevelChanged?.Invoke(Level);
+            OnExpChanged?.Invoke(CurExp, MaxExp);
+        }
+    }
+    #endregion
 }

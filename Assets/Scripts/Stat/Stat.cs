@@ -79,7 +79,7 @@ public class Stat
                     finalPercentAdd += mod.Value;
                     break;
                 case StatModifierType.PercentMult:
-                    finalPercentMult *= 1 + mod.Value;
+                    finalPercentMult *= mod.Value;
                     break;
             }
         }
