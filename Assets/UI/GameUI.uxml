@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="PlayerUI" src="project://database/Assets/UI/PlayerUI/PlayerUI.uxml?fileID=9197481963319205126&amp;guid=1f3bf1eaabb43864fad4d455066bd6ef&amp;type=3#PlayerUI" />
+    <ui:Instance template="PlayerUI" name="PlayerUI" style="width: 100%; height: 100%;" />
+</ui:UXML>

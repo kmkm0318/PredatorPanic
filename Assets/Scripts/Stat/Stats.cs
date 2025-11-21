@@ -13,7 +13,7 @@ public class Stats<T> where T : Enum
     {
         foreach (var statEntity in initialStats)
         {
-            _stats[statEntity.StatType] = new Stat(statEntity.BaseValue);
+            _stats[statEntity.StatType] = new Stat(statEntity.Value);
         }
     }
 

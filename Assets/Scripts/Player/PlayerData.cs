@@ -20,15 +20,13 @@ public class PlayerData : ScriptableObject
     [SerializeField] private List<StatEntity<PlayerStatType>> _initialStats;
     public List<StatEntity<PlayerStatType>> InitialStats => _initialStats;
 
-
     [Header("EXP")]
     [SerializeField] private float _baseExp = 100f;
-    [SerializeField] private float _expGrowthRate = 1.5f;
+    [SerializeField] private float _expGrowthRate = .25f;
     public float BaseExp => _baseExp;
     public float ExpGrowthRate => _expGrowthRate;
 
-
-    [Header("Weapon Count")]
+    [Header("Weapon")]
     [SerializeField] private int _weaponCountMax = 6;
     public int WeaponCountMax => _weaponCountMax;
 }

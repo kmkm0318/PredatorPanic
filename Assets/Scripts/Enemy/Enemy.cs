@@ -1,14 +1,17 @@
 using System;
-using System.Collections;
-using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// 적 클래스
+/// 적 데이터로 초기화되고 적의 컨트롤러와 체력 컴포넌트를 관리합니다.
+/// 레벨에 따라 스탯이 증가합니다.
+/// </summary>
 [RequireComponent(typeof(EnemyController))]
 [RequireComponent(typeof(Health))]
 public class Enemy : MonoBehaviour
 {
     #region 데이터
-    private EnemyData _enemyData;
+    public EnemyData EnemyData { get; private set; }
     #endregion
 
     #region 컴포넌트
@@ -17,12 +20,12 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region 적 스탯
-    private Stats<EnemyStatType> _enemyStats;
-    public Stats<EnemyStatType> EnemyStats => _enemyStats;
+    public Stats<EnemyStatType> EnemyStats { get; private set; }
     #endregion
 
     #region 이벤트
-    public event Action<Enemy> OnRelease;
+    public static event Action<Enemy> OnAnyDeath;
+    public static event Action<Enemy> OnAnyReleaseRequested;
     #endregion
 
     private void Awake()
@@ -31,33 +34,40 @@ public class Enemy : MonoBehaviour
         _health = GetComponent<Health>();
     }
 
-    public void Init(EnemyData enemyData)
+    public void Init(EnemyData enemyData, int level = 0)
     {
-        _enemyData = enemyData;
+        EnemyData = enemyData;
 
-        InitStats();
+        InitStats(level);
         InitComponents();
     }
 
-    private void InitStats()
+    private void InitStats(int level = 0)
     {
-        _enemyStats = new Stats<EnemyStatType>(_enemyData.InitialStats);
+        EnemyStats = new Stats<EnemyStatType>(EnemyData.BaseStats);
+
+        foreach (var entity in EnemyData.IncreaseRates)
+        {
+            float increaseAmount = entity.Value * level;
+            EnemyStats.GetStat(entity.StatType).AddModifier(new(increaseAmount, StatModifierType.PercentAdd, this));
+        }
     }
 
     private void InitComponents()
     {
-        _enemyController.Init(this, _enemyData.EnemyControllerData);
+        _enemyController.Init(this, EnemyData.EnemyControllerData);
 
-        float maxHealth = _enemyStats.GetStat(EnemyStatType.Health).FinalValue;
-        float defense = _enemyStats.GetStat(EnemyStatType.Defense).FinalValue;
+        float maxHealth = EnemyStats.GetStat(EnemyStatType.Health).FinalValue;
+        float defense = EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
 
         _health.Init(maxHealth, defense);
-        _health.OnDeath += OnDeath;
+        _health.OnDeath += Die;
     }
 
-    private void OnDeath()
+    private void Die()
     {
-        OnRelease?.Invoke(this);
+        OnAnyDeath?.Invoke(this);
+        OnAnyReleaseRequested?.Invoke(this);
     }
 
     public void SetTarget(Transform target)

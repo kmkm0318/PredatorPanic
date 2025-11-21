@@ -9,6 +9,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerAttack))]
+[RequireComponent(typeof(PlayerMagnet))]
 [RequireComponent(typeof(Health))]
 public class Player : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     #region 컴포넌트
     private PlayerController _playerController;
     private PlayerAttack _playerAttack;
+    private PlayerMagnet _playerItemCollector;
     public Health Health { get; private set; }
     #endregion
 
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour
     {
         _playerController = GetComponent<PlayerController>();
         _playerAttack = GetComponent<PlayerAttack>();
+        _playerItemCollector = GetComponent<PlayerMagnet>();
         Health = GetComponent<Health>();
     }
 
@@ -73,6 +76,7 @@ public class Player : MonoBehaviour
     private void InitComponents()
     {
         _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual);
+        _playerItemCollector.Init(this);
 
         var maxHealth = _playerStats.GetStat(PlayerStatType.Health).FinalValue;
         var defense = _playerStats.GetStat(PlayerStatType.Defense).FinalValue;
@@ -154,12 +158,15 @@ public class Player : MonoBehaviour
     // 최대 경험치 업데이트
     private void UpdateMaxExp()
     {
-        MaxExp = _playerData.BaseExp * Mathf.Pow(_playerData.ExpGrowthRate, Level);
+        MaxExp = _playerData.BaseExp * (1f + (_playerData.ExpGrowthRate * Level));
     }
 
     public void AddExp(float amount)
     {
-        CurExp += amount;
+        float expGrainRate = _playerStats.GetStat(PlayerStatType.ExpGainRate).FinalValue;
+        float expAmount = amount * expGrainRate;
+
+        CurExp += expAmount;
         OnExpChanged?.Invoke(CurExp, MaxExp);
 
         while (CurExp >= MaxExp)

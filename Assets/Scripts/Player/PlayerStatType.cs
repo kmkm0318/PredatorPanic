@@ -10,5 +10,7 @@ public enum PlayerStatType
     AttackSpeed,
     CriticalRate,
     CriticalDamageRate,
-    ExpGainRate
+    ExpGainRate,
+    GoldGainRate,
+    MagnetRadius,
 }

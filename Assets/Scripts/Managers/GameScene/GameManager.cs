@@ -1,4 +1,3 @@
-using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -13,29 +12,32 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerData _playerData;
     [SerializeField] private Transform _playerSpawnPoint;
     [SerializeField] private WeaponData _weaponData;
+    [SerializeField] private CinemachineCamera _cinemachineCamera;
 
     [Header("Enemy")]
     [SerializeField] private EnemyManager _enemyManager;
     [SerializeField] private int _initialEnemyCount = 10;
 
+    [Header("DropItem")]
+    [SerializeField] private DropItemManager _dropItemManager;
+
     [Header("UI")]
-    [SerializeField] private PlayerUIPresenter _playerUIPresenter;
+    [SerializeField] private GameUIManager _gameUIManager;
 
     public Player Player { get; private set; }
 
     private void Start()
     {
+        Init();
         StartGame();
-        InitUI();
     }
 
-    // 플레이어 생성 및 카메라 타겟 설정
-    private void StartGame()
+    //초기화
+    private void Init()
     {
         InitPlayer();
         InitCameraTarget();
-        SpawnEnemies();
-        InputManager.Instance.EnablePlayerInput();
+        _gameUIManager.Init(Player);
     }
 
     // 플레이어 생성 및 초기화
@@ -48,21 +50,21 @@ public class GameManager : MonoBehaviour
     // 시네머신 카메라의 팔로우 타겟 설정
     private void InitCameraTarget()
     {
-        var camera = FindFirstObjectByType<CinemachineCamera>();
-        if (camera != null)
+        if (_cinemachineCamera != null)
         {
-            Player.SetCameraFollowTarget(camera);
+            Player.SetCameraFollowTarget(_cinemachineCamera);
         }
+    }
+
+    // 게임 시작
+    private void StartGame()
+    {
+        SpawnEnemies();
+        InputManager.Instance.EnablePlayerInput();
     }
 
     private void SpawnEnemies()
     {
         _enemyManager.SpawnEnemies(Player.transform, _initialEnemyCount);
-    }
-
-    //UI들 초기화
-    private void InitUI()
-    {
-        _playerUIPresenter.Init(Player);
     }
 }

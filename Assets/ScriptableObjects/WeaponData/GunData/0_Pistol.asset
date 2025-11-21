@@ -23,10 +23,10 @@ MonoBehaviour:
   _trailRendererPrefab: {fileID: 6185253221049616136, guid: c36662d8bd2e7384ab6659e0c54c2421, type: 3}
   _initialStats:
   - _statType: 0
-    _baseValue: 10
+    _value: 10
   - _statType: 1
-    _baseValue: 7.5
+    _value: 2
   - _statType: 2
-    _baseValue: 50
+    _value: 50
   - _statType: 3
-    _baseValue: 50
+    _value: 50
