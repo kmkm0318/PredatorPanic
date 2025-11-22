@@ -3,7 +3,7 @@ public class PlayerPresenter
     private Player _player;
     private PlayerUI _playerUI;
 
-    // 생성자. GameUIManager에서 Player와 PlayerUI를 받아옴
+    // GameUIManager에서 Player와 PlayerUI를 받아옴
     public PlayerPresenter(Player player, PlayerUI playerUI)
     {
         _player = player;
@@ -19,6 +19,8 @@ public class PlayerPresenter
         OnLevelChanged(_player.Level);
         OnExpChanged(_player.CurExp, _player.MaxExp);
         OnHealthChanged(_player.Health.CurrentHealth, _player.Health.MaxHealth);
+        OnToothChanged(_player.Tooth);
+        OnDNAChanged(_player.DNA);
     }
 
     // 해제 함수. 이벤트 해제
@@ -35,6 +37,8 @@ public class PlayerPresenter
             _player.OnLevelChanged += OnLevelChanged;
             _player.OnExpChanged += OnExpChanged;
             _player.Health.OnHealthChanged += OnHealthChanged;
+            _player.OnToothChanged += OnToothChanged;
+            _player.OnDNAChanged += OnDNAChanged;
         }
     }
 
@@ -45,11 +49,13 @@ public class PlayerPresenter
             _player.OnLevelChanged -= OnLevelChanged;
             _player.OnExpChanged -= OnExpChanged;
             _player.Health.OnHealthChanged -= OnHealthChanged;
+            _player.OnToothChanged -= OnToothChanged;
+            _player.OnDNAChanged -= OnDNAChanged;
         }
     }
     #endregion
 
-    #region UI 업데이트 함수
+    #region 이벤트 핸들러 함수
     private void OnHealthChanged(float cur, float max)
     {
         _playerUI.SetHealth(cur, max);
@@ -63,6 +69,16 @@ public class PlayerPresenter
     private void OnLevelChanged(int level)
     {
         _playerUI.SetLevel(level);
+    }
+
+    private void OnToothChanged(int tooth)
+    {
+        _playerUI.SetTooth(tooth);
+    }
+
+    private void OnDNAChanged(int dna)
+    {
+        _playerUI.SetDNA(dna);
     }
     #endregion
 }

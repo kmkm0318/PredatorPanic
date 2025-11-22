@@ -7,7 +7,9 @@ using UnityEngine;
 public class PlayerUI : MonoBehaviour
 {
     #region UI 요소
-    [SerializeField] private TMP_Text _levelLabel;
+    [SerializeField] private TMP_Text _levelText;
+    [SerializeField] private TMP_Text _toothText;
+    [SerializeField] private TMP_Text _dnaText;
     [SerializeField] private Progressbar _healthBar;
     [SerializeField] private Progressbar _expBar;
     #endregion
@@ -26,7 +28,17 @@ public class PlayerUI : MonoBehaviour
 
     public void SetLevel(int level)
     {
-        _levelLabel.text = $"Lv.{level}";
+        _levelText.text = $"Lv.{level}";
+    }
+
+    public void SetTooth(int toothCount)
+    {
+        _toothText.text = toothCount.ToString();
+    }
+
+    public void SetDNA(int dnaCount)
+    {
+        _dnaText.text = dnaCount.ToString();
     }
     #endregion
 }

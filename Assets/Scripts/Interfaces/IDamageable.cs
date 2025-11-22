@@ -15,7 +15,7 @@ public interface IDamageable
     public event Action<float> OnDamaged;
     public event Action OnDeath;
 
-    //체력 변동 메서드
+    //체력 변동 함수
     void TakeDamage(float damage);
     void Heal(float amount);
 }

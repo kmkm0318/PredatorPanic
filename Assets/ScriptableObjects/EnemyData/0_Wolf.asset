@@ -24,8 +24,6 @@ MonoBehaviour:
     _value: 10
   - _statType: 3
     _value: 3
-  - _statType: 4
-    _value: 10
   _increaseRates:
   - _statType: 0
     _value: 0.25
@@ -35,6 +33,4 @@ MonoBehaviour:
     _value: 0.25
   - _statType: 3
     _value: 0.1
-  - _statType: 4
-    _value: 0.5
   _dropTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}

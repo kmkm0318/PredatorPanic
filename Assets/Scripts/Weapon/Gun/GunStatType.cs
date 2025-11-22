@@ -7,4 +7,6 @@ public enum GunStatType
     FireSpeed,
     BulletSpeed,
     Range,
+    CriticalRate,
+    CriticalDamageRate,
 }

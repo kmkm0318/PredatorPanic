@@ -36,3 +36,40 @@
 ### 매니저
 - **GameManager**: 게임 씬의 플레이어 및 카메라 초기화, 싱글톤 관리
 - **InputManager**: 입력 시스템 통합 관리
+
+### 아이콘 이미지 출처
+#### https://game-icons.net
+- Lorc, http://lorcblog.blogspot.com
+- Delapouite, https://delapouite.com
+- John Colburn, http://ninmunanmu.com
+- Felbrigg, http://blackdogofdoom.blogspot.co.uk
+- John Redman, http://www.uniquedicetowers.com
+- Carl Olsen, https://twitter.com/unstoppableCarl
+- Sbed, http://opengameart.org/content/95-game-icons
+- PriorBlue
+- Willdabeast, http://wjbstories.blogspot.com
+- Viscious Speed, http://viscious-speed.deviantart.com - CC0
+- Lord Berandas, http://berandas.deviantart.com
+- Irongamer, http://ecesisllc.wix.com/home
+- HeavenlyDog, http://www.gnomosygoblins.blogspot.com
+- Lucas
+- Faithtoken, http://fungustoken.deviantart.com
+- Skoll
+- Andy Meneely, http://www.se.rit.edu/~andy/
+- Cathelineau
+- Kier Heyl
+- Aussiesim
+- Sparker, http://citizenparker.com
+- Zeromancer - CC0
+- Rihlsul
+- Quoting
+- Guard13007, https://guard13007.com
+- DarkZaitzev, http://darkzaitzev.deviantart.com
+- SpencerDub
+- GeneralAce135
+- Zajkonur
+- Catsu
+- Starseeker
+- Pepijn Poolman
+- Pierre Leducq
+- Caro Asercion

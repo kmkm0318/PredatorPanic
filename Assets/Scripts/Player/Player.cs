@@ -39,9 +39,16 @@ public class Player : MonoBehaviour
     public float MaxExp { get; private set; }
     #endregion
 
+    #region 플레이어 재화(이빨, DNA)
+    public int Tooth { get; private set; } = 0;
+    public int DNA { get; private set; } = 0;
+    #endregion
+
     #region 이벤트
     public event Action<int> OnLevelChanged;
     public event Action<float, float> OnExpChanged;
+    public event Action<int> OnToothChanged;
+    public event Action<int> OnDNAChanged;
     #endregion
 
     private void Awake()
@@ -81,6 +88,22 @@ public class Player : MonoBehaviour
         var maxHealth = _playerStats.GetStat(PlayerStatType.Health).FinalValue;
         var defense = _playerStats.GetStat(PlayerStatType.Defense).FinalValue;
         Health.Init(maxHealth, defense);
+
+        RegisterHealthStatEvents();
+    }
+
+    // 체력, 방어력 스탯 변경시 Health 컴포넌트에 반영
+    private void RegisterHealthStatEvents()
+    {
+        _playerStats.GetStat(PlayerStatType.Health).OnValueChanged += (newValue) =>
+        {
+            Health.SetMaxHealth(newValue);
+        };
+
+        _playerStats.GetStat(PlayerStatType.Defense).OnValueChanged += (newValue) =>
+        {
+            Health.SetDefense(newValue);
+        };
     }
 
     #region 무기
@@ -163,7 +186,7 @@ public class Player : MonoBehaviour
 
     public void AddExp(float amount)
     {
-        float expGrainRate = _playerStats.GetStat(PlayerStatType.ExpGainRate).FinalValue;
+        float expGrainRate = _playerStats.GetStat(PlayerStatType.EXPGainRate).FinalValue;
         float expAmount = amount * expGrainRate;
 
         CurExp += expAmount;
@@ -179,4 +202,20 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+    public void AddTooth(int amount)
+    {
+        float toothGainRate = _playerStats.GetStat(PlayerStatType.ToothGainRate).FinalValue;
+        amount = Mathf.FloorToInt(amount * toothGainRate);
+        Tooth += amount;
+        OnToothChanged?.Invoke(Tooth);
+    }
+
+    public void AddDNA(int amount)
+    {
+        float dnaGainRate = _playerStats.GetStat(PlayerStatType.DNAGainRate).FinalValue;
+        amount = Mathf.FloorToInt(amount * dnaGainRate);
+        DNA += amount;
+        OnDNAChanged?.Invoke(DNA);
+    }
 }

@@ -62,6 +62,22 @@ public class Enemy : MonoBehaviour
 
         _health.Init(maxHealth, defense);
         _health.OnDeath += Die;
+
+        RegisterHealthStatEvents();
+    }
+
+    // 체력, 방어력 스탯 변경시 Health 컴포넌트에 반영
+    private void RegisterHealthStatEvents()
+    {
+        EnemyStats.GetStat(EnemyStatType.Health).OnValueChanged += (newValue) =>
+        {
+            _health.SetMaxHealth(newValue);
+        };
+
+        EnemyStats.GetStat(EnemyStatType.Defense).OnValueChanged += (newValue) =>
+        {
+            _health.SetDefense(newValue);
+        };
     }
 
     private void Die()

@@ -58,9 +58,7 @@ public class Gun : Weapon
             (trail) => trail.gameObject.SetActive(true),
             (trail) => trail.gameObject.SetActive(false),
             (trail) => Destroy(trail.gameObject),
-            false,
-            10,
-            1000
+            false
         );
 
         _bulletPool = new ObjectPool<Bullet>(
@@ -73,9 +71,7 @@ public class Gun : Weapon
             (bullet) => bullet.gameObject.SetActive(true),
             (bullet) => bullet.gameObject.SetActive(false),
             (bullet) => Destroy(bullet.gameObject),
-            false,
-            10,
-            1000
+            false
         );
     }
 
@@ -91,7 +87,7 @@ public class Gun : Weapon
 
         Fire();
 
-        float fireSpeed = _gunStats.GetStat(GunStatType.FireSpeed).FinalValue;
+        float fireSpeed = CombatUtility.CalculateFireSpeed(Owner, this);
         float fireInterval = 1f / fireSpeed;
 
         _nextTimeToFire = Time.time + fireInterval;
@@ -137,8 +133,7 @@ public class Gun : Weapon
         if (fireHitInfo.collider != null && fireHitInfo.collider.TryGetComponent<IDamageable>(out var damageable))
         {
             float distance = Vector3.Distance(_muzzleFlash.transform.position, fireHitInfo.point);
-            float damage = GunUtility.CalculateBulletDamage(Owner, this, distance);
-            damageable.TakeDamage(damage);
+            ApplyDamage(damageable, distance);
         }
 
         //총알 궤적 이펙트 생성
@@ -222,10 +217,21 @@ public class Gun : Weapon
             if (contact.otherCollider.TryGetComponent<IDamageable>(out var damageable))
             {
                 float distance = Vector3.Distance(bullet.SpawnPos, contact.point);
-                float damage = GunUtility.CalculateBulletDamage(Owner, this, distance);
-                damageable.TakeDamage(damage);
+                ApplyDamage(damageable, distance);
             }
         }
+    }
+
+    //데미지 적용
+    private void ApplyDamage(IDamageable damageable, float distance)
+    {
+        float damage = CombatUtility.CalculateBulletDamage(Owner, this, distance);
+        bool isCritical = CombatUtility.IsCritical(Owner, this);
+        if (isCritical)
+        {
+            damage = CombatUtility.CalculateCriticalDamage(Owner, this, damage);
+        }
+        damageable.TakeDamage(damage);
     }
     #endregion
 }

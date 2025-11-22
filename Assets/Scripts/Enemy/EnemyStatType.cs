@@ -4,7 +4,7 @@
 public enum EnemyStatType
 {
     Health,
-    Attack,
+    Damage,
     Defense,
     MoveSpeed,
 }

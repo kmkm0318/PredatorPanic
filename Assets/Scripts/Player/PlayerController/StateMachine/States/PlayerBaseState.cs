@@ -16,7 +16,7 @@ public abstract class PlayerBaseState : IState
     public abstract void CheckChangeState();
 
     /// <summary>
-    /// 상태 전환 메서드
+    /// 상태 전환 함수
     /// SuperState가 없으면 Owner의 상태 기계를 직접 변경
     /// SuperState가 있으면 SuperState의 SubState로 새 상태를 설정
     /// </summary>
