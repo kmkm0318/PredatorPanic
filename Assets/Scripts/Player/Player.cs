@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
     private void InitStats()
     {
         _playerStats = new(_playerData.InitialStats);
-        Level = 1;
+        Level = 0;
         CurExp = 0;
 
         //최대 경험치 자동 계산

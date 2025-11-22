@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemPrefab: {fileID: -7652352036178985556, guid: c4dea1c6c59edaa45b0176ce47750d59, type: 3}
   _dropRate: 0.25
   _minDropCount: 1
-  _maxDropCount: 9999
+  _maxDropCount: 1
   _dropRadius: 1
   _isFollow: 1
   _followHeight: 5

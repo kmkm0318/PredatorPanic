@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfeba120d183114a8366b67396a6144, type: 3}
+  m_Name: CriticalDamageRate
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatTypeData
+  _playerStatType: 6
+  _statName: "\uCE58\uBA85\uD0C0 \uACF5\uACA9\uB825"
+  _statDescription: 

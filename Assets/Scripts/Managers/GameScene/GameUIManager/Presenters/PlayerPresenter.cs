@@ -1,4 +1,4 @@
-public class PlayerPresenter
+public class PlayerPresenter : IPresenter
 {
     private Player _player;
     private PlayerUI _playerUI;
@@ -8,11 +8,10 @@ public class PlayerPresenter
     {
         _player = player;
         _playerUI = playerUI;
-        Init();
     }
 
     // 초기화 함수. 이벤트 등록 및 초기 UI 설정
-    private void Init()
+    public void Init()
     {
         RegisterEvents();
 

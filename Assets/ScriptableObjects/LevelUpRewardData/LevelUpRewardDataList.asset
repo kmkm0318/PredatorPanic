@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca90794457c328458e5ea5095aefb5d, type: 3}
+  m_Name: LevelUpRewardDataList
+  m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardDataList
+  _levelUpRewardDatas:
+  - {fileID: 11400000, guid: 25a4ff1f545fa75499675312a0f9ec26, type: 2}
+  - {fileID: 11400000, guid: e87f665f5df12e04fa5942e91ff51791, type: 2}
+  - {fileID: 11400000, guid: a4250d186efd0424bbfd1ef8cfa0fd92, type: 2}
+  - {fileID: 11400000, guid: 74cb315b31addb54580bb839d6a012be, type: 2}
+  - {fileID: 11400000, guid: a3dae2bd18903014bb318a42b957570c, type: 2}
+  - {fileID: 11400000, guid: db11b7504d472a648b492706fe597840, type: 2}
+  - {fileID: 11400000, guid: 131844e7020a95b44bb00fe2b026c9e8, type: 2}
+  - {fileID: 11400000, guid: 83c0fb1c61cdf0e4cbac0d9fa316a5fb, type: 2}
+  - {fileID: 11400000, guid: 67be5533afc5afb48900c73717be1c2c, type: 2}
+  - {fileID: 11400000, guid: 3e2cc6764ffcda34ebb4c2ac1d28ff64, type: 2}
+  - {fileID: 11400000, guid: ff568fedb204cdf4a82eb35edfe55eae, type: 2}

@@ -1,0 +1,16 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// 데이터 매니저 싱글톤 클래스
+/// </summary>
+public class DataManager : Singleton<DataManager>
+{
+    [Header("Player Stat Type Data List")]
+    [SerializeField] private PlayerStatTypeDataList _playerStatTypeDataList;
+    public PlayerStatTypeDataList PlayerStatTypeDataList => _playerStatTypeDataList;
+
+    [Header("Level Up Reward Data List")]
+    [SerializeField] private LevelUpRewardDataList _levelUpRewardDataList;
+    public LevelUpRewardDataList LevelUpRewardDataList => _levelUpRewardDataList;
+}

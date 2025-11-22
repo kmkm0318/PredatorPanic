@@ -8,20 +8,27 @@ public class GameUIManager : MonoBehaviour
 {
     #region 씬 내 UI
     [SerializeField] private PlayerUI _playerUI;
+    [SerializeField] private LevelUpRewardUI _levelUpRewardUI;
     #endregion
 
     #region MVP 구조를 위한 Presenter들
     private PlayerPresenter _playerPresenter;
+    private LevelUpRewardPresenter _levelUpRewardPresenter;
     #endregion
 
     public void Init(Player player)
     {
         _playerPresenter = new PlayerPresenter(player, _playerUI);
+        _playerPresenter.Init();
+
+        _levelUpRewardPresenter = new LevelUpRewardPresenter(player, _levelUpRewardUI);
+        _levelUpRewardPresenter.Init();
     }
 
-    // 종료 시에 UI Presenter의 이벤트 해제
+    // 종료 시에 이벤트 해제
     private void OnDestroy()
     {
         _playerPresenter.Reset();
+        _levelUpRewardPresenter.Reset();
     }
 }
