@@ -13,7 +13,7 @@ public class GameUIManager : MonoBehaviour
 
     #region MVP 구조를 위한 Presenter들
     private PlayerPresenter _playerPresenter;
-    private LevelUpRewardPresenter _levelUpRewardPresenter;
+    public LevelUpRewardPresenter LevelUpRewardPresenter { get; private set; }
     #endregion
 
     public void Init(Player player)
@@ -21,14 +21,14 @@ public class GameUIManager : MonoBehaviour
         _playerPresenter = new PlayerPresenter(player, _playerUI);
         _playerPresenter.Init();
 
-        _levelUpRewardPresenter = new LevelUpRewardPresenter(player, _levelUpRewardUI);
-        _levelUpRewardPresenter.Init();
+        LevelUpRewardPresenter = new LevelUpRewardPresenter(_levelUpRewardUI);
+        LevelUpRewardPresenter.Init();
     }
 
     // 종료 시에 이벤트 해제
     private void OnDestroy()
     {
         _playerPresenter.Reset();
-        _levelUpRewardPresenter.Reset();
+        LevelUpRewardPresenter.Reset();
     }
 }

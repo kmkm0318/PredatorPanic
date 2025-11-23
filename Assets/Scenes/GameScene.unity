@@ -1117,6 +1117,7 @@ RectTransform:
   m_Children:
   - {fileID: 285092697}
   - {fileID: 344902191}
+  - {fileID: 839697653}
   - {fileID: 1850596765}
   m_Father: {fileID: 1988578971}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1560,12 +1561,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 839697652}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1165885691}
+  m_Father: {fileID: 632986611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1784,42 +1785,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 72a84f2f0719f1842a4088ce87f063e5, type: 2}
   m_BuildHeightMesh: 0
---- !u!1 &1165885690
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1165885691}
-  m_Layer: 5
-  m_Name: CrosshairUI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1165885691
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1165885690}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 839697653}
-  m_Father: {fileID: 1988578971}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1349443146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2105,12 +2070,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd3ca2e7bc381c4781623840fcc597a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  _gameManagerData: {fileID: 11400000, guid: 2b2b2f090f1961d48b8bdf2a96aa56a8, type: 2}
   _playerData: {fileID: 11400000, guid: 4f1ef008dda880b4e842cf646af6c030, type: 2}
   _playerSpawnPoint: {fileID: 1560699115}
   _weaponData: {fileID: 11400000, guid: a84891e904c0d1343a580925eedfce52, type: 2}
   _cinemachineCamera: {fileID: 304625483}
   _enemyManager: {fileID: 773417688}
-  _initialEnemyCount: 10
   _dropItemManager: {fileID: 444637222}
   _gameUIManager: {fileID: 407229324}
 --- !u!1 &1560699114
@@ -2630,7 +2595,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 632986611}
-  - {fileID: 1165885691}
   - {fileID: 3379582351279255992}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2667,7 +2631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1781852615517256156
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     #region 상태 기계
     public StateMachine StateMachine { get; private set; }
-    public PlayerStateFactory StateFactory { get; private set; }
+    private PlayerStateFactory stateFactory;
     #endregion
 
     #region 입력
@@ -187,8 +187,8 @@ public class PlayerController : MonoBehaviour
     private void InitStateMachine()
     {
         StateMachine = new StateMachine();
-        StateFactory = new PlayerStateFactory(this);
-        StateMachine.ChangeState(StateFactory.Fall());
+        stateFactory = new PlayerStateFactory(this);
+        StateMachine.ChangeState(stateFactory.Fall);
     }
 
     private void Update()

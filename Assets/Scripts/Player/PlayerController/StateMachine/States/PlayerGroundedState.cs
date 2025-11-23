@@ -5,11 +5,11 @@
 /// </summary>
 public class PlayerGroundedState : PlayerBaseState
 {
-    public PlayerGroundedState(PlayerController owner) : base(owner) { }
+    public PlayerGroundedState(PlayerController playerController, PlayerStateFactory factory) : base(playerController, factory) { }
 
     public override void Enter()
     {
-        Owner.MovementY = Owner.PlayerControllerData.GroundedGravitySpeed;
+        PlayerController.MovementY = PlayerController.PlayerControllerData.GroundedGravitySpeed;
 
         InitSubState();
         SubState?.Enter();
@@ -30,28 +30,28 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void InitSubState()
     {
-        if (Owner.IsMovePressed)
+        if (PlayerController.IsMovePressed)
         {
-            SetSubState(Owner.StateFactory.Move());
+            SetSubState(Factory.Move);
         }
         else
         {
-            SetSubState(Owner.StateFactory.Idle());
+            SetSubState(Factory.Idle);
         }
     }
 
     public override void CheckChangeState()
     {
-        if (!Owner.CharacterController.isGrounded)
+        if (!PlayerController.CharacterController.isGrounded)
         {
             //지상에서 떨어질 때 코요테 타임 시작
-            Owner.StartCoyoteTimeCoroutine();
-            Owner.StateMachine.ChangeState(Owner.StateFactory.Fall());
+            PlayerController.StartCoyoteTimeCoroutine();
+            PlayerController.StateMachine.ChangeState(Factory.Fall);
         }
-        else if (Owner.IsJumpPressed && Owner.IsJumpBuffer)
+        else if (PlayerController.IsJumpPressed && PlayerController.IsJumpBuffer)
         {
-            Owner.StopJumpBufferCoroutine();
-            Owner.StateMachine.ChangeState(Owner.StateFactory.Jump());
+            PlayerController.StopJumpBufferCoroutine();
+            PlayerController.StateMachine.ChangeState(Factory.Jump);
         }
     }
 }

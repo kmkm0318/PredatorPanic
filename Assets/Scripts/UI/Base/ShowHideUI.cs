@@ -24,8 +24,8 @@ public abstract class ShowHideUI : MonoBehaviour, IShowHide
     /// <param name="onComplete">애니메이션 완료 후 호출될 함수</param>
     public virtual void Show(float duration = 0.5f, Action onComplete = null)
     {
-        gameObject.SetActive(true);
         _currentSequence?.Kill(true);
+        gameObject.SetActive(true);
 
         bool hasBackground = _background != null;
         bool hasPanel = _panel != null;

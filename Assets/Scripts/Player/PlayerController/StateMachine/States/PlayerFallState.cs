@@ -8,53 +8,54 @@ using UnityEngine;
 /// </summary>
 public class PlayerFallState : PlayerBaseState
 {
-    public PlayerFallState(PlayerController owner) : base(owner) { }
+    public PlayerFallState(PlayerController playerController, PlayerStateFactory factory) : base(playerController, factory) { }
 
     public override void Enter()
     {
-        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsFallingHash, true);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsFallingHash, true);
         InitSubState();
         SubState?.Enter();
     }
 
     public override void Update()
     {
-        Owner.MovementY += Owner.Gravity * Owner.PlayerControllerData.FallGravityMultiplier * Time.deltaTime;
-        Owner.MovementY = Mathf.Max(Owner.MovementY, Owner.PlayerControllerData.FallSpeedMin);
+        PlayerController.MovementY += PlayerController.Gravity * PlayerController.PlayerControllerData.FallGravityMultiplier * Time.deltaTime;
+        PlayerController.MovementY = Mathf.Max(PlayerController.MovementY, PlayerController.PlayerControllerData.FallSpeedMin);
         SubState?.Update();
+
         CheckChangeState();
     }
 
     public override void Exit()
     {
         SubState?.Exit();
-        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsFallingHash, false);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsFallingHash, false);
     }
 
     public override void InitSubState()
     {
-        if (Owner.IsMovePressed)
+        if (PlayerController.IsMovePressed)
         {
-            SetSubState(Owner.StateFactory.Move());
+            SetSubState(Factory.Move);
         }
         else
         {
-            SetSubState(Owner.StateFactory.Idle());
+            SetSubState(Factory.Idle);
         }
     }
 
     public override void CheckChangeState()
     {
-        if (Owner.CharacterController.isGrounded)
+        if (PlayerController.CharacterController.isGrounded)
         {
-            Owner.StateMachine.ChangeState(Owner.StateFactory.Grounded());
+            PlayerController.StateMachine.ChangeState(Factory.Grounded);
         }
-        else if (Owner.IsJumpPressed && Owner.IsJumpBuffer && Owner.IsCoyoteTime)
+        else if (PlayerController.IsJumpPressed && PlayerController.IsJumpBuffer && PlayerController.IsCoyoteTime)
         {
             //점프 버퍼와 코요테 타임을 모두 만족할 때 점프
-            Owner.StopJumpBufferCoroutine();
-            Owner.StopCoyoteTimeCoroutine();
-            Owner.StateMachine.ChangeState(Owner.StateFactory.Jump());
+            PlayerController.StopJumpBufferCoroutine();
+            PlayerController.StopCoyoteTimeCoroutine();
+            PlayerController.StateMachine.ChangeState(Factory.Jump);
         }
     }
 }

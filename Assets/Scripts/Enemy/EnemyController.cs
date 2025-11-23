@@ -50,6 +50,18 @@ public class EnemyController : MonoBehaviour
     {
         _target = target;
 
+        //_target 방향 즉시 바라보기
+        if (_target != null)
+        {
+            Vector3 direction = (_target.position - transform.position).normalized;
+            direction.y = 0f;
+            if (direction != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = lookRotation;
+            }
+        }
+
         StartCoroutine(HandleMovementCoroutine());
     }
 }

@@ -30,6 +30,7 @@ public abstract class DropItem : MonoBehaviour
     public void StartFollowPlayer(Player player)
     {
         if (!DropItemData.IsFollow) return;
+        if (IsFollowing) return;
 
         _player = player;
         IsFollowing = true;

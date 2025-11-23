@@ -4,7 +4,7 @@
 /// </summary>
 public class PlayerIdleState : PlayerBaseState
 {
-    public PlayerIdleState(PlayerController owner) : base(owner) { }
+    public PlayerIdleState(PlayerController playerController, PlayerStateFactory factory) : base(playerController, factory) { }
 
     public override void Enter()
     {
@@ -21,16 +21,11 @@ public class PlayerIdleState : PlayerBaseState
 
     }
 
-    public override void InitSubState()
-    {
-
-    }
-
     public override void CheckChangeState()
     {
-        if (Owner.IsMovePressed)
+        if (PlayerController.IsMovePressed)
         {
-            ChangeState(Owner.StateFactory.Move());
+            ChangeState(Factory.Move);
         }
     }
 }

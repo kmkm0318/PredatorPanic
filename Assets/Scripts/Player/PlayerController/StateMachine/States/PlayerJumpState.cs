@@ -6,19 +6,19 @@ using UnityEngine;
 /// </summary>
 public class PlayerJumpState : PlayerBaseState
 {
-    public PlayerJumpState(PlayerController owner) : base(owner) { }
+    public PlayerJumpState(PlayerController playerController, PlayerStateFactory factory) : base(playerController, factory) { }
 
     public override void Enter()
     {
-        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsJumpingHash, true);
-        Owner.MovementY = Owner.InitialJumpSpeed;
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsJumpingHash, true);
+        PlayerController.MovementY = PlayerController.InitialJumpSpeed;
         InitSubState();
         SubState?.Enter();
     }
 
     public override void Update()
     {
-        Owner.MovementY += Owner.Gravity * Time.deltaTime;
+        PlayerController.MovementY += PlayerController.Gravity * Time.deltaTime;
         SubState?.Update();
         CheckChangeState();
     }
@@ -26,30 +26,30 @@ public class PlayerJumpState : PlayerBaseState
     public override void Exit()
     {
         SubState?.Exit();
-        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsJumpingHash, false);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsJumpingHash, false);
     }
 
     public override void InitSubState()
     {
-        if (Owner.IsMovePressed)
+        if (PlayerController.IsMovePressed)
         {
-            SetSubState(Owner.StateFactory.Move());
+            SetSubState(Factory.Move);
         }
         else
         {
-            SetSubState(Owner.StateFactory.Idle());
+            SetSubState(Factory.Idle);
         }
     }
 
     public override void CheckChangeState()
     {
-        if (Owner.CharacterController.isGrounded)
+        if (PlayerController.CharacterController.isGrounded)
         {
-            Owner.StateMachine.ChangeState(Owner.StateFactory.Grounded());
+            PlayerController.StateMachine.ChangeState(Factory.Grounded);
         }
-        else if (Owner.MovementY <= 0 || !Owner.IsJumpPressed)
+        else if (PlayerController.MovementY <= 0 || !PlayerController.IsJumpPressed)
         {
-            Owner.StateMachine.ChangeState(Owner.StateFactory.Fall());
+            PlayerController.StateMachine.ChangeState(Factory.Fall);
         }
     }
 }

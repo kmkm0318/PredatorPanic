@@ -1,3 +1,6 @@
+/// <summary>
+/// 플레이어 UI를 플레이어와 연결하는 프레젠터
+/// </summary>
 public class PlayerPresenter : IPresenter
 {
     private Player _player;
@@ -55,9 +58,9 @@ public class PlayerPresenter : IPresenter
     #endregion
 
     #region 이벤트 핸들러 함수
-    private void OnHealthChanged(float cur, float max)
+    private void OnLevelChanged(int level)
     {
-        _playerUI.SetHealth(cur, max);
+        _playerUI.SetLevel(level);
     }
 
     private void OnExpChanged(float cur, float max)
@@ -65,9 +68,9 @@ public class PlayerPresenter : IPresenter
         _playerUI.SetExp(cur, max);
     }
 
-    private void OnLevelChanged(int level)
+    private void OnHealthChanged(float cur, float max)
     {
-        _playerUI.SetLevel(level);
+        _playerUI.SetHealth(cur, max);
     }
 
     private void OnToothChanged(int tooth)

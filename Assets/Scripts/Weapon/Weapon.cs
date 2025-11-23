@@ -7,13 +7,13 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     protected WeaponData WeaponData { get; private set; }
-    protected Player Owner { get; private set; }
+    protected Player Player { get; private set; }
     protected bool IsAttacking { get; private set; }
 
-    public virtual void Init(WeaponData weaponData, Player owner)
+    public virtual void Init(WeaponData weaponData, Player player)
     {
         WeaponData = weaponData;
-        Owner = owner;
+        Player = player;
     }
 
     public virtual void StartAttack()

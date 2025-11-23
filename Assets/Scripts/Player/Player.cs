@@ -45,7 +45,8 @@ public class Player : MonoBehaviour
     #endregion
 
     #region 이벤트
-    public event Action<int> OnLevelChanged;
+    public event Action<int> OnLevelChanged; //레벨 변경 이벤트. UI 갱신에 사용
+    public event Action<int> OnLevelUpped; //레벨 업 이벤트. 게임 로직에 사용
     public event Action<float, float> OnExpChanged;
     public event Action<int> OnToothChanged;
     public event Action<int> OnDNAChanged;
@@ -184,6 +185,7 @@ public class Player : MonoBehaviour
         MaxExp = _playerData.BaseExp * (1f + (_playerData.ExpGrowthRate * Level));
     }
 
+    //경험치 획득. 레벨업은 따로 처리
     public void AddExp(float amount)
     {
         float expGrainRate = _playerStats.GetStat(PlayerStatType.EXPGainRate).FinalValue;
@@ -191,18 +193,25 @@ public class Player : MonoBehaviour
 
         CurExp += expAmount;
         OnExpChanged?.Invoke(CurExp, MaxExp);
+    }
 
-        while (CurExp >= MaxExp)
-        {
-            CurExp -= MaxExp;
-            Level++;
-            UpdateMaxExp();
-            OnLevelChanged?.Invoke(Level);
-            OnExpChanged?.Invoke(CurExp, MaxExp);
-        }
+    //레벨업을 Playing, RoundClear 등에서 시도
+    public bool TryLevelUp()
+    {
+        if (CurExp < MaxExp) return false;
+
+        CurExp -= MaxExp;
+        Level++;
+        UpdateMaxExp();
+        OnLevelChanged?.Invoke(Level);
+        OnLevelUpped?.Invoke(Level);
+        OnExpChanged?.Invoke(CurExp, MaxExp);
+
+        return true;
     }
     #endregion
 
+    #region 재화 획득
     public void AddTooth(int amount)
     {
         float toothGainRate = _playerStats.GetStat(PlayerStatType.ToothGainRate).FinalValue;
@@ -218,4 +227,15 @@ public class Player : MonoBehaviour
         DNA += amount;
         OnDNAChanged?.Invoke(DNA);
     }
+    #endregion
+
+    #region 레벨업 보상 효과 적용
+    public void ApplyLevelUpRewards(LevelUpRewardData data)
+    {
+        foreach (var effect in data.RewardEffects)
+        {
+            effect.ApplyEffect(this);
+        }
+    }
+    #endregion
 }

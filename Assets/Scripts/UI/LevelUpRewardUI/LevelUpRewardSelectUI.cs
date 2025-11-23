@@ -67,31 +67,26 @@ public class LevelUpRewardSelectUI : ShowHideUI
     #region 이벤트 핸들러
     private void OnPointerEntered()
     {
-        "Pointer Entered".Log();
         SetPanelScale(_bigScale);
     }
 
     private void OnPointerExited()
     {
-        "Pointer Exited".Log();
         SetPanelScale(1f);
     }
 
     private void OnPointerDowned()
     {
-        "Pointer Downed".Log();
         SetPanelScale(_smallScale);
     }
 
     private void OnPointerUpped()
     {
-        "Pointer Upped".Log();
         SetPanelScale(1f);
     }
 
     private void OnPointerClicked()
     {
-        "Pointer Clicked".Log();
         OnClicked?.Invoke(Data);
     }
     #endregion
@@ -110,7 +105,5 @@ public class LevelUpRewardSelectUI : ShowHideUI
         _scaleTween?.Kill();
 
         _scaleTween = _panel.transform.DOScale(scale, _duration).SetEase(_easeType).SetUpdate(true);
-
-        $"Set Panel Scale to {scale}".Log();
     }
 }

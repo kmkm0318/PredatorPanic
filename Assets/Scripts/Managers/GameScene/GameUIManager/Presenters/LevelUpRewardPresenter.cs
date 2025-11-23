@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -6,13 +7,13 @@ using UnityEngine;
 /// </summary>
 public class LevelUpRewardPresenter : IPresenter
 {
-    private Player _player;
     private LevelUpRewardUI _levelUpRewardUI;
     private int _rewardCount = 3;
 
-    public LevelUpRewardPresenter(Player player, LevelUpRewardUI levelUpRewardUI)
+    public event Action<LevelUpRewardData> OnRewardSelected;
+
+    public LevelUpRewardPresenter(LevelUpRewardUI levelUpRewardUI)
     {
-        _player = player;
         _levelUpRewardUI = levelUpRewardUI;
     }
 
@@ -29,39 +30,47 @@ public class LevelUpRewardPresenter : IPresenter
     #region 이벤트 구독, 해제
     private void RegisterEvents()
     {
-        _player.OnLevelChanged += OnLevelChanged;
         _levelUpRewardUI.OnRewardSelected += HandleRewardSelected;
     }
 
     private void UnregisterEvents()
     {
-        _player.OnLevelChanged -= OnLevelChanged;
         _levelUpRewardUI.OnRewardSelected -= HandleRewardSelected;
     }
     #endregion
 
     #region 이벤트 핸들러
-    private void OnLevelChanged(int level)
+    private void HandleRewardSelected(LevelUpRewardData data)
+    {
+        OnRewardSelected?.Invoke(data);
+    }
+    #endregion
+
+    /// <summary>
+    /// 보상 선택 UI 표시 함수
+    /// 리워드가 없을 시 false를 반환하여 바로 LevelUp 상태를 종료할 수 있도록 함
+    /// </summary>
+    public bool TryShowRewards()
     {
         var rewardDataList = DataManager.Instance.LevelUpRewardDataList;
         var rewardDatas = rewardDataList.LevelUpRewardDatas.GetRandomElements(_rewardCount);
-        if (rewardDatas.Count == 0) return;
 
-        _levelUpRewardUI.ShowRewards(rewardDatas);
-        InputManager.Instance.EnableUIInput();
-        Time.timeScale = 0f;
-    }
-
-    private void HandleRewardSelected(LevelUpRewardData data)
-    {
-        foreach (var effect in data.RewardEffects)
+        if (rewardDatas.Count == 0)
         {
-            effect.ApplyEffect(_player);
+            return false;
         }
 
-        _levelUpRewardUI.HideRewards();
-        InputManager.Instance.EnablePlayerInput();
-        Time.timeScale = 1f;
+        _levelUpRewardUI.ShowRewards(rewardDatas);
+
+        return true;
     }
-    #endregion
+
+    /// <summary>
+    /// 보상 선택 UI 숨기기 함수
+    /// LevelUp 상태 종료 시 호출
+    /// </summary>
+    public void HideRewards()
+    {
+        _levelUpRewardUI.HideRewards();
+    }
 }

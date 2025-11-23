@@ -29,7 +29,6 @@ public class LevelUpRewardUI : ShowHideUI
     private void Awake()
     {
         InitPool();
-        Hide(0f);
     }
 
     private void InitPool()

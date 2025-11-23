@@ -36,9 +36,9 @@ public class Gun : Weapon
     private float _nextTimeToFire = 0f;
     #endregion
 
-    public override void Init(WeaponData weaponData, Player owner)
+    public override void Init(WeaponData weaponData, Player player)
     {
-        base.Init(weaponData, owner);
+        base.Init(weaponData, player);
 
         _gunData = weaponData as GunData;
         _gunStats = new(_gunData.InitialStats);
@@ -87,7 +87,7 @@ public class Gun : Weapon
 
         Fire();
 
-        float fireSpeed = CombatUtility.CalculateFireSpeed(Owner, this);
+        float fireSpeed = CombatUtility.CalculateFireSpeed(Player, this);
         float fireInterval = 1f / fireSpeed;
 
         _nextTimeToFire = Time.time + fireInterval;
@@ -225,11 +225,11 @@ public class Gun : Weapon
     //데미지 적용
     private void ApplyDamage(IDamageable damageable, float distance)
     {
-        float damage = CombatUtility.CalculateBulletDamage(Owner, this, distance);
-        bool isCritical = CombatUtility.IsCritical(Owner, this);
+        float damage = CombatUtility.CalculateBulletDamage(Player, this, distance);
+        bool isCritical = CombatUtility.IsCritical(Player, this);
         if (isCritical)
         {
-            damage = CombatUtility.CalculateCriticalDamage(Owner, this, damage);
+            damage = CombatUtility.CalculateCriticalDamage(Player, this, damage);
         }
         damageable.TakeDamage(damage);
     }

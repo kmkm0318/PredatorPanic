@@ -4,37 +4,32 @@
 /// </summary>
 public class PlayerMoveState : PlayerBaseState
 {
-    public PlayerMoveState(PlayerController owner) : base(owner) { }
+    public PlayerMoveState(PlayerController playerController, PlayerStateFactory factory) : base(playerController, factory) { }
 
     public override void Enter()
     {
-        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsMovingHash, true);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsMovingHash, true);
     }
 
     public override void Update()
     {
-        Owner.MovementX = Owner.MoveInput.x;
-        Owner.MovementZ = Owner.MoveInput.y;
+        PlayerController.MovementX = PlayerController.MoveInput.x;
+        PlayerController.MovementZ = PlayerController.MoveInput.y;
         CheckChangeState();
     }
 
     public override void Exit()
     {
-        Owner.MovementX = 0;
-        Owner.MovementZ = 0;
-        Owner.PlayerVisual.Animator.SetBool(Owner.PlayerVisual.IsMovingHash, false);
-    }
-
-    public override void InitSubState()
-    {
-
+        PlayerController.MovementX = 0;
+        PlayerController.MovementZ = 0;
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsMovingHash, false);
     }
 
     public override void CheckChangeState()
     {
-        if (!Owner.IsMovePressed)
+        if (!PlayerController.IsMovePressed)
         {
-            ChangeState(Owner.StateFactory.Idle());
+            ChangeState(Factory.Idle);
         }
     }
 }

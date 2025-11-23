@@ -80,7 +80,9 @@ public class Enemy : MonoBehaviour
         };
     }
 
-    private void Die()
+    // 적 사망 처리
+    // 체력이 0이 되거나 EnemyManager에서 호출
+    public void Die()
     {
         OnAnyDeath?.Invoke(this);
         OnAnyReleaseRequested?.Invoke(this);
