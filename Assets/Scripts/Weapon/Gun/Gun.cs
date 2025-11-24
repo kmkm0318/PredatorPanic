@@ -49,12 +49,7 @@ public class Gun : Weapon
     private void InitPool()
     {
         _trailPool = new ObjectPool<TrailRenderer>(
-            () =>
-            {
-                var trail = Instantiate(_gunData.TrailRendererPrefab);
-                trail.gameObject.SetActive(false);
-                return trail;
-            },
+            () => Instantiate(_gunData.TrailRendererPrefab),
             (trail) => trail.gameObject.SetActive(true),
             (trail) => trail.gameObject.SetActive(false),
             (trail) => Destroy(trail.gameObject),
@@ -62,12 +57,7 @@ public class Gun : Weapon
         );
 
         _bulletPool = new ObjectPool<Bullet>(
-            () =>
-            {
-                var bulletInstance = Instantiate(_gunData.BulletPrefab);
-                bulletInstance.gameObject.SetActive(false);
-                return bulletInstance;
-            },
+            () => Instantiate(_gunData.BulletPrefab),
             (bullet) => bullet.gameObject.SetActive(true),
             (bullet) => bullet.gameObject.SetActive(false),
             (bullet) => Destroy(bullet.gameObject),

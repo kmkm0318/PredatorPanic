@@ -75,17 +75,8 @@ public class EnemyManager : MonoBehaviour
     private void InitPool(EnemyData enemyData)
     {
         ObjectPool<Enemy> pool = new(
-            () =>
-            {
-                Enemy enemy = Instantiate(enemyData.EnemyPrefab);
-                enemy.gameObject.SetActive(false);
-                return enemy;
-            },
-            (enemy) =>
-            {
-                enemy.gameObject.SetActive(true);
-                enemy.Init(enemyData);
-            },
+            () => Instantiate(enemyData.EnemyPrefab),
+            (enemy) => enemy.gameObject.SetActive(true),
             (enemy) => enemy.gameObject.SetActive(false),
             (enemy) => Destroy(enemy.gameObject),
             false,
@@ -152,6 +143,7 @@ public class EnemyManager : MonoBehaviour
     {
         var pool = GetPool(enemyData);
         var enemy = pool.Get();
+        enemy.Init(enemyData);
         enemy.transform.position = spawnPoint;
         return enemy;
     }

@@ -29,6 +29,7 @@ public class LevelUpRewardUI : ShowHideUI
     private void Awake()
     {
         InitPool();
+        Hide(0f);
     }
 
     private void InitPool()
@@ -44,11 +45,9 @@ public class LevelUpRewardUI : ShowHideUI
         );
     }
 
-    // 보상 선택 UI들 표시 및 이벤트 구독
-    public void ShowRewards(List<LevelUpRewardData> rewardDatas)
+    // 보상 선택 UI 설정
+    public void SetRewards(List<LevelUpRewardData> rewardDatas)
     {
-        Show();
-
         for (int i = 0; i < rewardDatas.Count; i++)
         {
             var rewardData = rewardDatas[i];

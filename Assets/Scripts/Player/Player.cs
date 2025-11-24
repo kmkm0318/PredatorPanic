@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -60,13 +61,12 @@ public class Player : MonoBehaviour
         Health = GetComponent<Health>();
     }
 
-    public void Init(PlayerData playerData, WeaponData weaponData)
+    public void Init(PlayerData playerData)
     {
         _playerData = playerData;
 
         InitStats();
         InitComponents();
-        AddWeapon(weaponData);
     }
 
     // 스탯 초기화
@@ -109,53 +109,44 @@ public class Player : MonoBehaviour
 
     #region 무기
     // WeaponData로 무기 추가
-    public void AddWeapon(WeaponData weaponData)
+    public bool TryAddWeapon(WeaponData weaponData)
     {
-        var curWeaponCount = _playerAttack.WeaponCount;
-        if (curWeaponCount >= _playerData.WeaponCountMax)
-        {
-            Debug.LogWarning("최대 무기 개수 초과");
-            return;
-        }
-
-        var weaponPivot = _playerVisual.GetWeaponPivot(curWeaponCount);
-        if (weaponPivot == null)
-        {
-            Debug.LogWarning("무기 피벗이 null입니다.");
-            return;
-        }
-
         if (weaponData == null || weaponData.WeaponPrefab == null)
         {
             Debug.LogWarning("무기 데이터가 올바르지 않습니다.");
-            return;
+            return false;
         }
 
+        var curWeaponCount = _playerAttack.Weapons.Count;
+        if (curWeaponCount >= _playerData.WeaponCountMax)
+        {
+            Debug.LogWarning("최대 무기 개수 초과");
+            return false;
+        }
+
+        var weaponPivot = _playerVisual.GetNewWeaponPivot();
         var weapon = Instantiate(weaponData.WeaponPrefab, weaponPivot);
         weapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         weapon.Init(weaponData, this);
         _playerAttack.AddWeapon(weapon);
+
+        return true;
     }
 
     //Weapon으로 무기 제거
     public void RemoveWeapon(Weapon weapon)
     {
-        if (weapon == null)
-        {
-            Debug.LogWarning("제거할 무기가 null입니다.");
-            return;
-        }
+        var idx = _playerAttack.RemoveWeapon(weapon);
 
-        bool removed = _playerAttack.RemoveWeapon(weapon);
-        if (removed)
+        //무기 제거 성공 시 피벗과 함께 무기 오브젝트 제거
+        if (idx >= 0)
         {
-            Destroy(weapon.gameObject);
-        }
-        else
-        {
-            Debug.LogWarning("무기 제거에 실패했습니다.");
+            _playerVisual.RemoveWeaponPivot(idx);
         }
     }
+
+    //무기 리스트 반환
+    public List<Weapon> Weapons => _playerAttack.Weapons;
     #endregion
 
     // 시네머신 카메라의 팔로우 타겟 설정
@@ -211,7 +202,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region 재화 획득
+    #region 재화 획득 및 사용 시도
     public void AddTooth(int amount)
     {
         float toothGainRate = _playerStats.GetStat(PlayerStatType.ToothGainRate).FinalValue;
@@ -220,12 +211,30 @@ public class Player : MonoBehaviour
         OnToothChanged?.Invoke(Tooth);
     }
 
+    public bool TrySpendTooth(int amount)
+    {
+        if (Tooth < amount) return false;
+
+        Tooth -= amount;
+        OnToothChanged?.Invoke(Tooth);
+        return true;
+    }
+
     public void AddDNA(int amount)
     {
         float dnaGainRate = _playerStats.GetStat(PlayerStatType.DNAGainRate).FinalValue;
         amount = Mathf.FloorToInt(amount * dnaGainRate);
         DNA += amount;
         OnDNAChanged?.Invoke(DNA);
+    }
+
+    public bool TrySpendDNA(int amount)
+    {
+        if (DNA < amount) return false;
+
+        DNA -= amount;
+        OnDNAChanged?.Invoke(DNA);
+        return true;
     }
     #endregion
 

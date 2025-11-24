@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093c09d5b2f9974ab03018333ab26c4, type: 3}
   m_Name: 0_Pistol
   m_EditorClassIdentifier: Assembly-CSharp::GunData
+  _weaponName: Pistol
   _weaponPrefab: {fileID: 2572145977664975070, guid: 32f715ab434ed454fa9d2a698e4ff4bb, type: 3}
+  _icon: {fileID: 21300000, guid: 13faf2dc47be6cc44846d4faf93dff47, type: 3}
+  _basePrice: 0
   _type: 0
   _name: Pistol
   _isHitScan: 0

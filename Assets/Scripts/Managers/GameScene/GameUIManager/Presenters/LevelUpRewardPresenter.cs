@@ -17,6 +17,7 @@ public class LevelUpRewardPresenter : IPresenter
         _levelUpRewardUI = levelUpRewardUI;
     }
 
+    #region 초기화 및 리셋
     public void Init()
     {
         RegisterEvents();
@@ -26,16 +27,23 @@ public class LevelUpRewardPresenter : IPresenter
     {
         UnregisterEvents();
     }
+    #endregion
 
     #region 이벤트 구독, 해제
     private void RegisterEvents()
     {
-        _levelUpRewardUI.OnRewardSelected += HandleRewardSelected;
+        if (_levelUpRewardUI)
+        {
+            _levelUpRewardUI.OnRewardSelected += HandleRewardSelected;
+        }
     }
 
     private void UnregisterEvents()
     {
-        _levelUpRewardUI.OnRewardSelected -= HandleRewardSelected;
+        if (_levelUpRewardUI)
+        {
+            _levelUpRewardUI.OnRewardSelected -= HandleRewardSelected;
+        }
     }
     #endregion
 
@@ -52,15 +60,19 @@ public class LevelUpRewardPresenter : IPresenter
     /// </summary>
     public bool TryShowRewards()
     {
+        // 보상 데이터 리스트에서 랜덤으로 보상 선택
         var rewardDataList = DataManager.Instance.LevelUpRewardDataList;
         var rewardDatas = rewardDataList.LevelUpRewardDatas.GetRandomElements(_rewardCount);
 
+        // 보상이 없으면 false 반환
         if (rewardDatas.Count == 0)
         {
             return false;
         }
 
-        _levelUpRewardUI.ShowRewards(rewardDatas);
+        // 보상 선택 UI 설정 및 표시
+        _levelUpRewardUI.SetRewards(rewardDatas);
+        _levelUpRewardUI.Show();
 
         return true;
     }

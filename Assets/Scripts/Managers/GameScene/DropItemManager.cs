@@ -57,7 +57,6 @@ public class DropItemManager : MonoBehaviour
             {
                 var item = Instantiate(dropItemData.ItemPrefab);
                 item.Init(dropItemData);
-                item.gameObject.SetActive(false);
                 return item;
             },
             (item) => item.gameObject.SetActive(true),

@@ -9,8 +9,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [Header("Game Data")]
-    [SerializeField] private GameManagerData _gameManagerData;
-    public GameManagerData GameManagerData => _gameManagerData;
+    [SerializeField] private GameData _gameData;
+    public GameData GameData => _gameData;
 
     [Header("Player")]
     [SerializeField] private PlayerData _playerData;
@@ -20,10 +20,12 @@ public class GameManager : MonoBehaviour
 
     [Header("Managers")]
     [SerializeField] private EnemyManager _enemyManager;
-    public EnemyManager EnemyManager => _enemyManager;
     [SerializeField] private DropItemManager _dropItemManager;
-    public DropItemManager DropItemManager => _dropItemManager;
+    [SerializeField] private ShopManager _shopManager;
     [SerializeField] private GameUIManager _gameUIManager;
+    public EnemyManager EnemyManager => _enemyManager;
+    public DropItemManager DropItemManager => _dropItemManager;
+    public ShopManager ShopManager => _shopManager;
     public GameUIManager GameUIManager => _gameUIManager;
 
     #region 플레이어
@@ -59,7 +61,7 @@ public class GameManager : MonoBehaviour
     {
         InitPlayer();
         InitCameraTarget();
-        _gameUIManager.Init(Player);
+        InitManagers();
         CurrentRound = 1;
     }
 
@@ -67,7 +69,8 @@ public class GameManager : MonoBehaviour
     private void InitPlayer()
     {
         Player = Instantiate(_playerData.PlayerPrefab, _playerSpawnPoint.position, _playerSpawnPoint.rotation);
-        Player.Init(_playerData, _weaponData);
+        Player.Init(_playerData);
+        Player.TryAddWeapon(_weaponData);
     }
 
     // 시네머신 카메라의 팔로우 타겟 설정
@@ -77,6 +80,13 @@ public class GameManager : MonoBehaviour
         {
             Player.SetCameraFollowTarget(_cinemachineCamera);
         }
+    }
+
+    //매니저 클래스 초기화. UI는 마지막에 초기화
+    private void InitManagers()
+    {
+        _shopManager.Init(Player);
+        _gameUIManager.Init(this);
     }
     #endregion
 

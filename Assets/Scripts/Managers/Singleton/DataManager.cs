@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -13,4 +12,12 @@ public class DataManager : Singleton<DataManager>
     [Header("Level Up Reward Data List")]
     [SerializeField] private LevelUpRewardDataList _levelUpRewardDataList;
     public LevelUpRewardDataList LevelUpRewardDataList => _levelUpRewardDataList;
+
+    [Header("Weapon Data List")]
+    [SerializeField] private WeaponDataList _weaponDataList;
+    public WeaponDataList WeaponDataList => _weaponDataList;
+
+    [Header("Item Data List")]
+    [SerializeField] private ItemDataList _itemDataList;
+    public ItemDataList ItemDataList => _itemDataList;
 }

@@ -17,13 +17,13 @@ public class GamePlayingState : GameBaseState
         RegisterEvents();
 
         //적 스폰 코루틴 시작
-        int enemySpawnCount = GameManager.GameManagerData.BaseEnemySpawnCount
+        int enemySpawnCount = GameManager.GameData.BaseEnemySpawnCount
         + (GameManager.CurrentRound - 1)
-        * GameManager.GameManagerData.EnemySpawnCountIncrementPerRound;
+        * GameManager.GameData.EnemySpawnCountIncrementPerRound;
 
-        float enemySpawnSpeed = GameManager.GameManagerData.BaseEnemySpawnSpeed
+        float enemySpawnSpeed = GameManager.GameData.BaseEnemySpawnSpeed
         + (GameManager.CurrentRound - 1)
-        * GameManager.GameManagerData.EnemySpawnSpeedIncrementPerRound;
+        * GameManager.GameData.EnemySpawnSpeedIncrementPerRound;
 
         float enemySpawnInterval = 1f / enemySpawnSpeed;
 

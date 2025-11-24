@@ -7,30 +7,39 @@ using UnityEngine;
 /// </summary>
 public class PlayerAttack : MonoBehaviour
 {
-    private List<Weapon> _weapons = new();
-    public int WeaponCount => _weapons.Count;
+    //장착된 무기들
+    public List<Weapon> Weapons { get; private set; } = new();
 
+    //Weapon으로 무기 추가
     public void AddWeapon(Weapon weapon)
     {
-        _weapons.Add(weapon);
+        Weapons.Add(weapon);
     }
 
-    public bool RemoveWeapon(Weapon weapon)
+    //Weapon으로 무기 제거. 무기 인덱스 반환
+    public int RemoveWeapon(Weapon weapon)
     {
-        return _weapons.Remove(weapon);
+        int idx = Weapons.IndexOf(weapon);
+        if (idx >= 0)
+        {
+            Weapons.RemoveAt(idx);
+        }
+        return idx;
     }
 
+    //공격 시작
     public void StartAttack()
     {
-        foreach (var weapon in _weapons)
+        foreach (var weapon in Weapons)
         {
             weapon.StartAttack();
         }
     }
 
+    //공격 종료
     public void StopAttack()
     {
-        foreach (var weapon in _weapons)
+        foreach (var weapon in Weapons)
         {
             weapon.StopAttack();
         }

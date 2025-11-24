@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public abstract class Weapon : MonoBehaviour
 {
-    protected WeaponData WeaponData { get; private set; }
+    public WeaponData WeaponData { get; private set; }
     protected Player Player { get; private set; }
     protected bool IsAttacking { get; private set; }
 

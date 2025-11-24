@@ -11,10 +11,10 @@ public class GameRoundStartState : GameBaseState
     public override void Enter()
     {
         //라운드 시작 딜레이 타이머 초기화
-        _roundStartDelayTimer = GameManager.GameManagerData.RoundStartDelay;
+        _roundStartDelayTimer = GameManager.GameData.RoundStartDelay;
 
         //라운드 타이머 초기화
-        GameManager.RoundTimer = GameManager.GameManagerData.RoundDuration;
+        GameManager.RoundTimer = GameManager.GameData.RoundDuration;
     }
 
     public override void Update()

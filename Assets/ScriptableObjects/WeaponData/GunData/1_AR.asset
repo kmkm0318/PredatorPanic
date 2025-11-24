@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093c09d5b2f9974ab03018333ab26c4, type: 3}
   m_Name: 1_AR
   m_EditorClassIdentifier: Assembly-CSharp::GunData
+  _weaponName: AR
   _weaponPrefab: {fileID: 5375874432641419008, guid: 178317e2884b7874f8afc26c03a127b1, type: 3}
+  _icon: {fileID: 21300000, guid: 13faf2dc47be6cc44846d4faf93dff47, type: 3}
+  _basePrice: 0
   _type: 1
   _name: AR
   _isHitScan: 0
