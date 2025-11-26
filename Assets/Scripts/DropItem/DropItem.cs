@@ -42,10 +42,14 @@ public abstract class DropItem : MonoBehaviour
     {
         if (_player == null) yield break;
 
+        //플레이어 Transform과 오프셋
+        var playerTransform = _player.transform;
+        var startOffset = Vector3.up * DropItemData.FollowHeight;
+        var endOffset = Vector3.up * DropItemData.TargetHeight;
+
         //베지어 곡선 적용
         Vector3 p0 = transform.position;
-        Vector3 p1 = 2 * p0 - _player.transform.position + Vector3.up * DropItemData.FollowHeight;
-
+        Vector3 p1 = 2 * p0 - playerTransform.position + startOffset;
         float duration = DropItemData.FollowDuration;
         float elapsed = 0f;
 
@@ -55,14 +59,14 @@ public abstract class DropItem : MonoBehaviour
             float v = 1 - u;
 
             //베지어 곡선 공식
-            Vector3 newPos = v * v * p0 + 2 * v * u * p1 + u * u * _player.transform.position;
+            Vector3 newPos = v * v * p0 + 2 * v * u * p1 + u * u * (playerTransform.position + endOffset);
             transform.position = newPos;
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = _player.transform.position;
+        transform.position = playerTransform.position + endOffset;
         OnPickup(_player);
     }
 

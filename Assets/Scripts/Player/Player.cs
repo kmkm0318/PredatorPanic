@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
     private PlayerData _playerData;
     #endregion
 
+    #region 레퍼런스
+    public GameManager GameManager { get; private set; }
+    #endregion
+
     #region 컴포넌트
     private PlayerController _playerController;
     private PlayerAttack _playerAttack;
@@ -61,9 +65,10 @@ public class Player : MonoBehaviour
         Health = GetComponent<Health>();
     }
 
-    public void Init(PlayerData playerData)
+    public void Init(PlayerData playerData, GameManager gameManager)
     {
         _playerData = playerData;
+        GameManager = gameManager;
 
         InitStats();
         InitComponents();
@@ -113,14 +118,14 @@ public class Player : MonoBehaviour
     {
         if (weaponData == null || weaponData.WeaponPrefab == null)
         {
-            Debug.LogWarning("무기 데이터가 올바르지 않습니다.");
+            "무기 데이터가 올바르지 않습니다.".LogWarning();
             return false;
         }
 
         var curWeaponCount = _playerAttack.Weapons.Count;
         if (curWeaponCount >= _playerData.WeaponCountMax)
         {
-            Debug.LogWarning("최대 무기 개수 초과");
+            "최대 무기 개수 초과".Log();
             return false;
         }
 

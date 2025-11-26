@@ -62,8 +62,9 @@ public class ShopPresenter : IPresenter
         //구매 성공 시 UI 갱신
         if (success)
         {
-            _shopManager.RemoveShopProduct(product);
             _shopUI.SetShopProducts(_shopManager.BuyProducts);
+            _shopUI.SetWeaponInventoryProducts(_shopManager.WeaponSellProducts);
+            _shopUI.SetItemInventoryProducts(_shopManager.ItemSellProducts);
         }
     }
 

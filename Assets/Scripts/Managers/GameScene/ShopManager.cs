@@ -78,12 +78,6 @@ public class ShopManager : MonoBehaviour
         return true;
     }
 
-    //상점 상품 제거
-    public bool RemoveShopProduct(IProduct product)
-    {
-        return BuyProducts.Remove(product);
-    }
-
     //플레이어 무기 새로고침
     public void RefreshWeaponInventoryProducts()
     {
@@ -113,21 +107,29 @@ public class ShopManager : MonoBehaviour
         //플레이어의 이빨을 통해서 구매 시도
         if (_player.TrySpendTooth(product.Price))
         {
+            bool success = false;
             //무기 추가 시도
             if (product is WeaponShopProduct weaponProduct)
             {
-                return _player.TryAddWeapon(weaponProduct.WeaponData);
+                success = _player.TryAddWeapon(weaponProduct.WeaponData);
             }
             //아이템 추가 시도(미구현)
             else if (product is ItemShopProduct itemProduct)
             {
                 // 아이템은 미구현
                 // _player.AddItem(itemProduct.ItemData);
-                return false;
+                success = false;
             }
-            //그외의 경우
+
+            if (success)
+            {
+                //구매 성공 시 상품 제거
+                BuyProducts.Remove(product);
+                return true;
+            }
             else
             {
+                //구매 실패
                 return false;
             }
         }

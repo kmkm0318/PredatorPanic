@@ -47,6 +47,9 @@ public class GamePlayingState : GameBaseState
 
     public override void Exit()
     {
+        //입력 모드 변경
+        InputManager.Instance.ChangeInputMode(InputMode.None);
+
         //이벤트 구독 해제
         UnregisterEvents();
 

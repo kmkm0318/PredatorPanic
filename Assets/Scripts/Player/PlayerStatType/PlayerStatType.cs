@@ -14,4 +14,7 @@ public enum PlayerStatType
     EXPGainRate,
     ToothGainRate,
     DNAGainRate,
+    BulletCount,
+    PenetrationCount,
+    RicochetCount,
 }

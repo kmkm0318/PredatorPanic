@@ -24,11 +24,14 @@ public class GamePauseState : GameBaseState
 
     public override void Exit()
     {
-        //인풋 액션 이벤트 구독 해제
-        UnregisterEvents();
-
         //시간 흐름 정상화
         Time.timeScale = 1f;
+
+        //입력 모드 변경
+        InputManager.Instance.ChangeInputMode(InputMode.None);
+
+        //인풋 액션 이벤트 구독 해제
+        UnregisterEvents();
     }
 
     #region 이벤트 및 이벤트 구독, 해제

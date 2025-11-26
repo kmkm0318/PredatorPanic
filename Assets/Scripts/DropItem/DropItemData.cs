@@ -27,8 +27,9 @@ public class DropItemData : ScriptableObject
     [SerializeField] private bool _isFollow = true;
     [SerializeField] private float _followHeight = 2f;
     [SerializeField] private float _followDuration = 1f;
-
+    [SerializeField] private float _targetHeight = 1f;
     public bool IsFollow => _isFollow;
     public float FollowHeight => _followHeight;
     public float FollowDuration => _followDuration;
+    public float TargetHeight => _targetHeight;
 }

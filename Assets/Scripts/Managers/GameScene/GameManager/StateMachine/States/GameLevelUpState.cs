@@ -33,14 +33,17 @@ public class GameLevelUpState : GameBaseState
 
     public override void Exit()
     {
+        //시간 흐름 정상화
+        Time.timeScale = 1f;
+
+        //입력 모드 변경
+        InputManager.Instance.ChangeInputMode(InputMode.None);
+
         //이벤트 구독 해제
         UnregisterEvents();
 
         //보상 UI 숨기기
         GameManager.GameUIManager.LevelUpRewardPresenter.HideRewards();
-
-        //시간 흐름 정상화
-        Time.timeScale = 1f;
     }
 
     #region 이벤트

@@ -18,12 +18,11 @@ MonoBehaviour:
   _basePrice: 0
   _type: 0
   _name: Pistol
-  _isHitScan: 0
-  _bulletPrefab: {fileID: -6739877800168031272, guid: 68be54c0a018d304c975597cedeb26fe, type: 3}
+  _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}
+  _trailData: {fileID: 11400000, guid: 4cbd0840957cbbc4aa53f66d7d2658ef, type: 2}
   _hitLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  _trailRendererPrefab: {fileID: 6185253221049616136, guid: c36662d8bd2e7384ab6659e0c54c2421, type: 3}
   _initialStats:
   - _statType: 0
     _value: 10
@@ -33,3 +32,13 @@ MonoBehaviour:
     _value: 50
   - _statType: 3
     _value: 50
+  - _statType: 4
+    _value: 0
+  - _statType: 5
+    _value: 1.5
+  - _statType: 6
+    _value: 1
+  - _statType: 7
+    _value: 0
+  - _statType: 8
+    _value: 0

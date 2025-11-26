@@ -37,6 +37,12 @@ MonoBehaviour:
     _value: 1
   - _statType: 10
     _value: 1
+  - _statType: 11
+    _value: 0
+  - _statType: 12
+    _value: 0
+  - _statType: 13
+    _value: 0
   _baseExp: 100
   _expGrowthRate: 0.25
   _weaponCountMax: 6

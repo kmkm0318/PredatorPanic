@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -80,5 +81,86 @@ public static class CombatUtility
         float playerAttackSpeed = player.PlayerStats.GetStat(PlayerStatType.AttackSpeed).FinalValue;
 
         return gunFireSpeed * playerAttackSpeed;
+    }
+
+    /// <summary>
+    /// 총알 수 계산 함수
+    /// </summary>
+    public static int CalculateBulletCount(Player player, Gun gun)
+    {
+        float baseBulletCount = gun.GunStats.GetStat(GunStatType.BulletCount).FinalValue;
+        float additionalBulletCount = player.PlayerStats.GetStat(PlayerStatType.BulletCount).FinalValue;
+
+        return (int)(baseBulletCount + additionalBulletCount);
+    }
+
+    /// <summary>
+    /// 관통 수 계산 함수
+    /// </summary>
+    public static int CalculatePenetrationCount(Player player, Gun gun)
+    {
+        float basePenetrationCount = gun.GunStats.GetStat(GunStatType.PenetrationCount).FinalValue;
+        float additionalPenetrationCount = player.PlayerStats.GetStat(PlayerStatType.PenetrationCount).FinalValue;
+
+        return (int)(basePenetrationCount + additionalPenetrationCount);
+    }
+
+    /// <summary>
+    /// 튕김 수 계산 함수
+    /// </summary>
+    public static int CalculateRicochetCount(Player player, Gun gun)
+    {
+        float baseRicochetCount = gun.GunStats.GetStat(GunStatType.RicochetCount).FinalValue;
+        float additionalRicochetCount = player.PlayerStats.GetStat(PlayerStatType.RicochetCount).FinalValue;
+
+        return (int)(baseRicochetCount + additionalRicochetCount);
+    }
+
+    /// <summary>
+    /// 가장 가까운 타겟 찾기
+    /// </summary>
+    public static Collider GetNearestCollider(Vector3 origin, float range, LayerMask targetLayerMask, HashSet<Collider> excepts = null)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(origin, range, targetLayerMask);
+
+        Collider nearestCollider = null;
+        float minDistSqr = float.MaxValue;
+
+        foreach (var collider in hitColliders)
+        {
+            if (excepts != null && excepts.Contains(collider)) continue;
+
+            float curDistSqr = (collider.transform.position - origin).sqrMagnitude;
+            if (curDistSqr < minDistSqr)
+            {
+                minDistSqr = curDistSqr;
+                nearestCollider = collider;
+            }
+        }
+
+        return nearestCollider;
+    }
+
+    /// <summary>
+    /// 총알을 여러 개 발사할 때를 위해 퍼짐 각도 계산 함수
+    /// </summary>
+    /// <param name="fireDirection">기본 발사 방향</param>
+    /// <param name="idx">현재 총알 인덱스</param>
+    /// <param name="totalCount">총 발사할 총알 수</param>
+    /// <param name="spreadAngle">각 총알 방향 사이 각도 (기본값 1도)</param>
+    public static Vector3 GetSpreadDirection(Vector3 fireDirection, int idx, int totalCount, float spreadAngle = 1f)
+    {
+        //총알이 1개일 때는 퍼짐 없음
+        if (totalCount == 1) return fireDirection;
+
+        //퍼짐 각도 계산
+
+        //가장 왼쪽 각도부터 시작
+        float startAngle = -spreadAngle * (totalCount - 1) / 2f;
+        float angle = startAngle + spreadAngle * idx;
+
+        Quaternion spreadRotation = Quaternion.AngleAxis(angle, Vector3.up);
+        Vector3 spreadDirection = spreadRotation * fireDirection;
+        return spreadDirection.normalized;
     }
 }

@@ -15,16 +15,14 @@ public class GunData : WeaponData
     public string Name => _name;
 
     [Header("Fire Data")]
-    [SerializeField] private bool _isHitScan = true;
-    [SerializeField] private Bullet _bulletPrefab;
+    // [SerializeField] private bool _isHitScan = true; //히트스캔 사용하지 않음
+    [SerializeField] private BulletData _bulletData;
+    [SerializeField] private TrailData _trailData;
     [SerializeField] private LayerMask _hitLayerMask;
-    public bool IsHitScan => _isHitScan;
-    public Bullet BulletPrefab => _bulletPrefab;
+    // public bool IsHitScan => _isHitScan; //히트스캔 사용하지 않음
+    public BulletData BulletData => _bulletData;
+    public TrailData TrailData => _trailData;
     public LayerMask HitLayerMask => _hitLayerMask;
-
-    [Header("Trail Renderer Prefab")]
-    [SerializeField] private TrailRenderer _trailRendererPrefab;
-    public TrailRenderer TrailRendererPrefab => _trailRendererPrefab;
 
     [Header("Stats")]
     [SerializeField] private List<StatEntity<GunStatType>> _initialStats;

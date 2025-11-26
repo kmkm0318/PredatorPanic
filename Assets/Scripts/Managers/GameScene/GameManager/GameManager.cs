@@ -14,18 +14,22 @@ public class GameManager : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] private PlayerData _playerData;
-    [SerializeField] private Transform _playerSpawnPoint;
     [SerializeField] private WeaponData _weaponData;
+    [SerializeField] private Transform _playerSpawnPoint;
     [SerializeField] private CinemachineCamera _cinemachineCamera;
 
     [Header("Managers")]
     [SerializeField] private EnemyManager _enemyManager;
     [SerializeField] private DropItemManager _dropItemManager;
     [SerializeField] private ShopManager _shopManager;
+    [SerializeField] private BulletManager _bulletManager;
+    [SerializeField] private TrailManager _trailManager;
     [SerializeField] private GameUIManager _gameUIManager;
     public EnemyManager EnemyManager => _enemyManager;
     public DropItemManager DropItemManager => _dropItemManager;
     public ShopManager ShopManager => _shopManager;
+    public BulletManager BulletManager => _bulletManager;
+    public TrailManager TrailManager => _trailManager;
     public GameUIManager GameUIManager => _gameUIManager;
 
     #region 플레이어
@@ -69,7 +73,7 @@ public class GameManager : MonoBehaviour
     private void InitPlayer()
     {
         Player = Instantiate(_playerData.PlayerPrefab, _playerSpawnPoint.position, _playerSpawnPoint.rotation);
-        Player.Init(_playerData);
+        Player.Init(_playerData, this);
         Player.TryAddWeapon(_weaponData);
     }
 

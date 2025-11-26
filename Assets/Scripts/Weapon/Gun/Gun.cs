@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -10,12 +11,18 @@ using UnityEngine.Pool;
 /// </summary>
 public class Gun : Weapon
 {
-    #region 이펙트이면서 발사 지점
+    #region 비주얼 컴포넌트
+    [SerializeField] private GunVisual _gunVisual;
     [SerializeField] private ParticleSystem _muzzleFlash;
     #endregion
 
     #region 데이터
     private GunData _gunData;
+    #endregion
+
+    #region 레퍼런스 데이터
+    private BulletManager _bulletManager;
+    private TrailManager _trailManager;
     #endregion
 
     #region 변수
@@ -27,11 +34,6 @@ public class Gun : Weapon
     public Stats<GunStatType> GunStats => _gunStats;
     #endregion
 
-    #region 오브젝트 풀
-    private ObjectPool<TrailRenderer> _trailPool;
-    private ObjectPool<Bullet> _bulletPool;
-    #endregion
-
     #region 타이머
     private float _nextTimeToFire = 0f;
     #endregion
@@ -41,28 +43,18 @@ public class Gun : Weapon
         base.Init(weaponData, player);
 
         _gunData = weaponData as GunData;
+
+        if (_gunData == null)
+        {
+            Debug.LogError("Gun Init Error: Invalid GunData");
+            return;
+        }
+
+        _bulletManager = player.GameManager.BulletManager;
+        _trailManager = player.GameManager.TrailManager;
+
         _gunStats = new(_gunData.InitialStats);
         _mainCamera = Camera.main;
-        InitPool();
-    }
-
-    private void InitPool()
-    {
-        _trailPool = new ObjectPool<TrailRenderer>(
-            () => Instantiate(_gunData.TrailRendererPrefab),
-            (trail) => trail.gameObject.SetActive(true),
-            (trail) => trail.gameObject.SetActive(false),
-            (trail) => Destroy(trail.gameObject),
-            false
-        );
-
-        _bulletPool = new ObjectPool<Bullet>(
-            () => Instantiate(_gunData.BulletPrefab),
-            (bullet) => bullet.gameObject.SetActive(true),
-            (bullet) => bullet.gameObject.SetActive(false),
-            (bullet) => Destroy(bullet.gameObject),
-            false
-        );
     }
 
     private void Update()
@@ -72,15 +64,23 @@ public class Gun : Weapon
 
     private void HandleFire()
     {
+        //공격 중이 아니면 반환
         if (!IsAttacking) return;
+
+        //다음 발사 시간 전이면 반환
         if (_nextTimeToFire > Time.time) return;
 
+        //총 발사
         Fire();
 
+        //다음 발사 시간 계산
         float fireSpeed = CombatUtility.CalculateFireSpeed(Player, this);
         float fireInterval = 1f / fireSpeed;
 
         _nextTimeToFire = Time.time + fireInterval;
+
+        //발사 애니메이션 재생
+        _gunVisual.PlayFire(fireSpeed);
     }
 
     #region 히트스캔 및 총알 발사
@@ -104,113 +104,179 @@ public class Gun : Weapon
             fireHitInfo = new RaycastHit { point = fireRay.origin + fireRay.direction * range };
         }
 
-        //히트스캔 발사 또는 총알 발사
-        if (_gunData.IsHitScan)
+        #region 히트스캔 사용하지 않음
+        // //히트스캔 발사 또는 총알 발사
+        // if (_gunData.IsHitScan)
+        // {
+        //     FireHitscan(fireHitInfo);
+        // }
+        // else
+        // {
+        //     Vector3 fireDirection = (fireHitInfo.point - _muzzleFlash.transform.position).normalized;
+        //     FireBullet(fireDirection);
+        // }
+        #endregion
+
+        Vector3 fireDirection = (fireHitInfo.point - _muzzleFlash.transform.position).normalized;
+
+        int bulltCount = CombatUtility.CalculateBulletCount(Player, this);
+        int penetrationCount = CombatUtility.CalculatePenetrationCount(Player, this);
+        int ricochetCount = CombatUtility.CalculateRicochetCount(Player, this);
+
+        for (int i = 0; i < bulltCount; i++)
         {
-            FireHitscan(fireHitInfo);
-        }
-        else
-        {
-            Vector3 fireDirection = (fireHitInfo.point - _muzzleFlash.transform.position).normalized;
-            FireBullet(fireDirection);
+            var curDirection = CombatUtility.GetSpreadDirection(fireDirection, i, bulltCount);
+            FireBullet(curDirection, penetrationCount, ricochetCount);
         }
     }
 
-    //히트스캔 발사
-    private void FireHitscan(RaycastHit fireHitInfo)
-    {
-        //데미지 처리
-        if (fireHitInfo.collider != null && fireHitInfo.collider.TryGetComponent<IDamageable>(out var damageable))
-        {
-            float distance = Vector3.Distance(_muzzleFlash.transform.position, fireHitInfo.point);
-            ApplyDamage(damageable, distance);
-        }
+    #region 히트스캔 사용하지 않음
+    // //히트스캔 발사
+    // private void FireHitscan(RaycastHit fireHitInfo)
+    // {
+    //     //데미지 처리
+    //     if (fireHitInfo.collider != null && fireHitInfo.collider.TryGetComponent<IDamageable>(out var damageable))
+    //     {
+    //         float distance = Vector3.Distance(_muzzleFlash.transform.position, fireHitInfo.point);
+    //         ApplyDamage(damageable, distance);
+    //     }
 
-        //총알 궤적 이펙트 생성
-        StartCoroutine(TrailCoroutine(_muzzleFlash.transform.position, fireHitInfo.point));
-    }
+    //     //총알 궤적 이펙트 생성
+    //     StartCoroutine(TrailCoroutine(_muzzleFlash.transform.position, fireHitInfo.point));
+    // }
 
-    //총알 궤적 이펙트 코루틴
-    private IEnumerator TrailCoroutine(Vector3 startPosition, Vector3 endPosition)
-    {
-        var trail = _trailPool.Get();
-        trail.transform.position = startPosition;
-        trail.Clear();
-        trail.emitting = true;
+    // //총알 궤적 이펙트 코루틴
+    // private IEnumerator TrailCoroutine(Vector3 startPosition, Vector3 endPosition)
+    // {
+    //     var trail = _trailManager.GetTrail(_gunData.TrailData);
+    //     var trailRenderer = trail.TrailRenderer;
+    //     trailRenderer.transform.position = startPosition;
+    //     trailRenderer.Clear();
+    //     trailRenderer.emitting = true;
 
-        yield return null; // 한 프레임 대기하여 Trail Renderer가 시작 위치에 위치하도록 함
+    //     yield return null; // 한 프레임 대기하여 Trail Renderer가 시작 위치에 위치하도록 함
 
-        float distance = Vector3.Distance(startPosition, endPosition);
-        float speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
-        float duration = distance / speed;
-        float elapsedTime = 0f;
+    //     float distance = Vector3.Distance(startPosition, endPosition);
+    //     float speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
+    //     float duration = distance / speed;
+    //     float elapsedTime = 0f;
 
-        while (elapsedTime < duration)
-        {
-            trail.transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+    //     while (elapsedTime < duration)
+    //     {
+    //         trailRenderer.transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / duration);
+    //         elapsedTime += Time.deltaTime;
+    //         yield return null;
+    //     }
 
-        trail.transform.position = endPosition;
-        trail.emitting = false;
-        StartCoroutine(DelayDisable(trail));
-    }
-
-    //총알 궤적 이펙트 지연 해제
-    private IEnumerator DelayDisable(TrailRenderer trail)
-    {
-        yield return new WaitForSeconds(trail.time);
-        _trailPool.Release(trail);
-    }
+    //     trailRenderer.transform.position = endPosition;
+    //     trailRenderer.emitting = false;
+    //     StartCoroutine(DelayDisable(trail));
+    // }
+    #endregion
 
     //총알 발사
-    private void FireBullet(Vector3 fireDirection)
+    private void FireBullet(Vector3 fireDirection, int penetrationCount = 0, int ricochetCount = 0)
     {
-        var bullet = _bulletPool.Get();
+        var bullet = _bulletManager.GetBullet(_gunData.BulletData);
         bullet.OnBulletCollision += OnBulletCollision;
         bullet.transform.position = _muzzleFlash.transform.position;
+
         float speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
         Vector3 initialSpeed = fireDirection * speed;
-        float lifetime = _gunStats.GetStat(GunStatType.Range).FinalValue / speed;
-        bullet.Fire(initialSpeed, lifetime);
 
-        var trail = _trailPool.Get();
+        float lifetime = _gunStats.GetStat(GunStatType.Range).FinalValue / speed;
+
+        bullet.Fire(initialSpeed, lifetime, penetrationCount, ricochetCount);
+
+        var trail = _trailManager.GetTrail(_gunData.TrailData);
+
         if (trail != null)
         {
-            trail.transform.SetParent(bullet.transform, false);
-            trail.transform.localPosition = Vector3.zero;
-            trail.Clear();
-            trail.emitting = true;
+            bullet.AttachTrail(trail);
         }
     }
 
     //총알 충돌 처리
     private void OnBulletCollision(Bullet bullet, Collision collision)
     {
+        if (collision == null)
+        {
+            ReleaseBullet(bullet);
+            return;
+        }
+
+        //충돌 지점 처리
+        var contact = collision.GetContact(0);
+
+        if (!contact.otherCollider.TryGetComponent<IDamageable>(out var damageable))
+        {
+            //적 이외에 땅, 장애물과 충돌 시
+            ReleaseBullet(bullet);
+            return;
+        }
+
+        //적에게 충돌 시
+        float distance = Vector3.Distance(bullet.SpawnPos, contact.point);
+        ApplyDamage(damageable, distance);
+
+        //튕김 시도
+        if (bullet.TryRicochet())
+        {
+            //가장 가까운 적 찾기. 현재 적 제외
+            float halfRange = _gunStats.GetStat(GunStatType.Range).FinalValue / 2f;
+            var targetCollider = CombatUtility.GetNearestCollider(contact.point, halfRange, _gunData.HitLayerMask, bullet.HitColliders);
+
+            //튕길 방향 계산 및 속도 설정
+            if (targetCollider != null)
+            {
+                Vector3 center = targetCollider.bounds.center;
+                var direction = (center - contact.point).normalized;
+
+                float speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
+
+                Vector3 newSpeed = direction * speed;
+                bullet.SetSpeed(newSpeed);
+
+                //튕김 성공 시 관통 시도하지 않음
+                return;
+            }
+        }
+
+        //튕김 실패 시 관통 시도
+        //관통 실패 시 총알 해제
+        if (!bullet.TryPenetrate())
+        {
+            ReleaseBullet(bullet);
+        }
+
+    }
+
+    /// <summary>
+    /// 총알 해제 처리
+    /// </summary>
+    private void ReleaseBullet(Bullet bullet)
+    {
+        //이벤트 구독 해제
         bullet.OnBulletCollision -= OnBulletCollision;
 
-        var trail = bullet.GetComponentInChildren<TrailRenderer>();
+        //총알 궤적 이펙트 지연 해제
+        var trail = bullet.DetachTrail();
         if (trail != null)
         {
-            trail.transform.SetParent(null, true);
-            trail.emitting = false;
             StartCoroutine(DelayDisable(trail));
         }
 
-        _bulletPool.Release(bullet);
-
-        if (collision != null)
-        {
-            var contact = collision.GetContact(0);
-
-            if (contact.otherCollider.TryGetComponent<IDamageable>(out var damageable))
-            {
-                float distance = Vector3.Distance(bullet.SpawnPos, contact.point);
-                ApplyDamage(damageable, distance);
-            }
-        }
+        //총알 풀로 반환
+        _bulletManager.ReleaseBullet(bullet);
     }
+
+    //총알 궤적 이펙트 지연 해제
+    private IEnumerator DelayDisable(Trail trail)
+    {
+        yield return new WaitForSeconds(trail.TrailRenderer.time);
+        _trailManager.ReleaseTrail(trail);
+    }
+
 
     //데미지 적용
     private void ApplyDamage(IDamageable damageable, float distance)

@@ -55,7 +55,7 @@ public class DropItemManager : MonoBehaviour
         ObjectPool<DropItem> pool = new(
             () =>
             {
-                var item = Instantiate(dropItemData.ItemPrefab);
+                var item = Instantiate(dropItemData.ItemPrefab, transform);
                 item.Init(dropItemData);
                 return item;
             },
