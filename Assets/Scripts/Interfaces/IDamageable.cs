@@ -9,6 +9,7 @@ public interface IDamageable
     public float CurrentHealth { get; }
     public float MaxHealth { get; }
     public float Defense { get; }
+    public bool IsDead { get; }
 
     //대미지 및 사망 이벤트
     public event Action<float, float> OnHealthChanged;
@@ -16,6 +17,6 @@ public interface IDamageable
     public event Action OnDeath;
 
     //체력 변동 함수
-    void TakeDamage(float damage);
+    float TakeDamage(float damage);
     void Heal(float amount);
 }

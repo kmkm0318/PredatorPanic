@@ -13,6 +13,10 @@ public class DropItemManager : MonoBehaviour
     private List<DropItem> _activeDropItems = new(); //현재 활성화된 드롭 아이템 리스트
     #endregion
 
+    #region 변수
+    public bool CanDrop { get; set; } = true;
+    #endregion
+
     private void OnEnable()
     {
         RegisterEvents();
@@ -38,7 +42,10 @@ public class DropItemManager : MonoBehaviour
 
     private void OnEnemyDeath(Enemy enemy)
     {
-        SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
+        if (CanDrop)
+        {
+            SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
+        }
     }
 
     private void OnAnyReleaseRequested(DropItem item)
@@ -53,12 +60,7 @@ public class DropItemManager : MonoBehaviour
     private void InitPool(DropItemData dropItemData)
     {
         ObjectPool<DropItem> pool = new(
-            () =>
-            {
-                var item = Instantiate(dropItemData.ItemPrefab, transform);
-                item.Init(dropItemData);
-                return item;
-            },
+            () => Instantiate(dropItemData.ItemPrefab, transform),
             (item) => item.gameObject.SetActive(true),
             (item) => item.gameObject.SetActive(false),
             (item) => Destroy(item.gameObject),
@@ -94,6 +96,7 @@ public class DropItemManager : MonoBehaviour
                 var dropItem = pool.Get();
                 var randomOffset = Random.insideUnitCircle * dropItemData.DropRadius;
                 dropItem.transform.position = position + new Vector3(randomOffset.x, 0f, randomOffset.y);
+                dropItem.Init(dropItemData);
                 _activeDropItems.Add(dropItem);
             }
         }

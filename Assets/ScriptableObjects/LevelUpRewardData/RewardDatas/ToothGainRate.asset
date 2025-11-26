@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
   _rewardName: Tooth Gain Rate
   _rewardIcon: {fileID: 21300000, guid: 4590e88cd8cb33d408bbf6fd4ea0d54b, type: 3}
-  _rewardEffects:
-  - _statType: 9
-    _modifierType: 1
-    _modifierValue: 0.1
+  _effectDatas:
+  - {fileID: 11400000, guid: f42b7cb38fc89144d806c2dd7d1fe806, type: 2}

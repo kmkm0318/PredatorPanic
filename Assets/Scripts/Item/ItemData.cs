@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemData", menuName = "SO/Item/ItemData", order = 0)]
@@ -10,4 +11,8 @@ public class ItemData : ScriptableObject
     public string ItemName => _itemName;
     public Sprite Icon => _icon;
     public int BasePrice => _basePrice;
+
+    [Header("Item Effect Data")]
+    [SerializeField] private List<EffectData> _effectDatas;
+    public List<EffectData> EffectDatas => _effectDatas;
 }

@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
   _rewardName: DNA Gain Rate
   _rewardIcon: {fileID: 21300000, guid: 99270ca691fb89841b565eb77855375b, type: 3}
-  _rewardEffects:
-  - _statType: 10
-    _modifierType: 1
-    _modifierValue: 0.1
+  _effectDatas:
+  - {fileID: 11400000, guid: 77d1980d2163a64489b16a7f46585593, type: 2}

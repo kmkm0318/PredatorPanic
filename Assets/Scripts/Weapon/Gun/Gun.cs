@@ -281,13 +281,29 @@ public class Gun : Weapon
     //데미지 적용
     private void ApplyDamage(IDamageable damageable, float distance)
     {
+        //기본 데미지 계산
         float damage = CombatUtility.CalculateBulletDamage(Player, this, distance);
+
+        //크리티컬일 시 크리티컬 데미지 계산
         bool isCritical = CombatUtility.IsCritical(Player, this);
         if (isCritical)
         {
             damage = CombatUtility.CalculateCriticalDamage(Player, this, damage);
         }
-        damageable.TakeDamage(damage);
+
+        //데미지 적용
+        damage = damageable.TakeDamage(damage);
+
+        //적중 및 킬 이벤트 발생
+        if (damage > 0f)
+        {
+            HitTarget(damageable, damage);
+
+            if (damageable.IsDead)
+            {
+                KillTarget(damageable);
+            }
+        }
     }
     #endregion
 }

@@ -38,6 +38,11 @@ public class Player : MonoBehaviour
     public Stats<PlayerStatType> PlayerStats => _playerStats;
     #endregion
 
+    #region 효과 주체 리스트
+    public List<LevelUpReward> LevelUpRewards { get; private set; } = new();
+    public List<Item> Items { get; private set; } = new();
+    #endregion
+
     #region 레벨, 경험치
     public int Level { get; private set; }
     public float CurExp { get; private set; }
@@ -55,6 +60,8 @@ public class Player : MonoBehaviour
     public event Action<float, float> OnExpChanged;
     public event Action<int> OnToothChanged;
     public event Action<int> OnDNAChanged;
+    public event Action<IDamageable, float> OnHit; //적중 이벤트
+    public event Action<IDamageable> OnKill; //킬 이벤트
     #endregion
 
     private void Awake()
@@ -65,6 +72,7 @@ public class Player : MonoBehaviour
         Health = GetComponent<Health>();
     }
 
+    #region 초기화
     public void Init(PlayerData playerData, GameManager gameManager)
     {
         _playerData = playerData;
@@ -90,12 +98,35 @@ public class Player : MonoBehaviour
     {
         _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual);
         _playerItemCollector.Init(this);
+        RegisterAttackEvents();
 
         var maxHealth = _playerStats.GetStat(PlayerStatType.Health).FinalValue;
         var defense = _playerStats.GetStat(PlayerStatType.Defense).FinalValue;
         Health.Init(maxHealth, defense);
 
         RegisterHealthStatEvents();
+    }
+
+    private void RegisterAttackEvents()
+    {
+        _playerAttack.OnHit += HandleOnHit;
+        _playerAttack.OnKill += HandleOnKill;
+    }
+
+    private void HandleOnHit(IDamageable target, float damage)
+    {
+        float lifeSteal = _playerStats.GetStat(PlayerStatType.LifeSteal).FinalValue;
+        if (lifeSteal > 0f)
+        {
+            float healAmount = damage * lifeSteal;
+            Health.Heal(healAmount);
+        }
+        OnHit?.Invoke(target, damage);
+    }
+
+    private void HandleOnKill(IDamageable target)
+    {
+        OnKill?.Invoke(target);
     }
 
     // 체력, 방어력 스탯 변경시 Health 컴포넌트에 반영
@@ -111,6 +142,7 @@ public class Player : MonoBehaviour
             Health.SetDefense(newValue);
         };
     }
+    #endregion
 
     #region 무기
     // WeaponData로 무기 추가
@@ -154,6 +186,7 @@ public class Player : MonoBehaviour
     public List<Weapon> Weapons => _playerAttack.Weapons;
     #endregion
 
+    #region 카메라
     // 시네머신 카메라의 팔로우 타겟 설정
     public void SetCameraFollowTarget(CinemachineCamera camera)
     {
@@ -162,7 +195,9 @@ public class Player : MonoBehaviour
             camera.Follow = _playerVisual.CameraPivot;
         }
     }
+    #endregion
 
+    #region 공격
     // 공격 시작, 종료
     public void StartAttack()
     {
@@ -173,6 +208,7 @@ public class Player : MonoBehaviour
     {
         _playerAttack.StopAttack();
     }
+    #endregion
 
     #region 레벨, 경험치
     // 최대 경험치 업데이트
@@ -243,12 +279,50 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region 레벨업 보상 효과 적용
+    #region 레벨업 보상 효과 적용 및 해제
+    //레벨업 보상 효과 적용
     public void ApplyLevelUpRewards(LevelUpRewardData data)
     {
-        foreach (var effect in data.RewardEffects)
+        var reward = new LevelUpReward(data);
+        reward.Apply(this);
+        LevelUpRewards.Add(reward);
+    }
+
+    //레벨업 보상 효과 해제
+    //사용할 예정 없음
+    public void RemoveLevelUpRewards(LevelUpReward reward)
+    {
+        if (LevelUpRewards.Contains(reward))
         {
-            effect.ApplyEffect(this);
+            reward.Remove(this);
+            LevelUpRewards.Remove(reward);
+        }
+    }
+    #endregion
+
+    #region 아이템 장착 및 해제
+    //아이템 장착. 현재는 아이템 제한 없음
+    public bool TryEquipItem(ItemData itemData)
+    {
+        if (itemData == null) return false;
+
+        var item = new Item(itemData);
+
+        Items.Add(item);
+        item.OnEquip(this);
+
+        return true;
+    }
+
+    //아이템 장착 해제
+    public void UnequipItem(Item item)
+    {
+        if (item == null) return;
+
+        if (Items.Contains(item))
+        {
+            item.OnUnequip(this);
+            Items.Remove(item);
         }
     }
     #endregion

@@ -24,7 +24,9 @@ public abstract class DropItem : MonoBehaviour
     public virtual void Init(DropItemData dropItemData)
     {
         DropItemData = dropItemData;
+        StopAllCoroutines();
         IsFollowing = false;
+        _player = null;
     }
 
     public void StartFollowPlayer(Player player)

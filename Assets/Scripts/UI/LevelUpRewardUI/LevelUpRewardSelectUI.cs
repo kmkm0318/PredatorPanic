@@ -97,7 +97,7 @@ public class LevelUpRewardSelectUI : ShowHideUI
 
         _iconImage.sprite = data.RewardIcon;
         _nameText.text = data.RewardName;
-        _descriptionText.text = string.Join("\n", data.RewardEffects.ConvertAll(effect => effect.GetDescription()));
+        _descriptionText.text = string.Join("\n", data.EffectDatas.ConvertAll(effect => effect.GetDescription()));
     }
 
     private void SetPanelScale(float scale)

@@ -78,10 +78,7 @@ public class EnemyManager : MonoBehaviour
             () => Instantiate(enemyData.EnemyPrefab, transform),
             (enemy) => enemy.gameObject.SetActive(true),
             (enemy) => enemy.gameObject.SetActive(false),
-            (enemy) => Destroy(enemy.gameObject),
-            false,
-            10,
-            1000
+            (enemy) => Destroy(enemy.gameObject)
         );
 
         _enemyPools[enemyData] = pool;

@@ -31,7 +31,9 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _enemyController = GetComponent<EnemyController>();
+
         _health = GetComponent<Health>();
+        _health.OnDeath += Die;
     }
 
     public void Init(EnemyData enemyData, int level = 0)
@@ -61,7 +63,6 @@ public class Enemy : MonoBehaviour
         float defense = EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
 
         _health.Init(maxHealth, defense);
-        _health.OnDeath += Die;
 
         RegisterHealthStatEvents();
     }

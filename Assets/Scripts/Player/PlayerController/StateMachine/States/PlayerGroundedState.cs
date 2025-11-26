@@ -11,6 +11,9 @@ public class PlayerGroundedState : PlayerBaseState
     {
         PlayerController.MovementY = PlayerController.PlayerControllerData.GroundedGravitySpeed;
 
+        //공중 점프 가능 횟수 초기화
+        PlayerController.ResetJumpRemain();
+
         InitSubState();
         SubState?.Enter();
     }

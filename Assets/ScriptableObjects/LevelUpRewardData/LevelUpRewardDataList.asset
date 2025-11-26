@@ -13,14 +13,19 @@ MonoBehaviour:
   m_Name: LevelUpRewardDataList
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardDataList
   _levelUpRewardDatas:
+  - {fileID: 11400000, guid: 4e9eae75245a293489df2e86655e64ae, type: 2}
   - {fileID: 11400000, guid: 25a4ff1f545fa75499675312a0f9ec26, type: 2}
   - {fileID: 11400000, guid: e87f665f5df12e04fa5942e91ff51791, type: 2}
+  - {fileID: 11400000, guid: e8e39d6a1449e0346adb619d058ddefe, type: 2}
   - {fileID: 11400000, guid: a4250d186efd0424bbfd1ef8cfa0fd92, type: 2}
   - {fileID: 11400000, guid: 74cb315b31addb54580bb839d6a012be, type: 2}
   - {fileID: 11400000, guid: a3dae2bd18903014bb318a42b957570c, type: 2}
   - {fileID: 11400000, guid: db11b7504d472a648b492706fe597840, type: 2}
   - {fileID: 11400000, guid: 131844e7020a95b44bb00fe2b026c9e8, type: 2}
   - {fileID: 11400000, guid: 83c0fb1c61cdf0e4cbac0d9fa316a5fb, type: 2}
+  - {fileID: 11400000, guid: fe0814b205b9b9645b163d882b266ee5, type: 2}
   - {fileID: 11400000, guid: 67be5533afc5afb48900c73717be1c2c, type: 2}
   - {fileID: 11400000, guid: 3e2cc6764ffcda34ebb4c2ac1d28ff64, type: 2}
+  - {fileID: 11400000, guid: 6fac11738a8be8d4e9cb36136eb0c068, type: 2}
+  - {fileID: 11400000, guid: 16062e4864920344ea78ae86517f1c32, type: 2}
   - {fileID: 11400000, guid: ff568fedb204cdf4a82eb35edfe55eae, type: 2}

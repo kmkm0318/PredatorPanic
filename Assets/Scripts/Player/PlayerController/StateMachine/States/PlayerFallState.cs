@@ -52,10 +52,20 @@ public class PlayerFallState : PlayerBaseState
         }
         else if (PlayerController.IsJumpPressed && PlayerController.IsJumpBuffer && PlayerController.IsCoyoteTime)
         {
-            //점프 버퍼와 코요테 타임을 모두 만족할 때 점프
+            //점프 버퍼와 코요테 타임을 모두 만족할 때 점프.
+            //이때는 공중 점프 횟수를 소모하지 않음.
             PlayerController.StopJumpBufferCoroutine();
             PlayerController.StopCoyoteTimeCoroutine();
             PlayerController.StateMachine.ChangeState(Factory.Jump);
+        }
+        else if (PlayerController.IsJumpPressed && PlayerController.IsJumpBuffer)
+        {
+            //공중 점프 시도
+            if (PlayerController.TryAirJump())
+            {
+                PlayerController.StopJumpBufferCoroutine();
+                PlayerController.StateMachine.ChangeState(Factory.Jump);
+            }
         }
     }
 }

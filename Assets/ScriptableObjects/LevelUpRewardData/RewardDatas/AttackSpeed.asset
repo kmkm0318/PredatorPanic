@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
   _rewardName: Attack Speed
   _rewardIcon: {fileID: 21300000, guid: d58e5e3467da9574199c075508e7bd4d, type: 3}
-  _rewardEffects:
-  - _statType: 4
-    _modifierType: 1
-    _modifierValue: 0.1
+  _effectDatas:
+  - {fileID: 11400000, guid: 32beb9295692839489ada0894ee99ae5, type: 2}

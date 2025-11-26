@@ -16,6 +16,9 @@ public class GamePlayingState : GameBaseState
         //이벤트 구독
         RegisterEvents();
 
+        //아이템 드랍 가능하게 설정
+        GameManager.DropItemManager.CanDrop = true;
+
         //적 스폰 코루틴 시작
         int enemySpawnCount = GameManager.GameData.BaseEnemySpawnCount
         + (GameManager.CurrentRound - 1)
@@ -52,6 +55,9 @@ public class GamePlayingState : GameBaseState
 
         //이벤트 구독 해제
         UnregisterEvents();
+
+        //아이템 드랍 불가능하게 설정
+        GameManager.DropItemManager.CanDrop = false;
 
         //적 스폰 코루틴 중지
         GameManager.EnemyManager.StopEnemySpawn();

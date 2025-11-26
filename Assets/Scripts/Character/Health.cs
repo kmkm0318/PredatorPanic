@@ -12,6 +12,7 @@ public class Health : MonoBehaviour, IDamageable
     public float CurrentHealth { get; private set; }
     public float MaxHealth { get; private set; }
     public float Defense { get; private set; }
+    public bool IsDead { get; private set; }
     #endregion
 
     #region 이벤트
@@ -26,6 +27,7 @@ public class Health : MonoBehaviour, IDamageable
         MaxHealth = maxHealth;
         CurrentHealth = MaxHealth;
         Defense = defense;
+        IsDead = false;
         OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
     }
 
@@ -38,8 +40,10 @@ public class Health : MonoBehaviour, IDamageable
         OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
     }
 
-    public void TakeDamage(float damage)
+    public float TakeDamage(float damage)
     {
+        if (IsDead) return 0f;
+
         damage = CombatUtility.CalculateDefensedDamage(damage, Defense);
 
         float damageTaken = Mathf.Clamp(damage, 0, CurrentHealth);
@@ -48,11 +52,14 @@ public class Health : MonoBehaviour, IDamageable
         OnDamaged?.Invoke(damageTaken);
         OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
 
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0f)
         {
             CurrentHealth = 0;
+            IsDead = true;
             OnDeath?.Invoke();
         }
+
+        return damageTaken;
     }
     #endregion
 

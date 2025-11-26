@@ -63,15 +63,29 @@ public class ShopManager : MonoBehaviour
         //기존 판매 상품 제거
         BuyProducts.Clear();
 
-        //현재는 무기만 판매
+        int weaponProductCount = UnityEngine.Random.Range(1, _shopSlotCount); //무기 상품 개수 랜덤 결정
+        int itemProductCount = _shopSlotCount - weaponProductCount; //나머지는 아이템 상품 개수
+
+        //무기 상품들 가져오기
         var weaponDatas = DataManager.Instance.WeaponDataList.WeaponDatas;
-        var randomWeaponDatas = weaponDatas.GetRandomElements(_shopSlotCount);
+        var randomWeaponDatas = weaponDatas.GetRandomElements(weaponProductCount);
 
         //무기 상품 추가
         for (int i = 0; i < randomWeaponDatas.Count; i++)
         {
             var newWeaponProduct = new WeaponShopProduct(randomWeaponDatas[i]);
             BuyProducts.Add(newWeaponProduct);
+        }
+
+        //아이템 상품들 가져오기
+        var itemDatas = DataManager.Instance.ItemDataList.ItemDatas;
+        var randomItemDatas = itemDatas.GetRandomElements(itemProductCount);
+
+        //아이템 상품 추가
+        for (int i = 0; i < randomItemDatas.Count; i++)
+        {
+            var newItemProduct = new ItemShopProduct(randomItemDatas[i]);
+            BuyProducts.Add(newItemProduct);
         }
 
         //새로고침 성공
@@ -96,7 +110,13 @@ public class ShopManager : MonoBehaviour
     {
         //플레이어 아이템 상품 목록 갱신
         ItemSellProducts.Clear();
-        //아이템은 미구현
+
+        foreach (var item in _player.Items)
+        {
+            //판매 가격은 비율에 따라 조정
+            var itemProduct = new ItemInventoryProduct(item, _sellPriceRate);
+            ItemSellProducts.Add(itemProduct);
+        }
     }
     #endregion
 
@@ -105,39 +125,34 @@ public class ShopManager : MonoBehaviour
     public bool TryBuyProduct(IProduct product)
     {
         //플레이어의 이빨을 통해서 구매 시도
-        if (_player.TrySpendTooth(product.Price))
-        {
-            bool success = false;
-            //무기 추가 시도
-            if (product is WeaponShopProduct weaponProduct)
-            {
-                success = _player.TryAddWeapon(weaponProduct.WeaponData);
-            }
-            //아이템 추가 시도(미구현)
-            else if (product is ItemShopProduct itemProduct)
-            {
-                // 아이템은 미구현
-                // _player.AddItem(itemProduct.ItemData);
-                success = false;
-            }
-
-            if (success)
-            {
-                //구매 성공 시 상품 제거
-                BuyProducts.Remove(product);
-                return true;
-            }
-            else
-            {
-                //구매 실패
-                return false;
-            }
-        }
-        else
+        if (!_player.TrySpendTooth(product.Price))
         {
             //구매 실패
             return false;
         }
+
+        bool success = false;
+
+        //무기 추가 시도
+        if (product is WeaponShopProduct weaponProduct)
+        {
+            success = _player.TryAddWeapon(weaponProduct.WeaponData);
+        }
+        //아이템 추가 시도
+        else if (product is ItemShopProduct itemProduct)
+        {
+            success = _player.TryEquipItem(itemProduct.ItemData);
+        }
+
+        if (success)
+        {
+            //구매 성공 시 상품 제거
+            BuyProducts.Remove(product);
+            return true;
+        }
+
+        //구매 실패
+        return false;
     }
 
     //무기 판매 시도
@@ -162,8 +177,20 @@ public class ShopManager : MonoBehaviour
     //아이템 판매 시도
     public bool TrySellItemProduct(ItemInventoryProduct itemProduct)
     {
-        //아이템 판매는 미구현
-        return false;
+        //아이템 가져오기
+        var item = itemProduct.Item;
+
+        //판매 가격은 비율에 따라 조정되어 있음
+        int sellPrice = itemProduct.Price;
+
+        //아이템 판매는 이빨 재화로 제공
+        _player.AddTooth(sellPrice);
+
+        //플레이어의 아이템 목록에서 제거
+        _player.UnequipItem(item);
+
+        //항상 성공. 추후 조건 추가 가능
+        return true;
     }
     #endregion
 }

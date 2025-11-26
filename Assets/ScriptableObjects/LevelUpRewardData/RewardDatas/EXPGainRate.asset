@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
   _rewardName: EXP Gain Rate
   _rewardIcon: {fileID: 21300000, guid: f0d8013d5ba1d664fbd8a25a3f1ecd30, type: 3}
-  _rewardEffects:
-  - _statType: 8
-    _modifierType: 1
-    _modifierValue: 0.1
+  _effectDatas:
+  - {fileID: 11400000, guid: 453b0ada57c06624ba5a3df76af94cab, type: 2}

@@ -20,8 +20,9 @@ public class PlayerController : MonoBehaviour
 
     #region 컨트롤 변수
     public float Gravity { get; private set; } = -9.8f;
-    private float _pitch = 0f;
     public float InitialJumpSpeed { get; private set; }
+    public int AirJumpRemain { get; private set; }
+    private float _pitch = 0f;
     private Vector3 _movement;
     public float MovementX { get => _movement.x; set => _movement.x = value; }
     public float MovementY { get => _movement.y; set => _movement.y = value; }
@@ -175,13 +176,35 @@ public class PlayerController : MonoBehaviour
         InitStateMachine();
     }
 
-    //점프 변수 초기화. 중력과 시작 점프 속도 결정
+    #region 점프 관련 함수
+    //점프 변수 초기화. 중력과 시작 점프 속도 결정. 공중 점프 횟수 초기화
     private void InitJumpVariables()
     {
         float timeToApex = PlayerControllerData.MaxJumpDuration / 2f;
         Gravity = -2 * PlayerControllerData.MaxJumpHeight / Mathf.Pow(timeToApex, 2);
         InitialJumpSpeed = 2 * PlayerControllerData.MaxJumpHeight / timeToApex;
+
+        ResetJumpRemain();
     }
+
+    //공중 점프 남은 횟수 초기화.
+    public void ResetJumpRemain()
+    {
+        AirJumpRemain = Mathf.FloorToInt(_player.PlayerStats.GetStat(PlayerStatType.AirJumpCount).FinalValue);
+    }
+
+    //공중 점프 시도. Fall 상태에서 사용.
+    public bool TryAirJump()
+    {
+        if (AirJumpRemain > 0)
+        {
+            AirJumpRemain--;
+            return true;
+        }
+        return false;
+    }
+
+    #endregion
 
     //상태 기계 초기화. 낙하 상태로 시작
     private void InitStateMachine()

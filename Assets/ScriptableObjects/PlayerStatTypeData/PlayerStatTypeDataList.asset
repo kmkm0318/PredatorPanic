@@ -13,14 +13,19 @@ MonoBehaviour:
   m_Name: PlayerStatTypeDataList
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatTypeDataList
   _playerStatTypeDatas:
+  - {fileID: 11400000, guid: 4e1890a54312088488faec3d751ea57c, type: 2}
   - {fileID: 11400000, guid: 71b8fa11edd6a184cad0ee5dcbdd6de8, type: 2}
   - {fileID: 11400000, guid: b6f5c71d81fc48e41ba2927987708073, type: 2}
+  - {fileID: 11400000, guid: 69bcb309b5383914899a4e7284715341, type: 2}
   - {fileID: 11400000, guid: c54efb6f89cdcaa4b852d8898961a45a, type: 2}
   - {fileID: 11400000, guid: eb28ddc7b37fae040ac8a491953bc5c4, type: 2}
   - {fileID: 11400000, guid: 99d59a63a98c821448400be65f3c1d02, type: 2}
   - {fileID: 11400000, guid: a3c998d2718e2314ebaf46e6fecd758e, type: 2}
   - {fileID: 11400000, guid: ed5e2c3987ad41146a6de9ab22c751b1, type: 2}
   - {fileID: 11400000, guid: de0b4bd745d80ab42aba07e81b648162, type: 2}
+  - {fileID: 11400000, guid: 91a4f7cf5a6dd9c46a689e198a4016db, type: 2}
   - {fileID: 11400000, guid: b45e50d5fa1bb324eaf44c99211feaa1, type: 2}
   - {fileID: 11400000, guid: ebc2fe37111c4f7498c4b717fa309e71, type: 2}
+  - {fileID: 11400000, guid: d782a52dd49331540ab7ea823290feb7, type: 2}
+  - {fileID: 11400000, guid: 40ddced9a4a98ea4cb406b130d8a8ba8, type: 2}
   - {fileID: 11400000, guid: 7ac3400e81ccc1446b52a74b671f0096, type: 2}
