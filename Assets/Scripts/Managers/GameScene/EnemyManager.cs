@@ -10,11 +10,13 @@ using UnityEngine.Pool;
 /// </summary>
 public class EnemyManager : MonoBehaviour
 {
+    [Header("Enemy Settings")]
     [SerializeField] private List<EnemyData> _enemyDataList;
-    [SerializeField] private float _spawnRadius = 20f;
-    [SerializeField] private float _spawnHeightMax = 10f;
     [SerializeField] private int _maxTryCount = 10;
-    [SerializeField] private LayerMask _groundLayerMask;
+
+    #region 적 소환 Planet
+    private Planet _planet;
+    #endregion
 
     #region 오브젝트 풀
     private Dictionary<EnemyData, ObjectPool<Enemy>> _enemyPools = new();
@@ -24,6 +26,11 @@ public class EnemyManager : MonoBehaviour
     #region 코루틴
     private Coroutine _enemySpawnCoroutine;
     #endregion
+
+    public void Init(Planet planet)
+    {
+        _planet = planet;
+    }
 
     private void OnEnable()
     {
@@ -136,31 +143,36 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    //단일 적 스폰
     public Enemy SpawnEnemy(EnemyData enemyData, Vector3 spawnPoint)
     {
+        //풀 가져오고 적 가져오기
         var pool = GetPool(enemyData);
         var enemy = pool.Get();
-        enemy.Init(enemyData);
+
+        //적 초기화
+        enemy.Init(enemyData, 0, _planet);
         enemy.transform.position = spawnPoint;
         return enemy;
     }
 
-    //랜덤 스폰 포인트 계산. NavMesh 위의 유효한 위치 반환
+    //랜덤 스폰 위치 계산
     private bool TryGetRandomSpawnPoint(Transform target, out Vector3 pos)
     {
+        //트라이 횟수만큼 시도
         for (int i = 0; i < _maxTryCount; i++)
         {
-            Vector2 randomPosXZ = Random.insideUnitCircle.normalized * _spawnRadius;
-            Vector3 rayOrigin = target.position + new Vector3(randomPosXZ.x, _spawnHeightMax, randomPosXZ.y);
-            Ray ray = new(rayOrigin, Vector3.down);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, _groundLayerMask))
+            //행성 표면 랜덤 위치 계산
+            var randomPos = _planet.Center + _planet.Radius * Random.onUnitSphere;
+
+            //타겟과의 거리 계산
+            var dist = Vector3.Distance(randomPos, target.position);
+
+            //타겟과 충분히 떨어져 있는지 확인
+            if (dist > _planet.Radius)
             {
-                //Enemy Controller가 NavMeshAgent를 사용하기 때문에 NavMesh 위의 위치인지 확인
-                if (NavMesh.SamplePosition(hitInfo.point, out var navHit, 1f, NavMesh.AllAreas))
-                {
-                    pos = navHit.position;
-                    return true;
-                }
+                pos = randomPos;
+                return true;
             }
         }
 

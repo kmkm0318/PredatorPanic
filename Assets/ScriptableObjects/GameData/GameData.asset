@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: Assembly-CSharp::GameManagerData
   _roundStartDelay: 0
-  _roundDuration: 10
+  _roundDuration: 60
   _targetRounds: 10
   _baseEnemySpawnCount: 5
   _enemySpawnCountIncrementPerRound: 3

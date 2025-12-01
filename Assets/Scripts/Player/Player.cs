@@ -73,13 +73,13 @@ public class Player : MonoBehaviour
     }
 
     #region 초기화
-    public void Init(PlayerData playerData, GameManager gameManager)
+    public void Init(PlayerData playerData, GameManager gameManager, Planet planet)
     {
         _playerData = playerData;
         GameManager = gameManager;
 
         InitStats();
-        InitComponents();
+        InitComponents(planet);
     }
 
     // 스탯 초기화
@@ -94,9 +94,9 @@ public class Player : MonoBehaviour
     }
 
     // 컴포넌트 초기화
-    private void InitComponents()
+    private void InitComponents(Planet planet)
     {
-        _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual);
+        _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual, planet);
         _playerItemCollector.Init(this);
         RegisterAttackEvents();
 

@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public PlayerVisual PlayerVisual { get; private set; }
     private Transform _cameraPivot;
     private List<Transform> _weaponPivots;
+    private Planet _planet;
     #endregion
 
     #region 컨트롤 변수
@@ -164,13 +165,14 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    public void Init(Player player, PlayerControllerData playerControllerData, PlayerVisual playerVisual)
+    public void Init(Player player, PlayerControllerData playerControllerData, PlayerVisual playerVisual, Planet planet)
     {
         _player = player;
         PlayerControllerData = playerControllerData;
         PlayerVisual = playerVisual;
         _cameraPivot = PlayerVisual.CameraPivot;
         _weaponPivots = PlayerVisual.WeaponPivots;
+        _planet = planet;
 
         InitJumpVariables();
         InitStateMachine();
@@ -225,11 +227,12 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
+        //입력 장치에 따라 감도 설정
         float sensitivity = _currentDecive is Mouse ? PlayerControllerData.MouseSensitivity : PlayerControllerData.ControllerRotateSpeed;
 
         //좌우 회전은 플레이어를 직접 회전
         float yaw = LookInput.x * sensitivity * Time.deltaTime;
-        transform.Rotate(Vector3.up, yaw);
+        transform.Rotate(transform.up, yaw);
 
         //상하 회전은 카메라 피벗을 회전. 카메라 피벗이 있을 경우에만 실행
         _pitch -= LookInput.y * sensitivity * Time.deltaTime;
@@ -261,7 +264,7 @@ public class PlayerController : MonoBehaviour
 
         float moveSpeed = _player.PlayerStats.GetStat(PlayerStatType.MoveSpeed).FinalValue;
         Vector3 horizontalMove = transform.right * _movement.x + transform.forward * _movement.z;
-        Vector3 verticalMove = Vector3.up * _movement.y;
+        Vector3 verticalMove = transform.up * _movement.y;
         Vector3 localMove = moveSpeed * horizontalMove + verticalMove;
 
         CharacterController.Move(localMove * Time.deltaTime);

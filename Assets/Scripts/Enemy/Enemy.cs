@@ -36,12 +36,12 @@ public class Enemy : MonoBehaviour
         _health.OnDeath += Die;
     }
 
-    public void Init(EnemyData enemyData, int level = 0)
+    public void Init(EnemyData enemyData, int level = 0, Planet planet = null)
     {
         EnemyData = enemyData;
 
         InitStats(level);
-        InitComponents();
+        InitComponents(planet);
     }
 
     private void InitStats(int level = 0)
@@ -55,9 +55,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void InitComponents()
+    private void InitComponents(Planet planet = null)
     {
-        _enemyController.Init(this, EnemyData.EnemyControllerData);
+        _enemyController.Init(this, EnemyData.EnemyControllerData, planet);
 
         float maxHealth = EnemyStats.GetStat(EnemyStatType.Health).FinalValue;
         float defense = EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
