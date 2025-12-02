@@ -94,8 +94,12 @@ public class DropItemManager : MonoBehaviour
             for (int i = 0; i < dropCount; i++)
             {
                 var dropItem = pool.Get();
+
                 var randomOffset = Random.insideUnitCircle * dropItemData.DropRadius;
-                dropItem.transform.position = position + new Vector3(randomOffset.x, 0f, randomOffset.y);
+                var randomOffsetXZ = new Vector3(randomOffset.x, 0f, randomOffset.y);
+
+                dropItem.transform.position = position + randomOffsetXZ;
+
                 dropItem.Init(dropItemData);
                 _activeDropItems.Add(dropItem);
             }

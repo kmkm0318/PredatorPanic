@@ -60,8 +60,8 @@ public class Player : MonoBehaviour
     public event Action<float, float> OnExpChanged;
     public event Action<int> OnToothChanged;
     public event Action<int> OnDNAChanged;
-    public event Action<IDamageable, float> OnHit; //적중 이벤트
-    public event Action<IDamageable> OnKill; //킬 이벤트
+    public event Action<Enemy, float> OnHit; //적중 이벤트
+    public event Action<Enemy> OnKill; //킬 이벤트
     #endregion
 
     private void Awake()
@@ -73,13 +73,13 @@ public class Player : MonoBehaviour
     }
 
     #region 초기화
-    public void Init(PlayerData playerData, GameManager gameManager, Planet planet)
+    public void Init(PlayerData playerData, GameManager gameManager)
     {
         _playerData = playerData;
         GameManager = gameManager;
 
         InitStats();
-        InitComponents(planet);
+        InitComponents();
     }
 
     // 스탯 초기화
@@ -94,39 +94,16 @@ public class Player : MonoBehaviour
     }
 
     // 컴포넌트 초기화
-    private void InitComponents(Planet planet)
+    private void InitComponents()
     {
-        _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual, planet);
+        _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual);
         _playerItemCollector.Init(this);
-        RegisterAttackEvents();
 
         var maxHealth = _playerStats.GetStat(PlayerStatType.Health).FinalValue;
         var defense = _playerStats.GetStat(PlayerStatType.Defense).FinalValue;
         Health.Init(maxHealth, defense);
 
         RegisterHealthStatEvents();
-    }
-
-    private void RegisterAttackEvents()
-    {
-        _playerAttack.OnHit += HandleOnHit;
-        _playerAttack.OnKill += HandleOnKill;
-    }
-
-    private void HandleOnHit(IDamageable target, float damage)
-    {
-        float lifeSteal = _playerStats.GetStat(PlayerStatType.LifeSteal).FinalValue;
-        if (lifeSteal > 0f)
-        {
-            float healAmount = damage * lifeSteal;
-            Health.Heal(healAmount);
-        }
-        OnHit?.Invoke(target, damage);
-    }
-
-    private void HandleOnKill(IDamageable target)
-    {
-        OnKill?.Invoke(target);
     }
 
     // 체력, 방어력 스탯 변경시 Health 컴포넌트에 반영
@@ -207,6 +184,26 @@ public class Player : MonoBehaviour
     public void StopAttack()
     {
         _playerAttack.StopAttack();
+    }
+
+    public void HandleOnHit(PlayerDamageContext context)
+    {
+        //생명력 흡수 적용
+        float lifeSteal = _playerStats.GetStat(PlayerStatType.LifeSteal).FinalValue;
+        if (lifeSteal > 0f)
+        {
+            float healAmount = context.Damage * lifeSteal;
+            Health.Heal(healAmount);
+        }
+
+        //적중 이벤트 발생
+        OnHit?.Invoke(context.Enemy, context.Damage);
+    }
+
+    public void HandleOnKill(PlayerDamageContext context)
+    {
+        //킬 이벤트 발생
+        OnKill?.Invoke(context.Enemy);
     }
     #endregion
 

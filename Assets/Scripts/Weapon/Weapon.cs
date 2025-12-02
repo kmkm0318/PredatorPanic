@@ -12,13 +12,8 @@ public abstract class Weapon : MonoBehaviour
     #endregion
 
     #region 변수들
-    protected Player Player { get; private set; }
+    public Player Player { get; private set; }
     protected bool IsAttacking { get; private set; }
-    #endregion
-
-    #region 이벤트
-    public event Action<IDamageable, float> OnHit;
-    public event Action<IDamageable> OnKill;
     #endregion
 
     public virtual void Init(WeaponData weaponData, Player player)
@@ -36,18 +31,6 @@ public abstract class Weapon : MonoBehaviour
     public virtual void StopAttack()
     {
         IsAttacking = false;
-    }
-    #endregion
-
-    #region 이벤트 발생 함수
-    protected void HitTarget(IDamageable target, float damage)
-    {
-        OnHit?.Invoke(target, damage);
-    }
-
-    protected void KillTarget(IDamageable target)
-    {
-        OnKill?.Invoke(target);
     }
     #endregion
 }

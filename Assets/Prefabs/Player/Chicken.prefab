@@ -124,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 4212355672958031020}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -439,6 +439,7 @@ MonoBehaviour:
   _weaponPivotHeight: 1
   _weaponPivotRadius: 1
   _cameraPivot: {fileID: 1945007992866119418}
+  _cameraArm: {fileID: 0}
 --- !u!4 &5563615238393451695 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 419d5b9b9a8add9408d79bca5c5c9bce, type: 3}

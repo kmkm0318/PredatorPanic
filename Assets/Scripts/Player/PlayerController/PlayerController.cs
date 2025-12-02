@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 /// <summary>
 /// 플레이어 컨트롤러 클래스
 /// 플레이어의 입력 처리, 이동, 상태 기계 관리
@@ -16,7 +17,6 @@ public class PlayerController : MonoBehaviour
     public PlayerVisual PlayerVisual { get; private set; }
     private Transform _cameraPivot;
     private List<Transform> _weaponPivots;
-    private Planet _planet;
     #endregion
 
     #region 컨트롤 변수
@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public float InitialJumpSpeed { get; private set; }
     public int AirJumpRemain { get; private set; }
     private float _pitch = 0f;
+    public bool IsGrounded => _characterController.isGrounded;
     private Vector3 _movement;
     public float MovementX { get => _movement.x; set => _movement.x = value; }
     public float MovementY { get => _movement.y; set => _movement.y = value; }
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region 컴포넌트
-    public CharacterController CharacterController { get; private set; }
+    private CharacterController _characterController;
     #endregion
 
     #region 상태 기계
@@ -66,20 +67,23 @@ public class PlayerController : MonoBehaviour
     #region 코루틴
     private Coroutine _jumpBufferCoroutine;
     private Coroutine _coyoteTimeCoroutine;
+    private Coroutine _groundCheckCoroutine;
     #endregion
 
     private void Awake()
     {
-        CharacterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void OnEnable()
     {
+        //입력 이벤트 구독
         RegisterInputCallbackFunction();
     }
 
     private void OnDisable()
     {
+        //입력 이벤트 구독 해제
         UnregisterInputCallbackFunction();
     }
 
@@ -165,16 +169,21 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    public void Init(Player player, PlayerControllerData playerControllerData, PlayerVisual playerVisual, Planet planet)
+    public void Init(Player player, PlayerControllerData playerControllerData, PlayerVisual playerVisual)
     {
+        //참조 데이터 할당
         _player = player;
         PlayerControllerData = playerControllerData;
         PlayerVisual = playerVisual;
+
+        //Player Visual에서 카메라 피벗과 무기 피벗 참조
         _cameraPivot = PlayerVisual.CameraPivot;
         _weaponPivots = PlayerVisual.WeaponPivots;
-        _planet = planet;
 
+        //점프 관련 변수 초기화
         InitJumpVariables();
+
+        //상태 기계 초기화
         InitStateMachine();
     }
 
@@ -218,8 +227,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //바라보는 방향에 따라 움직이는 방향이 결정되기 때문에 HandleRotation 뒤에 HandleMovement가 와야 함
+        //플레이어 회전 처리
         HandleRotation();
+
+        //플레이어 이동 처리
         HandleMovement();
 
         StateMachine.Update();
@@ -232,7 +243,7 @@ public class PlayerController : MonoBehaviour
 
         //좌우 회전은 플레이어를 직접 회전
         float yaw = LookInput.x * sensitivity * Time.deltaTime;
-        transform.Rotate(transform.up, yaw);
+        transform.Rotate(Vector3.up, yaw);
 
         //상하 회전은 카메라 피벗을 회전. 카메라 피벗이 있을 경우에만 실행
         _pitch -= LookInput.y * sensitivity * Time.deltaTime;
@@ -252,22 +263,16 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        //플레이어가 바라보는 방향을 기준으로 이동
-        if (_player == null)
-        {
-            Debug.LogError("PlayerController: _player is null in HandleMovement");
-        }
-        else if (_player.PlayerStats == null)
-        {
-            Debug.LogError("PlayerController: _player.PlayerStats is null in HandleMovement");
-        }
-
+        //이동 속도 적용
         float moveSpeed = _player.PlayerStats.GetStat(PlayerStatType.MoveSpeed).FinalValue;
+
+        //로컬 좌표계 기준으로 이동 벡터 계산
         Vector3 horizontalMove = transform.right * _movement.x + transform.forward * _movement.z;
         Vector3 verticalMove = transform.up * _movement.y;
-        Vector3 localMove = moveSpeed * horizontalMove + verticalMove;
+        Vector3 moveVelocity = moveSpeed * horizontalMove + verticalMove;
 
-        CharacterController.Move(localMove * Time.deltaTime);
+        //캐릭터 컨트롤러로 이동
+        _characterController.Move(moveVelocity * Time.deltaTime);
     }
 
     #region 점프 버퍼 코루틴
@@ -319,4 +324,14 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        //그라운드 체크 레이캐스트 시각화
+        if (PlayerControllerData != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, transform.position - transform.up * PlayerControllerData.GroundCheckDistance);
+        }
+    }
 }

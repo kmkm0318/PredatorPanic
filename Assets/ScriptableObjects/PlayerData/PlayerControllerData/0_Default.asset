@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8670bb51d955a14d9884251ebd47dfb, type: 3}
   m_Name: 0_Default
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerData
-  _moveSpeed: 5
   _groundedGravitySpeed: -0.5
   _fallGravityMultiplier: 2
   _fallSpeedMin: -20
@@ -24,3 +23,7 @@ MonoBehaviour:
   _maxJumpDuration: 1
   _jumpBufferTime: 0.2
   _coyoteTime: 0.2
+  _groundCheckDistance: 0.5
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 64

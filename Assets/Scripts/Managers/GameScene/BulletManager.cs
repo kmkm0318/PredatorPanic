@@ -21,7 +21,7 @@ public class BulletManager : MonoBehaviour
             () =>
             {
                 var bullet = Instantiate(data.BulletPrefab, transform);
-                bullet.Init(data);
+                bullet.Init(data, this);
                 return bullet;
             },
             (bullet) => { bullet.gameObject.SetActive(true); },

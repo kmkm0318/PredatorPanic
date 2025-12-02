@@ -10,22 +10,33 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void Enter()
     {
+        //점프 애니메이션 재생 및 초기 점프 속도 설정
         PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsJumpingHash, true);
         PlayerController.MovementY = PlayerController.InitialJumpSpeed;
+
+        //서브 상태 초기화
         InitSubState();
         SubState?.Enter();
     }
 
     public override void Update()
     {
+        //중력 적용
         PlayerController.MovementY += PlayerController.Gravity * Time.deltaTime;
+
+        //서브 상태 업데이트
         SubState?.Update();
+
+        //상태 전환 체크
         CheckChangeState();
     }
 
     public override void Exit()
     {
+        //서브 상태 종료
         SubState?.Exit();
+
+        //점프 애니메이션 종료
         PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsJumpingHash, false);
     }
 
@@ -43,7 +54,7 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void CheckChangeState()
     {
-        if (PlayerController.CharacterController.isGrounded)
+        if (PlayerController.IsGrounded)
         {
             PlayerController.StateMachine.ChangeState(Factory.Grounded);
         }

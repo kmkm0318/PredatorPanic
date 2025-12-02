@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Tooth_Big
   m_EditorClassIdentifier: Assembly-CSharp::DropItemData
   _itemPrefab: {fileID: 1882385499809101617, guid: ef47162d81e97514ea89916403df1c2f, type: 3}
-  _dropRate: 0.25
+  _dropRate: 0.1
   _minDropCount: 1
   _maxDropCount: 1
   _dropRadius: 1
   _isFollow: 1
   _followHeight: 5
   _followDuration: 1
+  _targetHeight: 1

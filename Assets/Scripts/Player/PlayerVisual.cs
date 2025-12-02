@@ -17,9 +17,11 @@ public class PlayerVisual : MonoBehaviour
     public List<Transform> WeaponPivots => _weaponPivots;
     #endregion
 
-    #region 카메라 피벗
+    #region 카메라
     [SerializeField] private Transform _cameraPivot;
+    [SerializeField] private Transform _cameraArm;
     public Transform CameraPivot => _cameraPivot;
+    public Transform CameraArm => _cameraArm;
     #endregion
 
     #region 컴포넌트

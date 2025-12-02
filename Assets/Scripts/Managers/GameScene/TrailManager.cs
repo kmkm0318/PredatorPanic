@@ -21,7 +21,7 @@ public class TrailManager : MonoBehaviour
             () =>
             {
                 var trail = Instantiate(data.TrailPrefab, transform);
-                trail.Init(data);
+                trail.Init(data, this);
                 return trail;
             },
             (trail) => { trail.gameObject.SetActive(true); },

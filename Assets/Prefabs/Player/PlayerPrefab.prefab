@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4192056432058072830}
-  - component: {fileID: 4806248263658678794}
+  - component: {fileID: 4392225540016082528}
   - component: {fileID: 6521700762898082741}
   - component: {fileID: 4449419947464300697}
   - component: {fileID: 2081059243474922312}
@@ -37,7 +37,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &4806248263658678794
+--- !u!143 &4392225540016082528
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,4 +127,3 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _checkInterval: 0.1
-  _pickDistance: 2

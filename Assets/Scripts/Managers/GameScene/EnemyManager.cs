@@ -12,11 +12,10 @@ public class EnemyManager : MonoBehaviour
 {
     [Header("Enemy Settings")]
     [SerializeField] private List<EnemyData> _enemyDataList;
+    [SerializeField] private float _spawnRange = 20f;
+    [SerializeField] private float _checkStartHeight = 5f;
     [SerializeField] private int _maxTryCount = 10;
-
-    #region 적 소환 Planet
-    private Planet _planet;
-    #endregion
+    [SerializeField] private LayerMask _groundLayer;
 
     #region 오브젝트 풀
     private Dictionary<EnemyData, ObjectPool<Enemy>> _enemyPools = new();
@@ -26,11 +25,6 @@ public class EnemyManager : MonoBehaviour
     #region 코루틴
     private Coroutine _enemySpawnCoroutine;
     #endregion
-
-    public void Init(Planet planet)
-    {
-        _planet = planet;
-    }
 
     private void OnEnable()
     {
@@ -151,7 +145,7 @@ public class EnemyManager : MonoBehaviour
         var enemy = pool.Get();
 
         //적 초기화
-        enemy.Init(enemyData, 0, _planet);
+        enemy.Init(enemyData, 0);
         enemy.transform.position = spawnPoint;
         return enemy;
     }
@@ -162,20 +156,21 @@ public class EnemyManager : MonoBehaviour
         //트라이 횟수만큼 시도
         for (int i = 0; i < _maxTryCount; i++)
         {
-            //행성 표면 랜덤 위치 계산
-            var randomPos = _planet.Center + _planet.Radius * Random.onUnitSphere;
+            //타겟 주변의 랜덤 위치 계산
+            var randomOffsetXY = Random.insideUnitCircle.normalized * _spawnRange;
+            var randomOffsetXZ = new Vector3(randomOffsetXY.x, 0f, randomOffsetXY.y);
+            var randomPos = target.position + randomOffsetXZ;
 
-            //타겟과의 거리 계산
-            var dist = Vector3.Distance(randomPos, target.position);
-
-            //타겟과 충분히 떨어져 있는지 확인
-            if (dist > _planet.Radius)
+            //레이를 통해 지면을 확인
+            var rayStartPos = randomPos + Vector3.up * _checkStartHeight;
+            if (Physics.Raycast(rayStartPos, Vector3.down, out var hit, float.MaxValue, _groundLayer))
             {
-                pos = randomPos;
+                pos = hit.point;
                 return true;
             }
         }
 
+        //유효한 위치를 찾지 못함
         pos = Vector3.zero;
         return false;
     }

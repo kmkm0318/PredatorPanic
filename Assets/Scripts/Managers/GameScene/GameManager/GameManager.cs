@@ -16,10 +16,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerData _playerData;
     [SerializeField] private WeaponData _weaponData;
 
-    [Header("Planet")]
-    [SerializeField] private Planet _planet;
-    public Planet Planet => _planet;
-
     [Header("Camera")]
     [SerializeField] private CinemachineCamera _cinemachineCamera;
 
@@ -77,17 +73,14 @@ public class GameManager : MonoBehaviour
     // 플레이어 생성 및 초기화
     private void InitPlayer()
     {
-        //랜덤하게 초기 위치 설정
-        var spawnPos = _planet.Center + Random.onUnitSphere * _planet.Radius;
+        //초기 위치는 (0,0,0)
+        var spawnPos = Vector3.zero;
 
         //플레이어 생성
         Player = Instantiate(_playerData.PlayerPrefab, spawnPos, Quaternion.identity);
 
-        //행성에 플레이어 등록
-        _planet.RegisterTarget(Player.transform);
-
         //플레이어 초기화
-        Player.Init(_playerData, this, _planet);
+        Player.Init(_playerData, this);
 
         //기본 무기 장착
         Player.TryAddWeapon(_weaponData);
@@ -105,7 +98,6 @@ public class GameManager : MonoBehaviour
     //매니저 클래스 초기화. UI는 마지막에 초기화
     private void InitManagers()
     {
-        _enemyManager.Init(_planet);
         _shopManager.Init(Player);
         _gameUIManager.Init(this);
     }

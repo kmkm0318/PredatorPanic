@@ -12,24 +12,29 @@ public static class CombatUtility
     public const float DEFENSE_CONSTANT = 50f;
 
     /// <summary>
-    /// 총알이 적중했을 때 데미지를 계산하는 함수
-    /// 공격력을 고려하여 최종 데미지 반환
+    /// 플레이어의 공격력과 총기의 기본 데미지를 통한 총알의 기본 데미지를 반환하는 함수
     /// </summary>
-    public static float CalculateBulletDamage(Player player, Gun gun, float distanceTraveled)
+    public static float CalculateBulletBaseDamage(Player player, Gun gun)
     {
         float baseDamage = gun.GunStats.GetStat(GunStatType.Damage).FinalValue;
         float attack = player.PlayerStats.GetStat(PlayerStatType.Attack).FinalValue;
         float attackMultiplier = attack / (attack + ATTACK_CONSTANT);
 
-        float range = gun.GunStats.GetStat(GunStatType.Range).FinalValue;
+        return baseDamage * attackMultiplier;
+    }
+
+    /// <summary>
+    /// 사거리와 실제 거리에 따른 총알의 최종 데미지를 반환하는 함수
+    /// </summary>
+    public static float CalculateBulletFinalDamage(float baseDamage, float range, float distanceTraveled)
+    {
         float halfRange = range / 2f;
         float distanceFactor = 1.0f;
         if (distanceTraveled > halfRange)
         {
             distanceFactor = 1f - (distanceTraveled - halfRange) / halfRange * 0.5f; // 최대 50% 감소
         }
-
-        return baseDamage * attackMultiplier * distanceFactor;
+        return baseDamage * distanceFactor;
     }
 
     /// <summary>
@@ -58,17 +63,28 @@ public static class CombatUtility
     }
 
     /// <summary>
+    /// 치명타 확률 계산 함수
+    /// </summary>
+    public static float CalculateCriticalRate(Player player, Gun gun)
+    {
+        float baseCriticalRate = gun.GunStats.GetStat(GunStatType.CriticalRate).FinalValue;
+        float criticalRateBonus = player.PlayerStats.GetStat(PlayerStatType.CriticalRate).FinalValue;
+
+        return baseCriticalRate + criticalRateBonus;
+    }
+
+    /// <summary>
     /// 치명타 데미지 계산 함수
     /// 치명타 데미지 배율을 적용하여 최종 치명타 데미지를 반환
     /// </summary>
-    public static float CalculateCriticalDamage(Player player, Gun gun, float damage)
+    public static float CalculateCriticalDamageRate(Player player, Gun gun)
     {
         float gunCriticalDamageRate = gun.GunStats.GetStat(GunStatType.CriticalDamageRate).FinalValue;
         float playerCriticalDamageRate = player.PlayerStats.GetStat(PlayerStatType.CriticalDamageRate).FinalValue;
 
         float totalCriticalDamageRate = gunCriticalDamageRate * playerCriticalDamageRate;
 
-        return damage * (1f + totalCriticalDamageRate);
+        return totalCriticalDamageRate;
     }
 
     /// <summary>

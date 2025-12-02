@@ -34,4 +34,10 @@ public class PlayerControllerData : ScriptableObject
     public float MaxJumpDuration => _maxJumpDuration;
     public float JumpBufferTime => _jumpBufferTime;
     public float CoyoteTime => _coyoteTime;
+
+    [Header("Ground Check")]
+    [SerializeField] private float _groundCheckDistance = 0.5f;
+    [SerializeField] private LayerMask _groundLayerMask;
+    public float GroundCheckDistance => _groundCheckDistance;
+    public LayerMask GroundLayerMask => _groundLayerMask;
 }

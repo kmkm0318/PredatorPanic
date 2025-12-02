@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Heart_Small
   m_EditorClassIdentifier: Assembly-CSharp::DropItemData
   _itemPrefab: {fileID: 1272755203000000812, guid: 2c89b2f5844a33e49bab8115923442a5, type: 3}
-  _dropRate: 0.1
+  _dropRate: 0.01
   _minDropCount: 1
-  _maxDropCount: 3
+  _maxDropCount: 1
   _dropRadius: 1
   _isFollow: 1
   _followHeight: 10
   _followDuration: 1
+  _targetHeight: 1

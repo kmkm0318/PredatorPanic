@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 /// <summary>
 /// 총기 무기 클래스
@@ -88,14 +86,14 @@ public class Gun : Weapon
     {
         _muzzleFlash.Play();
 
-        //카메라에서 총구까지의 거리보다 가까운 물체는 무시하기 위한 거리 계산
-        float minDistance = Vector3.Distance(_mainCamera.transform.position, _muzzleFlash.transform.position);
+        //카메라에서 무기까지의 거리보다 가까운 물체는 무시하기 위한 거리 계산
+        float minDistance = Vector3.Distance(_mainCamera.transform.position, transform.position);
 
         //화면 중앙을 발사 방향으로 설정
         Vector3 screenCenter = new(Screen.width / 2f, Screen.height / 2f, 0f);
         Ray fireRay = _mainCamera.ScreenPointToRay(screenCenter);
 
-        //카메라와 총구 거리만큼 떨어진 지점에서 발사
+        //minDistance만큼 떨어진 지점에서 발사
         fireRay = new Ray(fireRay.origin + fireRay.direction * minDistance, fireRay.direction);
         float range = _gunStats.GetStat(GunStatType.Range).FinalValue;
 
@@ -120,13 +118,11 @@ public class Gun : Weapon
         Vector3 fireDirection = (fireHitInfo.point - _muzzleFlash.transform.position).normalized;
 
         int bulltCount = CombatUtility.CalculateBulletCount(Player, this);
-        int penetrationCount = CombatUtility.CalculatePenetrationCount(Player, this);
-        int ricochetCount = CombatUtility.CalculateRicochetCount(Player, this);
 
         for (int i = 0; i < bulltCount; i++)
         {
             var curDirection = CombatUtility.GetSpreadDirection(fireDirection, i, bulltCount);
-            FireBullet(curDirection, penetrationCount, ricochetCount);
+            FireBullet(curDirection);
         }
     }
 
@@ -175,134 +171,47 @@ public class Gun : Weapon
     #endregion
 
     //총알 발사
-    private void FireBullet(Vector3 fireDirection, int penetrationCount = 0, int ricochetCount = 0)
+    private void FireBullet(Vector3 fireDirection)
     {
+        //총알 가져오기
         var bullet = _bulletManager.GetBullet(_gunData.BulletData);
-        bullet.OnBulletCollision += OnBulletCollision;
+
+        //위치 설정
         bullet.transform.position = _muzzleFlash.transform.position;
 
+        //총알 발사를 위한 변수 설정
+        float baseDamage = CombatUtility.CalculateBulletBaseDamage(Player, this);
         float speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
-        Vector3 initialSpeed = fireDirection * speed;
+        float range = _gunStats.GetStat(GunStatType.Range).FinalValue;
+        float criticalRate = CombatUtility.CalculateCriticalRate(Player, this);
+        float criticalDamageRate = CombatUtility.CalculateCriticalDamageRate(Player, this);
+        int penetrationCount = CombatUtility.CalculatePenetrationCount(Player, this);
+        int ricochetCount = CombatUtility.CalculateRicochetCount(Player, this);
 
-        float lifetime = _gunStats.GetStat(GunStatType.Range).FinalValue / speed;
+        //컨텍스트 생성
+        BulletFireContext context = new()
+        {
+            Gun = this,
+            FireDirection = fireDirection,
+            BaseDamage = baseDamage,
+            Speed = speed,
+            Range = range,
+            CriticalRate = criticalRate,
+            CriticalDamageRate = criticalDamageRate,
+            PenetrationCount = penetrationCount,
+            RicochetCount = ricochetCount,
+            HitLayerMask = _gunData.HitLayerMask
+        };
 
-        bullet.Fire(initialSpeed, lifetime, penetrationCount, ricochetCount);
+        //총알 발사
+        bullet.Fire(context);
 
+        //궤적 이펙트 부착
         var trail = _trailManager.GetTrail(_gunData.TrailData);
 
         if (trail != null)
         {
             bullet.AttachTrail(trail);
-        }
-    }
-
-    //총알 충돌 처리
-    private void OnBulletCollision(Bullet bullet, Collision collision)
-    {
-        if (collision == null)
-        {
-            ReleaseBullet(bullet);
-            return;
-        }
-
-        //충돌 지점 처리
-        var contact = collision.GetContact(0);
-
-        if (!contact.otherCollider.TryGetComponent<IDamageable>(out var damageable))
-        {
-            //적 이외에 땅, 장애물과 충돌 시
-            ReleaseBullet(bullet);
-            return;
-        }
-
-        //적에게 충돌 시
-        float distance = Vector3.Distance(bullet.SpawnPos, contact.point);
-        ApplyDamage(damageable, distance);
-
-        //튕김 시도
-        if (bullet.TryRicochet())
-        {
-            //가장 가까운 적 찾기. 현재 적 제외
-            float halfRange = _gunStats.GetStat(GunStatType.Range).FinalValue / 2f;
-            var targetCollider = CombatUtility.GetNearestCollider(contact.point, halfRange, _gunData.HitLayerMask, bullet.HitColliders);
-
-            //튕길 방향 계산 및 속도 설정
-            if (targetCollider != null)
-            {
-                Vector3 center = targetCollider.bounds.center;
-                var direction = (center - contact.point).normalized;
-
-                float speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
-
-                Vector3 newSpeed = direction * speed;
-                bullet.SetSpeed(newSpeed);
-
-                //튕김 성공 시 관통 시도하지 않음
-                return;
-            }
-        }
-
-        //튕김 실패 시 관통 시도
-        //관통 실패 시 총알 해제
-        if (!bullet.TryPenetrate())
-        {
-            ReleaseBullet(bullet);
-        }
-
-    }
-
-    /// <summary>
-    /// 총알 해제 처리
-    /// </summary>
-    private void ReleaseBullet(Bullet bullet)
-    {
-        //이벤트 구독 해제
-        bullet.OnBulletCollision -= OnBulletCollision;
-
-        //총알 궤적 이펙트 지연 해제
-        var trail = bullet.DetachTrail();
-        if (trail != null)
-        {
-            StartCoroutine(DelayDisable(trail));
-        }
-
-        //총알 풀로 반환
-        _bulletManager.ReleaseBullet(bullet);
-    }
-
-    //총알 궤적 이펙트 지연 해제
-    private IEnumerator DelayDisable(Trail trail)
-    {
-        yield return new WaitForSeconds(trail.TrailRenderer.time);
-        _trailManager.ReleaseTrail(trail);
-    }
-
-
-    //데미지 적용
-    private void ApplyDamage(IDamageable damageable, float distance)
-    {
-        //기본 데미지 계산
-        float damage = CombatUtility.CalculateBulletDamage(Player, this, distance);
-
-        //크리티컬일 시 크리티컬 데미지 계산
-        bool isCritical = CombatUtility.IsCritical(Player, this);
-        if (isCritical)
-        {
-            damage = CombatUtility.CalculateCriticalDamage(Player, this, damage);
-        }
-
-        //데미지 적용
-        damage = damageable.TakeDamage(damage);
-
-        //적중 및 킬 이벤트 발생
-        if (damage > 0f)
-        {
-            HitTarget(damageable, damage);
-
-            if (damageable.IsDead)
-            {
-                KillTarget(damageable);
-            }
         }
     }
     #endregion

@@ -12,23 +12,35 @@ public class PlayerFallState : PlayerBaseState
 
     public override void Enter()
     {
+        //떨어지는 애니메이션 재생
         PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsFallingHash, true);
+
+        //서브 상태 초기화
         InitSubState();
         SubState?.Enter();
     }
 
     public override void Update()
     {
+        //중력 적용
         PlayerController.MovementY += PlayerController.Gravity * PlayerController.PlayerControllerData.FallGravityMultiplier * Time.deltaTime;
+
+        //최소 낙하 속도 제한
         PlayerController.MovementY = Mathf.Max(PlayerController.MovementY, PlayerController.PlayerControllerData.FallSpeedMin);
+
+        //서브 상태 업데이트
         SubState?.Update();
 
+        //상태 전환 체크
         CheckChangeState();
     }
 
     public override void Exit()
     {
+        //서브 상태 종료
         SubState?.Exit();
+
+        //떨어지는 애니메이션 종료
         PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsFallingHash, false);
     }
 
@@ -46,7 +58,7 @@ public class PlayerFallState : PlayerBaseState
 
     public override void CheckChangeState()
     {
-        if (PlayerController.CharacterController.isGrounded)
+        if (PlayerController.IsGrounded)
         {
             PlayerController.StateMachine.ChangeState(Factory.Grounded);
         }

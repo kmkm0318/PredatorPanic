@@ -1,44 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 /// <summary>
 /// 행성 주변의 오브젝트들을 행성 표면에 맞게 회전시켜주는 클래스
 /// 중력은 작용하지 않음
 /// </summary>
+[RequireComponent(typeof(SphereCollider))]
 public class Planet : MonoBehaviour
 {
-    //타겟 리스트
-    private List<Transform> _targets = new();
+    [SerializeField] private float _rotateSpeed = 15f;
+
+    #region 컴포넌트
+    private SphereCollider _collider;
+    #endregion
 
     #region 프로퍼티
     public Vector3 Center => transform.position;
-    public float Radius => transform.localScale.x * 0.5f;
+    public float Radius => _collider.radius;
     #endregion
 
-    private void Update()
+    private void Awake()
     {
-        HandleTargetUpRotation();
-    }
-
-    //타겟 리스트의 위쪽 방향 설정
-    private void HandleTargetUpRotation()
-    {
-        for (int i = 0; i < _targets.Count; i++)
-        {
-            //타겟 지정
-            Transform target = _targets[i];
-
-            //타겟 회전 처리
-            RotateTargetToUpRotation(target);
-        }
+        _collider = GetComponent<SphereCollider>();
     }
 
     //타겟이 행성 표면 방향을 위로 향하도록 회전
-    private void RotateTargetToUpRotation(Transform target)
+    public void RotateTargetToUpRotation(Transform target, bool instant = false)
     {
         if (target == null) return;
 
-        target.rotation = GetUpRotation(target);
+        //행성 표면 방향에 맞는 회전값 계산
+        var targetRotation = GetUpRotation(target);
+
+        if (instant)
+        {
+            //즉시 회전
+            target.rotation = targetRotation;
+        }
+        else
+        {
+            //부드럽게 회전
+            target.rotation = Quaternion.Slerp(target.rotation, targetRotation, _rotateSpeed * Time.fixedDeltaTime);
+        }
     }
 
     //타겟의 수직 회전값을 행성 표면에 맞게 계산
@@ -76,27 +80,4 @@ public class Planet : MonoBehaviour
         //타겟 방향을 바라보는 회전값 반환
         return Quaternion.LookRotation(toTarget, upDir);
     }
-
-    #region 타겟 등록 및 등록 해제
-    //타겟 등록
-    public void RegisterTarget(Transform target)
-    {
-        if (!_targets.Contains(target))
-        {
-            _targets.Add(target);
-
-            //등록 시에 바로 회전 처리
-            RotateTargetToUpRotation(target);
-        }
-    }
-
-    //타겟 등록 해제
-    public void UnregisterTarget(Transform target)
-    {
-        if (_targets.Contains(target))
-        {
-            _targets.Remove(target);
-        }
-    }
-    #endregion
 }
