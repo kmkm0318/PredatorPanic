@@ -27,11 +27,11 @@ public class EnemyController : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    public void Init(Enemy enemy, EnemyControllerData enemyControllerData)
+    public void Init(Enemy enemy)
     {
         //데이터 할당
         _enemy = enemy;
-        _enemyControllerData = enemyControllerData;
+        _enemyControllerData = enemy.EnemyData.EnemyControllerData;
 
         //스탯 가져오기
         var stat = _enemy.EnemyStats;

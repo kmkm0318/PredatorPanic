@@ -19,18 +19,8 @@ public class GamePlayingState : GameBaseState
         //아이템 드랍 가능하게 설정
         GameManager.DropItemManager.CanDrop = true;
 
-        //적 스폰 코루틴 시작
-        int enemySpawnCount = GameManager.GameData.BaseEnemySpawnCount
-        + (GameManager.CurrentRound - 1)
-        * GameManager.GameData.EnemySpawnCountIncrementPerRound;
-
-        float enemySpawnSpeed = GameManager.GameData.BaseEnemySpawnSpeed
-        + (GameManager.CurrentRound - 1)
-        * GameManager.GameData.EnemySpawnSpeedIncrementPerRound;
-
-        float enemySpawnInterval = 1f / enemySpawnSpeed;
-
-        GameManager.EnemyManager.StartEnemySpawn(GameManager.Player.transform, enemySpawnCount, enemySpawnInterval);
+        //적 스폰 시작
+        GameManager.EnemyManager.StartEnemySpawn();
     }
 
     public override void Update()
@@ -59,7 +49,7 @@ public class GamePlayingState : GameBaseState
         //아이템 드랍 불가능하게 설정
         GameManager.DropItemManager.CanDrop = false;
 
-        //적 스폰 코루틴 중지
+        //적 스폰 중지
         GameManager.EnemyManager.StopEnemySpawn();
     }
 

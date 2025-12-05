@@ -73,7 +73,6 @@ public class DamageTextUI : MonoBehaviour
     /// </summary>
     public void ShowDamageText(Vector3 pos, Vector3 forward, float damage, bool isCritical, DamageTextType type = DamageTextType.Normal)
     {
-        $"Damage={damage}, pos={pos}".Log();
         //데미지 텍스트 데이터 리스트 가져오기
         var dataList = DataManager.Instance.DamageTextDataList;
 

@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Pool;
 
 /// <summary>
@@ -22,8 +20,13 @@ public class EnemyManager : MonoBehaviour
     private List<Enemy> _activeEnemies = new(); //현재 활성화된 적 리스트
     #endregion
 
-    #region 코루틴
-    private Coroutine _enemySpawnCoroutine;
+    #region 적 스폰 변수
+    private bool _isSpawning = false;
+    private Transform _target;
+    private int _spawnCount;
+    private float _spawnInterval;
+    private int _spawnLevel;
+    private float _nextSpawnTime = 0f;
     #endregion
 
     private void OnEnable()
@@ -34,6 +37,11 @@ public class EnemyManager : MonoBehaviour
     private void OnDisable()
     {
         UnregisterEvents();
+    }
+
+    private void Update()
+    {
+        HandleEnemySpawn();
     }
 
     #region 이벤트
@@ -86,29 +94,34 @@ public class EnemyManager : MonoBehaviour
     }
     #endregion
 
-    #region Enemy Spawn 코루틴
-    private IEnumerator EnemySpawnCoroutine(Transform target, int count, float interval)
+    #region Enemy 스폰 제어
+    private void HandleEnemySpawn()
     {
-        while (true)
+        if (!_isSpawning) return;
+        if (Time.time >= _nextSpawnTime)
         {
-            SpawnEnemies(target, count);
-            yield return new WaitForSeconds(interval);
+            SpawnEnemies(_target, _spawnCount);
+            _nextSpawnTime = Time.time + _spawnInterval;
         }
     }
 
-    public void StartEnemySpawn(Transform target, int count, float interval)
+    public void SetRoundEnemyVariables(Transform target, int count, float interval, int level = 0)
     {
-        StopEnemySpawn();
-        _enemySpawnCoroutine = StartCoroutine(EnemySpawnCoroutine(target, count, interval));
+        _target = target;
+        _spawnCount = count;
+        _spawnInterval = interval;
+        _spawnLevel = level;
+        _nextSpawnTime = 0f;
+    }
+
+    public void StartEnemySpawn()
+    {
+        _isSpawning = true;
     }
 
     public void StopEnemySpawn()
     {
-        if (_enemySpawnCoroutine != null)
-        {
-            StopCoroutine(_enemySpawnCoroutine);
-            _enemySpawnCoroutine = null;
-        }
+        _isSpawning = false;
     }
     #endregion
 
@@ -138,14 +151,14 @@ public class EnemyManager : MonoBehaviour
     }
 
     //단일 적 스폰
-    public Enemy SpawnEnemy(EnemyData enemyData, Vector3 spawnPoint)
+    private Enemy SpawnEnemy(EnemyData enemyData, Vector3 spawnPoint)
     {
         //풀 가져오고 적 가져오기
         var pool = GetPool(enemyData);
         var enemy = pool.Get();
 
         //적 초기화
-        enemy.Init(enemyData, 0);
+        enemy.Init(enemyData, _spawnLevel);
         enemy.transform.position = spawnPoint;
         return enemy;
     }
@@ -176,6 +189,7 @@ public class EnemyManager : MonoBehaviour
     }
     #endregion
 
+    #region 적 일괄 처리
     // 활성화된 모든 적 즉시 사망 처리.
     public void KillAllEnemies()
     {
@@ -187,4 +201,5 @@ public class EnemyManager : MonoBehaviour
 
         _activeEnemies.Clear();
     }
+    #endregion
 }

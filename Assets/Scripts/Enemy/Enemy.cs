@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
 
     public void Init(EnemyData enemyData, int level = 0)
     {
+        //적 데이터 설정
         EnemyData = enemyData;
 
         //EnemyController에서 Stat를 사용하기 때문에 Stat 먼저 초기화
@@ -49,8 +50,10 @@ public class Enemy : MonoBehaviour
 
     private void InitStats(int level = 0)
     {
+        //기본 스탯 초기화
         EnemyStats = new Stats<EnemyStatType>(EnemyData.BaseStats);
 
+        //레벨에 따른 스탯 증가 적용
         foreach (var entity in EnemyData.IncreaseRates)
         {
             float increaseAmount = entity.Value * level;
@@ -60,13 +63,16 @@ public class Enemy : MonoBehaviour
 
     private void InitComponents()
     {
-        _enemyController.Init(this, EnemyData.EnemyControllerData);
+        //적 컨트롤러 초기화
+        _enemyController.Init(this);
 
+        //Health 컴포넌트 초기화
         float maxHealth = EnemyStats.GetStat(EnemyStatType.Health).FinalValue;
         float defense = EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
 
         _health.Init(maxHealth, defense);
 
+        //Health 스탯 변경 이벤트 등록
         RegisterHealthStatEvents();
     }
 

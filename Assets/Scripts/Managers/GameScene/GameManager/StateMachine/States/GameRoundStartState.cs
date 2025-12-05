@@ -15,6 +15,23 @@ public class GameRoundStartState : GameBaseState
 
         //라운드 타이머 초기화
         GameManager.RoundTimer = GameManager.GameData.RoundDuration;
+
+        //적 스폰 변수 설정
+        int roundIdx = GameManager.CurrentRound - 1;
+
+        int enemySpawnCount = GameManager.GameData.BaseEnemySpawnCount
+        + roundIdx
+        * GameManager.GameData.EnemySpawnCountIncrementPerRound;
+
+        float enemySpawnSpeed = GameManager.GameData.BaseEnemySpawnSpeed
+        + roundIdx
+        * GameManager.GameData.EnemySpawnSpeedIncrementPerRound;
+
+        float enemySpawnInterval = 1f / enemySpawnSpeed;
+
+        int enemyLevel = roundIdx;
+
+        GameManager.EnemyManager.SetRoundEnemyVariables(GameManager.Player.transform, enemySpawnCount, enemySpawnInterval, enemyLevel);
     }
 
     public override void Update()

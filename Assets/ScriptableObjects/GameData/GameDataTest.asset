@@ -15,7 +15,7 @@ MonoBehaviour:
   _roundStartDelay: 0
   _roundDuration: 60
   _targetRounds: 10
-  _baseEnemySpawnCount: 1000
-  _enemySpawnCountIncrementPerRound: 3
-  _baseEnemySpawnSpeed: 5e-29
+  _baseEnemySpawnCount: 3
+  _enemySpawnCountIncrementPerRound: 2
+  _baseEnemySpawnSpeed: 0.5
   _enemySpawnSpeedIncrementPerRound: 0.1
