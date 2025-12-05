@@ -60,8 +60,8 @@ public class Player : MonoBehaviour
     public event Action<float, float> OnExpChanged;
     public event Action<int> OnToothChanged;
     public event Action<int> OnDNAChanged;
-    public event Action<Enemy, float> OnHit; //적중 이벤트
-    public event Action<Enemy> OnKill; //킬 이벤트
+    public event Action<PlayerDamageContext> OnHit; //적중 이벤트
+    public event Action<PlayerDamageContext> OnKill; //킬 이벤트
     #endregion
 
     private void Awake()
@@ -197,13 +197,13 @@ public class Player : MonoBehaviour
         }
 
         //적중 이벤트 발생
-        OnHit?.Invoke(context.Enemy, context.Damage);
+        OnHit?.Invoke(context);
     }
 
     public void HandleOnKill(PlayerDamageContext context)
     {
         //킬 이벤트 발생
-        OnKill?.Invoke(context.Enemy);
+        OnKill?.Invoke(context);
     }
     #endregion
 

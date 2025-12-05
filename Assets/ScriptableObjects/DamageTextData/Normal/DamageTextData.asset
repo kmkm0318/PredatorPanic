@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3727e738480729f4889da0370e93048d, type: 3}
+  m_Name: DamageTextData
+  m_EditorClassIdentifier: Assembly-CSharp::DamageTextData
+  <DamageTextPrefab>k__BackingField: {fileID: 3566378981349291865, guid: 1dc400e7ffb37414f964a9e21739a736, type: 3}
+  <DamageTextType>k__BackingField: 0
+  <MoveDistance>k__BackingField: 5
+  <MoveDuration>k__BackingField: 0.1
+  <FadeDuration>k__BackingField: 0.4
+  <NormalColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  <CriticalColor>k__BackingField: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

@@ -10,25 +10,29 @@ public class EnemyVisual : MonoBehaviour
     private const float HIT_FLASH_DURATION = 0.1f;
 
     // 머티리얼 리스트
-    private List<Material> _materials = new();
+    private Renderer[] _renderers;
+
+    // 머티리얼 프로퍼티 블럭
+    private MaterialPropertyBlock _mpb;
 
     #region 플래시 관련 변수
-    int _FlashID = Shader.PropertyToID("_Flash");
+    static readonly int _FlashID = Shader.PropertyToID("_Flash");
     bool _isFlashing = false;
     float _flashTimer = 0f;
     #endregion
 
     private void Awake()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         // 자식 오브젝트의 모든 렌더러에서 메터리얼 수집
-        var renderers = GetComponentsInChildren<Renderer>();
-        foreach (var renderer in renderers)
-        {
-            foreach (var mat in renderer.materials)
-            {
-                _materials.Add(mat);
-            }
-        }
+        _renderers = GetComponentsInChildren<Renderer>();
+
+        // 머티리얼 프로퍼티 블럭 초기화
+        _mpb = new();
     }
 
     private void Update()
@@ -56,10 +60,7 @@ public class EnemyVisual : MonoBehaviour
         {
             _isFlashing = true;
 
-            foreach (var mat in _materials)
-            {
-                mat.SetFloat(_FlashID, 1f);
-            }
+            SetFlashValue(1f);
         }
 
         //타이머 초기화
@@ -71,9 +72,17 @@ public class EnemyVisual : MonoBehaviour
         // 플래시 종료
         _isFlashing = false;
 
-        foreach (var mat in _materials)
+        SetFlashValue(0f);
+    }
+
+    /// 플래시 값 설정
+    private void SetFlashValue(float value)
+    {
+        foreach (var renderer in _renderers)
         {
-            mat.SetFloat(_FlashID, 0f);
+            renderer.GetPropertyBlock(_mpb);
+            _mpb.SetFloat(_FlashID, value);
+            renderer.SetPropertyBlock(_mpb);
         }
     }
 }

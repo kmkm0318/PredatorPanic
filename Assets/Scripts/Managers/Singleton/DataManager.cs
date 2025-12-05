@@ -20,4 +20,8 @@ public class DataManager : Singleton<DataManager>
     [Header("Item Data List")]
     [SerializeField] private ItemDataList _itemDataList;
     public ItemDataList ItemDataList => _itemDataList;
+
+    [Header("Damage Text Data List")]
+    [SerializeField] private DamageTextDataList _damageTextDataList;
+    public DamageTextDataList DamageTextDataList => _damageTextDataList;
 }

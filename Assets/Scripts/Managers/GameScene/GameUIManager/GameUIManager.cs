@@ -10,12 +10,14 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private PlayerUI _playerUI;
     [SerializeField] private LevelUpRewardUI _levelUpRewardUI;
     [SerializeField] private ShopUI _shopUI;
+    [SerializeField] private DamageTextUI _damageTextUI;
     #endregion
 
     #region MVP 구조를 위한 Presenter들
     private PlayerPresenter _playerPresenter;
     public LevelUpRewardPresenter LevelUpRewardPresenter { get; private set; }
     public ShopPresenter ShopPresenter { get; private set; }
+    public DamageTextPresenter DamageTextPresenter { get; private set; }
     #endregion
 
     #region 레퍼런스
@@ -34,6 +36,9 @@ public class GameUIManager : MonoBehaviour
 
         ShopPresenter = new ShopPresenter(gameManager.ShopManager, _shopUI);
         ShopPresenter.Init();
+
+        DamageTextPresenter = new DamageTextPresenter(gameManager.Player, _damageTextUI);
+        DamageTextPresenter.Init();
     }
 
     // 종료 시에 이벤트 해제
@@ -42,5 +47,6 @@ public class GameUIManager : MonoBehaviour
         _playerPresenter.Reset();
         LevelUpRewardPresenter.Reset();
         ShopPresenter.Reset();
+        DamageTextPresenter.Reset();
     }
 }
