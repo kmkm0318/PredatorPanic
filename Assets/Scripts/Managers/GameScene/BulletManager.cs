@@ -11,6 +11,10 @@ public class BulletManager : MonoBehaviour
     private Dictionary<BulletData, ObjectPool<Bullet>> _bullets = new();
     #endregion
 
+    #region 레퍼런스
+    public GameManager GameManager { get; private set; }
+    #endregion
+
     #region 오브젝트 풀링
     private void InitPool(BulletData data)
     {
@@ -24,10 +28,9 @@ public class BulletManager : MonoBehaviour
                 bullet.Init(data, this);
                 return bullet;
             },
-            (bullet) => { bullet.gameObject.SetActive(true); },
-            (bullet) => { bullet.gameObject.SetActive(false); },
-            (bullet) => { Destroy(bullet.gameObject); },
-            false
+            (bullet) => bullet.gameObject.SetActive(true),
+            (bullet) => bullet.gameObject.SetActive(false),
+            (bullet) => Destroy(bullet.gameObject)
         );
 
         _bullets[data] = pool;
@@ -44,6 +47,11 @@ public class BulletManager : MonoBehaviour
         return pool;
     }
     #endregion
+
+    public void Init(GameManager gameManager)
+    {
+        GameManager = gameManager;
+    }
 
     /// <summary>
     /// 총알 스폰

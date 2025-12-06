@@ -24,10 +24,9 @@ public class TrailManager : MonoBehaviour
                 trail.Init(data, this);
                 return trail;
             },
-            (trail) => { trail.gameObject.SetActive(true); },
-            (trail) => { trail.gameObject.SetActive(false); },
-            (trail) => { Destroy(trail.gameObject); },
-            false
+            (trail) => trail.gameObject.SetActive(true),
+            (trail) => trail.gameObject.SetActive(false),
+            (trail) => Destroy(trail.gameObject)
         );
 
         _trails[data] = pool;

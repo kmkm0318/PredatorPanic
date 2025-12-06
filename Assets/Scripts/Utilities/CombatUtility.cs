@@ -10,6 +10,12 @@ public static class CombatUtility
     public const float ATTACK_CONSTANT = 50f;
     //방어도 상수
     public const float DEFENSE_CONSTANT = 50f;
+    //총기 Range에 대한 폭발 반경 비율
+    public const float EXPLOSION_RADIUS_RATIO = 0.1f;
+    //콜라이더 버퍼 최대 크기
+    private const int MAX_COLLIDER_BUFFER_SIZE = 128;
+    //콜라이더 배열 재사용을 위한 버퍼
+    private static Collider[] _colliders = new Collider[MAX_COLLIDER_BUFFER_SIZE];
 
     /// <summary>
     /// 플레이어의 공격력과 총기의 기본 데미지를 통한 총알의 기본 데미지를 반환하는 함수
@@ -24,15 +30,21 @@ public static class CombatUtility
     }
 
     /// <summary>
-    /// 사거리와 실제 거리에 따른 총알의 최종 데미지를 반환하는 함수
+    /// 최대 거리와 실제 거리에 따른 데미지 감소를 계산하여 반환
     /// </summary>
-    public static float CalculateBulletFinalDamage(float baseDamage, float range, float distanceTraveled)
+    public static float CalculateRangedDamage(float baseDamage, float range, float distance)
     {
+        //사거리가 0 이하일 때 기본 데미지 반환
+        if (range <= 0f) return baseDamage;
+
+        //거리의 절반까지 최대 데미지를 받음
+        //거리의 절반부터 최대 거리까지 선형적으로 감소
+        //최대 50%까지 감소
         float halfRange = range / 2f;
         float distanceFactor = 1.0f;
-        if (distanceTraveled > halfRange)
+        if (distance > halfRange)
         {
-            distanceFactor = 1f - (distanceTraveled - halfRange) / halfRange * 0.5f; // 최대 50% 감소
+            distanceFactor = 1f - (distance - halfRange) / halfRange * 0.5f; // 최대 50% 감소
         }
         return baseDamage * distanceFactor;
     }
@@ -137,13 +149,15 @@ public static class CombatUtility
     /// </summary>
     public static Collider GetNearestCollider(Vector3 origin, float range, LayerMask targetLayerMask, HashSet<Collider> excepts = null)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(origin, range, targetLayerMask);
+        int hitCount = Physics.OverlapSphereNonAlloc(origin, range, _colliders, targetLayerMask);
 
         Collider nearestCollider = null;
         float minDistSqr = float.MaxValue;
 
-        foreach (var collider in hitColliders)
+        for (int i = 0; i < hitCount; i++)
         {
+            var collider = _colliders[i];
+
             if (excepts != null && excepts.Contains(collider)) continue;
 
             float curDistSqr = (collider.transform.position - origin).sqrMagnitude;
@@ -178,5 +192,16 @@ public static class CombatUtility
         Quaternion spreadRotation = Quaternion.AngleAxis(angle, Vector3.up);
         Vector3 spreadDirection = spreadRotation * fireDirection;
         return spreadDirection.normalized;
+    }
+
+    /// <summary>
+    /// OverlapSphereNonAlloc 래퍼 함수
+    /// 콜라이더 배열 버퍼를 재사용하여 할당 최소화
+    /// </summary>
+    public static int GetOverlapSphereNonAlloc(Vector3 position, float radius, LayerMask layerMask, out Collider[] colliders)
+    {
+        int hitCount = Physics.OverlapSphereNonAlloc(position, radius, _colliders, layerMask);
+        colliders = _colliders;
+        return hitCount;
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -21,6 +20,7 @@ public class Gun : Weapon
     #region 레퍼런스 데이터
     private BulletManager _bulletManager;
     private TrailManager _trailManager;
+    private ExplosionManager _explosionManager;
     #endregion
 
     #region 변수
@@ -50,6 +50,7 @@ public class Gun : Weapon
 
         _bulletManager = player.GameManager.BulletManager;
         _trailManager = player.GameManager.TrailManager;
+        _explosionManager = player.GameManager.ExplosionManager;
 
         _gunStats = new(_gunData.InitialStats);
         _mainCamera = Camera.main;
@@ -187,10 +188,12 @@ public class Gun : Weapon
         float criticalDamageRate = CombatUtility.CalculateCriticalDamageRate(Player, this);
         int penetrationCount = CombatUtility.CalculatePenetrationCount(Player, this);
         int ricochetCount = CombatUtility.CalculateRicochetCount(Player, this);
+        var explosionData = _gunData.ExplosionData;
 
         //컨텍스트 생성
         BulletFireContext context = new()
         {
+            Player = Player,
             Gun = this,
             FireDirection = fireDirection,
             BaseDamage = baseDamage,
@@ -200,6 +203,7 @@ public class Gun : Weapon
             CriticalDamageRate = criticalDamageRate,
             PenetrationCount = penetrationCount,
             RicochetCount = ricochetCount,
+            ExplosionData = explosionData,
             HitLayerMask = _gunData.HitLayerMask
         };
 
@@ -207,11 +211,13 @@ public class Gun : Weapon
         bullet.Fire(context);
 
         //궤적 이펙트 부착
-        var trail = _trailManager.GetTrail(_gunData.TrailData);
-
-        if (trail != null)
+        if (_gunData.TrailData)
         {
-            bullet.AttachTrail(trail);
+            var trail = _trailManager.GetTrail(_gunData.TrailData);
+            if (trail)
+            {
+                bullet.AttachTrail(trail);
+            }
         }
     }
     #endregion

@@ -144,10 +144,16 @@ public class ShopManager : MonoBehaviour
             success = _player.TryEquipItem(itemProduct.ItemData);
         }
 
+        //구매 성공
         if (success)
         {
-            //구매 성공 시 상품 제거
+            //구매한 상품 제거
             BuyProducts.Remove(product);
+
+            //무기 및 인벤토리 상품 갱신
+            RefreshWeaponInventoryProducts();
+            RefreshItemInventoryProducts();
+
             return true;
         }
 

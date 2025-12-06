@@ -34,7 +34,7 @@ public class Trail : MonoBehaviour
     }
 
     //불릿에 부착
-    public void AttachOnBullet(Bullet bullet)
+    public void AttachToBullet(Bullet bullet)
     {
         //부모로 설정 및 위치, 방향 초기화
         transform.SetParent(bullet.transform, false);

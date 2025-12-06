@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public struct BulletFireContext
 {
+    //발사한 플레이어
+    public Player Player;
     //발사한 총기
     public Gun Gun;
     //총알 발사 방향
@@ -23,6 +25,8 @@ public struct BulletFireContext
     public int PenetrationCount;
     //튕김 수
     public int RicochetCount;
+    //폭발 데이터
+    public ExplosionData ExplosionData;
     //충돌 레이어 마스크
     public LayerMask HitLayerMask;
 }

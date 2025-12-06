@@ -18,8 +18,11 @@ public class Bullet : MonoBehaviour
 
     #region 레퍼런스 변수
     private BulletManager _bulletManager;
+    private ExplosionManager _explosionManager;
+    private Player _player; //발사한 플레이어
     private Gun _gun; //발사한 총기
     private Trail _trail; //총알 궤적 이펙트
+    private ExplosionData _explosionData; //폭발 효과
     #endregion
 
     #region 변수
@@ -41,11 +44,12 @@ public class Bullet : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    //총알 데이터 초기화
+    //총알 데이터 초기화 및 매니저 레퍼런스 설정
     public void Init(BulletData data, BulletManager bulletManager)
     {
         Data = data;
         _bulletManager = bulletManager;
+        _explosionManager = bulletManager.GameManager.ExplosionManager;
     }
 
     #region 발사 및 지연 비활성화
@@ -55,7 +59,10 @@ public class Bullet : MonoBehaviour
         //발사 위치 기록. 총알 적중 시 거리 계산용
         SpawnPos = transform.position;
 
-        //발사한 총기 설정
+        //발사한 플레이어 설정
+        _player = context.Player;
+
+        //발사한 무기 설정
         _gun = context.Gun;
 
         //데미지, 속도, 사거리 설정
@@ -70,6 +77,9 @@ public class Bullet : MonoBehaviour
         //남은 관통 및 튕김 횟수 설정
         _remainPenetrationCount = context.PenetrationCount;
         _remainRicochetCount = context.RicochetCount;
+
+        //폭발 데이터 설정
+        _explosionData = context.ExplosionData;
 
         //충돌 레이어 마스크 설정
         _hitLayerMask = context.HitLayerMask;
@@ -97,7 +107,7 @@ public class Bullet : MonoBehaviour
         if (trail == null) return;
 
         _trail = trail;
-        trail.AttachOnBullet(this);
+        trail.AttachToBullet(this);
     }
 
     //총알 궤적 이펙트 분리
@@ -107,6 +117,39 @@ public class Bullet : MonoBehaviour
 
         _trail.DetachFromBullet();
         _trail = null;
+    }
+    #endregion
+
+    #region 폭발
+    //폭발 실행 함수
+    //폭발 실행은 총알이 튕겨나갈 때, 관통할 때, 또는 반환될 때 호출
+    private void ExecuteExplosion()
+    {
+        if (_explosionData == null) return;
+        if (_explosionManager == null) return;
+
+        //폭발 효과 가져오기
+        var explosion = _explosionManager.GetExplosion(_explosionData);
+
+        //폭발 위치 및 회전 설정
+        explosion.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+
+        //폭발 반경 계산
+        var radius = CombatUtility.EXPLOSION_RADIUS_RATIO * _range;
+
+        //폭발 컨텍스트 생성
+        ExplosionExplodeContext context = new()
+        {
+            Weapon = _gun,
+            BaseDamage = _baseDamage,
+            Radius = radius,
+            CriticalRate = _criticalRate,
+            CriticalDamageRate = _criticalDamageRate,
+            HitLayerMask = _hitLayerMask,
+        };
+
+        //폭발 실행
+        explosion.Explode(context);
     }
     #endregion
 
@@ -151,15 +194,23 @@ public class Bullet : MonoBehaviour
                 Vector3 newSpeed = direction * _speed;
                 _rigidbody.linearVelocity = newSpeed;
 
+                //튕길 때 폭발 실행
+                ExecuteExplosion();
+
                 //튕김 성공 시 관통 시도하지 않음
                 return;
             }
         }
 
         //튕김 실패 시 관통 시도
-        //관통 실패 시 총알 해제
-        if (!TryPenetrate())
+        if (TryPenetrate())
         {
+            //관통 성공 시 폭발 실행
+            ExecuteExplosion();
+        }
+        else
+        {
+            //관통 실패 시 총알 반환
             ReleaseBullet();
         }
     }
@@ -167,10 +218,10 @@ public class Bullet : MonoBehaviour
     private void ApplyDamage(Enemy enemy, float distance)
     {
         //거리 비례 데미지 계산
-        float damage = CombatUtility.CalculateBulletFinalDamage(_baseDamage, _range, distance);
+        float damage = CombatUtility.CalculateRangedDamage(_baseDamage, _range, distance);
 
         //치명타 여부 결정
-        bool isCritical = UnityEngine.Random.value < _criticalRate;
+        bool isCritical = Random.value <= _criticalRate;
         if (isCritical)
         {
             damage *= _criticalDamageRate;
@@ -179,9 +230,9 @@ public class Bullet : MonoBehaviour
         //데미지 컨텍스트 생성
         PlayerDamageContext context = new()
         {
-            Player = _gun.Player,
+            Player = _player,
             Weapon = _gun,
-            Enemy = null, //적 정보는 IDamageable에서 처리
+            Enemy = enemy,
             Damage = damage, //방어력을 적용하기 전 데미지
             IsCritical = isCritical,
         };
@@ -194,6 +245,9 @@ public class Bullet : MonoBehaviour
     {
         //궤적 분리
         DetachTrail();
+
+        //폭발 실행
+        ExecuteExplosion();
 
         //변수들 초기화
         HitColliders.Clear();

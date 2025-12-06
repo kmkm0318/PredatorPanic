@@ -18,10 +18,12 @@ public class GunData : WeaponData
     // [SerializeField] private bool _isHitScan = true; //히트스캔 사용하지 않음
     [SerializeField] private BulletData _bulletData;
     [SerializeField] private TrailData _trailData;
+    [SerializeField] private ExplosionData _explosionData;
     [SerializeField] private LayerMask _hitLayerMask;
     // public bool IsHitScan => _isHitScan; //히트스캔 사용하지 않음
     public BulletData BulletData => _bulletData;
     public TrailData TrailData => _trailData;
+    public ExplosionData ExplosionData => _explosionData;
     public LayerMask HitLayerMask => _hitLayerMask;
 
     [Header("Stats")]

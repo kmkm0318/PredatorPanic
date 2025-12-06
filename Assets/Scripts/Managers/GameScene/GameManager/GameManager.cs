@@ -25,12 +25,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ShopManager _shopManager;
     [SerializeField] private BulletManager _bulletManager;
     [SerializeField] private TrailManager _trailManager;
+    [SerializeField] private ExplosionManager _explosionManager;
     [SerializeField] private GameUIManager _gameUIManager;
     public EnemyManager EnemyManager => _enemyManager;
     public DropItemManager DropItemManager => _dropItemManager;
     public ShopManager ShopManager => _shopManager;
     public BulletManager BulletManager => _bulletManager;
     public TrailManager TrailManager => _trailManager;
+    public ExplosionManager ExplosionManager => _explosionManager;
     public GameUIManager GameUIManager => _gameUIManager;
 
     #region 플레이어
@@ -98,6 +100,7 @@ public class GameManager : MonoBehaviour
     //매니저 클래스 초기화. UI는 마지막에 초기화
     private void InitManagers()
     {
+        _bulletManager.Init(this);
         _shopManager.Init(Player);
         _gameUIManager.Init(this);
     }

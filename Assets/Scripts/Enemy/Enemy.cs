@@ -95,9 +95,6 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public void TakeDamage(PlayerDamageContext context)
     {
-        //데미지 적용
-        context.Enemy = this;
-
         //방어력 적용 및 현재 체력을 최대값으로 제한
         context.Damage = _health.TakeDamage(context.Damage);
 

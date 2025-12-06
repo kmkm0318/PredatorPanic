@@ -20,6 +20,7 @@ MonoBehaviour:
   _name: Pistol
   _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}
   _trailData: {fileID: 11400000, guid: 4cbd0840957cbbc4aa53f66d7d2658ef, type: 2}
+  _explosionData: {fileID: 11400000, guid: da82b74bbf504c342aaf7a204f6d7f8a, type: 2}
   _hitLayerMask:
     serializedVersion: 2
     m_Bits: 128
