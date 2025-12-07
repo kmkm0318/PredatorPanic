@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// 상점 UI 프리젠터 클래스
@@ -25,6 +26,16 @@ public class ShopPresenter : IPresenter
     public void Init()
     {
         RegisterEvents();
+        InitUI();
+    }
+
+    //초기 UI 설정
+    private void InitUI()
+    {
+        _shopUI.SetRefreshCost(_shopManager.CurrentRefreshCost);
+        _shopUI.SetShopProducts(_shopManager.ShopProducts);
+        _shopUI.SetWeaponInventoryProducts(_shopManager.WeaponInventoryProducts);
+        _shopUI.SetItemInventoryProducts(_shopManager.ItemInventoryProducts);
     }
 
     public void Reset()
@@ -36,36 +47,69 @@ public class ShopPresenter : IPresenter
     #region 이벤트 구독, 해제
     private void RegisterEvents()
     {
-        _shopUI.OnShopProductClicked += OnShopProductClicked;
-        _shopUI.OnWeaponInventoryProductClicked += OnWeaponInventoryProductClicked;
-        _shopUI.OnItemInventoryProductClicked += OnItemInventoryProductClicked;
-        _shopUI.OnRefreshButtonClicked += OnRefreshButtonClicked;
-        _shopUI.OnNextRoundButtonClicked += OnNextRoundButtonClick;
+        if (_shopManager)
+        {
+            _shopManager.OnCurrentRefreshCostChanged += OnCurrentRefreshCostChanged;
+            _shopManager.OnShopProductsUpdated += OnShopProductsUpdated;
+            _shopManager.OnWeaponInventoryProductsUpdated += OnWeaponInventoryProductsUpdated;
+            _shopManager.OnItemInventoryProductsUpdated += OnItemInventoryProductsUpdated;
+        }
+
+        if (_shopUI)
+        {
+            _shopUI.OnShopProductClicked += OnShopProductClicked;
+            _shopUI.OnWeaponInventoryProductClicked += OnWeaponInventoryProductClicked;
+            _shopUI.OnItemInventoryProductClicked += OnItemInventoryProductClicked;
+            _shopUI.OnRefreshButtonClicked += OnRefreshButtonClicked;
+            _shopUI.OnNextRoundButtonClicked += OnNextRoundButtonClick;
+        }
     }
 
     private void UnregisterEvents()
     {
-        _shopUI.OnShopProductClicked -= OnShopProductClicked;
-        _shopUI.OnWeaponInventoryProductClicked -= OnWeaponInventoryProductClicked;
-        _shopUI.OnItemInventoryProductClicked -= OnItemInventoryProductClicked;
-        _shopUI.OnRefreshButtonClicked -= OnRefreshButtonClicked;
-        _shopUI.OnNextRoundButtonClicked -= OnNextRoundButtonClick;
+        if (_shopManager)
+        {
+            _shopManager.OnShopProductsUpdated += OnShopProductsUpdated;
+            _shopManager.OnWeaponInventoryProductsUpdated += OnWeaponInventoryProductsUpdated;
+            _shopManager.OnItemInventoryProductsUpdated += OnItemInventoryProductsUpdated;
+        }
+
+        if (_shopUI)
+        {
+            _shopUI.OnShopProductClicked -= OnShopProductClicked;
+            _shopUI.OnWeaponInventoryProductClicked -= OnWeaponInventoryProductClicked;
+            _shopUI.OnItemInventoryProductClicked -= OnItemInventoryProductClicked;
+            _shopUI.OnRefreshButtonClicked -= OnRefreshButtonClicked;
+            _shopUI.OnNextRoundButtonClicked -= OnNextRoundButtonClick;
+        }
     }
     #endregion
 
     #region 이벤트 핸들러
+    private void OnCurrentRefreshCostChanged(int cost)
+    {
+        _shopUI.SetRefreshCost(cost);
+    }
+
+    private void OnShopProductsUpdated(List<IProduct> shopProducts)
+    {
+        _shopUI.SetShopProducts(shopProducts);
+    }
+
+    private void OnWeaponInventoryProductsUpdated(List<WeaponInventoryProduct> weaponInventoryProducts)
+    {
+        _shopUI.SetWeaponInventoryProducts(weaponInventoryProducts);
+    }
+
+    private void OnItemInventoryProductsUpdated(List<ItemInventoryProduct> itemInventoryProducts)
+    {
+        _shopUI.SetItemInventoryProducts(itemInventoryProducts);
+    }
+
     private void OnShopProductClicked(IProduct product)
     {
         //상품 구매 시도
-        bool success = _shopManager.TryBuyProduct(product);
-
-        //구매 성공 시 UI 갱신
-        if (success)
-        {
-            _shopUI.SetShopProducts(_shopManager.BuyProducts);
-            _shopUI.SetWeaponInventoryProducts(_shopManager.WeaponSellProducts);
-            _shopUI.SetItemInventoryProducts(_shopManager.ItemSellProducts);
-        }
+        _shopManager.TryBuyProduct(product);
     }
 
     private void OnWeaponInventoryProductClicked(IProduct product)
@@ -74,14 +118,7 @@ public class ShopPresenter : IPresenter
         if (product is not WeaponInventoryProduct weaponProduct) return;
 
         //상품 판매 시도
-        bool success = _shopManager.TrySellWeaponProduct(weaponProduct);
-
-        //판매 성공 시 UI 갱신
-        if (success)
-        {
-            _shopManager.RefreshWeaponInventoryProducts();
-            _shopUI.SetWeaponInventoryProducts(_shopManager.WeaponSellProducts);
-        }
+        _shopManager.TrySellWeaponProduct(weaponProduct);
     }
 
     private void OnItemInventoryProductClicked(IProduct product)
@@ -90,24 +127,14 @@ public class ShopPresenter : IPresenter
         if (product is not ItemInventoryProduct itemProduct) return;
 
         //상품 판매 시도
-        bool success = _shopManager.TrySellItemProduct(itemProduct);
-
-        //판매 성공 시 UI 갱신
-        if (success)
-        {
-            _shopManager.RefreshItemInventoryProducts();
-            _shopUI.SetItemInventoryProducts(_shopManager.ItemSellProducts);
-        }
+        _shopManager.TrySellItemProduct(itemProduct);
     }
 
     //상점 새로고침 버튼 클릭 핸들러
     private void OnRefreshButtonClicked()
     {
+        //상점 상품 새로고침 시도
         _shopManager.TryRefreshShopProducts();
-
-        _shopUI.SetShopProducts(_shopManager.BuyProducts);
-
-        _shopUI.SetRefreshCost(_shopManager.CurrentRefreshCost);
     }
 
     //다음 라운드 버튼 클릭 핸들러
@@ -124,14 +151,12 @@ public class ShopPresenter : IPresenter
     /// </summary>
     public void ShowShopUI()
     {
-        _shopManager.RefreshAllProduct();
+        //상점 매니저의 모든 상품 갱신
 
-        _shopUI.SetShopProducts(_shopManager.BuyProducts);
-        _shopUI.SetWeaponInventoryProducts(_shopManager.WeaponSellProducts);
-        _shopUI.SetItemInventoryProducts(_shopManager.ItemSellProducts);
+        //판매 상품 갱신. 최초 갱신
+        _shopManager.TryRefreshShopProducts(true);
 
-        _shopUI.SetRefreshCost(_shopManager.CurrentRefreshCost);
-
+        //UI 표시
         _shopUI.Show();
     }
 

@@ -38,6 +38,10 @@ public class Player : MonoBehaviour
     public Stats<PlayerStatType> PlayerStats => _playerStats;
     #endregion
 
+    #region 프로퍼티
+    public List<Weapon> Weapons => _playerAttack.Weapons;
+    #endregion
+
     #region 효과 주체 리스트
     public List<LevelUpReward> LevelUpRewards { get; private set; } = new();
     public List<Item> Items { get; private set; } = new();
@@ -62,6 +66,8 @@ public class Player : MonoBehaviour
     public event Action<int> OnDNAChanged;
     public event Action<PlayerDamageContext> OnHit; //적중 이벤트
     public event Action<PlayerDamageContext> OnKill; //킬 이벤트
+    public event Action<List<Weapon>> OnWeaponsChanged; //무기 리스트 변경 이벤트
+    public event Action<List<Item>> OnItemsChanged; //아이템 리스트 변경 이벤트
     #endregion
 
     private void Awake()
@@ -125,12 +131,14 @@ public class Player : MonoBehaviour
     // WeaponData로 무기 추가
     public bool TryAddWeapon(WeaponData weaponData)
     {
+        //유효성 검사
         if (weaponData == null || weaponData.WeaponPrefab == null)
         {
             "무기 데이터가 올바르지 않습니다.".LogWarning();
             return false;
         }
 
+        //최대 무기 개수 검사
         var curWeaponCount = _playerAttack.Weapons.Count;
         if (curWeaponCount >= _playerData.WeaponCountMax)
         {
@@ -138,11 +146,15 @@ public class Player : MonoBehaviour
             return false;
         }
 
+        //무기 생성 및 추가
         var weaponPivot = _playerVisual.GetNewWeaponPivot();
         var weapon = Instantiate(weaponData.WeaponPrefab, weaponPivot);
         weapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         weapon.Init(weaponData, this);
         _playerAttack.AddWeapon(weapon);
+
+        //무기 변경 이벤트 발생
+        OnWeaponsChanged?.Invoke(_playerAttack.Weapons);
 
         return true;
     }
@@ -156,11 +168,11 @@ public class Player : MonoBehaviour
         if (idx >= 0)
         {
             _playerVisual.RemoveWeaponPivot(idx);
+
+            //무기 변경 이벤트 발생
+            OnWeaponsChanged?.Invoke(_playerAttack.Weapons);
         }
     }
-
-    //무기 리스트 반환
-    public List<Weapon> Weapons => _playerAttack.Weapons;
     #endregion
 
     #region 카메라
@@ -303,10 +315,13 @@ public class Player : MonoBehaviour
     {
         if (itemData == null) return false;
 
+        //아이템 생성 및 추가
         var item = new Item(itemData);
-
         Items.Add(item);
         item.OnEquip(this);
+
+        //아이템 변경 이벤트 발생
+        OnItemsChanged?.Invoke(Items);
 
         return true;
     }
@@ -316,10 +331,15 @@ public class Player : MonoBehaviour
     {
         if (item == null) return;
 
+        //아이템이 장착된 상태인지 확인
         if (Items.Contains(item))
         {
+            //아이템 해제 및 리스트에서 제거
             item.OnUnequip(this);
             Items.Remove(item);
+
+            //아이템 변경 이벤트 발생
+            OnItemsChanged?.Invoke(Items);
         }
     }
     #endregion

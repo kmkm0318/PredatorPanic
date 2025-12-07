@@ -17,7 +17,12 @@ public class PlayerPresenter : IPresenter
     public void Init()
     {
         RegisterEvents();
+        InitUI();
+    }
 
+    // 초기 UI 설정
+    private void InitUI()
+    {
         OnLevelChanged(_player.Level);
         OnExpChanged(_player.CurExp, _player.MaxExp);
         OnHealthChanged(_player.Health.CurrentHealth, _player.Health.MaxHealth);
