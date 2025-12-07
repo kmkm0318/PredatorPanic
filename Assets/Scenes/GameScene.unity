@@ -3756,6 +3756,7 @@ MonoBehaviour:
   _shopSlotCount: 4
   _sellPriceRate: 0.5
   _baseRefreshCost: 5
+  _refreshCostRaise: 1
 --- !u!1 &1944887568
 GameObject:
   m_ObjectHideFlags: 0
@@ -4087,10 +4088,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineThirdPersonFollow
   Damping: {x: 0, y: 0.5, z: 0}
-  ShoulderOffset: {x: 3, y: 0, z: 0}
-  VerticalArmLength: 1
+  ShoulderOffset: {x: 0, y: 0, z: 0}
+  VerticalArmLength: 0
   CameraSide: 1
-  CameraDistance: 3
+  CameraDistance: 0
   AvoidObstacles:
     Enabled: 0
     CollisionFilter:

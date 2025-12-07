@@ -29,4 +29,12 @@ public class PlayerData : ScriptableObject
     [Header("Weapon")]
     [SerializeField] private int _weaponCountMax = 6;
     public int WeaponCountMax => _weaponCountMax;
+
+    [Header("Camera")]
+    [SerializeField] private float _shoulderOffsetX = 3f;
+    [SerializeField] private float _verticalArmLength = 1f;
+    [SerializeField] private float _cameraDistance = 4f;
+    public float ShoulderOffsetX => _shoulderOffsetX;
+    public float VerticalArmLength => _verticalArmLength;
+    public float CameraDistance => _cameraDistance;
 }

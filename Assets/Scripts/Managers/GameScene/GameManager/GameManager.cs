@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     public void Init()
     {
         InitPlayer();
-        InitCameraTarget();
+        InitCamera();
         InitManagers();
         CurrentRound = 1;
     }
@@ -88,12 +88,12 @@ public class GameManager : MonoBehaviour
         Player.TryAddWeapon(_weaponData);
     }
 
-    // 시네머신 카메라의 팔로우 타겟 설정
-    private void InitCameraTarget()
+    // 시네머신 카메라 초기화
+    private void InitCamera()
     {
         if (_cinemachineCamera != null)
         {
-            Player.SetCameraFollowTarget(_cinemachineCamera);
+            Player.InitCamera(_cinemachineCamera);
         }
     }
 

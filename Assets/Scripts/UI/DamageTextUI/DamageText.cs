@@ -26,7 +26,7 @@ public class DamageText : MonoBehaviour
         Data = data;
 
         // 데미지 텍스트 설정
-        _damageText.text = damage.ToString("#.#");
+        _damageText.text = damage.ToString("0.#");
         _damageText.color = isCritical ? Data.CriticalColor : Data.NormalColor;
 
         // 애니메이션 시작

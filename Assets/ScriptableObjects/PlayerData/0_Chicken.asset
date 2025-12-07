@@ -50,3 +50,6 @@ MonoBehaviour:
   _baseExp: 100
   _expGrowthRate: 0.25
   _weaponCountMax: 6
+  _shoulderOffsetX: 3
+  _verticalArmLength: 1
+  _cameraDistance: 4
