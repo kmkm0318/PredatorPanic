@@ -8,12 +8,20 @@ using UnityEngine;
 public class PlayerControllerData : ScriptableObject
 {
     [Header("Gravity")]
+    [SerializeField] private float _gravity = -9.81f;
     [SerializeField] private float _groundedGravitySpeed = -0.5f;
     [SerializeField] private float _fallGravityMultiplier = 2f;
     [SerializeField] private float _fallSpeedMin = -20f;
+    public float Gravity => _gravity;
     public float GroundedGravitySpeed => _groundedGravitySpeed;
     public float FallGravityMultiplier => _fallGravityMultiplier;
     public float FallSpeedMin => _fallSpeedMin;
+
+    [Header("Jump")]
+    [SerializeField] private float _jumpBufferTime = 0.2f;
+    [SerializeField] private float _coyoteTime = 0.2f;
+    public float JumpBufferTime => _jumpBufferTime;
+    public float CoyoteTime => _coyoteTime;
 
     [Header("Rotation")]
     [SerializeField] private float _mouseSensitivityMultiplier = 10f;
@@ -24,16 +32,6 @@ public class PlayerControllerData : ScriptableObject
     public float ControllerRotateSpeedMultiplier => _controllerSensitivityMultiplier;
     public float PitchMin => _pitchMin;
     public float PitchMax => _pitchMax;
-
-    [Header("Jump")]
-    [SerializeField] private float _maxJumpHeight = 2.5f;
-    [SerializeField] private float _maxJumpDuration = 1f;
-    [SerializeField] private float _jumpBufferTime = 0.2f;
-    [SerializeField] private float _coyoteTime = 0.2f;
-    public float MaxJumpHeight => _maxJumpHeight;
-    public float MaxJumpDuration => _maxJumpDuration;
-    public float JumpBufferTime => _jumpBufferTime;
-    public float CoyoteTime => _coyoteTime;
 
     [Header("Ground Check")]
     [SerializeField] private float _groundCheckDistance = 0.5f;

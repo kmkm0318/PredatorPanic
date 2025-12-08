@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8670bb51d955a14d9884251ebd47dfb, type: 3}
   m_Name: 0_Default
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerData
-  _groundedGravitySpeed: -0.5
+  _gravity: -9.81
+  _groundedGravitySpeed: -9.81
   _fallGravityMultiplier: 2
   _fallSpeedMin: -20
   _mouseSensitivityMultiplier: 10

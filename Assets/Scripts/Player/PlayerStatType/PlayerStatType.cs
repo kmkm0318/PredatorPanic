@@ -18,5 +18,6 @@ public enum PlayerStatType
     PenetrationCount, //탄환 관통 수
     RicochetCount, //탄환 튕김 수
     LifeSteal, //생명력 흡수
+    JumpForce, //점프력
     AirJumpCount //공중 점프 횟수
 }

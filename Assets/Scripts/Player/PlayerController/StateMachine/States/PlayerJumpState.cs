@@ -22,7 +22,7 @@ public class PlayerJumpState : PlayerBaseState
     public override void Update()
     {
         //중력 적용
-        PlayerController.MovementY += PlayerController.Gravity * Time.deltaTime;
+        PlayerController.MovementY += PlayerController.PlayerControllerData.Gravity * Time.deltaTime;
 
         //서브 상태 업데이트
         SubState?.Update();

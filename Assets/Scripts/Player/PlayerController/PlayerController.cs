@@ -20,8 +20,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region 컨트롤 변수
-    public float Gravity { get; private set; } = -9.8f;
-    public float InitialJumpSpeed { get; private set; }
+    public float InitialJumpSpeed => _player.PlayerStats.GetStat(PlayerStatType.JumpForce).FinalValue;
     public int AirJumpRemain { get; private set; }
     private float _pitch = 0f;
     public bool IsGrounded => _characterController.isGrounded;
@@ -67,7 +66,6 @@ public class PlayerController : MonoBehaviour
     #region 코루틴
     private Coroutine _jumpBufferCoroutine;
     private Coroutine _coyoteTimeCoroutine;
-    private Coroutine _groundCheckCoroutine;
     #endregion
 
     private void Awake()
@@ -180,24 +178,11 @@ public class PlayerController : MonoBehaviour
         _cameraPivot = PlayerVisual.CameraPivot;
         _weaponPivots = PlayerVisual.WeaponPivots;
 
-        //점프 관련 변수 초기화
-        InitJumpVariables();
-
         //상태 기계 초기화
         InitStateMachine();
     }
 
     #region 점프 관련 함수
-    //점프 변수 초기화. 중력과 시작 점프 속도 결정. 공중 점프 횟수 초기화
-    private void InitJumpVariables()
-    {
-        float timeToApex = PlayerControllerData.MaxJumpDuration / 2f;
-        Gravity = -2 * PlayerControllerData.MaxJumpHeight / Mathf.Pow(timeToApex, 2);
-        InitialJumpSpeed = 2 * PlayerControllerData.MaxJumpHeight / timeToApex;
-
-        ResetJumpRemain();
-    }
-
     //공중 점프 남은 횟수 초기화.
     public void ResetJumpRemain()
     {
@@ -214,7 +199,6 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-
     #endregion
 
     //상태 기계 초기화. 낙하 상태로 시작
@@ -263,9 +247,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        //시간이 멈춰있으면 이동 처리 안함
-        if (Time.timeScale == 0f) return;
-
         //이동 속도 적용
         float moveSpeed = _player.PlayerStats.GetStat(PlayerStatType.MoveSpeed).FinalValue;
 
@@ -276,8 +257,6 @@ public class PlayerController : MonoBehaviour
 
         //캐릭터 컨트롤러로 이동
         _characterController.Move(moveVelocity * Time.deltaTime);
-
-        $"TimeScale: {Time.timeScale}, Movement: {_movement}, IsGrounded: {IsGrounded}".Log();
     }
 
     #region 점프 버퍼 코루틴
@@ -329,14 +308,4 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
-
-    private void OnDrawGizmosSelected()
-    {
-        //그라운드 체크 레이캐스트 시각화
-        if (PlayerControllerData != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, transform.position - transform.up * PlayerControllerData.GroundCheckDistance);
-        }
-    }
 }

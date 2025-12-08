@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -33,6 +32,9 @@ public class EnemyVisual : MonoBehaviour
 
         // 머티리얼 프로퍼티 블럭 초기화
         _mpb = new();
+
+        // 플래시 이펙트 초기화
+        SetFlashValue(0f);
     }
 
     private void Update()

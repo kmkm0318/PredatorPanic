@@ -23,7 +23,7 @@ public class PlayerFallState : PlayerBaseState
     public override void Update()
     {
         //중력 적용
-        PlayerController.MovementY += PlayerController.Gravity * PlayerController.PlayerControllerData.FallGravityMultiplier * Time.deltaTime;
+        PlayerController.MovementY += PlayerController.PlayerControllerData.Gravity * PlayerController.PlayerControllerData.FallGravityMultiplier * Time.deltaTime;
 
         //최소 낙하 속도 제한
         PlayerController.MovementY = Mathf.Max(PlayerController.MovementY, PlayerController.PlayerControllerData.FallSpeedMin);
