@@ -22,7 +22,6 @@ public class DropItemData : ScriptableObject
     public int MaxDropCount => _maxDropCount;
     public float DropRadius => _dropRadius;
 
-
     [Header("Follow Settings")]
     [SerializeField] private bool _isFollow = true;
     [SerializeField] private float _followHeight = 2f;

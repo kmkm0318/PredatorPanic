@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -16,10 +15,8 @@ public class PlayerMagnet : MonoBehaviour
     #region 자석 변수
     private float _magnetRadius = 0f;
     private float _pickupRadiusSqr = 0f;
-    #endregion
-
-    #region 코루틴
-    private Coroutine _checkItemCoroutine;
+    private bool _isChecking = false;
+    private float _nextCheckTime = 0f;
     #endregion
 
     public void Init(Player player)
@@ -52,66 +49,68 @@ public class PlayerMagnet : MonoBehaviour
         StopCheckItem();
     }
 
-    #region 체크 아이템 코루틴
-    private IEnumerator CheckItemCoroutine()
+    private void Update()
     {
-        //대기 타이머
-        var wait = new WaitForSeconds(CHECK_INTERVAL);
+        HandleCheckItem();
+    }
 
-        while (true)
+    #region 아이템 체크 및 획득
+    // 아이템 체크 처리
+    private void HandleCheckItem()
+    {
+        //체크 중이 아니면 return
+        if (!_isChecking) return;
+
+        //체크 시간이 아니면 return
+        if (Time.time < _nextCheckTime) return;
+
+        //체크 시간에 현재 시간 + interval 설정
+        _nextCheckTime = Time.time + CHECK_INTERVAL;
+
+        //자석 반경 내의 아이템 감지
+        int count = PhysicsUtility.GetOverlapSphereNonAlloc(transform.position, _magnetRadius, _itemLayerMask, out var colliders);
+
+        //플레이어 기준 위치
+        Vector3 playerPos = transform.position;
+
+        //아이템 수만큼 반복
+        for (int i = 0; i < count; i++)
         {
-            //자석 반경 내의 아이템 감지
-            int count = PhysicsUtility.GetOverlapSphereNonAlloc(transform.position, _magnetRadius, _itemLayerMask, out var colliders);
+            if (colliders[i] == null) continue;
 
-            //플레이어 위치
-            Vector3 playerPos = transform.position;
+            //드랍 아이템이 아닐 시 패스
+            if (!colliders[i].TryGetComponent<DropItem>(out var dropItem)) continue;
 
-            //아이템 수만큼 반복
-            for (int i = 0; i < count; i++)
+            //아이템이 플레이어를 따라오도록 설정되어 있을 시
+            if (dropItem.DropItemData.IsFollow)
             {
-                if (colliders[i] == null) continue;
-
-                //드랍 아이템이 아닐 시 패스
-                if (!colliders[i].TryGetComponent<DropItem>(out var dropItem)) continue;
-
-                //아이템이 플레이어를 따라오도록 설정되어 있을 시
-                if (dropItem.DropItemData.IsFollow)
+                //아직 따라오고 있지 않을 시 따라오게 함
+                if (!dropItem.IsFollowing)
                 {
-                    //아직 따라오고 있지 않을 시 따라오게 함
-                    if (!dropItem.IsFollowing)
-                    {
-                        dropItem.StartFollowPlayer(_player);
-                    }
-                }
-                //아이템이 플레이어를 따라오는 게 아닐 시
-                else
-                {
-                    //픽업 반경 내에 있을 시 즉시 픽업
-                    var distanceSqr = (dropItem.transform.position - playerPos).sqrMagnitude;
-                    if (distanceSqr <= _pickupRadiusSqr)
-                    {
-                        dropItem.OnPickup(_player);
-                    }
+                    dropItem.StartFollowPlayer(_player);
                 }
             }
-
-            yield return wait;
+            //아이템이 플레이어를 따라오는 게 아닐 시
+            else
+            {
+                //픽업 반경 내에 있을 시 즉시 픽업
+                var distanceSqr = (dropItem.transform.position - playerPos).sqrMagnitude;
+                if (distanceSqr <= _pickupRadiusSqr)
+                {
+                    dropItem.OnPickup(_player);
+                }
+            }
         }
     }
 
     private void StartCheckItem()
     {
-        StopCheckItem();
-        _checkItemCoroutine = StartCoroutine(CheckItemCoroutine());
+        _isChecking = true;
     }
 
     private void StopCheckItem()
     {
-        if (_checkItemCoroutine != null)
-        {
-            StopCoroutine(_checkItemCoroutine);
-            _checkItemCoroutine = null;
-        }
+        _isChecking = false;
     }
     #endregion
 }
