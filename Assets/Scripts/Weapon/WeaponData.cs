@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public abstract class WeaponData : ScriptableObject
 {
-    [Header("Basic Info")]
+    [Header("Basic Weapon Data")]
     [SerializeField] private string _weaponName;
     [SerializeField] private Weapon _weaponPrefab;
     [SerializeField] private Sprite _icon;

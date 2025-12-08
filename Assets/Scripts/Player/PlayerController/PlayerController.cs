@@ -239,7 +239,7 @@ public class PlayerController : MonoBehaviour
     private void HandleRotation()
     {
         //입력 장치에 따라 감도 설정
-        float sensitivity = _currentDecive is Mouse ? PlayerControllerData.MouseSensitivity : PlayerControllerData.ControllerRotateSpeed;
+        float sensitivity = _currentDecive is Mouse ? PlayerControllerData.MouseSensitivityMultiplier : PlayerControllerData.ControllerRotateSpeedMultiplier;
 
         //좌우 회전은 플레이어를 직접 회전
         float yaw = LookInput.x * sensitivity * Time.deltaTime;
@@ -263,6 +263,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
+        //시간이 멈춰있으면 이동 처리 안함
+        if (Time.timeScale == 0f) return;
+
         //이동 속도 적용
         float moveSpeed = _player.PlayerStats.GetStat(PlayerStatType.MoveSpeed).FinalValue;
 
@@ -273,6 +276,8 @@ public class PlayerController : MonoBehaviour
 
         //캐릭터 컨트롤러로 이동
         _characterController.Move(moveVelocity * Time.deltaTime);
+
+        $"TimeScale: {Time.timeScale}, Movement: {_movement}, IsGrounded: {IsGrounded}".Log();
     }
 
     #region 점프 버퍼 코루틴

@@ -179,19 +179,8 @@ public class Player : MonoBehaviour
     //시네머신 카메라 초기화
     public void InitCamera(CinemachineCamera camera)
     {
-        if (camera != null)
-        {
-            //카메라 팔로우 타겟 설정
-            camera.Follow = _playerVisual.CameraPivot;
-
-            //카메라 설정 적용
-            if (camera.TryGetComponent<CinemachineThirdPersonFollow>(out var follow))
-            {
-                follow.ShoulderOffset = new Vector3(_playerData.ShoulderOffsetX, 0f, 0f);
-                follow.VerticalArmLength = _playerData.VerticalArmLength;
-                follow.CameraDistance = _playerData.CameraDistance;
-            }
-        }
+        //Player Visual에서 카메라 초기화
+        _playerVisual.InitCamera(camera);
     }
     #endregion
 

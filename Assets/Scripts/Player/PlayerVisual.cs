@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 /// <summary>
@@ -19,9 +20,10 @@ public class PlayerVisual : MonoBehaviour
 
     #region 카메라
     [SerializeField] private Transform _cameraPivot;
-    [SerializeField] private Transform _cameraArm;
+    [SerializeField] private float _shoulderOffsetX = 3f;
+    [SerializeField] private float _verticalArmLength = 1f;
+    [SerializeField] private float _cameraDistance = 4f;
     public Transform CameraPivot => _cameraPivot;
-    public Transform CameraArm => _cameraArm;
     #endregion
 
     #region 컴포넌트
@@ -103,6 +105,24 @@ public class PlayerVisual : MonoBehaviour
             //각 피벗 위치와 각도 초기화
             Transform pivot = _weaponPivots[i];
             pivot.SetLocalPositionAndRotation(new Vector3(x, y, 0f), Quaternion.identity);
+        }
+    }
+
+    //시네머신 카메라 초기화
+    public void InitCamera(CinemachineCamera camera)
+    {
+        if (camera != null)
+        {
+            //카메라 팔로우 타겟 설정
+            camera.Follow = _cameraPivot;
+
+            //카메라 설정 적용
+            if (camera.TryGetComponent<CinemachineThirdPersonFollow>(out var follow))
+            {
+                follow.ShoulderOffset = new Vector3(_shoulderOffsetX, 0f, 0f);
+                follow.VerticalArmLength = _verticalArmLength;
+                follow.CameraDistance = _cameraDistance;
+            }
         }
     }
 }

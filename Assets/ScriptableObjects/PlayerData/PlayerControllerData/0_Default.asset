@@ -15,8 +15,8 @@ MonoBehaviour:
   _groundedGravitySpeed: -0.5
   _fallGravityMultiplier: 2
   _fallSpeedMin: -20
-  _mouseSensitivity: 10
-  _controllerSensitivity: 500
+  _mouseSensitivityMultiplier: 10
+  _controllerSensitivityMultiplier: 500
   _pitchMin: -90
   _pitchMax: 90
   _maxJumpHeight: 2.5

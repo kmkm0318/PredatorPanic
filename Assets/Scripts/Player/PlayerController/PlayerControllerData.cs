@@ -16,12 +16,12 @@ public class PlayerControllerData : ScriptableObject
     public float FallSpeedMin => _fallSpeedMin;
 
     [Header("Rotation")]
-    [SerializeField] private float _mouseSensitivity = 10f;
-    [SerializeField] private float _controllerSensitivity = 500f;
+    [SerializeField] private float _mouseSensitivityMultiplier = 10f;
+    [SerializeField] private float _controllerSensitivityMultiplier = 500f;
     [SerializeField] private float _pitchMin = -90f;
     [SerializeField] private float _pitchMax = 90f;
-    public float MouseSensitivity => _mouseSensitivity;
-    public float ControllerRotateSpeed => _controllerSensitivity;
+    public float MouseSensitivityMultiplier => _mouseSensitivityMultiplier;
+    public float ControllerRotateSpeedMultiplier => _controllerSensitivityMultiplier;
     public float PitchMin => _pitchMin;
     public float PitchMax => _pitchMax;
 

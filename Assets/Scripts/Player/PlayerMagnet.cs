@@ -8,9 +8,9 @@ using UnityEngine;
 public class PlayerMagnet : MonoBehaviour
 {
     private const int MAX_CHECK_NUM = 256; // 한번에 최대 256개의 아이템 감지
+    private const float CHECK_INTERVAL = 0.1f; // 아이템 감지 간격
 
     [SerializeField] private LayerMask _itemLayerMask;
-    [SerializeField] private float _checkInterval = 0.1f;
 
     private Player _player;
 
@@ -48,7 +48,7 @@ public class PlayerMagnet : MonoBehaviour
     #region 체크 아이템 코루틴
     private IEnumerator CheckItemCoroutine()
     {
-        WaitForSeconds wait = new(_checkInterval);
+        WaitForSeconds wait = new(CHECK_INTERVAL);
 
         while (true)
         {

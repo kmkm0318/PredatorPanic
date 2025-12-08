@@ -38,7 +38,7 @@
 - **InputManager**: 입력 시스템 통합 관리
 
 ### 아이콘 이미지 출처
-#### https://game-icons.net
+https://game-icons.net
 - Lorc, http://lorcblog.blogspot.com
 - Delapouite, https://delapouite.com
 - John Colburn, http://ninmunanmu.com
@@ -73,3 +73,9 @@
 - Pepijn Poolman
 - Pierre Leducq
 - Caro Asercion
+
+### 무기 모델 출처
+"Low-Poly RPG-7" (https://skfb.ly/6uTQM) by TastyTony is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+### 동물 모델 출처
+"Elephant (Low_Poly)" (https://skfb.ly/pwqWV) by planeta-elefante is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
