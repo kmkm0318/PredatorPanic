@@ -32,7 +32,7 @@ public class Health : MonoBehaviour, IDamageable
     }
 
     #region 현재 체력 변동
-    public void Heal(float amount)
+    public virtual void Heal(float amount)
     {
         float healAmount = Mathf.Clamp(amount, 0, MaxHealth - CurrentHealth);
 
@@ -40,7 +40,8 @@ public class Health : MonoBehaviour, IDamageable
         OnHealthChanged?.Invoke(CurrentHealth, MaxHealth);
     }
 
-    public float TakeDamage(float damage)
+    // 데미지 입기
+    public virtual float TakeDamage(float damage)
     {
         if (IsDead) return 0f;
 

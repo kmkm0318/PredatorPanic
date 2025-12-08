@@ -125,4 +125,11 @@ public class PlayerVisual : MonoBehaviour
             }
         }
     }
+
+    //무적 상태일 시 반투명화
+    public void SetInvincibleVisual(bool isInvincible)
+    {
+        $"플레이어 무적 상태 변경: {isInvincible}".Log();
+        //TODO: 반투명화 처리
+    }
 }

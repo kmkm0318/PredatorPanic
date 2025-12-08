@@ -167,12 +167,12 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    public void Init(Player player, PlayerControllerData playerControllerData, PlayerVisual playerVisual)
+    public void Init(Player player)
     {
         //참조 데이터 할당
         _player = player;
-        PlayerControllerData = playerControllerData;
-        PlayerVisual = playerVisual;
+        PlayerControllerData = _player.PlayerData.PlayerControllerData;
+        PlayerVisual = _player.PlayerVisual;
 
         //Player Visual에서 카메라 피벗과 무기 피벗 참조
         _cameraPivot = PlayerVisual.CameraPivot;

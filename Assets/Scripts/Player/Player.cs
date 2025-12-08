@@ -11,11 +11,12 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerAttack))]
 [RequireComponent(typeof(PlayerMagnet))]
-[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(PlayerHealth))]
 public class Player : MonoBehaviour
 {
     #region 플레이어 비주얼 객체
     [SerializeField] private PlayerVisual _playerVisual;
+    public PlayerVisual PlayerVisual => _playerVisual;
     //카메라 피벗을 아이템 획득 위치로 지정
     public Transform DropItemFollowTransform => _playerVisual.CameraPivot;
     #endregion
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour
     private PlayerController _playerController;
     private PlayerAttack _playerAttack;
     private PlayerMagnet _playerItemCollector;
-    public Health Health { get; private set; }
+    public PlayerHealth PlayerHealth { get; private set; }
     #endregion
 
     #region 플레이어 스탯
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour
         _playerController = GetComponent<PlayerController>();
         _playerAttack = GetComponent<PlayerAttack>();
         _playerItemCollector = GetComponent<PlayerMagnet>();
-        Health = GetComponent<Health>();
+        PlayerHealth = GetComponent<PlayerHealth>();
     }
 
     #region 초기화
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour
         PlayerData = playerData;
         GameManager = gameManager;
 
+        //컴포넌트에서 스탯을 사용하기 때문에 스탯을 먼저 초기화
         InitStats();
         InitComponents();
     }
@@ -104,28 +106,16 @@ public class Player : MonoBehaviour
     // 컴포넌트 초기화
     private void InitComponents()
     {
-        _playerController.Init(this, PlayerData.PlayerControllerData, _playerVisual);
+        _playerController.Init(this);
         _playerItemCollector.Init(this);
+        PlayerHealth.Init(this);
 
-        var maxHealth = _playerStats.GetStat(PlayerStatType.Health).FinalValue;
-        var defense = _playerStats.GetStat(PlayerStatType.Defense).FinalValue;
-        Health.Init(maxHealth, defense);
-
-        RegisterHealthStatEvents();
+        PlayerHealth.OnInvincibleStateChanged += OnInvincibleStateChanged;
     }
 
-    // 체력, 방어력 스탯 변경시 Health 컴포넌트에 반영
-    private void RegisterHealthStatEvents()
+    private void OnInvincibleStateChanged(bool isInvincible)
     {
-        _playerStats.GetStat(PlayerStatType.Health).OnValueChanged += (newValue) =>
-        {
-            Health.SetMaxHealth(newValue);
-        };
 
-        _playerStats.GetStat(PlayerStatType.Defense).OnValueChanged += (newValue) =>
-        {
-            Health.SetDefense(newValue);
-        };
     }
     #endregion
 
@@ -205,7 +195,7 @@ public class Player : MonoBehaviour
         if (lifeSteal > 0f)
         {
             float healAmount = context.Damage * lifeSteal;
-            Health.Heal(healAmount);
+            PlayerHealth.Heal(healAmount);
         }
 
         //적중 이벤트 발생

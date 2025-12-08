@@ -25,7 +25,7 @@ public class PlayerPresenter : IPresenter
     {
         OnLevelChanged(_player.Level);
         OnExpChanged(_player.CurExp, _player.MaxExp);
-        OnHealthChanged(_player.Health.CurrentHealth, _player.Health.MaxHealth);
+        OnHealthChanged(_player.PlayerHealth.CurrentHealth, _player.PlayerHealth.MaxHealth);
         OnToothChanged(_player.Tooth);
         OnDNAChanged(_player.DNA);
     }
@@ -43,7 +43,7 @@ public class PlayerPresenter : IPresenter
         {
             _player.OnLevelChanged += OnLevelChanged;
             _player.OnExpChanged += OnExpChanged;
-            _player.Health.OnHealthChanged += OnHealthChanged;
+            _player.PlayerHealth.OnHealthChanged += OnHealthChanged;
             _player.OnToothChanged += OnToothChanged;
             _player.OnDNAChanged += OnDNAChanged;
         }
@@ -55,7 +55,7 @@ public class PlayerPresenter : IPresenter
         {
             _player.OnLevelChanged -= OnLevelChanged;
             _player.OnExpChanged -= OnExpChanged;
-            _player.Health.OnHealthChanged -= OnHealthChanged;
+            _player.PlayerHealth.OnHealthChanged -= OnHealthChanged;
             _player.OnToothChanged -= OnToothChanged;
             _player.OnDNAChanged -= OnDNAChanged;
         }

@@ -12,6 +12,6 @@ public class Heart : DropItem
     {
         base.OnPickup(player);
 
-        player.Health.Heal(_healAmount);
+        player.PlayerHealth.Heal(_healAmount);
     }
 }

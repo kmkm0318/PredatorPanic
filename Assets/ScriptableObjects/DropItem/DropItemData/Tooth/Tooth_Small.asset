@@ -19,5 +19,5 @@ MonoBehaviour:
   _dropRadius: 1
   _isFollow: 1
   _followHeight: 10
-  _followSpeed: 10
+  _followSpeed: 20
   _targetHeight: 1

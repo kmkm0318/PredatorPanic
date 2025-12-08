@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 6521700762898082741}
   - component: {fileID: 4449419947464300697}
   - component: {fileID: 2081059243474922312}
-  - component: {fileID: 51448940147890963}
   - component: {fileID: -3059268561921845920}
+  - component: {fileID: 694564538810636054}
   m_Layer: 3
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -99,18 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11aaa3fad935d7d49be16ec9fa2a2416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
---- !u!114 &51448940147890963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5600250369316941197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da94c4012d2b33f42a29fe76583e6e06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
 --- !u!114 &-3059268561921845920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,4 +114,15 @@ MonoBehaviour:
   _itemLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  _checkInterval: 0.1
+--- !u!114 &694564538810636054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5600250369316941197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0d4b5f210d8e544a4b2806f6561b12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
