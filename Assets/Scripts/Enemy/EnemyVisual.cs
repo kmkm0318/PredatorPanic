@@ -34,7 +34,7 @@ public class EnemyVisual : MonoBehaviour
         _mpb = new();
 
         // 플래시 이펙트 초기화
-        SetFlashValue(0f);
+        StopHitFlash();
     }
 
     private void Update()
