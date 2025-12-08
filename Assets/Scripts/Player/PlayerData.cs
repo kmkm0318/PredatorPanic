@@ -29,4 +29,8 @@ public class PlayerData : ScriptableObject
     [Header("Weapon")]
     [SerializeField] private int _weaponCountMax = 6;
     public int WeaponCountMax => _weaponCountMax;
+
+    [Header("Item")]
+    [SerializeField] private float _itemPickupRadiusSqr = 4f;
+    public float ItemPickupRadiusSqr => _itemPickupRadiusSqr;
 }

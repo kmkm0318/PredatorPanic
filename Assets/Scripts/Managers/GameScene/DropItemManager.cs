@@ -60,7 +60,12 @@ public class DropItemManager : MonoBehaviour
     private void InitPool(DropItemData dropItemData)
     {
         ObjectPool<DropItem> pool = new(
-            () => Instantiate(dropItemData.ItemPrefab, transform),
+            () =>
+            {
+                var item = Instantiate(dropItemData.ItemPrefab, transform);
+                item.Init(dropItemData);
+                return item;
+            },
             (item) => item.gameObject.SetActive(true),
             (item) => item.gameObject.SetActive(false),
             (item) => Destroy(item.gameObject),
@@ -85,22 +90,35 @@ public class DropItemManager : MonoBehaviour
     #region 아이템 스폰
     public void SpawnDropItems(DropTableData dropTable, Vector3 position)
     {
+        //드랍 테이블의 각 아이템에 대해 각각 진행
         foreach (var dropItemData in dropTable.DropItems)
         {
-            if (Random.value > dropItemData.DropRate) continue;
+            //랜덤 값이 드랍 확률 이상일 시 패스
+            if (Random.value >= dropItemData.DropRate) continue;
+
+            //풀 가져오기
             var pool = GetPool(dropItemData);
+
+            //드랍 개수 결정
             int dropCount = Random.Range(dropItemData.MinDropCount, dropItemData.MaxDropCount + 1);
 
+            //드랍 개수만큼 드랍
             for (int i = 0; i < dropCount; i++)
             {
+                //아이템 가져오기
                 var dropItem = pool.Get();
 
+                //랜덤 오프셋 계산
                 var randomOffset = Random.insideUnitCircle * dropItemData.DropRadius;
                 var randomOffsetXZ = new Vector3(randomOffset.x, 0f, randomOffset.y);
 
+                //아이템 위치 설정
                 dropItem.transform.position = position + randomOffsetXZ;
 
-                dropItem.Init(dropItemData);
+                //아이템 초기화
+                dropItem.ResetItem();
+
+                //활성화된 드롭 아이템 리스트에 추가
                 _activeDropItems.Add(dropItem);
             }
         }

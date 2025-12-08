@@ -183,7 +183,7 @@ public class Bullet : MonoBehaviour
         {
             //가장 가까운 적 찾기. 현재 적 제외
             float halfRange = _range / 2f;
-            var targetCollider = CombatUtility.GetNearestCollider(contact, halfRange, _hitLayerMask, HitColliders);
+            var targetCollider = PhysicsUtility.GetNearestCollider(contact, halfRange, _hitLayerMask, HitColliders);
 
             //튕길 방향 계산 및 속도 설정
             if (targetCollider != null)
@@ -221,7 +221,7 @@ public class Bullet : MonoBehaviour
         float damage = CombatUtility.CalculateRangedDamage(_baseDamage, _range, distance);
 
         //치명타 여부 결정
-        bool isCritical = Random.value <= _criticalRate;
+        bool isCritical = Random.value < _criticalRate;
         if (isCritical)
         {
             damage *= _criticalDamageRate;

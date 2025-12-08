@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -12,10 +11,6 @@ public static class CombatUtility
     public const float DEFENSE_CONSTANT = 50f;
     //총기 Range에 대한 폭발 반경 비율
     public const float EXPLOSION_RADIUS_RATIO = 0.1f;
-    //콜라이더 버퍼 최대 크기
-    private const int MAX_COLLIDER_BUFFER_SIZE = 128;
-    //콜라이더 배열 재사용을 위한 버퍼
-    private static Collider[] _colliders = new Collider[MAX_COLLIDER_BUFFER_SIZE];
 
     /// <summary>
     /// 플레이어의 공격력과 총기의 기본 데미지를 통한 총알의 기본 데미지를 반환하는 함수
@@ -145,33 +140,6 @@ public static class CombatUtility
     }
 
     /// <summary>
-    /// 가장 가까운 타겟 찾기
-    /// </summary>
-    public static Collider GetNearestCollider(Vector3 origin, float range, LayerMask targetLayerMask, HashSet<Collider> excepts = null)
-    {
-        int hitCount = Physics.OverlapSphereNonAlloc(origin, range, _colliders, targetLayerMask);
-
-        Collider nearestCollider = null;
-        float minDistSqr = float.MaxValue;
-
-        for (int i = 0; i < hitCount; i++)
-        {
-            var collider = _colliders[i];
-
-            if (excepts != null && excepts.Contains(collider)) continue;
-
-            float curDistSqr = (collider.transform.position - origin).sqrMagnitude;
-            if (curDistSqr < minDistSqr)
-            {
-                minDistSqr = curDistSqr;
-                nearestCollider = collider;
-            }
-        }
-
-        return nearestCollider;
-    }
-
-    /// <summary>
     /// 총알을 여러 개 발사할 때를 위해 퍼짐 각도 계산 함수
     /// </summary>
     /// <param name="fireDirection">기본 발사 방향</param>
@@ -192,16 +160,5 @@ public static class CombatUtility
         Quaternion spreadRotation = Quaternion.AngleAxis(angle, Vector3.up);
         Vector3 spreadDirection = spreadRotation * fireDirection;
         return spreadDirection.normalized;
-    }
-
-    /// <summary>
-    /// OverlapSphereNonAlloc 래퍼 함수
-    /// 콜라이더 배열 버퍼를 재사용하여 할당 최소화
-    /// </summary>
-    public static int GetOverlapSphereNonAlloc(Vector3 position, float radius, LayerMask layerMask, out Collider[] colliders)
-    {
-        int hitCount = Physics.OverlapSphereNonAlloc(position, radius, _colliders, layerMask);
-        colliders = _colliders;
-        return hitCount;
     }
 }

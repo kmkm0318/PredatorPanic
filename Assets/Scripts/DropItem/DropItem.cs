@@ -24,19 +24,27 @@ public abstract class DropItem : MonoBehaviour
     public virtual void Init(DropItemData dropItemData)
     {
         DropItemData = dropItemData;
+    }
+
+    public virtual void ResetItem()
+    {
         StopAllCoroutines();
         IsFollowing = false;
         _player = null;
     }
 
+    #region 따라가기 및 획득
     public void StartFollowPlayer(Player player)
     {
+        //IsFollow가 아니거나 이미 따라가고 있을 시 패스
         if (!DropItemData.IsFollow) return;
         if (IsFollowing) return;
 
+        //플레이어 저장 및 따라가기 시작
         _player = player;
         IsFollowing = true;
 
+        // 따라가기 코루틴 시작
         StartCoroutine(FollowCoroutine());
     }
 
@@ -44,37 +52,51 @@ public abstract class DropItem : MonoBehaviour
     {
         if (_player == null) yield break;
 
-        //플레이어 Transform과 오프셋
-        var playerTransform = _player.transform;
-        var startOffset = Vector3.up * DropItemData.FollowHeight;
-        var endOffset = Vector3.up * DropItemData.TargetHeight;
+        //목적지 가져오기
+        Transform targetTransform = _player.DropItemFollowTransform;
+
+        //중간 위치 오프셋. 베지어 곡선을 통해 이동하도록.
+        var middleOffset = Vector3.up * DropItemData.FollowHeight;
 
         //베지어 곡선 적용
+        //시작 위치
         Vector3 p0 = transform.position;
-        Vector3 p1 = 2 * p0 - playerTransform.position + startOffset;
-        float duration = DropItemData.FollowDuration;
-        float elapsed = 0f;
 
+        //중간 위치
+        //플레이어의 반대 방향으로 거리만큼 + offset만큼 올림
+        Vector3 p1 = p0 + (p0 - targetTransform.position) + middleOffset;
+
+        //스피드에 따라 이동 시간 계산
+        float speed = DropItemData.FollowSpeed;
+        float duration = Vector3.Distance(p0, targetTransform.position) / speed;
+
+        //이동 시간 동안 베지어 곡선을 따라 이동
+        float elapsed = 0f;
         while (elapsed < duration)
         {
             float u = Mathf.Clamp01(elapsed / duration);
             float v = 1 - u;
 
             //베지어 곡선 공식
-            Vector3 newPos = v * v * p0 + 2 * v * u * p1 + u * u * (playerTransform.position + endOffset);
+            Vector3 newPos = v * v * p0 + 2 * v * u * p1 + u * u * targetTransform.position;
             transform.position = newPos;
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = playerTransform.position + endOffset;
+        //마지막 위치 지정
+        transform.position = targetTransform.position;
         OnPickup(_player);
     }
 
+    //플레이어가 아이템을 획득했을 때 호출
+    //각각의 아이템이 이 함수를 오버라이드하여 고유 효과를 구현해야 함.
+    //반드시 base.OnPickup(player)를 호출할 것
     public virtual void OnPickup(Player player)
     {
         IsFollowing = false;
         OnAnyReleaseRequested?.Invoke(this);
     }
+    #endregion
 }

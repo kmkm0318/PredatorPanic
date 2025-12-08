@@ -30,7 +30,7 @@ public class Explosion : MonoBehaviour
         //폭발 비주얼 크기 설정
         ExplosionVisual.localScale = 2f * context.Radius * Vector3.one;
 
-        int hitCount = CombatUtility.GetOverlapSphereNonAlloc(transform.position, context.Radius, context.HitLayerMask, out var colliders);
+        int hitCount = PhysicsUtility.GetOverlapSphereNonAlloc(transform.position, context.Radius, context.HitLayerMask, out var colliders);
 
         for (int i = 0; i < hitCount; i++)
         {
@@ -43,7 +43,7 @@ public class Explosion : MonoBehaviour
             float damage = CombatUtility.CalculateRangedDamage(context.BaseDamage, context.Radius, distance);
 
             //치명타 여부 결정
-            bool isCritical = Random.value <= context.CriticalRate;
+            bool isCritical = Random.value < context.CriticalRate;
             if (isCritical)
             {
                 damage *= context.CriticalDamageRate;

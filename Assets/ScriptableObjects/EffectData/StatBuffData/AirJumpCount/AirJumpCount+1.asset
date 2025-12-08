@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: AirJumpCount+1
   m_EditorClassIdentifier: Assembly-CSharp::StatBuffEffectData
   <Description>k__BackingField: 
-  <StatType>k__BackingField: 15
+  <StatType>k__BackingField: 16
   <ModifierType>k__BackingField: 0
   <BuffAmount>k__BackingField: 1

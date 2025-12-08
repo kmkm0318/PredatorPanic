@@ -16,10 +16,12 @@ public class Player : MonoBehaviour
 {
     #region 플레이어 비주얼 객체
     [SerializeField] private PlayerVisual _playerVisual;
+    //카메라 피벗을 아이템 획득 위치로 지정
+    public Transform DropItemFollowTransform => _playerVisual.CameraPivot;
     #endregion
 
     #region 플레이어 데이터
-    private PlayerData _playerData;
+    public PlayerData PlayerData { get; private set; }
     #endregion
 
     #region 레퍼런스
@@ -81,7 +83,7 @@ public class Player : MonoBehaviour
     #region 초기화
     public void Init(PlayerData playerData, GameManager gameManager)
     {
-        _playerData = playerData;
+        PlayerData = playerData;
         GameManager = gameManager;
 
         InitStats();
@@ -91,7 +93,7 @@ public class Player : MonoBehaviour
     // 스탯 초기화
     private void InitStats()
     {
-        _playerStats = new(_playerData.InitialStats);
+        _playerStats = new(PlayerData.InitialStats);
         Level = 0;
         CurExp = 0;
 
@@ -102,7 +104,7 @@ public class Player : MonoBehaviour
     // 컴포넌트 초기화
     private void InitComponents()
     {
-        _playerController.Init(this, _playerData.PlayerControllerData, _playerVisual);
+        _playerController.Init(this, PlayerData.PlayerControllerData, _playerVisual);
         _playerItemCollector.Init(this);
 
         var maxHealth = _playerStats.GetStat(PlayerStatType.Health).FinalValue;
@@ -140,7 +142,7 @@ public class Player : MonoBehaviour
 
         //최대 무기 개수 검사
         var curWeaponCount = _playerAttack.Weapons.Count;
-        if (curWeaponCount >= _playerData.WeaponCountMax)
+        if (curWeaponCount >= PlayerData.WeaponCountMax)
         {
             "최대 무기 개수 초과".Log();
             return false;
@@ -221,7 +223,7 @@ public class Player : MonoBehaviour
     // 최대 경험치 업데이트
     private void UpdateMaxExp()
     {
-        MaxExp = _playerData.BaseExp * (1f + (_playerData.ExpGrowthRate * Level));
+        MaxExp = PlayerData.BaseExp * (1f + (PlayerData.ExpGrowthRate * Level));
     }
 
     //경험치 획득. 레벨업은 따로 처리
