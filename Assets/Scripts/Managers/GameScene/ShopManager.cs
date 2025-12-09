@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private int _refreshCostRaise = 1;
 
     #region 레퍼런스
+    private GameManager _gameManager;
     private Player _player;
     #endregion
 
@@ -34,10 +35,10 @@ public class ShopManager : MonoBehaviour
     public event Action<List<ItemInventoryProduct>> OnItemInventoryProductsUpdated;
     #endregion
 
-    //상호작용하기 위한 플레이어 전달받기
-    public void Init(Player player)
+    public void Init(GameManager gameManager)
     {
-        _player = player;
+        _gameManager = gameManager;
+        _player = _gameManager.Player;
 
         RegisterEvents();
 

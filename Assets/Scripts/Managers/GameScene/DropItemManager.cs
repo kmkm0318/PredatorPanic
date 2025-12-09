@@ -13,9 +13,18 @@ public class DropItemManager : MonoBehaviour
     private List<DropItem> _activeDropItems = new(); //현재 활성화된 드롭 아이템 리스트
     #endregion
 
+    #region 레퍼런스
+    private GameManager _gameManager;
+    #endregion
+
     #region 변수
     public bool CanDrop { get; set; } = true;
     #endregion
+
+    public void Init(GameManager gameManager)
+    {
+        _gameManager = gameManager;
+    }
 
     private void OnEnable()
     {
@@ -30,22 +39,38 @@ public class DropItemManager : MonoBehaviour
     #region 이벤트
     private void RegisterEvents()
     {
-        Enemy.OnAnyDeath += OnEnemyDeath;
+        Enemy.OnAnyDeath += OnAnyEnemyDeath;
+        Enemy.OnAnyBossDeath += OnAnyBossEnemyDeath;
         DropItem.OnAnyReleaseRequested += OnAnyReleaseRequested;
     }
 
     private void UnregisterEvents()
     {
-        Enemy.OnAnyDeath -= OnEnemyDeath;
+        Enemy.OnAnyDeath -= OnAnyEnemyDeath;
+        Enemy.OnAnyBossDeath -= OnAnyBossEnemyDeath;
         DropItem.OnAnyReleaseRequested -= OnAnyReleaseRequested;
     }
 
-    private void OnEnemyDeath(Enemy enemy)
+    private void OnAnyEnemyDeath(Enemy enemy)
     {
-        if (CanDrop)
-        {
-            SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
-        }
+        //드랍 불가 시 패스
+        if (!CanDrop) return;
+
+        //보스 라운드일 시 패스
+        //보스의 드랍 아이템은 따로 처리
+        if (_gameManager.EnemyManager.IsBossRound) return;
+
+        //아이템 드랍
+        SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
+    }
+
+    private void OnAnyBossEnemyDeath(Enemy enemy)
+    {
+        //드랍 불가 시 패스
+        if (!CanDrop) return;
+
+        //아이템 드랍
+        SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
     }
 
     private void OnAnyReleaseRequested(DropItem item)

@@ -9,8 +9,10 @@ public class EnemyData : ScriptableObject
 {
     [Header("Basic Data")]
     [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField] private bool _isBoss = false;
     [SerializeField] private string _enemyName;
     public Enemy EnemyPrefab => _enemyPrefab;
+    public bool IsBoss => _isBoss;
     public string EnemyName => _enemyName;
 
     [Header("Controller Data")]

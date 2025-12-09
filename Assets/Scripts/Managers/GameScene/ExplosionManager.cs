@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -10,6 +11,15 @@ public class ExplosionManager : MonoBehaviour
     #region 오브젝트 풀
     private Dictionary<ExplosionData, ObjectPool<Explosion>> _explosions = new();
     #endregion
+
+    #region 레퍼런스
+    private GameManager _gameManager;
+    #endregion
+
+    public void Init(GameManager gameManager)
+    {
+        _gameManager = gameManager;
+    }
 
     #region 오브젝트 풀링
     private void InitPool(ExplosionData data)
@@ -44,6 +54,7 @@ public class ExplosionManager : MonoBehaviour
     }
     #endregion
 
+    #region 스폰 및 반환
     /// <summary>
     /// 폭발 스폰
     /// </summary>
@@ -61,4 +72,5 @@ public class ExplosionManager : MonoBehaviour
         var pool = GetPool(explosion.ExplosionData);
         pool.Release(explosion);
     }
+    #endregion
 }

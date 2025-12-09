@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3379dabf83607aa45b7a36f9748a309b, type: 3}
   m_Name: GameDataTest
   m_EditorClassIdentifier: Assembly-CSharp::GameData
-  _roundStartDelay: 0
+  _roundStartDelay: 3
   _roundDuration: 60
-  _targetRounds: 10
-  _baseEnemySpawnCount: 3
-  _enemySpawnCountIncrementPerRound: 2
+  _targetRound: 10
+  _enemyTableListData: {fileID: 11400000, guid: 27d893cf08ea962438994e6953335326, type: 2}
+  _baseEnemySpawnCount: 5
+  _enemySpawnCountIncrementPerRound: 3
   _baseEnemySpawnSpeed: 0.5
   _enemySpawnSpeedIncrementPerRound: 0.1

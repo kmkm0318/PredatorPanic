@@ -15,6 +15,11 @@ public class BulletManager : MonoBehaviour
     public GameManager GameManager { get; private set; }
     #endregion
 
+    public void Init(GameManager gameManager)
+    {
+        GameManager = gameManager;
+    }
+
     #region 오브젝트 풀링
     private void InitPool(BulletData data)
     {
@@ -47,11 +52,6 @@ public class BulletManager : MonoBehaviour
         return pool;
     }
     #endregion
-
-    public void Init(GameManager gameManager)
-    {
-        GameManager = gameManager;
-    }
 
     /// <summary>
     /// 총알 스폰

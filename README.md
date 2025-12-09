@@ -79,3 +79,4 @@ https://game-icons.net
 
 ### 동물 모델 출처
 "Elephant (Low_Poly)" (https://skfb.ly/pwqWV) by planeta-elefante is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Bruce" (https://skfb.ly/pEutW) by aap75 is licensed under CC Attribution-NonCommercial-NoDerivs (http://creativecommons.org/licenses/by-nc-nd/4.0/).

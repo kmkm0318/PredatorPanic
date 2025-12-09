@@ -13,25 +13,20 @@ public class GameRoundStartState : GameBaseState
         //라운드 시작 딜레이 타이머 초기화
         _roundStartDelayTimer = GameManager.GameData.RoundStartDelay;
 
+        //라운드 수 증가
+        GameManager.CurrentRound++;
+
         //라운드 타이머 초기화
         GameManager.RoundTimer = GameManager.GameData.RoundDuration;
 
+        //보스 라운드가 아닐 시 라운드 타이머 UI 표시
+        //TODO: 보스 라운드 UI
+
         //적 스폰 변수 설정
-        int roundIdx = GameManager.CurrentRound - 1;
+        GameManager.EnemyManager.SetRoundEnemyVariables();
 
-        int enemySpawnCount = GameManager.GameData.BaseEnemySpawnCount
-        + roundIdx
-        * GameManager.GameData.EnemySpawnCountIncrementPerRound;
-
-        float enemySpawnSpeed = GameManager.GameData.BaseEnemySpawnSpeed
-        + roundIdx
-        * GameManager.GameData.EnemySpawnSpeedIncrementPerRound;
-
-        float enemySpawnInterval = 1f / enemySpawnSpeed;
-
-        int enemyLevel = roundIdx;
-
-        GameManager.EnemyManager.SetRoundEnemyVariables(GameManager.Player.transform, enemySpawnCount, enemySpawnInterval, enemyLevel);
+        //플레이어 입력 모드 변경
+        InputManager.Instance.ChangeInputMode(InputMode.Player);
     }
 
     public override void Update()
@@ -46,5 +41,9 @@ public class GameRoundStartState : GameBaseState
         }
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        //플레이어 입력 모드 없음으로 변경
+        InputManager.Instance.ChangeInputMode(InputMode.None);
+    }
 }

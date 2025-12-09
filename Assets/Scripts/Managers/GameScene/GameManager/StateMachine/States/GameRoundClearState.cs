@@ -10,6 +10,8 @@ public class GameRoundClearState : GameBaseState
         //이벤트 구독
         RegisterEvents();
 
+        //TODO: 라운드 타이머 UI 숨기기
+
         //모든 적 제거 후 드랍 아이템 수집
         GameManager.EnemyManager.KillAllEnemies();
         GameManager.DropItemManager.CollectAllDropItems(GameManager.Player);
@@ -20,9 +22,17 @@ public class GameRoundClearState : GameBaseState
         //레벨업 시도 및 성공 시 상태 전환하지 않음
         if (GameManager.Player.TryLevelUp()) return;
 
-        //모든 드랍 아이템이 수집되었는지 확인 후 상점 상태로 전환
-        if (!GameManager.DropItemManager.HasActiveDropItems())
+        //필드 위에 드랍 아이템 있을 시 전환하지 않음
+        if (GameManager.DropItemManager.HasActiveDropItems()) return;
+
+        if (GameManager.CurrentRound == GameManager.GameData.TargetRound)
         {
+            //타겟 라운드 클리어 시 게임 클리어 상태로 전환
+            ChangeState(Factory.Clear);
+        }
+        else
+        {
+            //타겟 라운드가 아닐 시 상점 상태로 전환
             ChangeState(Factory.Shop);
         }
     }

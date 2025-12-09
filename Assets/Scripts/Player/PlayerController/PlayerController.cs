@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public float InitialJumpSpeed => _player.PlayerStats.GetStat(PlayerStatType.JumpForce).FinalValue;
     public int AirJumpRemain { get; private set; }
     private float _pitch = 0f;
-    public bool IsGrounded => _characterController.isGrounded;
+    public bool IsGrounded { get; private set; } = false;
     private Vector3 _movement;
     public float MovementX { get => _movement.x; set => _movement.x = value; }
     public float MovementY { get => _movement.y; set => _movement.y = value; }
@@ -167,6 +167,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region 초기화
     public void Init(Player player)
     {
         //참조 데이터 할당
@@ -181,6 +182,15 @@ public class PlayerController : MonoBehaviour
         //상태 기계 초기화
         InitStateMachine();
     }
+
+    //상태 기계 초기화. 낙하 상태로 시작
+    private void InitStateMachine()
+    {
+        StateMachine = new StateMachine();
+        stateFactory = new PlayerStateFactory(this);
+        StateMachine.ChangeState(stateFactory.Fall);
+    }
+    #endregion
 
     #region 점프 관련 함수
     //공중 점프 남은 횟수 초기화.
@@ -201,14 +211,6 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    //상태 기계 초기화. 낙하 상태로 시작
-    private void InitStateMachine()
-    {
-        StateMachine = new StateMachine();
-        stateFactory = new PlayerStateFactory(this);
-        StateMachine.ChangeState(stateFactory.Fall);
-    }
-
     private void Update()
     {
         //플레이어 회전 처리
@@ -220,8 +222,12 @@ public class PlayerController : MonoBehaviour
         StateMachine.Update();
     }
 
+    #region 움직임 처리
     private void HandleRotation()
     {
+        //정지 상태인 경우 진행하지 않음
+        if (Time.deltaTime <= 0f) return;
+
         //입력 장치에 따라 감도 설정
         float sensitivity = _currentDecive is Mouse ? PlayerControllerData.MouseSensitivityMultiplier : PlayerControllerData.ControllerRotateSpeedMultiplier;
 
@@ -247,6 +253,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
+        //정지 상태인 경우 진행하지 않음
+        if (Time.deltaTime <= 0f) return;
+
         //이동 속도 적용
         float moveSpeed = _player.PlayerStats.GetStat(PlayerStatType.MoveSpeed).FinalValue;
 
@@ -257,7 +266,11 @@ public class PlayerController : MonoBehaviour
 
         //캐릭터 컨트롤러로 이동
         _characterController.Move(moveVelocity * Time.deltaTime);
+
+        //지상 체크 업데이트
+        IsGrounded = _characterController.isGrounded;
     }
+    #endregion
 
     #region 점프 버퍼 코루틴
     private IEnumerator JumpBufferCoroutine()

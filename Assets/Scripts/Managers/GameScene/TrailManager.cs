@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -10,6 +11,15 @@ public class TrailManager : MonoBehaviour
     #region 오브젝트 풀
     private Dictionary<TrailData, ObjectPool<Trail>> _trails = new();
     #endregion
+
+    #region 레퍼런스
+    private GameManager _gameManager;
+    #endregion
+
+    public void Init(GameManager gameManager)
+    {
+        _gameManager = gameManager;
+    }
 
     #region 오브젝트 풀링
     private void InitPool(TrailData data)

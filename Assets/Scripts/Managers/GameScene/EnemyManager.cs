@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -9,15 +10,19 @@ using UnityEngine.Pool;
 public class EnemyManager : MonoBehaviour
 {
     [Header("Enemy Settings")]
-    [SerializeField] private List<EnemyData> _enemyDataList;
     [SerializeField] private float _spawnRange = 20f;
     [SerializeField] private float _checkStartHeight = 5f;
     [SerializeField] private int _maxTryCount = 10;
     [SerializeField] private LayerMask _groundLayer;
 
+    #region 레퍼런스
+    private GameManager _gameManager;
+    #endregion
+
     #region 오브젝트 풀
     private Dictionary<EnemyData, ObjectPool<Enemy>> _enemyPools = new();
     private List<Enemy> _activeEnemies = new(); //현재 활성화된 적 리스트
+    private List<Enemy> _activeBossEnemies = new(); //현재 활성화된 보스 적 리스트
     #endregion
 
     #region 적 스폰 변수
@@ -27,7 +32,20 @@ public class EnemyManager : MonoBehaviour
     private float _spawnInterval;
     private int _spawnLevel;
     private float _nextSpawnTime = 0f;
+    private EnemyTableData _currentEnemyTable;
+    public bool IsBossRound { get; private set; } = false;
+    private bool _isBossSpawned = false;
     #endregion
+
+    #region 이벤트
+    public event Action OnAllBossDead;
+    #endregion
+
+    public void Init(GameManager gamemanager)
+    {
+        _gameManager = gamemanager;
+        _target = _gameManager.Player.transform;
+    }
 
     private void OnEnable()
     {
@@ -47,21 +65,39 @@ public class EnemyManager : MonoBehaviour
     #region 이벤트
     private void RegisterEvents()
     {
+        Enemy.OnAnyBossDeath += OnAnyBossDeath;
         Enemy.OnAnyReleaseRequested += ReleaseEnemy;
     }
 
     private void UnregisterEvents()
     {
+        Enemy.OnAnyBossDeath += OnAnyBossDeath;
         Enemy.OnAnyReleaseRequested -= ReleaseEnemy;
     }
 
+    //아무 보스나 사망했을 때
+    private void OnAnyBossDeath(Enemy enemy)
+    {
+        //활성화된 보스 리스트에서 제거
+        _activeBossEnemies.Remove(enemy);
+
+        //보스가 모두 사망 시 이벤트 호출
+        if (_activeBossEnemies.Count == 0)
+        {
+            OnAllBossDead?.Invoke();
+        }
+    }
+
+    //적 해제 요청 시
     private void ReleaseEnemy(Enemy enemy)
     {
+        //풀이 존재할 시 반환
         if (_enemyPools.TryGetValue(enemy.EnemyData, out var pool))
         {
             pool.Release(enemy);
             _activeEnemies.Remove(enemy);
         }
+        //풀이 존재하지 않을 시 파괴(오류 방지)
         else
         {
             Destroy(enemy.gameObject);
@@ -97,26 +133,65 @@ public class EnemyManager : MonoBehaviour
     #region Enemy 스폰 제어
     private void HandleEnemySpawn()
     {
+        //스폰 중이 아니면 return
         if (!_isSpawning) return;
-        if (Time.time >= _nextSpawnTime)
-        {
-            SpawnEnemies(_target, _spawnCount);
-            _nextSpawnTime = Time.time + _spawnInterval;
-        }
+
+        //스폰 시간이 아니면 return
+        if (Time.time < _nextSpawnTime) return;
+
+        //적 스폰
+        SpawnEnemies();
+
+        //스폰 시간 갱신
+        _nextSpawnTime = Time.time + _spawnInterval;
     }
 
-    public void SetRoundEnemyVariables(Transform target, int count, float interval, int level = 0)
+    //적 스폰 변수 설정
+    public void SetRoundEnemyVariables()
     {
-        _target = target;
-        _spawnCount = count;
-        _spawnInterval = interval;
-        _spawnLevel = level;
+        //게임 데이터 가져오기
+        var gameData = _gameManager.GameData;
+
+        //라운드 인덱스는 현재 라운드 -1
+        int roundIdx = _gameManager.CurrentRound - 1;
+
+        //적 테이블 설정
+        var enemyTableIdx = Mathf.Min(roundIdx, gameData.EnemyTableListData.EnemyTableDatas.Count - 1);
+        _currentEnemyTable = gameData.EnemyTableListData.EnemyTableDatas[enemyTableIdx];
+
+        //보스 라운드 설정
+        IsBossRound = _currentEnemyTable.BossEnemyDatas == null || _currentEnemyTable.BossEnemyDatas.Count > 0;
+        _isBossSpawned = false;
+
+        //스폰 수 계산
+        _spawnCount = gameData.BaseEnemySpawnCount
+        + roundIdx
+        * gameData.EnemySpawnCountIncrementPerRound;
+
+        //스폰 속도 계산
+        float enemySpawnSpeed = gameData.BaseEnemySpawnSpeed
+        + roundIdx
+        * gameData.EnemySpawnSpeedIncrementPerRound;
+
+        //스폰 간격 계산
+        _spawnInterval = 1f / enemySpawnSpeed;
+
+        //스폰 레벨은 라운드 인덱스와 동일
+        _spawnLevel = roundIdx;
+
+        //다음 스폰 시간 초기화
         _nextSpawnTime = 0f;
     }
 
     public void StartEnemySpawn()
     {
         _isSpawning = true;
+
+        //보스 라운드인 경우 보스 스폰
+        if (IsBossRound && !_isBossSpawned)
+        {
+            SpawnBossEnemy();
+        }
     }
 
     public void StopEnemySpawn()
@@ -126,27 +201,53 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region Enemy 스폰
-    public void SpawnEnemies(Transform target, int count)
+    //일반 적 여러마리 소환
+    private void SpawnEnemies()
     {
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < _spawnCount; i++)
         {
-            EnemyData enemyData = _enemyDataList.GetRandomElement();
+            EnemyData enemyData = _currentEnemyTable.EnemyDatas.GetRandomItem();
             if (enemyData == null)
             {
                 Debug.LogError("EnemyManager: EnemyData is null.");
                 continue;
             }
 
-            if (!TryGetRandomSpawnPoint(target, out var spawnPoint))
+            if (!TryGetRandomSpawnPoint(_target, out var spawnPoint))
             {
                 Debug.LogWarning("EnemyManager: Failed to find valid spawn point.");
                 continue;
             }
 
             Enemy enemy = SpawnEnemy(enemyData, spawnPoint);
-            enemy.SetTarget(target);
+            enemy.SetTarget(_target);
 
             _activeEnemies.Add(enemy);
+        }
+    }
+
+    //보스 적 소환
+    private void SpawnBossEnemy()
+    {
+        // 보스 라운드가 아니거나 이미 소환한 경우 return
+        if (!IsBossRound || _isBossSpawned) return;
+        _isBossSpawned = true;
+
+        var bossList = _currentEnemyTable.BossEnemyDatas;
+
+        foreach (var bossData in bossList)
+        {
+            if (!TryGetRandomSpawnPoint(_target, out var spawnPoint))
+            {
+                Debug.LogWarning("EnemyManager: Failed to find valid spawn point for boss.");
+                continue;
+            }
+
+            Enemy bossEnemy = SpawnEnemy(bossData, spawnPoint);
+            bossEnemy.SetTarget(_target);
+
+            _activeEnemies.Add(bossEnemy);
+            _activeBossEnemies.Add(bossEnemy);
         }
     }
 
@@ -170,7 +271,7 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < _maxTryCount; i++)
         {
             //타겟 주변의 랜덤 위치 계산
-            var randomOffsetXY = Random.insideUnitCircle.normalized * _spawnRange;
+            var randomOffsetXY = UnityEngine.Random.insideUnitCircle.normalized * _spawnRange;
             var randomOffsetXZ = new Vector3(randomOffsetXY.x, 0f, randomOffsetXY.y);
             var randomPos = target.position + randomOffsetXZ;
 

@@ -27,15 +27,27 @@ public class Enemy : MonoBehaviour
     #region 이벤트
     public static event Action<Enemy> OnAnyDeath;
     public static event Action<Enemy> OnAnyReleaseRequested;
+    public static event Action<Enemy, float, float> OnAnyBossHit;
+    public static event Action<Enemy> OnAnyBossDeath;
     #endregion
 
     private void Awake()
     {
         _enemyController = GetComponent<EnemyController>();
         _enemyVisual = GetComponentInChildren<EnemyVisual>();
-
         _health = GetComponent<Health>();
+
+        _health.OnHealthChanged += OnBossHealthChanged;
         _health.OnDeath += Die;
+    }
+
+    private void OnBossHealthChanged(float cur, float max)
+    {
+        //보스일 때만 호출
+        if (EnemyData.IsBoss)
+        {
+            OnAnyBossHit?.Invoke(this, cur, max);
+        }
     }
 
     public void Init(EnemyData enemyData, int level = 0)
@@ -117,7 +129,16 @@ public class Enemy : MonoBehaviour
     // 체력이 0이 되거나 EnemyManager에서 호출
     public void Die()
     {
+        //사망 이벤트 호출
         OnAnyDeath?.Invoke(this);
+
+        //보스일 시 추가로 보스 사망 이벤트 호출
+        if (EnemyData.IsBoss)
+        {
+            OnAnyBossDeath?.Invoke(this);
+        }
+
+        //적 해제 요청 이벤트 호출
         OnAnyReleaseRequested?.Invoke(this);
     }
 

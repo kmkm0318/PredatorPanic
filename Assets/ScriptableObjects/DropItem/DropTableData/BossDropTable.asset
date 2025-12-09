@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c13c6d38a81f0014784f62205f16b94e, type: 3}
-  m_Name: WolfDropTable
+  m_Name: BossDropTable
   m_EditorClassIdentifier: Assembly-CSharp::DropTableData
   _dropItems:
   - {fileID: 11400000, guid: 815416ab74d52c64fa1067955292ab6a, type: 2}

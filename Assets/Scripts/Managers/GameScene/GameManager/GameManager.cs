@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region 게임 데이터
-    public int CurrentRound { get; private set; }
+    public int CurrentRound { get; set; }
     public float RoundTimer { get; set; }
     #endregion
 
@@ -69,7 +69,8 @@ public class GameManager : MonoBehaviour
         InitPlayer();
         InitCamera();
         InitManagers();
-        CurrentRound = 1;
+
+        CurrentRound = 0;
     }
 
     // 플레이어 생성 및 초기화
@@ -100,8 +101,12 @@ public class GameManager : MonoBehaviour
     //매니저 클래스 초기화. UI는 마지막에 초기화
     private void InitManagers()
     {
+        _enemyManager.Init(this);
+        _dropItemManager.Init(this);
+        _shopManager.Init(this);
         _bulletManager.Init(this);
-        _shopManager.Init(Player);
+        _trailManager.Init(this);
+        _explosionManager.Init(this);
         _gameUIManager.Init(this);
     }
     #endregion

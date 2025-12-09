@@ -10,16 +10,18 @@ public class GameData : ScriptableObject
     [Header("Round Settings")]
     [SerializeField] private float _roundStartDelay = 3f;
     [SerializeField] private float _roundDuration = 60f;
-    [SerializeField] private int _targetRounds = 10;
+    [SerializeField] private int _targetRound = 10;
     public float RoundStartDelay => _roundStartDelay;
     public float RoundDuration => _roundDuration;
-    public int TargetRounds => _targetRounds;
+    public int TargetRound => _targetRound;
 
     [Header("Enemy Settings")]
+    [SerializeField] private EnemyTableListData _enemyTableListData;
     [SerializeField] private int _baseEnemySpawnCount = 5;
     [SerializeField] private int _enemySpawnCountIncrementPerRound = 3;
     [SerializeField] private float _baseEnemySpawnSpeed = 0.5f;
     [SerializeField] private float _enemySpawnSpeedIncrementPerRound = 0.1f;
+    public EnemyTableListData EnemyTableListData => _enemyTableListData;
     public int BaseEnemySpawnCount => _baseEnemySpawnCount;
     public int EnemySpawnCountIncrementPerRound => _enemySpawnCountIncrementPerRound;
     public float BaseEnemySpawnSpeed => _baseEnemySpawnSpeed;
