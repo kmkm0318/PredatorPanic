@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 0_Wolf
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   _enemyPrefab: {fileID: 4943510184041093272, guid: ba571e777d529c446bf6076a7134e762, type: 3}
+  _isBoss: 0
   _enemyName: Wolf
   _enemyControllerData: {fileID: 11400000, guid: 9b92ea86d480b6a4599140dec156a811, type: 2}
   _baseStats:
@@ -26,11 +27,11 @@ MonoBehaviour:
     _value: 3
   _increaseRates:
   - _statType: 0
-    _value: 0.25
+    _value: 0.1
   - _statType: 1
-    _value: 0.25
+    _value: 0.1
   - _statType: 2
-    _value: 0.25
+    _value: 0.1
   - _statType: 3
     _value: 0.1
   _dropTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}

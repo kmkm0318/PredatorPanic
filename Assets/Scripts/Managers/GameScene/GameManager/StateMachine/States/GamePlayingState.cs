@@ -69,7 +69,7 @@ public class GamePlayingState : GameBaseState
         inputActions.Player.Pause.performed += OnPause;
 
         GameManager.Player.OnLevelUpped += OnLevelUpped;
-        GameManager.EnemyManager.OnAllBossDead += OnAllBossDead;
+        GameManager.EnemyManager.OnAllBossDeath += OnAllBossDead;
     }
 
     private void UnregisterEvents()
@@ -78,7 +78,7 @@ public class GamePlayingState : GameBaseState
         inputActions.Player.Pause.performed -= OnPause;
 
         GameManager.Player.OnLevelUpped -= OnLevelUpped;
-        GameManager.EnemyManager.OnAllBossDead -= OnAllBossDead;
+        GameManager.EnemyManager.OnAllBossDeath -= OnAllBossDead;
     }
     #endregion
 

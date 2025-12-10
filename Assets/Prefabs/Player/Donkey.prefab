@@ -79,18 +79,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4392225540016082528, guid: 36ffc472d8c95ae49980b122bce942ac, type: 3}
-      propertyPath: m_Height
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4392225540016082528, guid: 36ffc472d8c95ae49980b122bce942ac, type: 3}
-      propertyPath: m_Radius
-      value: 1.84
-      objectReference: {fileID: 0}
-    - target: {fileID: 4392225540016082528, guid: 36ffc472d8c95ae49980b122bce942ac, type: 3}
-      propertyPath: m_Center.y
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4449419947464300697, guid: 36ffc472d8c95ae49980b122bce942ac, type: 3}
       propertyPath: _playerVisual
       value: 
@@ -120,6 +108,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 234232747143603559}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 3c120231f2086374aa96655dc427a1fa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3c120231f2086374aa96655dc427a1fa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3c120231f2086374aa96655dc427a1fa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3c120231f2086374aa96655dc427a1fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -159,6 +159,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3c120231f2086374aa96655dc427a1fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 3c120231f2086374aa96655dc427a1fa, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3c120231f2086374aa96655dc427a1fa, type: 3}
       propertyPath: m_Name
@@ -217,12 +221,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5ddffe0970308e4d8c77ba8ec233d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerVisual
-  _weaponPivotHeight: 2
-  _weaponPivotRadius: 2
+  _weaponPivotHeight: 1
+  _weaponPivotRadius: 1
   _cameraPivot: {fileID: 1945007992866119418}
-  _shoulderOffsetX: 4
+  _shoulderOffsetX: 3
   _verticalArmLength: 1
-  _cameraDistance: 5
+  _cameraDistance: 4
 --- !u!4 &5563615238393451695 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3c120231f2086374aa96655dc427a1fa, type: 3}

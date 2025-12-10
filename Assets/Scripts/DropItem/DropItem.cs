@@ -18,7 +18,7 @@ public abstract class DropItem : MonoBehaviour
     #endregion
 
     #region 이벤트
-    public static event Action<DropItem> OnAnyReleaseRequested;
+    public event Action<DropItem> OnPickuped;
     #endregion
 
     public virtual void Init(DropItemData dropItemData)
@@ -96,7 +96,7 @@ public abstract class DropItem : MonoBehaviour
     public virtual void OnPickup(Player player)
     {
         IsFollowing = false;
-        OnAnyReleaseRequested?.Invoke(this);
+        OnPickuped?.Invoke(this);
     }
     #endregion
 }

@@ -38,7 +38,11 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region 이벤트
-    public event Action OnAllBossDead;
+    public event Action<Enemy> OnBossSpawned;
+    public event Action<Enemy> OnBossDeath;
+    public event Action<Enemy, float, float> OnBossHealthChanged;
+    public event Action OnAllBossDeath;
+    public event Action<Enemy> OnEnemyDeath;
     #endregion
 
     public void Init(GameManager gamemanager)
@@ -47,63 +51,10 @@ public class EnemyManager : MonoBehaviour
         _target = _gameManager.Player.transform;
     }
 
-    private void OnEnable()
-    {
-        RegisterEvents();
-    }
-
-    private void OnDisable()
-    {
-        UnregisterEvents();
-    }
-
     private void Update()
     {
         HandleEnemySpawn();
     }
-
-    #region 이벤트
-    private void RegisterEvents()
-    {
-        Enemy.OnAnyBossDeath += OnAnyBossDeath;
-        Enemy.OnAnyReleaseRequested += ReleaseEnemy;
-    }
-
-    private void UnregisterEvents()
-    {
-        Enemy.OnAnyBossDeath += OnAnyBossDeath;
-        Enemy.OnAnyReleaseRequested -= ReleaseEnemy;
-    }
-
-    //아무 보스나 사망했을 때
-    private void OnAnyBossDeath(Enemy enemy)
-    {
-        //활성화된 보스 리스트에서 제거
-        _activeBossEnemies.Remove(enemy);
-
-        //보스가 모두 사망 시 이벤트 호출
-        if (_activeBossEnemies.Count == 0)
-        {
-            OnAllBossDead?.Invoke();
-        }
-    }
-
-    //적 해제 요청 시
-    private void ReleaseEnemy(Enemy enemy)
-    {
-        //풀이 존재할 시 반환
-        if (_enemyPools.TryGetValue(enemy.EnemyData, out var pool))
-        {
-            pool.Release(enemy);
-            _activeEnemies.Remove(enemy);
-        }
-        //풀이 존재하지 않을 시 파괴(오류 방지)
-        else
-        {
-            Destroy(enemy.gameObject);
-        }
-    }
-    #endregion
 
     #region 오브젝트 풀링
     private ObjectPool<Enemy> GetPool(EnemyData enemyData)
@@ -120,7 +71,12 @@ public class EnemyManager : MonoBehaviour
     private void InitPool(EnemyData enemyData)
     {
         ObjectPool<Enemy> pool = new(
-            () => Instantiate(enemyData.EnemyPrefab, transform),
+            () =>
+            {
+                var enemy = Instantiate(enemyData.EnemyPrefab, transform);
+                enemy.Init(enemyData);
+                return enemy;
+            },
             (enemy) => enemy.gameObject.SetActive(true),
             (enemy) => enemy.gameObject.SetActive(false),
             (enemy) => Destroy(enemy.gameObject)
@@ -219,9 +175,10 @@ public class EnemyManager : MonoBehaviour
                 continue;
             }
 
+            //적 소환
             Enemy enemy = SpawnEnemy(enemyData, spawnPoint);
-            enemy.SetTarget(_target);
 
+            //활성화된 적 리스트에 추가
             _activeEnemies.Add(enemy);
         }
     }
@@ -233,9 +190,9 @@ public class EnemyManager : MonoBehaviour
         if (!IsBossRound || _isBossSpawned) return;
         _isBossSpawned = true;
 
-        var bossList = _currentEnemyTable.BossEnemyDatas;
+        var bossDataList = _currentEnemyTable.BossEnemyDatas;
 
-        foreach (var bossData in bossList)
+        foreach (var bossData in bossDataList)
         {
             if (!TryGetRandomSpawnPoint(_target, out var spawnPoint))
             {
@@ -243,24 +200,40 @@ public class EnemyManager : MonoBehaviour
                 continue;
             }
 
+            //보스 소환
             Enemy bossEnemy = SpawnEnemy(bossData, spawnPoint);
-            bossEnemy.SetTarget(_target);
 
+            //활성화된 적 및 보스 리스트에 추가
             _activeEnemies.Add(bossEnemy);
             _activeBossEnemies.Add(bossEnemy);
+
+            //이벤트 등록
+            bossEnemy.OnDeath += HandleBossDeath;
+            bossEnemy.OnHealthChanged += HandleBossHealthChanged;
+
+            //이벤트 호출
+            OnBossSpawned?.Invoke(bossEnemy);
         }
     }
 
     //단일 적 스폰
+    //스폰 후 초기화 및 이벤트 등록
     private Enemy SpawnEnemy(EnemyData enemyData, Vector3 spawnPoint)
     {
         //풀 가져오고 적 가져오기
         var pool = GetPool(enemyData);
         var enemy = pool.Get();
 
-        //적 초기화
-        enemy.Init(enemyData, _spawnLevel);
+        //적 위치 설정
         enemy.transform.position = spawnPoint;
+
+        //적 초기화
+        enemy.SetLevel(_spawnLevel);
+        enemy.SetTarget(_target);
+
+        //적 사망 이벤트 등록
+        enemy.OnDeath += HandleEnemyDeath;
+
         return enemy;
     }
 
@@ -287,6 +260,52 @@ public class EnemyManager : MonoBehaviour
         //유효한 위치를 찾지 못함
         pos = Vector3.zero;
         return false;
+    }
+    #endregion
+
+    #region 이벤트 핸들러
+    //적 사망 시
+    private void HandleEnemyDeath(Enemy enemy)
+    {
+        //이벤트 해제
+        enemy.OnDeath -= HandleEnemyDeath;
+
+        //적 사망 이벤트 호출
+        OnEnemyDeath?.Invoke(enemy);
+
+        //적 반환
+        var pool = GetPool(enemy.EnemyData);
+        pool.Release(enemy);
+
+        //활성화된 리스트에서 제거
+        _activeEnemies.Remove(enemy);
+    }
+
+    //보스 사망했을 때
+    private void HandleBossDeath(Enemy enemy)
+    {
+        //이벤트 해제
+        enemy.OnDeath -= HandleBossDeath;
+        enemy.OnHealthChanged -= HandleBossHealthChanged;
+
+        //보스 사망 이벤트 호출
+        OnBossDeath?.Invoke(enemy);
+
+        //활성화된 보스 리스트에서 제거
+        _activeBossEnemies.Remove(enemy);
+
+        //보스가 모두 사망 시 이벤트 호출
+        if (_activeBossEnemies.Count == 0)
+        {
+            OnAllBossDeath?.Invoke();
+        }
+    }
+
+    //보스 체력 변경 시
+    private void HandleBossHealthChanged(Enemy enemy, float cur, float max)
+    {
+        //보스 체력 변경 이벤트 호출
+        OnBossHealthChanged?.Invoke(enemy, cur, max);
     }
     #endregion
 

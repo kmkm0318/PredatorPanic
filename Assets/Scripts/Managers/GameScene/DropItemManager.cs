@@ -24,14 +24,10 @@ public class DropItemManager : MonoBehaviour
     public void Init(GameManager gameManager)
     {
         _gameManager = gameManager;
-    }
-
-    private void OnEnable()
-    {
         RegisterEvents();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         UnregisterEvents();
     }
@@ -39,19 +35,27 @@ public class DropItemManager : MonoBehaviour
     #region 이벤트
     private void RegisterEvents()
     {
-        Enemy.OnAnyDeath += OnAnyEnemyDeath;
-        Enemy.OnAnyBossDeath += OnAnyBossEnemyDeath;
-        DropItem.OnAnyReleaseRequested += OnAnyReleaseRequested;
+        var enemyManager = _gameManager.EnemyManager;
+
+        if (enemyManager)
+        {
+            enemyManager.OnEnemyDeath += HandleEnemyDeath;
+            enemyManager.OnBossDeath += HandleBossEnemyDeath;
+        }
     }
 
     private void UnregisterEvents()
     {
-        Enemy.OnAnyDeath -= OnAnyEnemyDeath;
-        Enemy.OnAnyBossDeath -= OnAnyBossEnemyDeath;
-        DropItem.OnAnyReleaseRequested -= OnAnyReleaseRequested;
+        var enemyManager = _gameManager.EnemyManager;
+
+        if (enemyManager)
+        {
+            enemyManager.OnEnemyDeath -= HandleEnemyDeath;
+            enemyManager.OnBossDeath -= HandleBossEnemyDeath;
+        }
     }
 
-    private void OnAnyEnemyDeath(Enemy enemy)
+    private void HandleEnemyDeath(Enemy enemy)
     {
         //드랍 불가 시 패스
         if (!CanDrop) return;
@@ -64,20 +68,13 @@ public class DropItemManager : MonoBehaviour
         SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
     }
 
-    private void OnAnyBossEnemyDeath(Enemy enemy)
+    private void HandleBossEnemyDeath(Enemy enemy)
     {
         //드랍 불가 시 패스
         if (!CanDrop) return;
 
         //아이템 드랍
         SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
-    }
-
-    private void OnAnyReleaseRequested(DropItem item)
-    {
-        var pool = GetPool(item.DropItemData);
-        pool.Release(item);
-        _activeDropItems.Remove(item);
     }
     #endregion
 
@@ -143,10 +140,27 @@ public class DropItemManager : MonoBehaviour
                 //아이템 초기화
                 dropItem.ResetItem();
 
+                //아이템 이벤트 등록
+                dropItem.OnPickuped += HandlePickuped;
+
                 //활성화된 드롭 아이템 리스트에 추가
                 _activeDropItems.Add(dropItem);
             }
         }
+    }
+
+    //드롭 아이템 획득 시
+    private void HandlePickuped(DropItem item)
+    {
+        //이벤트 해제
+        item.OnPickuped -= HandlePickuped;
+
+        //아이템 반환
+        var pool = GetPool(item.DropItemData);
+        pool.Release(item);
+
+        //활성화된 드롭 아이템 리스트에서 제거
+        _activeDropItems.Remove(item);
     }
     #endregion
 

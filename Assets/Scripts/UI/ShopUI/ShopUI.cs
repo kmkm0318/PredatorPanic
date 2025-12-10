@@ -42,9 +42,14 @@ public class ShopUI : ShowHideUI
 
     private void Awake()
     {
-        InitPool();
         InitButtons();
-        Hide(0f);
+    }
+
+    //버튼 초기화
+    private void InitButtons()
+    {
+        _refreshButton.onClick.AddListener(() => OnRefreshButtonClicked?.Invoke());
+        _nextRoundButton.onClick.AddListener(() => OnNextRoundButtonClicked?.Invoke());
     }
 
     #region 오브젝트 풀링
@@ -64,53 +69,41 @@ public class ShopUI : ShowHideUI
     }
     #endregion
 
-    //버튼 초기화
-    private void InitButtons()
-    {
-        _refreshButton.onClick.AddListener(() => OnRefreshButtonClicked?.Invoke());
-        _nextRoundButton.onClick.AddListener(() => OnNextRoundButtonClicked?.Invoke());
-    }
-
     #region 상품 설정
     //구매 상품 설정
     public void SetShopProducts(List<IProduct> products)
     {
-        ClearParent(_shopProductParent);
-
-        foreach (var product in products)
-        {
-            var slotUI = _pool.Get();
-            slotUI.transform.SetParent(_shopProductParent, false);
-            slotUI.transform.SetAsLastSibling();
-            slotUI.Init(product, OnShopProductClicked);
-        }
+        UpdateProducts(products, _shopProductParent, OnShopProductClicked);
     }
 
     //무기 판매 상품 설정
     public void SetWeaponInventoryProducts(List<WeaponInventoryProduct> products)
     {
-        ClearParent(_weaponInventoryProductParent);
-
-        foreach (var product in products)
-        {
-            var slotUI = _pool.Get();
-            slotUI.transform.SetParent(_weaponInventoryProductParent, false);
-            slotUI.transform.SetAsLastSibling();
-            slotUI.Init(product, OnWeaponInventoryProductClicked);
-        }
+        UpdateProducts(products, _weaponInventoryProductParent, OnWeaponInventoryProductClicked);
     }
 
     //아이템 판매 상품 설정
     public void SetItemInventoryProducts(List<ItemInventoryProduct> products)
     {
-        ClearParent(_itemInventoryProductParent);
+        UpdateProducts(products, _itemInventoryProductParent, OnItemInventoryProductClicked);
+    }
 
+    //상품 UI 업데이트 공통 함수
+    private void UpdateProducts<T>(List<T> products, Transform parent, Action<IProduct> onClicked) where T : IProduct
+    {
+        //기존 상품 제거
+        ClearParent(parent);
+
+        //오브젝트 풀 초기화
+        if (_pool == null) InitPool();
+
+        //새 상품 설정
         foreach (var product in products)
         {
             var slotUI = _pool.Get();
-            slotUI.transform.SetParent(_itemInventoryProductParent, false);
+            slotUI.transform.SetParent(parent, false);
             slotUI.transform.SetAsLastSibling();
-            slotUI.Init(product, OnItemInventoryProductClicked);
+            slotUI.Init(product, onClicked);
         }
     }
     #endregion

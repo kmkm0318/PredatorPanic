@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     #region 컴포넌트
     private EnemyController _enemyController;
     private EnemyVisual _enemyVisual;
-    private Health _health;
+    public Health Health { get; private set; }
     #endregion
 
     #region 적 스탯
@@ -25,36 +25,35 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region 이벤트
-    public static event Action<Enemy> OnAnyDeath;
-    public static event Action<Enemy> OnAnyReleaseRequested;
-    public static event Action<Enemy, float, float> OnAnyBossHit;
-    public static event Action<Enemy> OnAnyBossDeath;
+    public event Action<Enemy> OnDeath;
+    public event Action<Enemy, float, float> OnHealthChanged;
     #endregion
 
     private void Awake()
     {
         _enemyController = GetComponent<EnemyController>();
         _enemyVisual = GetComponentInChildren<EnemyVisual>();
-        _health = GetComponent<Health>();
+        Health = GetComponent<Health>();
 
-        _health.OnHealthChanged += OnBossHealthChanged;
-        _health.OnDeath += Die;
+        Health.OnHealthChanged += HandleHealthChanged;
+        Health.OnDeath += Die;
     }
 
-    private void OnBossHealthChanged(float cur, float max)
+    private void HandleHealthChanged(float cur, float max)
     {
-        //보스일 때만 호출
-        if (EnemyData.IsBoss)
-        {
-            OnAnyBossHit?.Invoke(this, cur, max);
-        }
+        //이벤트 호출
+        OnHealthChanged?.Invoke(this, cur, max);
     }
 
-    public void Init(EnemyData enemyData, int level = 0)
+    public void Init(EnemyData enemyData)
     {
         //적 데이터 설정
         EnemyData = enemyData;
+    }
 
+    public void SetLevel(int level)
+    {
+        //레벨에 따른 스탯 재초기화
         //EnemyController에서 Stat를 사용하기 때문에 Stat 먼저 초기화
         InitStats(level);
         InitComponents();
@@ -82,7 +81,7 @@ public class Enemy : MonoBehaviour
         float maxHealth = EnemyStats.GetStat(EnemyStatType.Health).FinalValue;
         float defense = EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
 
-        _health.Init(maxHealth, defense);
+        Health.Init(maxHealth, defense);
 
         //Health 스탯 변경 이벤트 등록
         RegisterHealthStatEvents();
@@ -93,12 +92,12 @@ public class Enemy : MonoBehaviour
     {
         EnemyStats.GetStat(EnemyStatType.Health).OnValueChanged += (newValue) =>
         {
-            _health.SetMaxHealth(newValue);
+            Health.SetMaxHealth(newValue);
         };
 
         EnemyStats.GetStat(EnemyStatType.Defense).OnValueChanged += (newValue) =>
         {
-            _health.SetDefense(newValue);
+            Health.SetDefense(newValue);
         };
     }
 
@@ -108,12 +107,12 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(PlayerDamageContext context)
     {
         //방어력 적용 및 현재 체력을 최대값으로 제한
-        context.Damage = _health.TakeDamage(context.Damage);
+        context.Damage = Health.TakeDamage(context.Damage);
 
         //플레이어에게 적중 처리 알림
         context.Player.HandleOnHit(context);
 
-        if (_health.IsDead)
+        if (Health.IsDead)
         {
             //사망 시 플레이어에게 처치 처리 알림
             context.Player.HandleOnKill(context);
@@ -130,16 +129,7 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         //사망 이벤트 호출
-        OnAnyDeath?.Invoke(this);
-
-        //보스일 시 추가로 보스 사망 이벤트 호출
-        if (EnemyData.IsBoss)
-        {
-            OnAnyBossDeath?.Invoke(this);
-        }
-
-        //적 해제 요청 이벤트 호출
-        OnAnyReleaseRequested?.Invoke(this);
+        OnDeath?.Invoke(this);
     }
 
     public void SetTarget(Transform target)

@@ -26,12 +26,6 @@ public class LevelUpRewardUI : ShowHideUI
     public event Action<LevelUpRewardData> OnRewardSelected;
     #endregion
 
-    private void Awake()
-    {
-        InitPool();
-        Hide(0f);
-    }
-
     private void InitPool()
     {
         _rewardSelectUIPool = new(
@@ -39,15 +33,15 @@ public class LevelUpRewardUI : ShowHideUI
             (ui) => ui.gameObject.SetActive(true),
             (ui) => ui.gameObject.SetActive(false),
             (ui) => Destroy(ui.gameObject),
-            false,
-            3,
-            10
+            false
         );
     }
 
     // 보상 선택 UI 설정
     public void SetRewards(List<LevelUpRewardData> rewardDatas)
     {
+        if (_rewardSelectUIPool == null) InitPool();
+
         for (int i = 0; i < rewardDatas.Count; i++)
         {
             var rewardData = rewardDatas[i];
