@@ -3,30 +3,46 @@ using UnityEngine;
 /// <summary>
 /// 총알 발사 컨텍스트 구조체
 /// </summary>
-public struct BulletFireContext
+public readonly struct BulletFireContext
 {
     //발사한 플레이어
-    public Player Player;
+    public Player Player { get; }
     //발사한 총기
-    public Gun Gun;
+    public Gun Gun { get; }
     //총알 발사 방향
-    public Vector3 FireDirection;
+    public Vector3 FireDirection { get; }
     //총알 기본 데미지
-    public float BaseDamage;
+    public float BaseDamage { get; }
     //총알 속도
-    public float Speed;
+    public float Speed { get; }
     //총알 사거리
-    public float Range;
+    public float Range { get; }
     //치명타 확률
-    public float CriticalRate;
+    public float CriticalRate { get; }
     //치명타 데미지 배율
-    public float CriticalDamageRate;
+    public float CriticalDamageRate { get; }
     //관통 수
-    public int PenetrationCount;
+    public int PenetrationCount { get; }
     //튕김 수
-    public int RicochetCount;
+    public int RicochetCount { get; }
     //폭발 데이터
-    public ExplosionData ExplosionData;
+    public ExplosionData ExplosionData { get; }
     //충돌 레이어 마스크
-    public LayerMask HitLayerMask;
+    public LayerMask HitLayerMask { get; }
+
+    public BulletFireContext(Player player, Gun gun, Vector3 fireDirection, float baseDamage, float speed, float range, float criticalRate, float criticalDamageRate, int penetrationCount, int ricochetCount, ExplosionData explosionData, LayerMask hitLayerMask)
+    {
+        Player = player;
+        Gun = gun;
+        FireDirection = fireDirection;
+        BaseDamage = baseDamage;
+        Speed = speed;
+        Range = range;
+        CriticalRate = criticalRate;
+        CriticalDamageRate = criticalDamageRate;
+        PenetrationCount = penetrationCount;
+        RicochetCount = ricochetCount;
+        ExplosionData = explosionData;
+        HitLayerMask = hitLayerMask;
+    }
 }

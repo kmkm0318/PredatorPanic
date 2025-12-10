@@ -9,6 +9,7 @@ public class ItemShopProduct : IProduct
     public ItemData ItemData { get; private set; }
     public Sprite Icon { get; private set; }
     public string Name { get; private set; }
+    public string Description { get; private set; }
     public int Price { get; private set; }
 
     public ItemShopProduct(ItemData itemData, float priceRate = 1f)
@@ -16,6 +17,7 @@ public class ItemShopProduct : IProduct
         ItemData = itemData;
         Icon = itemData.Icon;
         Name = itemData.ItemName;
+        Description = itemData.GetDescription();
         Price = Mathf.CeilToInt(itemData.BasePrice * priceRate);
     }
 }

@@ -6,7 +6,13 @@ using UnityEngine;
 /// </summary>
 public class InputManager : Singleton<InputManager>
 {
+    #region 인풋 액션
     public PlayerInputActions PlayerInputActions { get; private set; }
+    #endregion
+
+    #region 프로퍼티
+    public Vector2 MousePosition => PlayerInputActions.UI.Point.ReadValue<Vector2>();
+    #endregion
 
     protected override void Awake()
     {
@@ -16,6 +22,10 @@ public class InputManager : Singleton<InputManager>
         ChangeInputMode(InputMode.None);
     }
 
+    /// <summary>
+    /// 입력 모드 변경 함수
+    /// 플레이어 입력, UI 입력, 또는 모두 비활성화
+    /// </summary>
     public void ChangeInputMode(InputMode mode)
     {
         switch (mode)

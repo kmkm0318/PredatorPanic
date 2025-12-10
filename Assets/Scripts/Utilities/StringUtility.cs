@@ -4,7 +4,7 @@
 public static class StringUtility
 {
     /// <summary>
-    /// 스탯 모디파이어의 설명을 반환합니다.
+    /// 스탯 모디파이어 타입에 따른 value의 설명을 반환합니다.
     /// 긍정적인 효과는 초록색, 부정적인 효과는 빨간색으로 표시됩니다.
     /// </summary>
     public static string GetModifierDescription(StatModifierType type, float value)
@@ -29,5 +29,20 @@ public static class StringUtility
         }
 
         return $"<color={color}>{valueStr}</color>";
+    }
+
+    /// <summary>
+    /// 숫자를 K, M, B 단위로 포맷팅하여 반환합니다.
+    /// </summary>
+    public static string GetFormatedNumber(this float number)
+    {
+        if (number >= 1e9f)
+            return (number / 1e9f).ToString("0.##") + "B";
+        else if (number >= 1e6f)
+            return (number / 1e6f).ToString("0.##") + "M";
+        else if (number >= 1e3f)
+            return (number / 1e3f).ToString("0.##") + "K";
+        else
+            return number.ToString("0.##");
     }
 }

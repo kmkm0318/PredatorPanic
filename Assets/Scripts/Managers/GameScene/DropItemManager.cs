@@ -65,7 +65,7 @@ public class DropItemManager : MonoBehaviour
         if (_gameManager.EnemyManager.IsBossRound) return;
 
         //아이템 드랍
-        SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
+        SpawnDropItems(enemy.EnemyData.DropItemTable, enemy.transform.position);
     }
 
     private void HandleBossEnemyDeath(Enemy enemy)
@@ -74,7 +74,7 @@ public class DropItemManager : MonoBehaviour
         if (!CanDrop) return;
 
         //아이템 드랍
-        SpawnDropItems(enemy.EnemyData.DropTable, enemy.transform.position);
+        SpawnDropItems(enemy.EnemyData.DropItemTable, enemy.transform.position);
     }
     #endregion
 
@@ -110,19 +110,22 @@ public class DropItemManager : MonoBehaviour
     #endregion
 
     #region 아이템 스폰
-    public void SpawnDropItems(DropTableData dropTable, Vector3 position)
+    public void SpawnDropItems(DropItemTableData dropItemTable, Vector3 position)
     {
         //드랍 테이블의 각 아이템에 대해 각각 진행
-        foreach (var dropItemData in dropTable.DropItems)
+        foreach (var entry in dropItemTable.DropItemTableEntries)
         {
             //랜덤 값이 드랍 확률 이상일 시 패스
-            if (Random.value >= dropItemData.DropRate) continue;
+            if (Random.value >= entry.DropRate) continue;
+
+            //드랍 아이템 데이터 가져오기
+            var dropItemData = entry.DropItemData;
 
             //풀 가져오기
             var pool = GetPool(dropItemData);
 
             //드랍 개수 결정
-            int dropCount = Random.Range(dropItemData.MinDropCount, dropItemData.MaxDropCount + 1);
+            int dropCount = Random.Range(entry.MinCount, entry.MaxCount + 1);
 
             //드랍 개수만큼 드랍
             for (int i = 0; i < dropCount; i++)

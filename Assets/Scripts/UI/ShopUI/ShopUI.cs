@@ -38,6 +38,8 @@ public class ShopUI : ShowHideUI
     public event Action<IProduct> OnItemInventoryProductClicked;
     public event Action OnRefreshButtonClicked;
     public event Action OnNextRoundButtonClicked;
+    public event Action<IProduct> OnProductPointerEntered;
+    public event Action<IProduct> OnProductPointerExited;
     #endregion
 
     private void Awake()
@@ -73,23 +75,23 @@ public class ShopUI : ShowHideUI
     //구매 상품 설정
     public void SetShopProducts(List<IProduct> products)
     {
-        UpdateProducts(products, _shopProductParent, OnShopProductClicked);
+        UpdateProducts(products, _shopProductParent, HandleShopProductClicked);
     }
 
     //무기 판매 상품 설정
     public void SetWeaponInventoryProducts(List<WeaponInventoryProduct> products)
     {
-        UpdateProducts(products, _weaponInventoryProductParent, OnWeaponInventoryProductClicked);
+        UpdateProducts(products, _weaponInventoryProductParent, HandleWeaponInventoryProductClicked);
     }
 
     //아이템 판매 상품 설정
     public void SetItemInventoryProducts(List<ItemInventoryProduct> products)
     {
-        UpdateProducts(products, _itemInventoryProductParent, OnItemInventoryProductClicked);
+        UpdateProducts(products, _itemInventoryProductParent, HandleItemInventoryProductClicked);
     }
 
     //상품 UI 업데이트 공통 함수
-    private void UpdateProducts<T>(List<T> products, Transform parent, Action<IProduct> onClicked) where T : IProduct
+    private void UpdateProducts<T>(List<T> products, Transform parent, Action<IProduct> onClickedHandler) where T : IProduct
     {
         //기존 상품 제거
         ClearParent(parent);
@@ -100,15 +102,26 @@ public class ShopUI : ShowHideUI
         //새 상품 설정
         foreach (var product in products)
         {
+            //풀에서 가져오기
             var slotUI = _pool.Get();
+
+            //부모 설정 및 마지막으로 이동
             slotUI.transform.SetParent(parent, false);
             slotUI.transform.SetAsLastSibling();
-            slotUI.Init(product, onClicked);
+
+            //초기화
+            slotUI.Init(product);
+
+            //이벤트 등록
+            slotUI.OnClicked += onClickedHandler;
+            slotUI.OnPointerEntered += HandleProductPointerEntered;
+            slotUI.OnPointerExited += HandleProductPointerExited;
         }
     }
     #endregion
 
     //부모 오브젝트의 모든 자식 제거
+    //이벤트도 해제하고 오브젝트 풀에 반환
     private void ClearParent(Transform parent)
     {
         //뒤에서부터 제거하는 것으로 오류 회피
@@ -117,6 +130,14 @@ public class ShopUI : ShowHideUI
             var child = parent.GetChild(i);
             if (child.TryGetComponent<ProductSlotUI>(out var slotUI))
             {
+                //이벤트 해제
+                slotUI.OnClicked -= HandleShopProductClicked;
+                slotUI.OnClicked -= HandleWeaponInventoryProductClicked;
+                slotUI.OnClicked -= HandleItemInventoryProductClicked;
+                slotUI.OnPointerEntered -= HandleProductPointerEntered;
+                slotUI.OnPointerExited -= HandleProductPointerExited;
+
+                //오브젝트 풀에 반환
                 _pool.Release(slotUI);
             }
             else
@@ -125,6 +146,33 @@ public class ShopUI : ShowHideUI
             }
         }
     }
+
+    #region 이벤트 핸들러
+    private void HandleShopProductClicked(IProduct product)
+    {
+        OnShopProductClicked?.Invoke(product);
+    }
+
+    private void HandleWeaponInventoryProductClicked(IProduct product)
+    {
+        OnWeaponInventoryProductClicked?.Invoke(product);
+    }
+
+    private void HandleItemInventoryProductClicked(IProduct product)
+    {
+        OnItemInventoryProductClicked?.Invoke(product);
+    }
+
+    private void HandleProductPointerEntered(IProduct product)
+    {
+        OnProductPointerEntered?.Invoke(product);
+    }
+
+    private void HandleProductPointerExited(IProduct product)
+    {
+        OnProductPointerExited?.Invoke(product);
+    }
+    #endregion
 
     //새로고침 코스트 설정
     public void SetRefreshCost(int cost)

@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     #region 플레이어 비주얼 객체
     [SerializeField] private PlayerVisual _playerVisual;
     public PlayerVisual PlayerVisual => _playerVisual;
+
     //카메라 피벗을 아이템 획득 위치로 지정
     public Transform DropItemFollowTransform => _playerVisual.CameraPivot;
     #endregion
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour
 
     private void OnInvincibleStateChanged(bool isInvincible)
     {
-
+        //TODO: 무적 상태일 때 비주얼 이펙트 처리
     }
     #endregion
 
@@ -188,7 +189,7 @@ public class Player : MonoBehaviour
         _playerAttack.StopAttack();
     }
 
-    public void HandleOnHit(PlayerDamageContext context)
+    public void HandleOnHit(in PlayerDamageContext context)
     {
         //생명력 흡수 적용
         float lifeSteal = _playerStats.GetStat(PlayerStatType.LifeSteal).FinalValue;

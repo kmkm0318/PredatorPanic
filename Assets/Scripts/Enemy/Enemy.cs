@@ -79,35 +79,17 @@ public class Enemy : MonoBehaviour
 
         //Health 컴포넌트 초기화
         float maxHealth = EnemyStats.GetStat(EnemyStatType.Health).FinalValue;
-        float defense = EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
 
-        Health.Init(maxHealth, defense);
-
-        //Health 스탯 변경 이벤트 등록
-        RegisterHealthStatEvents();
-    }
-
-    // 체력, 방어력 스탯 변경시 Health 컴포넌트에 반영
-    private void RegisterHealthStatEvents()
-    {
-        EnemyStats.GetStat(EnemyStatType.Health).OnValueChanged += (newValue) =>
-        {
-            Health.SetMaxHealth(newValue);
-        };
-
-        EnemyStats.GetStat(EnemyStatType.Defense).OnValueChanged += (newValue) =>
-        {
-            Health.SetDefense(newValue);
-        };
+        Health.Init(maxHealth);
     }
 
     /// <summary>
     /// 플레이어가 적에게 피해를 주는 경우
     /// </summary>
-    public void TakeDamage(PlayerDamageContext context)
+    public void TakeDamage(in PlayerDamageContext context)
     {
-        //방어력 적용 및 현재 체력을 최대값으로 제한
-        context.Damage = Health.TakeDamage(context.Damage);
+        //데미지 적용
+        Health.TakeDamage(context.Damage);
 
         //플레이어에게 적중 처리 알림
         context.Player.HandleOnHit(context);

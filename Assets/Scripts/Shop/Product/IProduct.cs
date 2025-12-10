@@ -8,5 +8,6 @@ public interface IProduct
 {
     Sprite Icon { get; }
     string Name { get; }
+    string Description { get; }
     int Price { get; }
 }

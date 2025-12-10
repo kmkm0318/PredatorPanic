@@ -43,7 +43,7 @@ public class Progressbar : MonoBehaviour
     {
         if (_valueText == null) return;
 
-        _valueText.text = $"{Mathf.CeilToInt(cur)} / {Mathf.CeilToInt(max)}";
+        _valueText.text = $"{cur.GetFormatedNumber()} / {max.GetFormatedNumber()}";
     }
 
     private void OnDisable()

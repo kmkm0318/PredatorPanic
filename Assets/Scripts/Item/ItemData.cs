@@ -15,4 +15,15 @@ public class ItemData : ScriptableObject
     [Header("Item Effect Data")]
     [SerializeField] private List<EffectData> _effectDatas;
     public List<EffectData> EffectDatas => _effectDatas;
+
+    //설명 반환
+    public string GetDescription()
+    {
+        List<string> descriptions = new();
+        foreach (var effectData in _effectDatas)
+        {
+            descriptions.Add(effectData.GetDescription());
+        }
+        return string.Join("\n", descriptions);
+    }
 }

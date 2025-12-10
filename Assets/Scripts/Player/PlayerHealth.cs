@@ -31,12 +31,11 @@ public class PlayerHealth : Health
     {
         _player = player;
 
-        //플레이어 스탯에서 최대 체력과 방어력 가져오기
+        //플레이어 스탯에서 최대 체력 가져오기
         var maxHealth = player.PlayerStats.GetStat(PlayerStatType.Health).FinalValue;
-        var defense = player.PlayerStats.GetStat(PlayerStatType.Defense).FinalValue;
 
         //초기화
-        Init(maxHealth, defense);
+        Init(maxHealth);
 
         //무적 시간 가져오기
         _invincibleDuration = player.PlayerStats.GetStat(PlayerStatType.InvincibleDuration).FinalValue;
@@ -45,17 +44,12 @@ public class PlayerHealth : Health
         RegisterHealthStatEvents();
     }
 
-    // 체력, 방어력, 무적 시간 스탯 변경시 Health 컴포넌트에 반영
+    // 체력, 무적 시간 스탯 변경시 Health 컴포넌트에 반영
     private void RegisterHealthStatEvents()
     {
         _player.PlayerStats.GetStat(PlayerStatType.Health).OnValueChanged += (newValue) =>
         {
             SetMaxHealth(newValue);
-        };
-
-        _player.PlayerStats.GetStat(PlayerStatType.Defense).OnValueChanged += (newValue) =>
-        {
-            SetDefense(newValue);
         };
 
         _player.PlayerStats.GetStat(PlayerStatType.InvincibleDuration).OnValueChanged += (newValue) =>
@@ -133,6 +127,12 @@ public class PlayerHealth : Health
         {
             //데미지 가져오기
             float damage = enemy.EnemyStats.GetStat(EnemyStatType.Damage).FinalValue;
+
+            //방어력 가져오기
+            float defense = _player.PlayerStats.GetStat(PlayerStatType.Defense).FinalValue;
+
+            //방어력 적용 후 데미지 계산
+            damage = CombatUtility.CalculateDefensedDamage(damage, defense);
 
             //적과 충돌 시 데미지 입기
             TakeDamage(damage);

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 /// 상품 슬롯 UI 클래스
 /// 상점에서 상품을 구매하거나 판매할 때 사용하는 슬롯
 /// </summary>
+[RequireComponent(typeof(RectTransform))]
 public class ProductSlotUI : MonoBehaviour
 {
     [Header("Product Slot UI")]
@@ -20,7 +21,9 @@ public class ProductSlotUI : MonoBehaviour
     #endregion
 
     #region 이벤트
-    private event Action<IProduct> _onClicked;
+    public event Action<IProduct> OnClicked;
+    public event Action<IProduct> OnPointerEntered;
+    public event Action<IProduct> OnPointerExited;
     #endregion
 
     private void Awake()
@@ -31,22 +34,20 @@ public class ProductSlotUI : MonoBehaviour
     private void RegisterEvents()
     {
         //클릭 이벤트 등록
-        _PointerHandler.OnPointerClicked += OnClicked;
-    }
+        _PointerHandler.OnPointerClicked += () => OnClicked?.Invoke(_product);
 
-    private void OnClicked()
-    {
-        _onClicked?.Invoke(_product);
+        //포인터 진입 및 이탈 이벤트 등록
+        _PointerHandler.OnPointerEntered += () => OnPointerEntered?.Invoke(_product);
+        _PointerHandler.OnPointerExited += () => OnPointerExited?.Invoke(_product);
     }
 
     /// <summary>
     /// 상점 상품 슬롯 초기화 함수
     /// </summary>
-    public void Init(IProduct product, Action<IProduct> onClicked)
+    public void Init(IProduct product)
     {
         //데이터 설정
         _product = product;
-        _onClicked = onClicked;
 
         //UI 업데이트
         _icon.sprite = product.Icon;

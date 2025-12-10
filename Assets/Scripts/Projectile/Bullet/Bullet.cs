@@ -19,23 +19,15 @@ public class Bullet : MonoBehaviour
     #region 레퍼런스 변수
     private BulletManager _bulletManager;
     private ExplosionManager _explosionManager;
-    private Player _player; //발사한 플레이어
-    private Gun _gun; //발사한 총기
     private Trail _trail; //총알 궤적 이펙트
-    private ExplosionData _explosionData; //폭발 효과
     #endregion
 
     #region 변수
-    public Vector3 SpawnPos { get; private set; } //발사 위치
-    private LayerMask _hitLayerMask; //충돌 레이어 마스크   
+    private BulletFireContext _context;
+    private Vector3 _spawnPos; //발사 위치
     public HashSet<Collider> HitColliders { get; private set; } = new(); //충돌한 콜라이더 기록
     private int _remainPenetrationCount = 0; //남은 관통 횟수
     private int _remainRicochetCount = 0; //남은 튕김 횟수
-    private float _baseDamage;
-    private float _speed;
-    private float _range;
-    private float _criticalRate;
-    private float _criticalDamageRate;
     #endregion
 
     //컴포넌트 가져오기
@@ -54,41 +46,23 @@ public class Bullet : MonoBehaviour
 
     #region 발사 및 지연 비활성화
     //총알 발사
-    public void Fire(BulletFireContext context)
+    public void Fire(in BulletFireContext context)
     {
+        //컨텍스트 저장
+        _context = context;
+
         //발사 위치 기록. 총알 적중 시 거리 계산용
-        SpawnPos = transform.position;
-
-        //발사한 플레이어 설정
-        _player = context.Player;
-
-        //발사한 무기 설정
-        _gun = context.Gun;
-
-        //데미지, 속도, 사거리 설정
-        _baseDamage = context.BaseDamage;
-        _speed = context.Speed;
-        _range = context.Range;
-
-        //크리티컬 확률 및 크리티컬 데미지 설정
-        _criticalRate = context.CriticalRate;
-        _criticalDamageRate = context.CriticalDamageRate;
+        _spawnPos = transform.position;
 
         //남은 관통 및 튕김 횟수 설정
         _remainPenetrationCount = context.PenetrationCount;
         _remainRicochetCount = context.RicochetCount;
 
-        //폭발 데이터 설정
-        _explosionData = context.ExplosionData;
-
-        //충돌 레이어 마스크 설정
-        _hitLayerMask = context.HitLayerMask;
-
         //속도 설정
-        _rigidbody.linearVelocity = context.FireDirection * _speed;
+        _rigidbody.linearVelocity = context.FireDirection * _context.Speed;
 
         //사거리 기반 생존 시간 후 비활성화
-        float lifetime = _range / _speed;
+        float lifetime = _context.Range / _context.Speed;
         StartCoroutine(DelayedDisable(lifetime));
     }
 
@@ -125,28 +99,20 @@ public class Bullet : MonoBehaviour
     //폭발 실행은 총알이 튕겨나갈 때, 관통할 때, 또는 반환될 때 호출
     private void ExecuteExplosion()
     {
-        if (_explosionData == null) return;
+        if (_context.ExplosionData == null) return;
         if (_explosionManager == null) return;
 
         //폭발 효과 가져오기
-        var explosion = _explosionManager.GetExplosion(_explosionData);
+        var explosion = _explosionManager.GetExplosion(_context.ExplosionData);
 
         //폭발 위치 및 회전 설정
         explosion.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
 
         //폭발 반경 계산
-        var radius = CombatUtility.EXPLOSION_RADIUS_RATIO * _range;
+        var radius = CombatUtility.EXPLOSION_RADIUS_RATIO * _context.Range;
 
         //폭발 컨텍스트 생성
-        ExplosionExplodeContext context = new()
-        {
-            Weapon = _gun,
-            BaseDamage = _baseDamage,
-            Radius = radius,
-            CriticalRate = _criticalRate,
-            CriticalDamageRate = _criticalDamageRate,
-            HitLayerMask = _hitLayerMask,
-        };
+        ExplosionExplodeContext context = new(_context.Player, _context.Gun, _context.BaseDamage, radius, _context.CriticalRate, _context.CriticalDamageRate, _context.HitLayerMask);
 
         //폭발 실행
         explosion.Explode(context);
@@ -175,15 +141,15 @@ public class Bullet : MonoBehaviour
         var contact = other.ClosestPoint(transform.position);
 
         //거리에 따른 데미지 적용
-        float distance = Vector3.Distance(SpawnPos, contact);
+        float distance = Vector3.Distance(_spawnPos, contact);
         ApplyDamage(enemy, distance);
 
         //튕김 시도
         if (TryRicochet())
         {
             //가장 가까운 적 찾기. 현재 적 제외
-            float halfRange = _range / 2f;
-            var targetCollider = PhysicsUtility.GetNearestCollider(contact, halfRange, _hitLayerMask, HitColliders);
+            float halfRange = _context.Range / 2f;
+            var targetCollider = PhysicsUtility.GetNearestCollider(contact, halfRange, _context.HitLayerMask, HitColliders);
 
             //튕길 방향 계산 및 속도 설정
             if (targetCollider != null)
@@ -191,7 +157,7 @@ public class Bullet : MonoBehaviour
                 Vector3 center = targetCollider.bounds.center;
                 var direction = (center - contact).normalized;
 
-                Vector3 newSpeed = direction * _speed;
+                Vector3 newSpeed = direction * _context.Speed;
                 _rigidbody.linearVelocity = newSpeed;
 
                 //튕길 때 폭발 실행
@@ -218,24 +184,25 @@ public class Bullet : MonoBehaviour
     private void ApplyDamage(Enemy enemy, float distance)
     {
         //거리 비례 데미지 계산
-        float damage = CombatUtility.CalculateRangedDamage(_baseDamage, _range, distance);
+        float damage = CombatUtility.CalculateRangedDamage(_context.BaseDamage, _context.Range, distance);
 
         //치명타 여부 결정
-        bool isCritical = Random.value < _criticalRate;
+        bool isCritical = Random.value < _context.CriticalRate;
+
+        //치명타 데미지 적용
         if (isCritical)
         {
-            damage *= _criticalDamageRate;
+            damage *= _context.CriticalDamageRate;
         }
 
+        //적의 방어력 가져오기
+        float enemyDefense = enemy.EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
+
+        //방어력 적용 후 데미지 계산
+        damage = CombatUtility.CalculateDefensedDamage(damage, enemyDefense);
+
         //데미지 컨텍스트 생성
-        PlayerDamageContext context = new()
-        {
-            Player = _player,
-            Weapon = _gun,
-            Enemy = enemy,
-            Damage = damage, //방어력을 적용하기 전 데미지
-            IsCritical = isCritical,
-        };
+        PlayerDamageContext context = new(_context.Player, _context.Gun, enemy, damage, isCritical);
 
         //데미지 적용
         enemy.TakeDamage(context);

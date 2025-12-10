@@ -25,7 +25,7 @@ public class Explosion : MonoBehaviour
     }
 
     #region 폭발 및 반환
-    public void Explode(ExplosionExplodeContext context)
+    public void Explode(in ExplosionExplodeContext context)
     {
         //폭발 비주얼 크기 설정
         ExplosionVisual.localScale = 2f * context.Radius * Vector3.one;
@@ -44,20 +44,21 @@ public class Explosion : MonoBehaviour
 
             //치명타 여부 결정
             bool isCritical = Random.value < context.CriticalRate;
+
+            //치명타 데미지 적용
             if (isCritical)
             {
                 damage *= context.CriticalDamageRate;
             }
 
+            //적의 방어력 가져오기
+            float enemyDefense = enemy.EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
+
+            //방어력 적용 후 데미지 계산
+            damage = CombatUtility.CalculateDefensedDamage(damage, enemyDefense);
+
             //데미지 컨텍스트 생성
-            PlayerDamageContext damageContext = new()
-            {
-                Player = context.Weapon.Player,
-                Weapon = context.Weapon,
-                Enemy = enemy,
-                Damage = damage, //방어력을 적용하기 전 데미지
-                IsCritical = isCritical,
-            };
+            PlayerDamageContext damageContext = new(context.Weapon.Player, context.Weapon, enemy, damage, isCritical);
 
             //데미지 적용
             enemy.TakeDamage(damageContext);

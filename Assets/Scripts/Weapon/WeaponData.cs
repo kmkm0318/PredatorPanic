@@ -7,10 +7,12 @@ public abstract class WeaponData : ScriptableObject
 {
     [Header("Basic Weapon Data")]
     [SerializeField] private string _weaponName;
+    [SerializeField] private string _description;
     [SerializeField] private Weapon _weaponPrefab;
     [SerializeField] private Sprite _icon;
     [SerializeField] private int _basePrice;
     public string WeaponName => _weaponName;
+    public string Description => _description;
     public Weapon WeaponPrefab => _weaponPrefab;
     public Sprite Icon => _icon;
     public int BasePrice => _basePrice;

@@ -87,8 +87,8 @@ public class Gun : Weapon
     {
         _muzzleFlash.Play();
 
-        //카메라에서 무기까지의 거리보다 가까운 물체는 무시하기 위한 거리 계산
-        float minDistance = Vector3.Distance(_mainCamera.transform.position, transform.position);
+        //카메라에서 발사 지점까지의 거리보다 가까운 물체는 무시하기 위한 거리 계산
+        float minDistance = Vector3.Distance(_mainCamera.transform.position, _muzzleFlash.transform.position);
 
         //화면 중앙을 발사 방향으로 설정
         Vector3 screenCenter = new(Screen.width / 2f, Screen.height / 2f, 0f);
@@ -191,21 +191,7 @@ public class Gun : Weapon
         var explosionData = _gunData.ExplosionData;
 
         //컨텍스트 생성
-        BulletFireContext context = new()
-        {
-            Player = Player,
-            Gun = this,
-            FireDirection = fireDirection,
-            BaseDamage = baseDamage,
-            Speed = speed,
-            Range = range,
-            CriticalRate = criticalRate,
-            CriticalDamageRate = criticalDamageRate,
-            PenetrationCount = penetrationCount,
-            RicochetCount = ricochetCount,
-            ExplosionData = explosionData,
-            HitLayerMask = _gunData.HitLayerMask
-        };
+        BulletFireContext context = new(Player, this, fireDirection, baseDamage, speed, range, criticalRate, criticalDamageRate, penetrationCount, ricochetCount, explosionData, _gunData.HitLayerMask); ;
 
         //총알 발사
         bullet.Fire(context);

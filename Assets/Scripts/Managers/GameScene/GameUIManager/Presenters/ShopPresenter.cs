@@ -13,6 +13,9 @@ public class ShopPresenter : IPresenter
 
     #region 이벤트
     public event Action OnNextRoundButtonClicked;
+    public event Action<IProduct> OnProductPointerEntered;
+    public event Action<IProduct> OnProductPointerExited;
+    public event Action OnShopUpdated;
     #endregion
 
     //생성자에서 레퍼런스 변수 주입
@@ -61,7 +64,9 @@ public class ShopPresenter : IPresenter
             _shopUI.OnWeaponInventoryProductClicked += OnWeaponInventoryProductClicked;
             _shopUI.OnItemInventoryProductClicked += OnItemInventoryProductClicked;
             _shopUI.OnRefreshButtonClicked += OnRefreshButtonClicked;
-            _shopUI.OnNextRoundButtonClicked += OnNextRoundButtonClick;
+            _shopUI.OnNextRoundButtonClicked += HandleNextRoundButtonClicked;
+            _shopUI.OnProductPointerEntered += HandleProductPointerEntered;
+            _shopUI.OnProductPointerExited += HandleProductPointerExited;
         }
     }
 
@@ -69,9 +74,10 @@ public class ShopPresenter : IPresenter
     {
         if (_shopManager)
         {
-            _shopManager.OnShopProductsUpdated += OnShopProductsUpdated;
-            _shopManager.OnWeaponInventoryProductsUpdated += OnWeaponInventoryProductsUpdated;
-            _shopManager.OnItemInventoryProductsUpdated += OnItemInventoryProductsUpdated;
+            _shopManager.OnCurrentRefreshCostChanged -= OnCurrentRefreshCostChanged;
+            _shopManager.OnShopProductsUpdated -= OnShopProductsUpdated;
+            _shopManager.OnWeaponInventoryProductsUpdated -= OnWeaponInventoryProductsUpdated;
+            _shopManager.OnItemInventoryProductsUpdated -= OnItemInventoryProductsUpdated;
         }
 
         if (_shopUI)
@@ -80,7 +86,9 @@ public class ShopPresenter : IPresenter
             _shopUI.OnWeaponInventoryProductClicked -= OnWeaponInventoryProductClicked;
             _shopUI.OnItemInventoryProductClicked -= OnItemInventoryProductClicked;
             _shopUI.OnRefreshButtonClicked -= OnRefreshButtonClicked;
-            _shopUI.OnNextRoundButtonClicked -= OnNextRoundButtonClick;
+            _shopUI.OnNextRoundButtonClicked -= HandleNextRoundButtonClicked;
+            _shopUI.OnProductPointerEntered -= HandleProductPointerEntered;
+            _shopUI.OnProductPointerExited -= HandleProductPointerExited;
         }
     }
     #endregion
@@ -94,16 +102,19 @@ public class ShopPresenter : IPresenter
     private void OnShopProductsUpdated(List<IProduct> shopProducts)
     {
         _shopUI.SetShopProducts(shopProducts);
+        OnShopUpdated?.Invoke();
     }
 
     private void OnWeaponInventoryProductsUpdated(List<WeaponInventoryProduct> weaponInventoryProducts)
     {
         _shopUI.SetWeaponInventoryProducts(weaponInventoryProducts);
+        OnShopUpdated?.Invoke();
     }
 
     private void OnItemInventoryProductsUpdated(List<ItemInventoryProduct> itemInventoryProducts)
     {
         _shopUI.SetItemInventoryProducts(itemInventoryProducts);
+        OnShopUpdated?.Invoke();
     }
 
     private void OnShopProductClicked(IProduct product)
@@ -138,9 +149,21 @@ public class ShopPresenter : IPresenter
     }
 
     //다음 라운드 버튼 클릭 핸들러
-    private void OnNextRoundButtonClick()
+    private void HandleNextRoundButtonClicked()
     {
         OnNextRoundButtonClicked?.Invoke();
+    }
+
+    // 상품 포인터 진입 핸들러
+    private void HandleProductPointerEntered(IProduct product)
+    {
+        OnProductPointerEntered?.Invoke(product);
+    }
+
+    // 상품 포인터 이탈 핸들러
+    private void HandleProductPointerExited(IProduct product)
+    {
+        OnProductPointerExited?.Invoke(product);
     }
     #endregion
 

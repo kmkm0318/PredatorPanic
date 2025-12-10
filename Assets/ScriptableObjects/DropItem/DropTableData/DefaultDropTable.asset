@@ -12,12 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c13c6d38a81f0014784f62205f16b94e, type: 3}
   m_Name: DefaultDropTable
   m_EditorClassIdentifier: Assembly-CSharp::DropTableData
-  _dropItems:
-  - {fileID: 11400000, guid: 815416ab74d52c64fa1067955292ab6a, type: 2}
-  - {fileID: 11400000, guid: 4201cf07ef3463c4f8ad2cf057d952fb, type: 2}
-  - {fileID: 11400000, guid: 64d6e5b92519b434abe4639060ce8e7a, type: 2}
-  - {fileID: 11400000, guid: 313e8b5fa1d0c3046b3c85ecdf7012f5, type: 2}
-  - {fileID: 11400000, guid: 6a26c26da9065f24596e063bc0ddbc80, type: 2}
-  - {fileID: 11400000, guid: 6b9f050f9986b024796e39b4e5ea31e4, type: 2}
-  - {fileID: 11400000, guid: 36bd70512c16cfa4ea97f3c5670d2e4b, type: 2}
-  - {fileID: 11400000, guid: 627ad643e5e25164aa2fa820700fd135, type: 2}
+  _dropItemTableEntries:
+  - _dropItemData: {fileID: 11400000, guid: 4201cf07ef3463c4f8ad2cf057d952fb, type: 2}
+    _dropRate: 1
+    _minCount: 1
+    _maxCount: 1
+  - _dropItemData: {fileID: 11400000, guid: 627ad643e5e25164aa2fa820700fd135, type: 2}
+    _dropRate: 0.5
+    _minCount: 1
+    _maxCount: 1
+  - _dropItemData: {fileID: 11400000, guid: 313e8b5fa1d0c3046b3c85ecdf7012f5, type: 2}
+    _dropRate: 0.01
+    _minCount: 1
+    _maxCount: 1
+  - _dropItemData: {fileID: 11400000, guid: 6b9f050f9986b024796e39b4e5ea31e4, type: 2}
+    _dropRate: 0.01
+    _minCount: 1
+    _maxCount: 1
