@@ -10,10 +10,12 @@ public abstract class WeaponData : ScriptableObject
     [SerializeField] private string _description;
     [SerializeField] private Weapon _weaponPrefab;
     [SerializeField] private Sprite _icon;
+    [SerializeField] private Rarity _rarity;
     [SerializeField] private int _basePrice;
     public string WeaponName => _weaponName;
     public string Description => _description;
     public Weapon WeaponPrefab => _weaponPrefab;
     public Sprite Icon => _icon;
+    public Rarity Rarity => _rarity;
     public int BasePrice => _basePrice;
 }

@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// 상품 슬롯 UI 클래스
@@ -11,7 +10,7 @@ using UnityEngine.UI;
 public class ProductSlotUI : MonoBehaviour
 {
     [Header("Product Slot UI")]
-    [SerializeField] private Image _icon;
+    [SerializeField] private IconSlot _iconSlot;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _priceText;
     [SerializeField] private PointerHandler _PointerHandler;
@@ -50,8 +49,35 @@ public class ProductSlotUI : MonoBehaviour
         _product = product;
 
         //UI 업데이트
-        _icon.sprite = product.Icon;
-        _nameText.text = product.Name;
-        _priceText.text = product.Price.ToString();
+        if (_iconSlot)
+        {
+            //레어도 색 가져오기
+            if (DataManager.Instance.RarityDataList.RarityDataDict.TryGetValue(product.Rarity, out var rarityData))
+            {
+                //배경 색 설정
+                _iconSlot.SetColor(rarityData.RarityColor);
+
+                if (_nameText)
+                {
+                    //이름 색 설정
+                    _nameText.color = rarityData.RarityColor;
+                }
+            }
+
+            //아이콘 설정
+            _iconSlot.SetIcon(product.Icon);
+        }
+
+        //이름 설정
+        if (_nameText)
+        {
+            _nameText.text = product.Name;
+        }
+
+        //가격 설정
+        if (_priceText)
+        {
+            _priceText.text = product.Price.ToString();
+        }
     }
 }

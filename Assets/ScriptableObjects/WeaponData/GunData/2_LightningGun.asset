@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: 2_LightningGun
   m_EditorClassIdentifier: Assembly-CSharp::GunData
   _weaponName: LightningGun
+  _description: 
   _weaponPrefab: {fileID: 5375874432641419008, guid: fd29b4a386c1a794b983d4c91f614d4a, type: 3}
   _icon: {fileID: 21300000, guid: 13faf2dc47be6cc44846d4faf93dff47, type: 3}
+  _rarity: 4
   _basePrice: 0
   _type: 5
   _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}

@@ -15,7 +15,7 @@ MonoBehaviour:
   _roundStartDelay: 0
   _roundDuration: 60
   _targetRound: 10
-  _enemyTableListData: {fileID: 11400000, guid: 27d893cf08ea962438994e6953335326, type: 2}
+  _enemyTableDataList: {fileID: 11400000, guid: 27d893cf08ea962438994e6953335326, type: 2}
   _baseEnemySpawnCount: 5
   _enemySpawnCountIncrementPerRound: 3
   _baseEnemySpawnSpeed: 0.5

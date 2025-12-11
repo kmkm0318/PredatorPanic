@@ -24,4 +24,8 @@ public class DataManager : Singleton<DataManager>
     [Header("Damage Text Data List")]
     [SerializeField] private DamageTextDataList _damageTextDataList;
     public DamageTextDataList DamageTextDataList => _damageTextDataList;
+
+    [Header("Rarity Data List")]
+    [SerializeField] private RarityDataList _rarityDataList;
+    public RarityDataList RarityDataList => _rarityDataList;
 }

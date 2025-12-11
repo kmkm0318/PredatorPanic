@@ -7,9 +7,11 @@ public class ItemData : ScriptableObject
     [Header("Basic Info")]
     [SerializeField] private string _itemName;
     [SerializeField] private Sprite _icon;
+    [SerializeField] private Rarity _rarity;
     [SerializeField] private int _basePrice;
     public string ItemName => _itemName;
     public Sprite Icon => _icon;
+    public Rarity Rarity => _rarity;
     public int BasePrice => _basePrice;
 
     [Header("Item Effect Data")]

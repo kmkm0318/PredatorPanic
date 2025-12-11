@@ -1,7 +1,5 @@
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// 툴팁 UI 클래스
@@ -13,7 +11,7 @@ public class TooltipUI : MonoBehaviour
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private RectTransform _panel;
     [SerializeField] private float _panelOffset = 5f;
-    [SerializeField] private Image _icon;
+    [SerializeField] private IconSlot _iconSlot;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _descriptionText;
     [SerializeField] private TMP_Text _priceText;
@@ -75,8 +73,22 @@ public class TooltipUI : MonoBehaviour
     #region Show, Hide
     public void Show(IProduct product)
     {
-        //데이터 설정
-        _icon.sprite = product.Icon;
+        //UI 업데이트
+
+        //레어도 색 가져오기
+        if (DataManager.Instance.RarityDataList.RarityDataDict.TryGetValue(product.Rarity, out var rarityData))
+        {
+            //배경 색 설정
+            _iconSlot.SetColor(rarityData.RarityColor);
+
+            //이름 색 설정
+            _nameText.color = rarityData.RarityColor;
+        }
+
+        //아이콘 설정
+        _iconSlot.SetIcon(product.Icon);
+
+        //이름, 설명, 가격 설정
         _nameText.text = product.Name;
         _descriptionText.text = product.Description;
         _priceText.text = product.Price.ToString();

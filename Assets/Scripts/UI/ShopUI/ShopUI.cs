@@ -13,7 +13,8 @@ using UnityEngine.UI;
 public class ShopUI : ShowHideUI
 {
     [Header("Product Prefab and Parents")]
-    [SerializeField] private ProductSlotUI _productSlotUIPrefab;
+    [SerializeField] private ProductSlotUI _shopProductSlotUIPrefab;
+    [SerializeField] private ProductSlotUI _inventoryProductSlotUIPrefab;
     [SerializeField] private Transform _shopProductParent;
     [SerializeField] private Transform _weaponInventoryProductParent;
     [SerializeField] private Transform _itemInventoryProductParent;
@@ -25,11 +26,10 @@ public class ShopUI : ShowHideUI
     [Header("Next Round")]
     [SerializeField] private Button _nextRoundButton;
 
-    [Header("Player Tooth")]
-    [SerializeField] private TMP_Text _playerToothText;
-
     #region 오브젝트 풀
-    private ObjectPool<ProductSlotUI> _pool;
+    private ObjectPool<ProductSlotUI> _shopProductSlotUIpool;
+    private ObjectPool<ProductSlotUI> _inventoryProductSlotUIpool;
+    private bool _isPoolInitialized = false;
     #endregion
 
     #region 이벤트
@@ -57,8 +57,8 @@ public class ShopUI : ShowHideUI
     #region 오브젝트 풀링
     private void InitPool()
     {
-        _pool = new(
-            () => Instantiate(_productSlotUIPrefab),
+        _shopProductSlotUIpool = new(
+            () => Instantiate(_shopProductSlotUIPrefab),
             (slotUI) => slotUI.gameObject.SetActive(true),
             (slotUI) =>
             {
@@ -68,6 +68,21 @@ public class ShopUI : ShowHideUI
             (slotUI) => Destroy(slotUI.gameObject),
             false
             );
+
+        _inventoryProductSlotUIpool = new(
+            () => Instantiate(_inventoryProductSlotUIPrefab),
+            (slotUI) => slotUI.gameObject.SetActive(true),
+            (slotUI) =>
+            {
+                slotUI.gameObject.SetActive(false);
+                slotUI.transform.SetParent(transform, false);
+            },
+            (slotUI) => Destroy(slotUI.gameObject),
+            false
+            );
+
+        _isPoolInitialized = true;
+        $"ShopUI: 오브젝트 풀 초기화 완료".Log();
     }
     #endregion
 
@@ -75,35 +90,38 @@ public class ShopUI : ShowHideUI
     //구매 상품 설정
     public void SetShopProducts(List<IProduct> products)
     {
-        UpdateProducts(products, _shopProductParent, HandleShopProductClicked);
+        if (!_isPoolInitialized) InitPool();
+        UpdateProducts(products, _shopProductParent, _shopProductSlotUIpool, HandleShopProductClicked);
     }
 
     //무기 판매 상품 설정
     public void SetWeaponInventoryProducts(List<WeaponInventoryProduct> products)
     {
-        UpdateProducts(products, _weaponInventoryProductParent, HandleWeaponInventoryProductClicked);
+        if (!_isPoolInitialized) InitPool();
+        UpdateProducts(products, _weaponInventoryProductParent, _inventoryProductSlotUIpool, HandleWeaponInventoryProductClicked);
     }
 
     //아이템 판매 상품 설정
     public void SetItemInventoryProducts(List<ItemInventoryProduct> products)
     {
-        UpdateProducts(products, _itemInventoryProductParent, HandleItemInventoryProductClicked);
+        if (!_isPoolInitialized) InitPool();
+        UpdateProducts(products, _itemInventoryProductParent, _inventoryProductSlotUIpool, HandleItemInventoryProductClicked);
     }
 
     //상품 UI 업데이트 공통 함수
-    private void UpdateProducts<T>(List<T> products, Transform parent, Action<IProduct> onClickedHandler) where T : IProduct
+    private void UpdateProducts<T>(List<T> products, Transform parent, ObjectPool<ProductSlotUI> pool, Action<IProduct> onClickedHandler) where T : IProduct
     {
-        //기존 상품 제거
-        ClearParent(parent);
-
         //오브젝트 풀 초기화
-        if (_pool == null) InitPool();
+        if (pool == null) InitPool();
+
+        //기존 상품 제거
+        ClearParent(parent, pool);
 
         //새 상품 설정
         foreach (var product in products)
         {
             //풀에서 가져오기
-            var slotUI = _pool.Get();
+            var slotUI = pool.Get();
 
             //부모 설정 및 마지막으로 이동
             slotUI.transform.SetParent(parent, false);
@@ -122,7 +140,7 @@ public class ShopUI : ShowHideUI
 
     //부모 오브젝트의 모든 자식 제거
     //이벤트도 해제하고 오브젝트 풀에 반환
-    private void ClearParent(Transform parent)
+    private void ClearParent(Transform parent, ObjectPool<ProductSlotUI> pool)
     {
         //뒤에서부터 제거하는 것으로 오류 회피
         for (int i = parent.childCount - 1; i >= 0; i--)
@@ -138,7 +156,7 @@ public class ShopUI : ShowHideUI
                 slotUI.OnPointerExited -= HandleProductPointerExited;
 
                 //오브젝트 풀에 반환
-                _pool.Release(slotUI);
+                pool.Release(slotUI);
             }
             else
             {

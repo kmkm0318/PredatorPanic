@@ -10,6 +10,7 @@ public class ItemShopProduct : IProduct
     public Sprite Icon { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
+    public Rarity Rarity { get; private set; }
     public int Price { get; private set; }
 
     public ItemShopProduct(ItemData itemData, float priceRate = 1f)
@@ -18,6 +19,7 @@ public class ItemShopProduct : IProduct
         Icon = itemData.Icon;
         Name = itemData.ItemName;
         Description = itemData.GetDescription();
+        Rarity = itemData.Rarity;
         Price = Mathf.CeilToInt(itemData.BasePrice * priceRate);
     }
 }

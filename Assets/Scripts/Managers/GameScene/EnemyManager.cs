@@ -112,8 +112,8 @@ public class EnemyManager : MonoBehaviour
         int roundIdx = _gameManager.CurrentRound - 1;
 
         //적 테이블 설정
-        var enemyTableIdx = Mathf.Min(roundIdx, gameData.EnemyTableListData.EnemyTableDatas.Count - 1);
-        _currentEnemyTable = gameData.EnemyTableListData.EnemyTableDatas[enemyTableIdx];
+        var enemyTableIdx = Mathf.Min(roundIdx, gameData.EnemyTableDataList.EnemyTableDatas.Count - 1);
+        _currentEnemyTable = gameData.EnemyTableDataList.EnemyTableDatas[enemyTableIdx];
 
         //보스 라운드 설정
         IsBossRound = _currentEnemyTable.BossEnemyDatas == null || _currentEnemyTable.BossEnemyDatas.Count > 0;
