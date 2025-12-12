@@ -27,5 +27,7 @@ public class DataManager : Singleton<DataManager>
 
     [Header("Rarity Data List")]
     [SerializeField] private RarityDataList _rarityDataList;
+    [SerializeField] private RarityWeightData _rarityWeightData;
     public RarityDataList RarityDataList => _rarityDataList;
+    public RarityWeightData RarityWeightData => _rarityWeightData;
 }

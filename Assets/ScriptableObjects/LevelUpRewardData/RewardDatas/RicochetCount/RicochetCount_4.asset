@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
+  m_Name: RicochetCount_4
+  m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
+  _rewardName: Ricochet Count
+  _rewardIcon: {fileID: 21300000, guid: beac90fe5a397714ebd6a3b8165153df, type: 3}
+  _rarity: 4
+  _effectDatas:
+  - {fileID: 11400000, guid: cee315542b3221b4a9b471f364158977, type: 2}
+  - {fileID: 11400000, guid: d6b0973ce09e25f4784466886a2445da, type: 2}
+  - {fileID: 11400000, guid: 07bcc3740c149054abb50ff0df221713, type: 2}

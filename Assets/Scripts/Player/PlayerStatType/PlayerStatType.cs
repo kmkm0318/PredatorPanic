@@ -21,4 +21,5 @@ public enum PlayerStatType
     JumpForce, //점프력
     AirJumpCount, //공중 점프 횟수
     InvincibleDuration, //피격 무적 시간
+    Luck, //행운
 }

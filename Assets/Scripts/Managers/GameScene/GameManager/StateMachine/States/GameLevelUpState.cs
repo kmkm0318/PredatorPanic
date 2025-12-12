@@ -19,8 +19,11 @@ public class GameLevelUpState : GameBaseState
         //이벤트 구독
         RegisterEvents();
 
+        //플레이어의 행운 스탯 가져오기
+        float luckStat = GameManager.Player.PlayerStats.GetStat(PlayerStatType.Luck).FinalValue;
+
         //레벨업 보상 UI 표시
-        var isShowReward = GameManager.GameUIManager.LevelUpRewardPresenter.TryShowRewards();
+        var isShowReward = GameManager.GameUIManager.LevelUpRewardPresenter.TryShowRewards(luckStat);
 
         if (!isShowReward)
         {

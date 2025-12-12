@@ -12,7 +12,7 @@ public class LevelUpRewardSelectUI : ShowHideUI
 {
     [Header("UI Components")]
     [SerializeField] private PointerHandler _panelPointerHandler;
-    [SerializeField] private Image _iconImage;
+    [SerializeField] private IconSlot _iconSlot;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _descriptionText;
 
@@ -93,9 +93,22 @@ public class LevelUpRewardSelectUI : ShowHideUI
 
     public void Init(LevelUpRewardData data)
     {
+        //데이터 할당
         Data = data;
 
-        _iconImage.sprite = data.RewardIcon;
+        //희귀도 데이터 리스트 가져오기
+        var rarityDataList = DataManager.Instance.RarityDataList;
+        if (rarityDataList.RarityDataDict.TryGetValue(data.Rarity, out var rarityData))
+        {
+            //희귀도 데이터가 있으면 색 지정
+            _iconSlot.SetColor(rarityData.RarityColor);
+            _nameText.color = rarityData.RarityColor;
+        }
+
+        //아이콘 지정
+        _iconSlot.SetIcon(data.RewardIcon);
+
+        //이름 및 설명 지정
         _nameText.text = data.RewardName;
         _descriptionText.text = string.Join("\n", data.EffectDatas.ConvertAll(effect => effect.GetDescription()));
     }

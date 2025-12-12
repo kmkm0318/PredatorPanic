@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 /// <summary>
 /// 레벨 업 보상 프리젠터
@@ -7,10 +6,16 @@ using UnityEngine;
 /// </summary>
 public class LevelUpRewardPresenter : IPresenter
 {
-    private LevelUpRewardUI _levelUpRewardUI;
-    private int _rewardCount = 3;
+    //보상 선택지 수
+    private const int REWARD_SELECT_COUNT = 3;
 
+    #region 레퍼런스
+    private LevelUpRewardUI _levelUpRewardUI;
+    #endregion
+
+    #region 이벤트
     public event Action<LevelUpRewardData> OnRewardSelected;
+    #endregion
 
     public LevelUpRewardPresenter(LevelUpRewardUI levelUpRewardUI)
     {
@@ -58,11 +63,26 @@ public class LevelUpRewardPresenter : IPresenter
     /// 보상 선택 UI 표시 함수
     /// 리워드가 없을 시 false를 반환하여 바로 LevelUp 상태를 종료할 수 있도록 함
     /// </summary>
-    public bool TryShowRewards()
+    public bool TryShowRewards(float luckStat = 0f, int count = REWARD_SELECT_COUNT)
     {
-        // 보상 데이터 리스트에서 랜덤으로 보상 선택
+        // 보상 데이터 리스트 가져오기
         var rewardDataList = DataManager.Instance.LevelUpRewardDataList;
-        var rewardDatas = rewardDataList.LevelUpRewardDatas.GetRandomElements(_rewardCount);
+
+        //희귀도 가중치 데이터 가져오기
+        var rarityWeightData = DataManager.Instance.RarityWeightData;
+
+        //가중치 리스트 생성
+        WeightedList<LevelUpRewardData> weightedRewardDatas = new();
+
+        //각 가중치에 따른 보상 데이터 추가
+        foreach (var rewardData in rewardDataList.LevelUpRewardDatas)
+        {
+            float weight = rarityWeightData.GetTotalWeight(rewardData.Rarity, luckStat);
+            weightedRewardDatas.AddItem(new WeightedItem<LevelUpRewardData>(rewardData, weight));
+        }
+
+        //가중치에 따라 보상 데이터 선택
+        var rewardDatas = weightedRewardDatas.GetRandomElements(count);
 
         // 보상이 없으면 false 반환
         if (rewardDatas.Count == 0)

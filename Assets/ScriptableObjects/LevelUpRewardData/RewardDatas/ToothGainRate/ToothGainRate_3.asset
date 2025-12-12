@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
+  m_Name: ToothGainRate_3
+  m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
+  _rewardName: Tooth Gain Rate
+  _rewardIcon: {fileID: 21300000, guid: 4590e88cd8cb33d408bbf6fd4ea0d54b, type: 3}
+  _rarity: 3
+  _effectDatas:
+  - {fileID: 11400000, guid: c0b62acb99666a943896bfc83529718f, type: 2}
+  - {fileID: 11400000, guid: 120bf9f2329f4d845a9a26525823a6d1, type: 2}

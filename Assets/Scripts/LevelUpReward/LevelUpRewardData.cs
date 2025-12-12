@@ -11,8 +11,10 @@ public class LevelUpRewardData : ScriptableObject
     [Header("Basic Info")]
     [SerializeField] private string _rewardName;
     [SerializeField] private Sprite _rewardIcon;
+    [SerializeField] private Rarity _rarity;
     public string RewardName => _rewardName;
     public Sprite RewardIcon => _rewardIcon;
+    public Rarity Rarity => _rarity;
 
     [Header("Effect Data")]
     [SerializeField] private List<EffectData> _effectDatas;
