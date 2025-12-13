@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: Health_0
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Elephant
+  _rewardName: "\uCF54\uB07C\uB9AC"
   _rewardIcon: {fileID: 21300000, guid: a6f8113a1b56f4d4aafa4469f09e2a26, type: 3}
   _rarity: 0
   _effectDatas:

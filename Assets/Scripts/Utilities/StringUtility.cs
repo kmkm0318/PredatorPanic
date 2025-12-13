@@ -43,6 +43,6 @@ public static class StringUtility
         else if (number >= 1e3f)
             return (number / 1e3f).ToString("0.##") + "K";
         else
-            return number.ToString("0.##");
+            return number.ToString("0");
     }
 }

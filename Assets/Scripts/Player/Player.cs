@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
     // 스탯 초기화
     private void InitStats()
     {
-        _playerStats = new(PlayerData.InitialStats);
+        _playerStats = new(PlayerData.PlayerInitialStatData.InitialStats);
         Level = 0;
         CurExp = 0;
 
@@ -214,7 +214,13 @@ public class Player : MonoBehaviour
     // 최대 경험치 업데이트
     private void UpdateMaxExp()
     {
-        MaxExp = PlayerData.BaseExp * (1f + (PlayerData.ExpGrowthRate * Level));
+        //경험치 데이터 가져오기
+        var expData = PlayerData.PlayerExpData;
+
+        //최대 경험치 계산
+        float baseExp = expData.BaseExp;
+        float expGrowthRate = expData.ExpGrowthRate;
+        MaxExp = baseExp * Mathf.Pow(expGrowthRate, Level);
     }
 
     //경험치 획득. 레벨업은 따로 처리

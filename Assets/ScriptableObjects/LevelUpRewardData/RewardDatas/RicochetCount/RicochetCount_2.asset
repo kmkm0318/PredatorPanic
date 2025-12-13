@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: RicochetCount_2
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Ricochet Count
-  _rewardIcon: {fileID: 21300000, guid: beac90fe5a397714ebd6a3b8165153df, type: 3}
+  _rewardName: "\uAC1C\uAD6C\uB9AC"
+  _rewardIcon: {fileID: 21300000, guid: 610b28cb94998864f8f33fb026255e84, type: 3}
   _rarity: 2
   _effectDatas:
   - {fileID: 11400000, guid: 188c8d4593b46274a9e21e43cb88596c, type: 2}

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: Attack_2
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Attack
-  _rewardIcon: {fileID: 21300000, guid: d9f2b310ddfcfff47b111bf1fcb576df, type: 3}
+  _rewardName: "\uC0AC\uC790"
+  _rewardIcon: {fileID: 21300000, guid: d5b9fa7fda253ab42b8a74cb9dcdd71d, type: 3}
   _rarity: 2
   _effectDatas:
   - {fileID: 11400000, guid: b61ad4e82bca84c4cb200bb930718faf, type: 2}

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: MoveSpeed_1
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Move Speed
-  _rewardIcon: {fileID: 21300000, guid: beac90fe5a397714ebd6a3b8165153df, type: 3}
+  _rewardName: "\uB9D0"
+  _rewardIcon: {fileID: 21300000, guid: b37d433561ccece47ae6ecd6f85a2677, type: 3}
   _rarity: 1
   _effectDatas:
   - {fileID: 11400000, guid: 08038d0b29c3b3e4f8a1d4164b58c697, type: 2}

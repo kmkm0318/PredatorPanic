@@ -37,6 +37,12 @@ public class EnemyVisual : MonoBehaviour
         StopHitFlash();
     }
 
+    private void OnEnable()
+    {
+        // 플래시 이펙트 초기화
+        StopHitFlash();
+    }
+
     private void Update()
     {
         HandleFlash();

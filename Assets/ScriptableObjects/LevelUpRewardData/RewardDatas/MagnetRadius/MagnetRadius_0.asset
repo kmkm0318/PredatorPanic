@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: MagnetRadius_0
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Magnet Radius
-  _rewardIcon: {fileID: 21300000, guid: b59b00fe3be13ec48b86d8aa72fa05d9, type: 3}
+  _rewardName: "\uAE4C\uB9C8\uADC0"
+  _rewardIcon: {fileID: 21300000, guid: 27a6eeaa549ff1e43adc8a3eb1fefe99, type: 3}
   _rarity: 0
   _effectDatas:
   - {fileID: 11400000, guid: 74a7c313d5a687d408f9e35bca1f50cc, type: 2}

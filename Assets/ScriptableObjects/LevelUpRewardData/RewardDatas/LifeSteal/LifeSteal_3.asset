@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: LifeSteal_3
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Life Steal
-  _rewardIcon: {fileID: 21300000, guid: 58bbdbb721735a340a23c4821a30c608, type: 3}
+  _rewardName: "\uBC15\uC950"
+  _rewardIcon: {fileID: 21300000, guid: af612a6ef98a0e84aaaab06c2dbfbc67, type: 3}
   _rarity: 3
   _effectDatas:
   - {fileID: 11400000, guid: def61acf420d3dd4e9d45c9b9f7810b2, type: 2}

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: JumpForce_0
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: JumpForce
-  _rewardIcon: {fileID: 21300000, guid: a6f8113a1b56f4d4aafa4469f09e2a26, type: 3}
+  _rewardName: "\uCEA5\uAC70\uB8E8"
+  _rewardIcon: {fileID: 21300000, guid: 04a1f3af147da8f47945471f36276d91, type: 3}
   _rarity: 0
   _effectDatas:
   - {fileID: 11400000, guid: cbe32bc9c9f466547a52fddcc6dbfffc, type: 2}

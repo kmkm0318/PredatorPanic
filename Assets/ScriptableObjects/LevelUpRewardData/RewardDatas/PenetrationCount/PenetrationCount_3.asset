@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: PenetrationCount_3
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Penetration Count
-  _rewardIcon: {fileID: 21300000, guid: beac90fe5a397714ebd6a3b8165153df, type: 3}
+  _rewardName: "\uCF54\uBFD4\uC18C"
+  _rewardIcon: {fileID: 21300000, guid: c8eb2f1dfc1f17d45915651aabdc1f05, type: 3}
   _rarity: 3
   _effectDatas:
   - {fileID: 11400000, guid: e9290a97cf038f246bd312fbf7e7a793, type: 2}

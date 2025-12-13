@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: BulletCount_2
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Bullet Count
-  _rewardIcon: {fileID: 21300000, guid: c740eff75e2c5464696a34320cd430b2, type: 3}
+  _rewardName: "\uBB38\uC5B4"
+  _rewardIcon: {fileID: 21300000, guid: 75fc82ddde9465643bae103eae49e378, type: 3}
   _rarity: 2
   _effectDatas:
   - {fileID: 11400000, guid: b764bd873a15a874f80c4d9224347e87, type: 2}

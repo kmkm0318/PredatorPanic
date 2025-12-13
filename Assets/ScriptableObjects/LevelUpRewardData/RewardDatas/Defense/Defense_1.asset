@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: Defense_1
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Defense
-  _rewardIcon: {fileID: 21300000, guid: c93d25f4fccbd5b448add70bac61c706, type: 3}
+  _rewardName: "\uAC70\uBD81\uC774"
+  _rewardIcon: {fileID: 21300000, guid: ee285703f4157bb43901bef5a54d84b1, type: 3}
   _rarity: 1
   _effectDatas:
   - {fileID: 11400000, guid: 4bcb82b0c80716c49bca18d4412231b9, type: 2}

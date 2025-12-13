@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: AttackSpeed_3
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Attack Speed
-  _rewardIcon: {fileID: 21300000, guid: d58e5e3467da9574199c075508e7bd4d, type: 3}
+  _rewardName: "\uBC40"
+  _rewardIcon: {fileID: 21300000, guid: 678de47f814a57a4dab539e884df7695, type: 3}
   _rarity: 3
   _effectDatas:
   - {fileID: 11400000, guid: af3a0ef749b223f419915add73f89aca, type: 2}

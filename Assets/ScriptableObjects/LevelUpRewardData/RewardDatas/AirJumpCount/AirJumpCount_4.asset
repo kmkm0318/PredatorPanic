@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: AirJumpCount_4
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: Air Jump Count
-  _rewardIcon: {fileID: 21300000, guid: beac90fe5a397714ebd6a3b8165153df, type: 3}
+  _rewardName: "\uB3C5\uC218\uB9AC"
+  _rewardIcon: {fileID: 21300000, guid: cbe1a0f5851734f4c97048e50f9de4d8, type: 3}
   _rarity: 4
   _effectDatas:
   - {fileID: 11400000, guid: a4dcfe65e2b98254b97b9c1840d9333b, type: 2}
