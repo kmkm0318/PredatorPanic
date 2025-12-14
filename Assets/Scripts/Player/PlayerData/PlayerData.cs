@@ -17,8 +17,10 @@ public class PlayerData : ScriptableObject
     public PlayerControllerData PlayerControllerData => _playerControllerData;
 
     [Header("Stats")]
-    [SerializeField] private PlayerInitialStatData _playerInitialStatData;
-    public PlayerInitialStatData PlayerInitialStatData => _playerInitialStatData;
+    [SerializeField] private PlayerBaseStatsData _playerBaseStatsData;
+    [SerializeField] private List<EffectData> _characterEffectDatas;
+    public PlayerBaseStatsData PlayerBaseStatsData => _playerBaseStatsData;
+    public List<EffectData> CharacterEffectDatas => _characterEffectDatas;
 
     [Header("EXP")]
     [SerializeField] private PlayerExpData _playerExpData;

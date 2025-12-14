@@ -96,7 +96,13 @@ public class Player : MonoBehaviour
     // 스탯 초기화
     private void InitStats()
     {
-        _playerStats = new(PlayerData.PlayerInitialStatData.InitialStats);
+        //기본 스탯 데이터 가져오기
+        var baseStats = PlayerData.PlayerBaseStatsData.BaseStats;
+
+        //스탯 객체 생성
+        _playerStats = new(baseStats);
+
+        //초기 레벨과 현재 경험치 설정
         Level = 0;
         CurExp = 0;
 

@@ -24,7 +24,7 @@ public static class StringUtility
                 break;
             case StatModifierType.PercentMult:
                 color = value >= 1 ? "green" : "red";
-                valueStr = $"{value * 100}%";
+                valueStr = $"x{value}";
                 break;
         }
 
