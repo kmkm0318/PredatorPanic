@@ -89,18 +89,33 @@ public class Player : MonoBehaviour
         GameManager = gameManager;
 
         //컴포넌트에서 스탯을 사용하기 때문에 스탯을 먼저 초기화
-        InitStats();
+        InitPlayer();
         InitComponents();
     }
 
-    // 스탯 초기화
-    private void InitStats()
+    // 플레이어 초기화
+    // 스탯 초기화 및 기본 값 설정
+    // 캐릭터 효과 적용
+    private void InitPlayer()
     {
         //기본 스탯 데이터 가져오기
         var baseStats = PlayerData.PlayerBaseStatsData.BaseStats;
 
         //스탯 객체 생성
         _playerStats = new(baseStats);
+
+        //캐릭터 효과 가져오기
+        var characterEffectDatas = PlayerData.CharacterEffectDatas;
+
+        //효과 데이터로부터 효과 적용
+        foreach (var effectData in characterEffectDatas)
+        {
+            //이펙트 객체 생성
+            var effect = effectData.GetEffect();
+
+            //효과 적용
+            effect.Apply(this);
+        }
 
         //초기 레벨과 현재 경험치 설정
         Level = 0;
