@@ -21,9 +21,9 @@ public class EnemyData : ScriptableObject
 
     [Header("Stats")]
     [SerializeField] private List<StatEntity<EnemyStatType>> _baseStats;
-    [SerializeField] private List<StatEntity<EnemyStatType>> _increaseRates;
+    [SerializeField] private float _enemyStatGrowthRate = 1.2f;
     public List<StatEntity<EnemyStatType>> BaseStats => _baseStats;
-    public List<StatEntity<EnemyStatType>> IncreaseRates => _increaseRates;
+    public float EnemyStatGrowthRate => _enemyStatGrowthRate;
 
     [Header("Drop Item Table")]
     [SerializeField] private DropItemTableData _dropItemTable;

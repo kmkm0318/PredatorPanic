@@ -64,11 +64,20 @@ public class Enemy : MonoBehaviour
         //기본 스탯 초기화
         EnemyStats = new Stats<EnemyStatType>(EnemyData.BaseStats);
 
+        //성장률 가져오기
+        float growthRate = EnemyData.EnemyStatGrowthRate;
+
+        //레벨에 따른 성장 값 계산
+        float growthValue = Mathf.Pow(growthRate, level);
+
         //레벨에 따른 스탯 증가 적용
-        foreach (var entity in EnemyData.IncreaseRates)
+        foreach (var type in Enum.GetValues(typeof(EnemyStatType)))
         {
-            float increaseAmount = entity.Value * level;
-            EnemyStats.GetStat(entity.StatType).AddModifier(new(increaseAmount, StatModifierType.PercentAdd, this));
+            //스탯 가져오기
+            var stat = EnemyStats.GetStat((EnemyStatType)type);
+
+            //모디파이어 추가
+            stat.AddModifier(new(growthValue, StatModifierType.PercentMult, this));
         }
     }
 
