@@ -30,4 +30,8 @@ public class DataManager : Singleton<DataManager>
     [SerializeField] private RarityWeightData _rarityWeightData;
     public RarityDataList RarityDataList => _rarityDataList;
     public RarityWeightData RarityWeightData => _rarityWeightData;
+
+    [Header("Layer Mask")]
+    [SerializeField] private LayerMask _enemyLayerMask;
+    public LayerMask EnemyLayerMask => _enemyLayerMask;
 }

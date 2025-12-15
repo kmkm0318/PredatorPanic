@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Unity.Cinemachine;
 using UnityEngine;
 
 /// <summary>
@@ -10,22 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerVisual : MonoBehaviour
 {
-    #region 무기 피벗
-    [SerializeField] private float _weaponPivotHeight = 1f;
-    [SerializeField] private float _weaponPivotRadius = 1f;
-    private Transform _weaponPivotContainer;
-    private List<Transform> _weaponPivots = new();
-    public List<Transform> WeaponPivots => _weaponPivots;
-    #endregion
-
-    #region 카메라
-    [SerializeField] private Transform _cameraPivot;
-    [SerializeField] private float _shoulderOffsetX = 3f;
-    [SerializeField] private float _verticalArmLength = 1f;
-    [SerializeField] private float _cameraDistance = 4f;
-    public Transform CameraPivot => _cameraPivot;
-    #endregion
-
     #region 컴포넌트
     public Animator Animator { get; private set; }
     #endregion
@@ -42,88 +23,6 @@ public class PlayerVisual : MonoBehaviour
     private void Awake()
     {
         Animator = GetComponent<Animator>();
-
-        InitWeaponPivotContainer();
-    }
-
-    //무기 피벗 초기화
-    private void InitWeaponPivotContainer()
-    {
-        // 무기 피벗 컨테이너 생성
-        _weaponPivotContainer = new GameObject("WeaponPivotContainer").transform;
-        _weaponPivotContainer.SetParent(transform);
-        _weaponPivotContainer.SetLocalPositionAndRotation(Vector3.up * _weaponPivotHeight, Quaternion.identity);
-    }
-
-    //새로운 무기 피벗 생성 및 반환
-    public Transform GetNewWeaponPivot()
-    {
-        Transform pivot = new GameObject($"WeaponPivot_{_weaponPivots.Count}").transform;
-        pivot.SetParent(_weaponPivotContainer);
-        pivot.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        _weaponPivots.Add(pivot);
-
-        UpdatePivotPositions();
-
-        return pivot;
-    }
-
-    //인덱스로 무기 피벗 제거. 무기 오브젝트도 함께 제거
-    public void RemoveWeaponPivot(int idx)
-    {
-        if (idx < 0 || idx >= _weaponPivots.Count) return;
-        Transform pivot = _weaponPivots[idx];
-        if (_weaponPivots.Remove(pivot))
-        {
-            Destroy(pivot.gameObject);
-            UpdatePivotPositions();
-        }
-    }
-
-    //무기 피벗 위치를 플레이어 상단에 반원으로 배치
-    private void UpdatePivotPositions()
-    {
-        int count = _weaponPivots.Count;
-
-        if (count == 0) return;
-
-        if (count == 1)
-        {
-            //하나일 때는 우측에 배치
-            Transform pivot = _weaponPivots[0];
-            pivot.SetLocalPositionAndRotation(new Vector3(_weaponPivotRadius, 0f, 0f), Quaternion.identity);
-            return;
-        }
-
-        for (int i = 0; i < count; i++)
-        {
-            //처음 시작은 우측, 끝은 좌측
-            float angle = Mathf.PI * i / (count - 1);
-            float x = Mathf.Cos(angle) * _weaponPivotRadius;
-            float y = Mathf.Sin(angle) * _weaponPivotRadius;
-
-            //각 피벗 위치와 각도 초기화
-            Transform pivot = _weaponPivots[i];
-            pivot.SetLocalPositionAndRotation(new Vector3(x, y, 0f), Quaternion.identity);
-        }
-    }
-
-    //시네머신 카메라 초기화
-    public void InitCamera(CinemachineCamera camera)
-    {
-        if (camera != null)
-        {
-            //카메라 팔로우 타겟 설정
-            camera.Follow = _cameraPivot;
-
-            //카메라 설정 적용
-            if (camera.TryGetComponent<CinemachineThirdPersonFollow>(out var follow))
-            {
-                follow.ShoulderOffset = new Vector3(_shoulderOffsetX, 0f, 0f);
-                follow.VerticalArmLength = _verticalArmLength;
-                follow.CameraDistance = _cameraDistance;
-            }
-        }
     }
 
     //무적 상태일 시 반투명화

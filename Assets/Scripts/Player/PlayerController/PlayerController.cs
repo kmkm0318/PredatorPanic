@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,14 +14,12 @@ public class PlayerController : MonoBehaviour
     private Player _player;
     public PlayerControllerData PlayerControllerData { get; private set; }
     public PlayerVisual PlayerVisual { get; private set; }
-    private Transform _cameraPivot;
-    private List<Transform> _weaponPivots;
+    private Transform _cameraTransform;
     #endregion
 
     #region 컨트롤 변수
     public float InitialJumpSpeed => _player.PlayerStats.GetStat(PlayerStatType.JumpForce).FinalValue;
     public int AirJumpRemain { get; private set; }
-    private float _pitch = 0f;
     public bool IsGrounded { get; private set; } = false;
     private Vector3 _movement;
     public float MovementX { get => _movement.x; set => _movement.x = value; }
@@ -47,19 +44,7 @@ public class PlayerController : MonoBehaviour
     public bool IsJumpBuffer { get; set; } = false;
     public bool IsCoyoteTime { get; set; } = false;
     public bool IsAttackPressed { get; private set; } = false;
-    private bool _canAttack = true;
-    public bool CanAttack
-    {
-        get => _canAttack;
-        set
-        {
-            _canAttack = value;
-            if (!value)
-            {
-                _player.StopAttack();
-            }
-        }
-    }
+
     private InputDevice _currentDecive;
     #endregion
 
@@ -70,7 +55,11 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        //캐릭터 컨트롤러 컴포넌트 할당
         _characterController = GetComponent<CharacterController>();
+
+        //카메라 트랜스폼 할당
+        _cameraTransform = Camera.main.transform;
     }
 
     private void OnEnable()
@@ -99,9 +88,6 @@ public class PlayerController : MonoBehaviour
 
         inputActions.Player.Jump.performed += OnJump;
         inputActions.Player.Jump.canceled += OnJump;
-
-        inputActions.Player.Attack.performed += OnAttack;
-        inputActions.Player.Attack.canceled += OnAttack;
     }
 
     //입력 이벤트 구독 해제
@@ -117,9 +103,6 @@ public class PlayerController : MonoBehaviour
 
         inputActions.Player.Jump.performed -= OnJump;
         inputActions.Player.Jump.canceled -= OnJump;
-
-        inputActions.Player.Attack.performed -= OnAttack;
-        inputActions.Player.Attack.canceled -= OnAttack;
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -148,23 +131,6 @@ public class PlayerController : MonoBehaviour
             StopJumpBufferCoroutine();
         }
     }
-
-    private void OnAttack(InputAction.CallbackContext context)
-    {
-        IsAttackPressed = context.ReadValueAsButton();
-
-        if (CanAttack)
-        {
-            if (IsAttackPressed)
-            {
-                _player.StartAttack();
-            }
-            else
-            {
-                _player.StopAttack();
-            }
-        }
-    }
     #endregion
 
     #region 초기화
@@ -174,10 +140,6 @@ public class PlayerController : MonoBehaviour
         _player = player;
         PlayerControllerData = _player.PlayerData.PlayerControllerData;
         PlayerVisual = _player.PlayerVisual;
-
-        //Player Visual에서 카메라 피벗과 무기 피벗 참조
-        _cameraPivot = PlayerVisual.CameraPivot;
-        _weaponPivots = PlayerVisual.WeaponPivots;
 
         //상태 기계 초기화
         InitStateMachine();
@@ -213,9 +175,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //플레이어 회전 처리
-        HandleRotation();
-
         //플레이어 이동 처리
         HandleMovement();
 
@@ -223,44 +182,23 @@ public class PlayerController : MonoBehaviour
     }
 
     #region 움직임 처리
-    private void HandleRotation()
-    {
-        //정지 상태인 경우 진행하지 않음
-        if (Time.deltaTime <= 0f) return;
-
-        //입력 장치에 따라 감도 설정
-        float sensitivity = _currentDecive is Mouse ? PlayerControllerData.MouseSensitivityMultiplier : PlayerControllerData.ControllerRotateSpeedMultiplier;
-
-        //좌우 회전은 플레이어를 직접 회전
-        float yaw = LookInput.x * sensitivity * Time.deltaTime;
-        transform.Rotate(Vector3.up, yaw);
-
-        //상하 회전은 카메라 피벗을 회전. 카메라 피벗이 있을 경우에만 실행
-        _pitch -= LookInput.y * sensitivity * Time.deltaTime;
-        _pitch = Mathf.Clamp(_pitch, PlayerControllerData.PitchMin, PlayerControllerData.PitchMax);
-
-        if (_cameraPivot != null)
-        {
-            _cameraPivot.localEulerAngles = new(_pitch, 0, 0);
-        }
-
-        //카메라 피벗에 맞춰 무기 피벗도 회전
-        foreach (var weaponPivot in _weaponPivots)
-        {
-            weaponPivot.localEulerAngles = new(_pitch, 0, 0);
-        }
-    }
-
     private void HandleMovement()
     {
-        //정지 상태인 경우 진행하지 않음
+        //정지 상태인 경우 패스
         if (Time.deltaTime <= 0f) return;
 
-        //이동 속도 적용
+        //카메라 트랜스폼이 없는 경우 패스
+        if (_cameraTransform == null) return;
+
+        //이동 속도 가져오기
         float moveSpeed = _player.PlayerStats.GetStat(PlayerStatType.MoveSpeed).FinalValue;
 
-        //로컬 좌표계 기준으로 이동 벡터 계산
-        Vector3 horizontalMove = transform.right * _movement.x + transform.forward * _movement.z;
+        //카메라를 기준으로 정면, 오른쪽 계산
+        var cameraForward = Vector3.ProjectOnPlane(_cameraTransform.forward, Vector3.up).normalized;
+        var cameraRight = Vector3.ProjectOnPlane(_cameraTransform.right, Vector3.up).normalized;
+
+        //이동 벡터 계산
+        Vector3 horizontalMove = cameraRight * _movement.x + cameraForward * _movement.z;
         Vector3 verticalMove = transform.up * _movement.y;
         Vector3 moveVelocity = moveSpeed * horizontalMove + verticalMove;
 
@@ -269,6 +207,22 @@ public class PlayerController : MonoBehaviour
 
         //지상 체크 업데이트
         IsGrounded = _characterController.isGrounded;
+
+        //플레이어 회전 처리
+        HandleRotation(horizontalMove);
+    }
+
+    //플레이어 회전 처리
+    private void HandleRotation(Vector3 horizontalMove)
+    {
+        //이동 벡터가 거의 없는 경우 회전하지 않음
+        if (horizontalMove.sqrMagnitude <= 0.01f) return;
+
+        //목표 회전 계산
+        Quaternion targetRotation = Quaternion.LookRotation(horizontalMove);
+
+        //부드럽게 회전 적용
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, PlayerControllerData.RotationSpeed * Time.deltaTime);
     }
     #endregion
 

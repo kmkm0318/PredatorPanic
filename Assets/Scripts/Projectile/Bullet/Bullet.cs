@@ -30,6 +30,10 @@ public class Bullet : MonoBehaviour
     private int _remainRicochetCount = 0; //남은 튕김 횟수
     #endregion
 
+    #region 코루틴
+    private Coroutine _lifetimeCoroutine;
+    #endregion
+
     //컴포넌트 가져오기
     private void Awake()
     {
@@ -63,14 +67,7 @@ public class Bullet : MonoBehaviour
 
         //사거리 기반 생존 시간 후 비활성화
         float lifetime = _context.Range / _context.Speed;
-        StartCoroutine(DelayedDisable(lifetime));
-    }
-
-    //지연 후 비활성화  
-    private IEnumerator DelayedDisable(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        ReleaseBullet();
+        StartLifetime(lifetime);
     }
     #endregion
 
@@ -132,13 +129,13 @@ public class Bullet : MonoBehaviour
 
         if (!other.TryGetComponent<Enemy>(out var enemy))
         {
-            //땅이나 벽과 충돌한 경우
-            ReleaseBullet();
+            //땅이나 벽과 충돌한 경우 총알 비활성화
+            StopLifetime();
             return;
         }
 
         //충돌 지점 처리
-        var contact = other.ClosestPoint(transform.position);
+        var contact = enemy.CenterPosition;
 
         //거리에 따른 데미지 적용
         float distance = Vector3.Distance(_spawnPos, contact);
@@ -152,9 +149,9 @@ public class Bullet : MonoBehaviour
             var targetCollider = PhysicsUtility.GetNearestCollider(contact, halfRange, _context.HitLayerMask, HitColliders);
 
             //튕길 방향 계산 및 속도 설정
-            if (targetCollider != null)
+            if (targetCollider != null && targetCollider.TryGetComponent<Enemy>(out var targetEnemy))
             {
-                Vector3 center = targetCollider.bounds.center;
+                Vector3 center = targetEnemy.CenterPosition;
                 var direction = (center - contact).normalized;
 
                 Vector3 newSpeed = direction * _context.Speed;
@@ -176,8 +173,8 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            //관통 실패 시 총알 반환
-            ReleaseBullet();
+            //관통 실패 시 총알 비활성화
+            StopLifetime();
         }
     }
 
@@ -194,12 +191,6 @@ public class Bullet : MonoBehaviour
         {
             damage *= _context.CriticalDamageRate;
         }
-
-        //적의 방어력 가져오기
-        float enemyDefense = enemy.EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
-
-        //방어력 적용 후 데미지 계산
-        damage = CombatUtility.CalculateDefensedDamage(damage, enemyDefense);
 
         //데미지 컨텍스트 생성
         PlayerDamageContext context = new(_context.Player, _context.Gun, enemy, damage, isCritical);
@@ -245,6 +236,30 @@ public class Bullet : MonoBehaviour
             return true;
         }
         return false;
+    }
+    #endregion
+
+    #region 라이프타임 코루틴
+    private IEnumerator LifetimeCoroutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        StopLifetime();
+    }
+
+    private void StartLifetime(float duration)
+    {
+        StopLifetime();
+        _lifetimeCoroutine = StartCoroutine(LifetimeCoroutine(duration));
+    }
+
+    private void StopLifetime()
+    {
+        if (_lifetimeCoroutine != null)
+        {
+            StopCoroutine(_lifetimeCoroutine);
+            _lifetimeCoroutine = null;
+            ReleaseBullet();
+        }
     }
     #endregion
 }

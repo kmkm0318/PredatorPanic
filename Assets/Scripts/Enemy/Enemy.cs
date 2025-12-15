@@ -10,6 +10,11 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Enemy : MonoBehaviour
 {
+    #region 적의 중심
+    //적 센터, 총알의 발사 방향을 계산하는 데 사용
+    [SerializeField] private Transform _centerTransform;
+    public Vector3 CenterPosition => _centerTransform.position;
+    #endregion
     #region 데이터
     public EnemyData EnemyData { get; private set; }
     #endregion

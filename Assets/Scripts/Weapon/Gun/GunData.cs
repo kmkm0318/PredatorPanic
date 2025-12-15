@@ -13,18 +13,19 @@ public class GunData : WeaponData
     public GunType Type => _type;
 
     [Header("Gun Fire Data")]
-    // [SerializeField] private bool _isHitScan = true; //히트스캔 사용하지 않음
     [SerializeField] private BulletData _bulletData;
     [SerializeField] private TrailData _trailData;
     [SerializeField] private ExplosionData _explosionData;
-    [SerializeField] private LayerMask _hitLayerMask;
-    // public bool IsHitScan => _isHitScan; //히트스캔 사용하지 않음
     public BulletData BulletData => _bulletData;
     public TrailData TrailData => _trailData;
     public ExplosionData ExplosionData => _explosionData;
-    public LayerMask HitLayerMask => _hitLayerMask;
 
     [Header("Gun Stats")]
     [SerializeField] private List<StatEntity<GunStatType>> _initialStats;
     public List<StatEntity<GunStatType>> InitialStats => _initialStats;
+
+    public override Weapon GetWeapon()
+    {
+        return new Gun(this);
+    }
 }

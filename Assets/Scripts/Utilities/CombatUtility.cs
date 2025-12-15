@@ -47,6 +47,8 @@ public static class CombatUtility
     /// <summary>
     /// 데미지를 받았을 때 방어력을 통해 줄어든 데미지를 얻는 계산 함수
     /// 방어도를 고려하여 최종 데미지 반환
+    /// 플레이어가 공격을 당할 경우에만 사용
+    /// 적은 방어력 계산을 하지 않음
     /// </summary>
     public static float CalculateDefensedDamage(float damage, float defense)
     {

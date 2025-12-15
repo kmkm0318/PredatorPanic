@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 /// 게임 상점 상태
@@ -17,6 +18,9 @@ public class GameShopState : GameBaseState
         //입력 모드 변경
         InputManager.Instance.ChangeInputMode(InputMode.UI);
 
+        //시간 흐름 정지
+        Time.timeScale = 0f;
+
         //이벤트 구독
         RegisterEvents();
     }
@@ -30,6 +34,9 @@ public class GameShopState : GameBaseState
 
         //입력 모드 변경
         InputManager.Instance.ChangeInputMode(InputMode.None);
+
+        //시간 흐름 정상화
+        Time.timeScale = 1f;
 
         //이벤트 구독 해제
         UnregisterEvents();

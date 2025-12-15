@@ -51,12 +51,6 @@ public class Explosion : MonoBehaviour
                 damage *= context.CriticalDamageRate;
             }
 
-            //적의 방어력 가져오기
-            float enemyDefense = enemy.EnemyStats.GetStat(EnemyStatType.Defense).FinalValue;
-
-            //방어력 적용 후 데미지 계산
-            damage = CombatUtility.CalculateDefensedDamage(damage, enemyDefense);
-
             //데미지 컨텍스트 생성
             PlayerDamageContext damageContext = new(context.Weapon.Player, context.Weapon, enemy, damage, isCritical);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,6 +10,10 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
+    #region 상수
+    //경로 업데이트 간격
+    private const float PATH_UPDATE_INTERVAL = 0.1f;
+    #endregion
     #region 레퍼런스
     private Enemy _enemy;
     private Transform _target;
@@ -20,6 +25,11 @@ public class EnemyController : MonoBehaviour
 
     #region 컴포넌트
     private NavMeshAgent _navMeshAgent;
+    #endregion
+
+    #region 타이머
+    private float _nextTimeToUpdatePath = 0f;
+    private bool _isMoving = false;
     #endregion
 
     private void Awake()
@@ -45,38 +55,53 @@ public class EnemyController : MonoBehaviour
         moveSpeedStat.OnValueChanged += (speed) => _navMeshAgent.speed = speed;
     }
 
-    //적 방향 처리. 타겟을 향해 회전
-    private IEnumerator HandleMovementCoroutine()
+    private void Update()
     {
-        var wait = new WaitForSeconds(_enemyControllerData.PathUpdateRate);
-        while (true)
-        {
-            if (_target != null)
-            {
-                //타겟이 있으면 타겟 위치로 이동
-                _navMeshAgent.SetDestination(_target.position);
-            }
-            else
-            {
-                //타겟이 없으면 정지
-                _navMeshAgent.SetDestination(transform.position);
-            }
+        HandleUpdatePath();
+    }
 
-            //대기
-            yield return wait;
+    //경로 업데이트 처리
+    private void HandleUpdatePath()
+    {
+        //이동 중이 아닐 시 패스
+        if (!_isMoving) return;
+
+        //시간이 되지 않았을 시 패스
+        if (Time.time < _nextTimeToUpdatePath) return;
+
+        //다음 업데이트 시간 계산
+        _nextTimeToUpdatePath = Time.time + PATH_UPDATE_INTERVAL;
+
+        //타겟이 없을 시 이동 중지 및 패스
+        if (_target == null)
+        {
+            _isMoving = false;
+            return;
         }
+
+        //네비메시 에이전트 목적지 설정
+        var targetPos = _target.position;
+
+        //NavMeshAgent를 사용하기 때문에 수평면으로만 이동
+        targetPos.y = transform.position.y;
+
+        _navMeshAgent.SetDestination(targetPos);
     }
 
     //타겟을 지정하는 함수
     public void SetTarget(Transform target)
     {
+        //타겟 설정
         _target = target;
 
         //_target 방향 즉시 바라보기
         LookTarget();
 
-        //이동 코루틴 시작
-        StartCoroutine(HandleMovementCoroutine());
+        //이동 시작
+        _isMoving = true;
+
+        //타이머 초기화
+        _nextTimeToUpdatePath = 0f;
     }
 
     //타겟 즉시 바라보기

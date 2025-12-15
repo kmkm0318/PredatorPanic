@@ -949,6 +949,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WolfPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7258198942392024015, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

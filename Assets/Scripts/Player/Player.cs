@@ -14,12 +14,12 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerHealth))]
 public class Player : MonoBehaviour
 {
-    #region 플레이어 비주얼 객체
+    #region 에디터 참조 변수
+    [Header("Player")]
     [SerializeField] private PlayerVisual _playerVisual;
+    [SerializeField] private Transform _playerCenter;
     public PlayerVisual PlayerVisual => _playerVisual;
-
-    //카메라 피벗을 아이템 획득 위치로 지정
-    public Transform DropItemFollowTransform => _playerVisual.CameraPivot;
+    public Vector3 CenterPosition => _playerCenter.position;
     #endregion
 
     #region 플레이어 데이터
@@ -146,7 +146,7 @@ public class Player : MonoBehaviour
     public bool TryAddWeapon(WeaponData weaponData)
     {
         //유효성 검사
-        if (weaponData == null || weaponData.WeaponPrefab == null)
+        if (weaponData == null)
         {
             "무기 데이터가 올바르지 않습니다.".LogWarning();
             return false;
@@ -161,10 +161,8 @@ public class Player : MonoBehaviour
         }
 
         //무기 생성 및 추가
-        var weaponPivot = _playerVisual.GetNewWeaponPivot();
-        var weapon = Instantiate(weaponData.WeaponPrefab, weaponPivot);
-        weapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        weapon.Init(weaponData, this);
+        var weapon = weaponData.GetWeapon();
+        weapon.OnEquip(this);
         _playerAttack.AddWeapon(weapon);
 
         //무기 변경 이벤트 발생
@@ -181,8 +179,6 @@ public class Player : MonoBehaviour
         //무기 제거 성공 시 피벗과 함께 무기 오브젝트 제거
         if (idx >= 0)
         {
-            _playerVisual.RemoveWeaponPivot(idx);
-
             //무기 변경 이벤트 발생
             OnWeaponsChanged?.Invoke(_playerAttack.Weapons);
         }
@@ -193,8 +189,16 @@ public class Player : MonoBehaviour
     //시네머신 카메라 초기화
     public void InitCamera(CinemachineCamera camera)
     {
-        //Player Visual에서 카메라 초기화
-        _playerVisual.InitCamera(camera);
+        //카메라가 null이면 패스
+        if (camera == null)
+        {
+            $"Camera is null. Player: {name}".LogWarning();
+            return;
+        }
+
+        //카메라 타겟 설정
+        camera.Follow = _playerCenter;
+        camera.LookAt = _playerCenter;
     }
     #endregion
 

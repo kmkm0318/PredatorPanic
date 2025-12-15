@@ -82,7 +82,6 @@ public class ShopUI : ShowHideUI
             );
 
         _isPoolInitialized = true;
-        $"ShopUI: 오브젝트 풀 초기화 완료".Log();
     }
     #endregion
 

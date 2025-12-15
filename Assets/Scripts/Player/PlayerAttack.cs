@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +7,12 @@ using UnityEngine;
 /// </summary>
 public class PlayerAttack : MonoBehaviour
 {
-    //장착된 무기들
+    #region 변수들
     public List<Weapon> Weapons { get; private set; } = new();
+    private bool _isAttacking = false;
+    #endregion
 
+    #region 무기 추가, 제거
     //Weapon으로 무기 추가
     public void AddWeapon(Weapon weapon)
     {
@@ -28,21 +30,34 @@ public class PlayerAttack : MonoBehaviour
         return idx;
     }
 
-    //공격 시작
     public void StartAttack()
     {
-        foreach (var weapon in Weapons)
-        {
-            weapon.StartAttack();
-        }
+        _isAttacking = true;
     }
 
-    //공격 종료
     public void StopAttack()
     {
-        foreach (var weapon in Weapons)
+        _isAttacking = false;
+    }
+    #endregion
+
+    private void Update()
+    {
+        HandleAttack();
+    }
+
+    /// <summary>
+    /// 공격 처리 메서드
+    /// </summary>
+    private void HandleAttack()
+    {
+        //공격 중이 아닐 시 패스
+        if (!_isAttacking) return;
+
+        //장착된 모든 무기 공격 처리
+        for (int i = 0; i < Weapons.Count; i++)
         {
-            weapon.StopAttack();
+            Weapons[i].HandleAttack();
         }
     }
 }

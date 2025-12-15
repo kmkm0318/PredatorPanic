@@ -22,16 +22,6 @@ MonoBehaviour:
   - _statType: 1
     _value: 5
   - _statType: 2
-    _value: 5
-  - _statType: 3
     _value: 4
-  _increaseRates:
-  - _statType: 0
-    _value: 0.1
-  - _statType: 1
-    _value: 0.1
-  - _statType: 2
-    _value: 0.1
-  - _statType: 3
-    _value: 0.1
+  _enemyStatGrowthRate: 1.2
   _dropItemTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}

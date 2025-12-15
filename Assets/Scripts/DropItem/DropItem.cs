@@ -52,9 +52,6 @@ public abstract class DropItem : MonoBehaviour
     {
         if (_player == null) yield break;
 
-        //목적지 가져오기
-        Transform targetTransform = _player.DropItemFollowTransform;
-
         //중간 위치 오프셋. 베지어 곡선을 통해 이동하도록.
         var middleOffset = Vector3.up * DropItemData.FollowHeight;
 
@@ -64,11 +61,11 @@ public abstract class DropItem : MonoBehaviour
 
         //중간 위치
         //플레이어의 반대 방향으로 거리만큼 + offset만큼 올림
-        Vector3 p1 = p0 + (p0 - targetTransform.position) + middleOffset;
+        Vector3 p1 = p0 + (p0 - _player.CenterPosition) + middleOffset;
 
         //스피드에 따라 이동 시간 계산
         float speed = DropItemData.FollowSpeed;
-        float duration = Vector3.Distance(p0, targetTransform.position) / speed;
+        float duration = Vector3.Distance(p0, _player.CenterPosition) / speed;
 
         //이동 시간 동안 베지어 곡선을 따라 이동
         float elapsed = 0f;
@@ -78,7 +75,7 @@ public abstract class DropItem : MonoBehaviour
             float v = 1 - u;
 
             //베지어 곡선 공식
-            Vector3 newPos = v * v * p0 + 2 * v * u * p1 + u * u * targetTransform.position;
+            Vector3 newPos = v * v * p0 + 2 * v * u * p1 + u * u * _player.CenterPosition;
             transform.position = newPos;
 
             elapsed += Time.deltaTime;
@@ -86,7 +83,7 @@ public abstract class DropItem : MonoBehaviour
         }
 
         //마지막 위치 지정
-        transform.position = targetTransform.position;
+        transform.position = _player.CenterPosition;
         OnPickup(_player);
     }
 

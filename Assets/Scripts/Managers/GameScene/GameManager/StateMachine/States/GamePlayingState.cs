@@ -21,6 +21,9 @@ public class GamePlayingState : GameBaseState
 
         //적 스폰 시작
         GameManager.EnemyManager.StartEnemySpawn();
+
+        //플레이어 공격 시작
+        GameManager.Player.StartAttack();
     }
 
     public override void Update()
@@ -60,6 +63,9 @@ public class GamePlayingState : GameBaseState
 
         //적 스폰 중지
         GameManager.EnemyManager.StopEnemySpawn();
+
+        //플레이어 공격 중지
+        GameManager.Player.StopAttack();
     }
 
     #region 이벤트 구독, 해제
