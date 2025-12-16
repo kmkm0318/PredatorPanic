@@ -288,7 +288,8 @@ public class ShopManager : MonoBehaviour
         int sellPrice = weaponProduct.Price;
 
         //무기 판매는 이빨 재화로 제공
-        _player.AddTooth(sellPrice);
+        //이때 스탯은 적용하지 않음
+        _player.AddTooth(sellPrice, false);
 
         //플레이어의 무기 목록에서 제거
         _player.RemoveWeapon(weapon);
@@ -307,7 +308,8 @@ public class ShopManager : MonoBehaviour
         int sellPrice = itemProduct.Price;
 
         //아이템 판매는 이빨 재화로 제공
-        _player.AddTooth(sellPrice);
+        //이때 스탯은 적용하지 않음
+        _player.AddTooth(sellPrice, false);
 
         //플레이어의 아이템 목록에서 제거
         _player.UnequipItem(item);

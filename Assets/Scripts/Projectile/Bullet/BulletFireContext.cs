@@ -6,34 +6,40 @@ using UnityEngine;
 public readonly struct BulletFireContext
 {
     //발사한 플레이어
-    public Player Player { get; }
+    public readonly Player Player;
     //발사한 총기
-    public Gun Gun { get; }
+    public readonly Gun Gun;
+    //총알 궤적 이펙트
+    public readonly Trail Trail;
+    //발사한 위치
+    public readonly Vector3 FirePosition;
     //총알 발사 방향
-    public Vector3 FireDirection { get; }
+    public readonly Vector3 FireDirection;
     //총알 기본 데미지
-    public float BaseDamage { get; }
+    public readonly float BaseDamage;
     //총알 속도
-    public float Speed { get; }
+    public readonly float Speed;
     //총알 사거리
-    public float Range { get; }
+    public readonly float Range;
     //치명타 확률
-    public float CriticalRate { get; }
+    public readonly float CriticalRate;
     //치명타 데미지 배율
-    public float CriticalDamageRate { get; }
+    public readonly float CriticalDamageRate;
     //관통 수
-    public int PenetrationCount { get; }
+    public readonly int PenetrationCount;
     //튕김 수
-    public int RicochetCount { get; }
+    public readonly int RicochetCount;
     //폭발 데이터
-    public ExplosionData ExplosionData { get; }
+    public readonly ExplosionData ExplosionData;
     //충돌 레이어 마스크
-    public LayerMask HitLayerMask { get; }
+    public readonly LayerMask HitLayerMask;
 
-    public BulletFireContext(Player player, Gun gun, Vector3 fireDirection, float baseDamage, float speed, float range, float criticalRate, float criticalDamageRate, int penetrationCount, int ricochetCount, ExplosionData explosionData, LayerMask hitLayerMask)
+    public BulletFireContext(Player player, Gun gun, Trail trail, Vector3 firePosition, Vector3 fireDirection, float baseDamage, float speed, float range, float criticalRate, float criticalDamageRate, int penetrationCount, int ricochetCount, ExplosionData explosionData, LayerMask hitLayerMask)
     {
         Player = player;
         Gun = gun;
+        Trail = trail;
+        FirePosition = firePosition;
         FireDirection = fireDirection;
         BaseDamage = baseDamage;
         Speed = speed;

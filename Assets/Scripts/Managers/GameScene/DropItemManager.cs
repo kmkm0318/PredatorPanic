@@ -115,8 +115,8 @@ public class DropItemManager : MonoBehaviour
         //드랍 테이블의 각 아이템에 대해 각각 진행
         foreach (var entry in dropItemTable.DropItemTableEntries)
         {
-            //랜덤 값이 드랍 확률 이상일 시 패스
-            if (Random.value >= entry.DropRate) continue;
+            //확률 검사 실패 시 패스
+            if (!entry.DropRate.ChanceTest()) continue;
 
             //드랍 아이템 데이터 가져오기
             var dropItemData = entry.DropItemData;

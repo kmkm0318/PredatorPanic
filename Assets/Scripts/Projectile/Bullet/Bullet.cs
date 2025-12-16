@@ -19,12 +19,10 @@ public class Bullet : MonoBehaviour
     #region 레퍼런스 변수
     private BulletManager _bulletManager;
     private ExplosionManager _explosionManager;
-    private Trail _trail; //총알 궤적 이펙트
     #endregion
 
     #region 변수
     private BulletFireContext _context;
-    private Vector3 _spawnPos; //발사 위치
     public HashSet<Collider> HitColliders { get; private set; } = new(); //충돌한 콜라이더 기록
     private int _remainPenetrationCount = 0; //남은 관통 횟수
     private int _remainRicochetCount = 0; //남은 튕김 횟수
@@ -55,8 +53,11 @@ public class Bullet : MonoBehaviour
         //컨텍스트 저장
         _context = context;
 
-        //발사 위치 기록. 총알 적중 시 거리 계산용
-        _spawnPos = transform.position;
+        //위치 설정
+        transform.position = context.FirePosition;
+
+        //궤적 이펙트 부착
+        AttachTrail();
 
         //남은 관통 및 튕김 횟수 설정
         _remainPenetrationCount = context.PenetrationCount;
@@ -73,21 +74,19 @@ public class Bullet : MonoBehaviour
 
     #region 궤적
     //총알 궤적 이펙트 부착
-    public void AttachTrail(Trail trail)
+    private void AttachTrail()
     {
-        if (trail == null) return;
+        if (_context.Trail == null) return;
 
-        _trail = trail;
-        trail.AttachToBullet(this);
+        _context.Trail.AttachToBullet(this);
     }
 
     //총알 궤적 이펙트 분리
-    public void DetachTrail()
+    private void DetachTrail()
     {
-        if (_trail == null) return;
+        if (_context.Trail == null) return;
 
-        _trail.DetachFromBullet();
-        _trail = null;
+        _context.Trail.DetachFromBullet();
     }
     #endregion
 
@@ -102,14 +101,20 @@ public class Bullet : MonoBehaviour
         //폭발 효과 가져오기
         var explosion = _explosionManager.GetExplosion(_context.ExplosionData);
 
-        //폭발 위치 및 회전 설정
-        explosion.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
-
         //폭발 반경 계산
         var radius = CombatUtility.EXPLOSION_RADIUS_RATIO * _context.Range;
 
         //폭발 컨텍스트 생성
-        ExplosionExplodeContext context = new(_context.Player, _context.Gun, _context.BaseDamage, radius, _context.CriticalRate, _context.CriticalDamageRate, _context.HitLayerMask);
+        ExplosionExplodeContext context = new(
+            _context.Player,
+            _context.Gun,
+            transform.position,
+            _context.BaseDamage,
+            radius,
+            _context.CriticalRate,
+            _context.CriticalDamageRate,
+            _context.HitLayerMask
+        );
 
         //폭발 실행
         explosion.Explode(context);
@@ -138,7 +143,7 @@ public class Bullet : MonoBehaviour
         var contact = enemy.CenterPosition;
 
         //거리에 따른 데미지 적용
-        float distance = Vector3.Distance(_spawnPos, contact);
+        float distance = Vector3.Distance(_context.FirePosition, contact);
         ApplyDamage(enemy, distance);
 
         //튕김 시도
@@ -184,7 +189,7 @@ public class Bullet : MonoBehaviour
         float damage = CombatUtility.CalculateRangedDamage(_context.BaseDamage, _context.Range, distance);
 
         //치명타 여부 결정
-        bool isCritical = Random.value < _context.CriticalRate;
+        bool isCritical = _context.CriticalRate.ChanceTest();
 
         //치명타 데미지 적용
         if (isCritical)
@@ -192,8 +197,19 @@ public class Bullet : MonoBehaviour
             damage *= _context.CriticalDamageRate;
         }
 
+        //데미지 출처 타입 결정
+        //총이 없을 경우 Effect 타입으로 설정
+        var damageSourceType = _context.Gun == null ? PlayerDamageSourceType.Effect : PlayerDamageSourceType.Bullet;
+
         //데미지 컨텍스트 생성
-        PlayerDamageContext context = new(_context.Player, _context.Gun, enemy, damage, isCritical);
+        PlayerDamageContext context = new(
+            _context.Player,
+            _context.Gun,
+            enemy,
+            damage,
+            isCritical,
+            damageSourceType
+        );
 
         //데미지 적용
         enemy.TakeDamage(context);

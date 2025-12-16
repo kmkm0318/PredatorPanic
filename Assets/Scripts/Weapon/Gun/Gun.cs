@@ -124,8 +124,8 @@ public class Gun : Weapon
         //총알 가져오기
         var bullet = _bulletManager.GetBullet(_gunData.BulletData);
 
-        //위치 설정
-        bullet.transform.position = Player.CenterPosition;
+        //궤적 가져오기
+        var trail = _trailManager.GetTrail(_gunData.TrailData);
 
         //총알 발사를 위한 변수 설정
         var baseDamage = CombatUtility.CalculateBulletBaseDamage(Player, this);
@@ -139,20 +139,25 @@ public class Gun : Weapon
         var enemyLayerMask = DataManager.Instance.EnemyLayerMask;
 
         //컨텍스트 생성
-        BulletFireContext context = new(Player, this, fireDirection, baseDamage, speed, range, criticalRate, criticalDamageRate, penetrationCount, ricochetCount, explosionData, enemyLayerMask); ;
+        BulletFireContext context = new(
+            Player,
+            this,
+            trail,
+            Player.CenterPosition,
+            fireDirection,
+            baseDamage,
+            speed,
+            range,
+            criticalRate,
+            criticalDamageRate,
+            penetrationCount,
+            ricochetCount,
+            explosionData,
+            enemyLayerMask
+        );
 
         //총알 발사
         bullet.Fire(context);
-
-        //궤적 이펙트 부착
-        if (_gunData.TrailData)
-        {
-            var trail = _trailManager.GetTrail(_gunData.TrailData);
-            if (trail)
-            {
-                bullet.AttachTrail(trail);
-            }
-        }
     }
     #endregion
 }

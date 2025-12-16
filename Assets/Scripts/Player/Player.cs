@@ -275,10 +275,14 @@ public class Player : MonoBehaviour
     #endregion
 
     #region 재화 획득 및 사용 시도
-    public void AddTooth(int amount)
+    public void AddTooth(int amount, bool applyGainRate = true)
     {
-        float toothGainRate = _playerStats.GetStat(PlayerStatType.ToothGainRate).FinalValue;
-        amount = Mathf.FloorToInt(amount * toothGainRate);
+        if (applyGainRate)
+        {
+            float toothGainRate = _playerStats.GetStat(PlayerStatType.ToothGainRate).FinalValue;
+            amount = Mathf.FloorToInt(amount * toothGainRate);
+        }
+
         Tooth += amount;
         OnToothChanged?.Invoke(Tooth);
     }
@@ -292,10 +296,14 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    public void AddDNA(int amount)
+    public void AddDNA(int amount, bool applyGainRate = true)
     {
-        float dnaGainRate = _playerStats.GetStat(PlayerStatType.DNAGainRate).FinalValue;
-        amount = Mathf.FloorToInt(amount * dnaGainRate);
+        if (applyGainRate)
+        {
+            float dnaGainRate = _playerStats.GetStat(PlayerStatType.DNAGainRate).FinalValue;
+            amount = Mathf.FloorToInt(amount * dnaGainRate);
+        }
+
         DNA += amount;
         OnDNAChanged?.Invoke(DNA);
     }

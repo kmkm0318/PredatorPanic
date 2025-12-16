@@ -6,24 +6,27 @@ using UnityEngine;
 public readonly struct ExplosionExplodeContext
 {
     //폭발을 일으킨 플레이어
-    public Player Player { get; }
+    public readonly Player Player;
     //폭발을 일으킨 무기
-    public Weapon Weapon { get; }
+    public readonly Weapon Weapon;
+    //폭발 위치
+    public readonly Vector3 ExplodePosition;
     //폭발 기본 데미지
-    public float BaseDamage { get; }
+    public readonly float BaseDamage;
     //폭발 반경
-    public float Radius { get; }
+    public readonly float Radius;
     //치명타 확률
-    public float CriticalRate { get; }
+    public readonly float CriticalRate;
     //치명타 데미지 배율
-    public float CriticalDamageRate { get; }
+    public readonly float CriticalDamageRate;
     //목표 레이어 마스크
-    public LayerMask HitLayerMask { get; }
+    public readonly LayerMask HitLayerMask;
 
-    public ExplosionExplodeContext(Player player, Weapon weapon, float baseDamage, float radius, float criticalRate, float criticalDamageRate, LayerMask hitLayerMask)
+    public ExplosionExplodeContext(Player player, Weapon weapon, Vector3 explodePosition, float baseDamage, float radius, float criticalRate, float criticalDamageRate, LayerMask hitLayerMask)
     {
         Player = player;
         Weapon = weapon;
+        ExplodePosition = explodePosition;
         BaseDamage = baseDamage;
         Radius = radius;
         CriticalRate = criticalRate;

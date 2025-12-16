@@ -21,6 +21,10 @@ MonoBehaviour:
     _dropRate: 1
     _minCount: 1
     _maxCount: 1
+  - _dropItemData: {fileID: 11400000, guid: 6a26c26da9065f24596e063bc0ddbc80, type: 2}
+    _dropRate: 1
+    _minCount: 1
+    _maxCount: 1
   - _dropItemData: {fileID: 11400000, guid: 64d6e5b92519b434abe4639060ce8e7a, type: 2}
     _dropRate: 1
     _minCount: 1
