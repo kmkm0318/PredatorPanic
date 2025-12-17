@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af7a38213648ef44b0850861363bbcf, type: 3}
   m_Name: LightningTrailData
   m_EditorClassIdentifier: Assembly-CSharp::TrailData
-  <TrailPrefab>k__BackingField: {fileID: 2292308743594763666, guid: a490845ff45e1cd49b1e4f159281a211, type: 3}
+  <TrailPrefab>k__BackingField: {fileID: 7566223582880226240, guid: 78f3a7072cb23f9489371a8c4c695d5a, type: 3}

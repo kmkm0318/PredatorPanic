@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de42856396ab79d4782e78b14a3b8569, type: 3}
   m_Name: LightningExplosionData
   m_EditorClassIdentifier: Assembly-CSharp::ExplosionData
-  <ExplosionPrefab>k__BackingField: {fileID: 2790842015574525330, guid: 7b53c92ad80a4fc4083941a510f5b981, type: 3}
+  <ExplosionPrefab>k__BackingField: {fileID: 430812214660011480, guid: 9b86efe92aa8a9d40b88590159b9d5bd, type: 3}
   <VisualDuration>k__BackingField: 0.1
