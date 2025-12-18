@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8963f2c98473054e823dafb32ba6f09, type: 3}
-  m_Name: ItemData_2001
+  m_Name: ItemData_0003
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  _itemName: "\uBE44\uD2B8"
-  _icon: {fileID: 21300000, guid: b8aacc2cfa26c9e4d8744599f6f25518, type: 3}
-  _rarity: 2
-  _basePrice: 1000
-  _effectDatas: []
+  _itemName: "\uBC30\uCD94"
+  _icon: {fileID: 21300000, guid: 17a69ca7d1c9a4b46b2b54032fc4436d, type: 3}
+  _rarity: 0
+  _basePrice: 250
+  _effectDatas:
+  - {fileID: 11400000, guid: 4bcb82b0c80716c49bca18d4412231b9, type: 2}
