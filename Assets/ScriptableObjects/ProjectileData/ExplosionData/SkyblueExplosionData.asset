@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de42856396ab79d4782e78b14a3b8569, type: 3}
+  m_Name: SkyblueExplosionData
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosionData
+  <ExplosionPrefab>k__BackingField: {fileID: 430812214660011480, guid: 08e5aa4845ecdd542b9eda91135f047e, type: 3}
+  <VisualDuration>k__BackingField: 0.1

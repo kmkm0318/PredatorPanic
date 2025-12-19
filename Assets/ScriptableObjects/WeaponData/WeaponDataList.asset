@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: WeaponDataList
   m_EditorClassIdentifier: Assembly-CSharp::WeaponDataList
   _weaponDatas:
-  - {fileID: 11400000, guid: ff6ed94a5f08dbd42b605e8369190430, type: 2}
   - {fileID: 11400000, guid: a84891e904c0d1343a580925eedfce52, type: 2}
-  - {fileID: 11400000, guid: 37b365460f639f5459ccf5b888072cb8, type: 2}
+  - {fileID: 11400000, guid: e8a2753e2c3430040ac30332a24f2f5b, type: 2}
+  - {fileID: 11400000, guid: 79ba9e0d4be21d649be2233693250f04, type: 2}
+  - {fileID: 11400000, guid: ff6ed94a5f08dbd42b605e8369190430, type: 2}
   - {fileID: 11400000, guid: abe5196948c742148bb3ffb603b7cd00, type: 2}
+  - {fileID: 11400000, guid: 638313aacf1914e419e98c21f97b3563, type: 2}
+  - {fileID: 11400000, guid: a249f2ab6f1a28d4bba59a7a3eca7f39, type: 2}
+  - {fileID: 11400000, guid: 37b365460f639f5459ccf5b888072cb8, type: 2}
