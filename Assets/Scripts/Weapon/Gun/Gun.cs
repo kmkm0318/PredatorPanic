@@ -158,6 +158,9 @@ public class Gun : Weapon
 
         //총알 발사
         bullet.Fire(context);
+
+        //발사 효과음 재생
+        AudioManager.Instance.PlaySfx(_gunData.FireSfxData, Player.transform.position);
     }
     #endregion
 }

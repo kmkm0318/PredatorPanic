@@ -11,4 +11,8 @@ public class ExplosionData : ScriptableObject
 
     [Header("Explosion Settings")]
     [field: SerializeField] public float VisualDuration { get; private set; } = 0.1f;
+
+    [Header("Sfx Settings")]
+    [SerializeField] private AudioData _explodeSfxData;
+    public AudioData ExplodeSfxData => _explodeSfxData;
 }

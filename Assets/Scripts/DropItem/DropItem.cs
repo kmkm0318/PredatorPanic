@@ -92,7 +92,13 @@ public abstract class DropItem : MonoBehaviour
     //반드시 base.OnPickup(player)를 호출할 것
     public virtual void OnPickup(Player player)
     {
+        //따라가기 중지
         IsFollowing = false;
+
+        //효과음 재생
+        AudioManager.Instance.PlaySfx(DropItemData.PickupSfxData, transform.position);
+
+        //획득 이벤트 호출
         OnPickuped?.Invoke(this);
     }
     #endregion

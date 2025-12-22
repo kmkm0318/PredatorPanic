@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Brain_Small
   m_EditorClassIdentifier: Assembly-CSharp::DropItemData
   _itemPrefab: {fileID: 6593041461533590245, guid: 9e1ec38e2a43fc04f8f3c1f1cbc3d289, type: 3}
-  _dropRate: 1
-  _minDropCount: 1
-  _maxDropCount: 3
   _dropRadius: 1
   _isFollow: 1
   _followHeight: 10
   _followSpeed: 20
   _targetHeight: 1
+  _pickupSfxData: {fileID: 11400000, guid: 8b3cc9595036f504883a1fb9bfeb842e, type: 2}

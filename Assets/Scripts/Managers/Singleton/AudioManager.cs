@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Pool;
@@ -11,6 +12,7 @@ public class AudioManager : Singleton<AudioManager>
     private const string MASTER_VOLUME = "MasterVolume";
     private const string BGM_VOLUME = "BGMVolume";
     private const string SFX_VOLUME = "SFXVolume";
+    private const int MAX_CONCURRENT_SFX = 10;
     #endregion
 
     [Header("Mixer Groups")]
@@ -26,6 +28,7 @@ public class AudioManager : Singleton<AudioManager>
 
     #region 오브젝트 풀
     private ObjectPool<SfxObject> _sfxObjectPool;
+    private Dictionary<AudioData, int> _activeSfxCount = new();
     #endregion
 
     protected override void Awake()
@@ -64,21 +67,71 @@ public class AudioManager : Singleton<AudioManager>
     #endregion
 
     #region 오디오 재생
-    public void PlayBgm(AudioClip clip, float volume = 1f)
+    /// <summary>
+    /// AudioData를 통한 배경음 재생
+    /// </summary>
+    public void PlayBgm(AudioData audioData)
     {
-        _bgmAudioSource.clip = clip;
-        _bgmAudioSource.volume = volume;
+        // null 체크
+        if (audioData == null || audioData.AudioClip == null) return;
+
+        // 클립 설정
+        _bgmAudioSource.clip = audioData.AudioClip;
+
+        // 볼륨 설정
+        _bgmAudioSource.volume = audioData.Volume;
+
+        // 피치 설정
+        _bgmAudioSource.pitch = audioData.Pitch;
+
+        // 재생
         _bgmAudioSource.Play();
     }
 
-    public void PlaySfx(AudioClip clip, Vector3 position, float volume = 1f, float pitch = 1f, float pitchRandomness = 0.1f)
+    /// <summary>
+    /// AudioData를 통한 효과음 재생
+    /// </summary>
+    public void PlaySfx(AudioData audioData, Vector3 position)
     {
+        // null 체크
+        if (audioData == null || audioData.AudioClip == null) return;
+
+        // 동시 재생 제한 체크
+        if (!CanPlaySfx(audioData)) return;
+
+        // 동시 재생 카운트 증가
+        _activeSfxCount[audioData]++;
+
+        // sfxObject 가져오기
         var sfxObject = _sfxObjectPool.Get();
-        sfxObject.PlaySfx(clip, position, volume, pitch, pitchRandomness, OnSfxComplete);
+
+        // 효과음 재생
+        sfxObject.PlaySfx(audioData, position, OnSfxComplete);
+    }
+
+    private bool CanPlaySfx(AudioData audioData)
+    {
+        if (_activeSfxCount.TryGetValue(audioData, out var count))
+        {
+            return count < MAX_CONCURRENT_SFX;
+        }
+        else
+        {
+            _activeSfxCount[audioData] = 0;
+            return true;
+        }
     }
 
     private void OnSfxComplete(SfxObject sfxObject)
     {
+        // AudioData 체크
+        if (sfxObject.AudioData != null && _activeSfxCount.ContainsKey(sfxObject.AudioData))
+        {
+            // 동시 재생 카운트 감소
+            _activeSfxCount[sfxObject.AudioData]--;
+        }
+
+        // sfxObject 반환
         _sfxObjectPool.Release(sfxObject);
     }
     #endregion

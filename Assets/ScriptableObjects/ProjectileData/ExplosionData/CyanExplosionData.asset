@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ExplosionData
   <ExplosionPrefab>k__BackingField: {fileID: 430812214660011480, guid: 9b86efe92aa8a9d40b88590159b9d5bd, type: 3}
   <VisualDuration>k__BackingField: 0.1
+  _explodeSfxData: {fileID: 11400000, guid: 4fbb7f820f481404685baf4ca353b2ef, type: 2}

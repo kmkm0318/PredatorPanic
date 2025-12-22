@@ -21,6 +21,7 @@ MonoBehaviour:
   _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}
   _trailData: {fileID: 11400000, guid: 4cbd0840957cbbc4aa53f66d7d2658ef, type: 2}
   _explosionData: {fileID: 0}
+  _fireSfxData: {fileID: 11400000, guid: edbb8a736e5b90b4dbd5079df8d6f099, type: 2}
   _initialStats:
   - _statType: 0
     _value: 4

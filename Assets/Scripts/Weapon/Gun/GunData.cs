@@ -16,9 +16,11 @@ public class GunData : WeaponData
     [SerializeField] private BulletData _bulletData;
     [SerializeField] private TrailData _trailData;
     [SerializeField] private ExplosionData _explosionData;
+    [SerializeField] private AudioData _fireSfxData;
     public BulletData BulletData => _bulletData;
     public TrailData TrailData => _trailData;
     public ExplosionData ExplosionData => _explosionData;
+    public AudioData FireSfxData => _fireSfxData;
 
     [Header("Gun Stats")]
     [SerializeField] private List<StatEntity<GunStatType>> _initialStats;

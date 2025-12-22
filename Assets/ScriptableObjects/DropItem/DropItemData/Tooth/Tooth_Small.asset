@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Tooth_Small
   m_EditorClassIdentifier: Assembly-CSharp::DropItemData
   _itemPrefab: {fileID: 4158165279291767954, guid: 3b281a367b3d96640a5bc77d460c3f5d, type: 3}
-  _dropRate: 1
-  _minDropCount: 1
-  _maxDropCount: 3
   _dropRadius: 1
   _isFollow: 1
   _followHeight: 10
   _followSpeed: 20
   _targetHeight: 1
+  _pickupSfxData: {fileID: 11400000, guid: 8b3cc9595036f504883a1fb9bfeb842e, type: 2}

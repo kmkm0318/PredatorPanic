@@ -11,6 +11,10 @@ using UnityEngine.Audio;
 [RequireComponent(typeof(AudioSource))]
 public class SfxObject : MonoBehaviour
 {
+    #region 데이터
+    public AudioData AudioData { get; private set; }
+    #endregion
+
     #region 레퍼런스
     private AudioSource _audioSource;
     #endregion
@@ -24,33 +28,42 @@ public class SfxObject : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
+    #region 초기화
     public void Init(AudioMixerGroup sfxMixerGroup)
     {
         // 오디오 믹서 그룹 할당
         _audioSource.outputAudioMixerGroup = sfxMixerGroup;
     }
+    #endregion
 
-    public void PlaySfx(AudioClip clip, Vector3 position, float volume = 1f, float pitch = 1f, float pitchRandomness = 0.1f, Action<SfxObject> onComplete = null)
+    #region 효과음 재생 및 콜백
+    public void PlaySfx(AudioData audioData, Vector3 position, Action<SfxObject> onComplete = null)
     {
+        // 데이터 저장
+        AudioData = audioData;
+
         // 위치 설정
         transform.position = position;
 
         // 볼륨 설정
-        _audioSource.volume = volume;
+        _audioSource.volume = audioData.Volume;
 
         // 피치 랜덤 설정
-        float finalPitch = pitch + UnityEngine.Random.Range(-pitchRandomness, pitchRandomness);
+        float finalPitch = audioData.Pitch + UnityEngine.Random.Range(-audioData.PitchRandomness, audioData.PitchRandomness);
         _audioSource.pitch = finalPitch;
 
         // 클립 설정 및 재생
-        _audioSource.clip = clip;
+        _audioSource.clip = audioData.AudioClip;
         _audioSource.Play();
+
+        // 2D/3D 설정
+        _audioSource.spatialBlend = audioData.Is2D ? 0f : 1f;
 
         // 완료 콜백 등록
         OnComplete = onComplete;
 
         // 재생 완료 코루틴 시작
-        StartCoroutine(SfxPlayCoroutine(clip.length / finalPitch));
+        StartCoroutine(SfxPlayCoroutine(audioData.AudioClip.length / finalPitch));
     }
 
     private IEnumerator SfxPlayCoroutine(float duration)
@@ -61,4 +74,5 @@ public class SfxObject : MonoBehaviour
         // 재생 완료 콜백 호출
         OnComplete?.Invoke(this);
     }
+    #endregion
 }

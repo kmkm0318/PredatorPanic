@@ -24,4 +24,8 @@ public class DropItemData : ScriptableObject
     public float FollowHeight => _followHeight;
     public float FollowSpeed => _followSpeed;
     public float TargetHeight => _targetHeight;
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioData _pickupSfxData;
+    public AudioData PickupSfxData => _pickupSfxData;
 }

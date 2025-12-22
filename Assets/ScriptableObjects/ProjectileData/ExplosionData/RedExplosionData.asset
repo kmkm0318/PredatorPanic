@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: RedExplosionData
   m_EditorClassIdentifier: Assembly-CSharp::ExplosionData
   <ExplosionPrefab>k__BackingField: {fileID: 2790842015574525330, guid: cc99a7d8e7afa614b9624ceb222c01a7, type: 3}
-  <Duration>k__BackingField: 0.1
+  <VisualDuration>k__BackingField: 0.1
+  _explodeSfxData: {fileID: 11400000, guid: 4fbb7f820f481404685baf4ca353b2ef, type: 2}

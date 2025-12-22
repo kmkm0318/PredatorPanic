@@ -33,12 +33,18 @@ public class Explosion : MonoBehaviour
         //폭발 비주얼 크기 설정
         ExplosionVisual.localScale = 2f * context.Radius * Vector3.one;
 
+        //폭발 효과음 재생
+        AudioManager.Instance.PlaySfx(ExplosionData.ExplodeSfxData, transform.position);
+
+        //피해 적용
         int hitCount = PhysicsUtility.GetOverlapSphereNonAlloc(transform.position, context.Radius, context.HitLayerMask, out var colliders);
 
         for (int i = 0; i < hitCount; i++)
         {
+            //충돌한 콜라이더 가져오기
             var collider = colliders[i];
 
+            //적 캐릭터인지 확인
             if (!collider.TryGetComponent<Enemy>(out var enemy)) continue;
 
             //거리 비례 데미지 계산
@@ -72,11 +78,12 @@ public class Explosion : MonoBehaviour
             enemy.TakeDamage(damageContext);
         }
 
-        StartCoroutine(DelayedRelease());
+        //폭발 후 반환 코루틴 시작
+        StartCoroutine(DelayedReleaseCoroutine());
     }
 
     //지연 반환 코루틴
-    private IEnumerator DelayedRelease()
+    private IEnumerator DelayedReleaseCoroutine()
     {
         //지연 대기
         yield return new WaitForSeconds(ExplosionData.VisualDuration);
