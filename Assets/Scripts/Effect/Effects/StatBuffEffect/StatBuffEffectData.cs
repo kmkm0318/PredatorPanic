@@ -22,6 +22,6 @@ public class StatBuffEffectData : EffectData
         var statData = DataManager.Instance.PlayerStatTypeDataList.GetData(StatType);
 
         //설명 반환
-        return statData.StatName + StringUtility.GetModifierDescription(ModifierType, BuffAmount);
+        return $"{statData.StatName} {StringUtility.GetModifierDescription(ModifierType, BuffAmount)}";
     }
 }

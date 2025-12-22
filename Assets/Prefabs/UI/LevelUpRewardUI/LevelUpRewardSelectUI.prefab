@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -370,6 +371,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -465,6 +467,8 @@ MonoBehaviour:
   _smallScale: 0.9
   _duration: 0.1
   _easeType: 27
+  _hoverSfxData: {fileID: 11400000, guid: b820ff7c96a815b478b0bffa4e387524, type: 2}
+  _clickSfxData: {fileID: 11400000, guid: f38be0ff8723bc34bab67e3ca33fe64c, type: 2}
 --- !u!1001 &6567441599702280212
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -21,4 +21,5 @@ public abstract class WeaponData : ScriptableObject
     /// 무기 객체 반환 함수
     /// </summary>
     public abstract Weapon GetWeapon();
+    public abstract string GetDescription();
 }

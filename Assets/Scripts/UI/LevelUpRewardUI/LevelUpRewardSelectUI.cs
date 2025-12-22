@@ -2,7 +2,6 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// 레벨 업 보상 선택 UI 클래스
@@ -21,6 +20,10 @@ public class LevelUpRewardSelectUI : ShowHideUI
     [SerializeField] private float _smallScale = 0.9f;
     [SerializeField] private float _duration = 0.1f;
     [SerializeField] private Ease _easeType = Ease.OutBack;
+
+    [Header("Audio Data")]
+    [SerializeField] private AudioData _hoverSfxData;
+    [SerializeField] private AudioData _clickSfxData;
 
     #region 데이터
     public LevelUpRewardData Data { get; private set; }
@@ -67,26 +70,37 @@ public class LevelUpRewardSelectUI : ShowHideUI
     #region 이벤트 핸들러
     private void OnPointerEntered()
     {
+        //패널 스케일 크게
         SetPanelScale(_bigScale);
+
+        //효과음 재생
+        AudioManager.Instance.PlaySfx(_hoverSfxData);
     }
 
     private void OnPointerExited()
     {
+        //패널 스케일 정상화
         SetPanelScale(1f);
     }
 
     private void OnPointerDowned()
     {
+        //패널 스케일 작게
         SetPanelScale(_smallScale);
     }
 
     private void OnPointerUpped()
     {
+        //패널 스케일 정상화
         SetPanelScale(1f);
     }
 
     private void OnPointerClicked()
     {
+        //효과음 재생
+        AudioManager.Instance.PlaySfx(_clickSfxData);
+
+        //클릭 이벤트 호출
         OnClicked?.Invoke(Data);
     }
     #endregion

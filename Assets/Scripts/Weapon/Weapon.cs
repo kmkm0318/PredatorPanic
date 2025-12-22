@@ -35,7 +35,7 @@ public abstract class Weapon
     /// </summary>
     public virtual string GetDescription()
     {
-        return WeaponData.Description;
+        return WeaponData.GetDescription();
     }
 
     /// <summary>

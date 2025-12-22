@@ -91,7 +91,7 @@ public class AudioManager : Singleton<AudioManager>
     /// <summary>
     /// AudioData를 통한 효과음 재생
     /// </summary>
-    public void PlaySfx(AudioData audioData, Vector3 position)
+    public void PlaySfx(AudioData audioData, Vector3 position = default)
     {
         // null 체크
         if (audioData == null || audioData.AudioClip == null) return;

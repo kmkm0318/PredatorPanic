@@ -9,11 +9,15 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class ProductSlotUI : MonoBehaviour
 {
-    [Header("Product Slot UI")]
+    [Header("UI Elements")]
     [SerializeField] private IconSlot _iconSlot;
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _priceText;
-    [SerializeField] private PointerHandler _PointerHandler;
+    [SerializeField] private PointerHandler _pointerHandler;
+
+    [Header("Audio Data")]
+    [SerializeField] private AudioData _hoverSfxData;
+    [SerializeField] private AudioData _clickSfxData;
 
     #region 타겟 상품
     private IProduct _product;
@@ -30,15 +34,40 @@ public class ProductSlotUI : MonoBehaviour
         RegisterEvents();
     }
 
+    #region 이벤트 등록
     private void RegisterEvents()
     {
-        //클릭 이벤트 등록
-        _PointerHandler.OnPointerClicked += () => OnClicked?.Invoke(_product);
-
-        //포인터 진입 및 이탈 이벤트 등록
-        _PointerHandler.OnPointerEntered += () => OnPointerEntered?.Invoke(_product);
-        _PointerHandler.OnPointerExited += () => OnPointerExited?.Invoke(_product);
+        _pointerHandler.OnPointerEntered += HandleOnPointerEntered;
+        _pointerHandler.OnPointerExited += HandleOnPointerExited;
+        _pointerHandler.OnPointerClicked += HandleOnPointerClicked;
     }
+    #endregion
+
+    #region 이벤트 핸들러
+    private void HandleOnPointerEntered()
+    {
+        //효과음 재생
+        AudioManager.Instance.PlaySfx(_hoverSfxData);
+
+        //이벤트 호출
+        OnPointerEntered?.Invoke(_product);
+    }
+
+    private void HandleOnPointerExited()
+    {
+        //이벤트 호출
+        OnPointerExited?.Invoke(_product);
+    }
+
+    private void HandleOnPointerClicked()
+    {
+        //효과음 재생
+        AudioManager.Instance.PlaySfx(_clickSfxData);
+
+        //이벤트 호출
+        OnClicked?.Invoke(_product);
+    }
+    #endregion
 
     /// <summary>
     /// 상점 상품 슬롯 초기화 함수

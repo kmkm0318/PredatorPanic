@@ -37,7 +37,7 @@ public class SfxObject : MonoBehaviour
     #endregion
 
     #region 효과음 재생 및 콜백
-    public void PlaySfx(AudioData audioData, Vector3 position, Action<SfxObject> onComplete = null)
+    public void PlaySfx(AudioData audioData, Vector3 position = default, Action<SfxObject> onComplete = null)
     {
         // 데이터 저장
         AudioData = audioData;
@@ -69,7 +69,7 @@ public class SfxObject : MonoBehaviour
     private IEnumerator SfxPlayCoroutine(float duration)
     {
         // 재생 시간 대기
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSecondsRealtime(duration);
 
         // 재생 완료 콜백 호출
         OnComplete?.Invoke(this);

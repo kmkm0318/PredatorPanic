@@ -9,6 +9,10 @@ public class DataManager : Singleton<DataManager>
     [SerializeField] private PlayerStatTypeDataList _playerStatTypeDataList;
     public PlayerStatTypeDataList PlayerStatTypeDataList => _playerStatTypeDataList;
 
+    [Header("Gun Stat Type Data List")]
+    [SerializeField] private GunStatTypeDataList _gunStatTypeDataList;
+    public GunStatTypeDataList GunStatTypeDataList => _gunStatTypeDataList;
+
     [Header("Level Up Reward Data List")]
     [SerializeField] private LevelUpRewardDataList _levelUpRewardDataList;
     public LevelUpRewardDataList LevelUpRewardDataList => _levelUpRewardDataList;

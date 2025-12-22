@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddfeba120d183114a8366b67396a6144, type: 3}
-  m_Name: MoveSpeed
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatTypeData
-  _playerStatType: 3
-  _statName: "\uC774\uB3D9\uC18D\uB3C4"
+  m_Script: {fileID: 11500000, guid: 3f87024e3b0fb1647abbcd0002422388, type: 3}
+  m_Name: GunStatTypeData_PenetrationCount
+  m_EditorClassIdentifier: Assembly-CSharp::GunStatTypeData
+  _gunStatType: 7
+  _statName: "\uAD00\uD1B5 \uD69F\uC218"
   _statDescription: 

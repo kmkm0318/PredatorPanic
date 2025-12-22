@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -239,6 +240,7 @@ MonoBehaviour:
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -452,7 +454,9 @@ MonoBehaviour:
   _iconSlot: {fileID: 4860601908576163077}
   _nameText: {fileID: 2953281148972262276}
   _priceText: {fileID: 6991496727286298814}
-  _PointerHandler: {fileID: 2550955865852133986}
+  _pointerHandler: {fileID: 2550955865852133986}
+  _hoverSfxData: {fileID: 11400000, guid: ab90ee5688293c1469d77c7c5610531c, type: 2}
+  _clickSfxData: {fileID: 11400000, guid: 0c6c98bea564ba94099310043e1ece40, type: 2}
 --- !u!114 &2550955865852133986
 MonoBehaviour:
   m_ObjectHideFlags: 0

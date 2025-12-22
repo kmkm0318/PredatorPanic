@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 툴팁 UI 클래스
@@ -95,6 +96,9 @@ public class TooltipUI : MonoBehaviour
 
         //패널 활성화
         _panel.gameObject.SetActive(true);
+
+        //레이아웃 재빌드
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_panel);
     }
 
     public void Hide()
