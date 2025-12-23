@@ -44,8 +44,6 @@ public class PlayerController : MonoBehaviour
     public bool IsJumpBuffer { get; set; } = false;
     public bool IsCoyoteTime { get; set; } = false;
     public bool IsAttackPressed { get; private set; } = false;
-
-    private InputDevice _currentDecive;
     #endregion
 
     #region 코루틴
@@ -113,8 +111,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnLook(InputAction.CallbackContext context)
     {
-        _currentDecive = context.control.device;
-
         LookInput = context.ReadValue<Vector2>();
     }
 

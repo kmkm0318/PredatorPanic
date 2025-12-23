@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -45,8 +46,30 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region 게임 데이터
-    public int CurrentRound { get; set; }
-    public float RoundTimer { get; set; }
+    private int _currentRound = 0;
+    public int CurrentRound
+    {
+        get => _currentRound; set
+        {
+            _currentRound = value;
+            OnCurrentRoundChanged?.Invoke(_currentRound);
+        }
+    }
+    private float _roundTimer = 0f;
+    public float RoundTimer
+    {
+        get => _roundTimer;
+        set
+        {
+            _roundTimer = value;
+            OnRoundTimerChanged?.Invoke(_roundTimer);
+        }
+    }
+    #endregion
+
+    #region 이벤트
+    public event Action<int> OnCurrentRoundChanged;
+    public event Action<float> OnRoundTimerChanged;
     #endregion
 
     private void Start()

@@ -16,14 +16,18 @@ public class GameRoundStartState : GameBaseState
         //라운드 수 증가
         GameManager.CurrentRound++;
 
-        //라운드 타이머 초기화
-        GameManager.RoundTimer = GameManager.GameData.RoundDuration;
-
-        //보스 라운드가 아닐 시 라운드 타이머 UI 표시
-        //TODO: 보스 라운드 UI
-
         //적 스폰 변수 설정
         GameManager.EnemyManager.SetRoundEnemyVariables();
+
+        //보스 라운드가 아닐 시
+        if (!GameManager.EnemyManager.IsBossRound)
+        {
+            //라운드 타이머 초기화
+            GameManager.RoundTimer = GameManager.GameData.RoundDuration;
+
+            //라운드 타이머 UI 표시
+            GameManager.GameUIManager.RoundPresenter.ShowRoundTimerText(true);
+        }
 
         //플레이어 입력 모드 변경
         InputManager.Instance.ChangeInputMode(InputMode.Player);

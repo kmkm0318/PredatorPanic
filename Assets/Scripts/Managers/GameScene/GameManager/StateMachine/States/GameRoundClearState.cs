@@ -10,7 +10,8 @@ public class GameRoundClearState : GameBaseState
         //이벤트 구독
         RegisterEvents();
 
-        //TODO: 라운드 타이머 UI 숨기기
+        //라운드 타이머 UI 숨기기
+        GameManager.GameUIManager.RoundPresenter.ShowRoundTimerText(false);
 
         //모든 적 제거 후 드랍 아이템 수집
         GameManager.EnemyManager.KillAllEnemies();

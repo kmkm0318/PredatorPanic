@@ -16,8 +16,16 @@ MonoBehaviour:
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
   _playerBaseStatsData: {fileID: 11400000, guid: a154443229cae5747a70711c4d708b92, type: 2}
   _characterEffectDatas:
-  - {fileID: 11400000, guid: f109982861768824eb1fdd46c3d8d716, type: 2}
-  - {fileID: 11400000, guid: 25c77925d71672d409e0fcb78861bcf2, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
   _playerExpData: {fileID: 11400000, guid: 56c6b05865b2d0e45bca3f1b95d9bf19, type: 2}
   _weaponCountMax: 6
   _itemPickupRadiusSqr: 4
