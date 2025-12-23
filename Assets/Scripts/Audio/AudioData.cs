@@ -20,6 +20,8 @@ public class AudioData : ScriptableObject
     [Header("SFX Settings")]
     [SerializeField, Range(0f, 1f)] private float _pitchRandomness = 0.1f;
     [SerializeField] private bool _is2D = false;
+    [SerializeField] private int _maxConcurrentCount = 10;
     public float PitchRandomness => _pitchRandomness;
     public bool Is2D => _is2D;
+    public int MaxConcurrentCount => _maxConcurrentCount;
 }

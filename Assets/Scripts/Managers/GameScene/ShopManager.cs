@@ -12,6 +12,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private float _sellPriceRate = 0.5f;
     [SerializeField] private int _baseRefreshCost = 5;
     [SerializeField] private int _refreshCostRaise = 1;
+    [SerializeField] private AudioData _successAudioData;
 
     #region 레퍼런스
     private GameManager _gameManager;
@@ -142,6 +143,9 @@ public class ShopManager : MonoBehaviour
 
             //코스트 변경 이벤트 호출
             OnCurrentRefreshCostChanged?.Invoke(CurrentRefreshCost);
+
+            //이펙트 사운드 재생
+            AudioManager.Instance.PlaySfx(_successAudioData);
         }
 
         //기존 판매 상품 제거
@@ -271,6 +275,9 @@ public class ShopManager : MonoBehaviour
             //판매 상품 업데이트 이벤트 호출
             OnShopProductsUpdated?.Invoke(ShopProducts);
 
+            //이펙트 사운드 재생
+            AudioManager.Instance.PlaySfx(_successAudioData);
+
             return true;
         }
 
@@ -294,6 +301,9 @@ public class ShopManager : MonoBehaviour
         //플레이어의 무기 목록에서 제거
         _player.RemoveWeapon(weapon);
 
+        //이펙트 사운드 재생
+        AudioManager.Instance.PlaySfx(_successAudioData);
+
         //항상 성공. 추후 조건 추가 가능
         return true;
     }
@@ -313,6 +323,9 @@ public class ShopManager : MonoBehaviour
 
         //플레이어의 아이템 목록에서 제거
         _player.UnequipItem(item);
+
+        //이펙트 사운드 재생
+        AudioManager.Instance.PlaySfx(_successAudioData);
 
         //항상 성공. 추후 조건 추가 가능
         return true;

@@ -25,6 +25,9 @@ public class GameLevelUpState : GameBaseState
         //레벨업 보상 UI 표시
         var isShowReward = GameManager.GameUIManager.LevelUpRewardPresenter.TryShowRewards(luckStat);
 
+        //플레이어 스탯 UI 표시
+        GameManager.GameUIManager.PlayerStatPresenter.Show();
+
         if (!isShowReward)
         {
             //보상을 표시할 수 없으면 바로 이전 상태로 전환
@@ -47,6 +50,9 @@ public class GameLevelUpState : GameBaseState
 
         //보상 UI 숨기기
         GameManager.GameUIManager.LevelUpRewardPresenter.HideRewards();
+
+        //플레이어 스탯 UI 숨기기
+        GameManager.GameUIManager.PlayerStatPresenter.Hide();
     }
 
     #region 이벤트

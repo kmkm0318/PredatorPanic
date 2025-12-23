@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 3776797315690024361}
   - component: {fileID: 4458943161634267472}
   - component: {fileID: 3248399388378605262}
+  - component: {fileID: 5373637614770204809}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -268,6 +269,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b95ba79ea3826ea4aaa8cb31f231dde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PointerHandler
+--- !u!114 &5373637614770204809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660347818634382775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.75, g: 0.75, b: 0.75, a: 0.5}
+  m_EffectDistance: {x: 4, y: -4}
+  m_UseGraphicAlpha: 0
 --- !u!1 &6466707111127670424
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,6 +475,7 @@ MonoBehaviour:
   _showPos: {x: 0, y: 0, z: 0}
   _hidePos: {x: 0, y: -1000, z: 0}
   _ease: 27
+  _panelOutline: {fileID: 5373637614770204809}
   _panelPointerHandler: {fileID: 3248399388378605262}
   _iconSlot: {fileID: 8615445841541220454}
   _nameText: {fileID: 3921465935601659156}

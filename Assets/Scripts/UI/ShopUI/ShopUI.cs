@@ -20,11 +20,15 @@ public class ShopUI : ShowHideUI
     [SerializeField] private Transform _itemInventoryProductParent;
 
     [Header("Refresh")]
-    [SerializeField] private Button _refreshButton;
+    [SerializeField] private PointerHandler _refreshButton;
     [SerializeField] private TMP_Text _refreshCostText;
 
     [Header("Next Round")]
-    [SerializeField] private Button _nextRoundButton;
+    [SerializeField] private PointerHandler _nextRoundButton;
+
+    [Header("Audio Data")]
+    [SerializeField] private AudioData _buttonHoverAudioData;
+    [SerializeField] private AudioData _buttonClickAudioData;
 
     #region 오브젝트 풀
     private ObjectPool<ProductSlotUI> _shopProductSlotUIpool;
@@ -50,8 +54,41 @@ public class ShopUI : ShowHideUI
     //버튼 초기화
     private void InitButtons()
     {
-        _refreshButton.onClick.AddListener(() => OnRefreshButtonClicked?.Invoke());
-        _nextRoundButton.onClick.AddListener(() => OnNextRoundButtonClicked?.Invoke());
+        _refreshButton.OnPointerEntered += HandleRefreshButtonEntered;
+        _refreshButton.OnPointerClicked += HandleRefreshButtonClicked;
+
+        _nextRoundButton.OnPointerEntered += HandleNextRoundButtonEntered;
+        _nextRoundButton.OnPointerClicked += HandleNextRoundButtonClicked;
+    }
+
+    private void HandleRefreshButtonEntered()
+    {
+        //버튼 호버 사운드 재생
+        AudioManager.Instance.PlaySfx(_buttonHoverAudioData);
+    }
+
+    private void HandleRefreshButtonClicked()
+    {
+        //버튼 클릭 사운드 재생
+        AudioManager.Instance.PlaySfx(_buttonClickAudioData);
+
+        //이벤트 호출
+        OnRefreshButtonClicked?.Invoke();
+    }
+
+    private void HandleNextRoundButtonEntered()
+    {
+        //버튼 호버 사운드 재생
+        AudioManager.Instance.PlaySfx(_buttonHoverAudioData);
+    }
+
+    private void HandleNextRoundButtonClicked()
+    {
+        //버튼 클릭 사운드 재생
+        AudioManager.Instance.PlaySfx(_buttonClickAudioData);
+
+        //이벤트 호출
+        OnNextRoundButtonClicked?.Invoke();
     }
 
     #region 오브젝트 풀링

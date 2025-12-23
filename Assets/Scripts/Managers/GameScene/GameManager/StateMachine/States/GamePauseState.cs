@@ -10,6 +10,9 @@ public class GamePauseState : GameBaseState
 
     public override void Enter()
     {
+        //플레이어 스탯 UI 표시
+        GameManager.GameUIManager.PlayerStatPresenter.Show();
+
         //시간 흐름 정지
         Time.timeScale = 0f;
 
@@ -24,6 +27,9 @@ public class GamePauseState : GameBaseState
 
     public override void Exit()
     {
+        //플레이어 스탯 UI 숨기기
+        GameManager.GameUIManager.PlayerStatPresenter.Hide();
+
         //시간 흐름 정상화
         Time.timeScale = 1f;
 

@@ -11,6 +11,7 @@ public class TooltipUI : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private RectTransform _panel;
+    [SerializeField] private Outline _panelOutline;
     [SerializeField] private float _panelOffset = 5f;
     [SerializeField] private IconSlot _iconSlot;
     [SerializeField] private TMP_Text _nameText;
@@ -81,6 +82,9 @@ public class TooltipUI : MonoBehaviour
         {
             //배경 색 설정
             _iconSlot.SetColor(rarityData.RarityColor);
+
+            //아웃라인 색 설정
+            _panelOutline.effectColor = rarityData.RarityColor;
 
             //이름 색 설정
             _nameText.color = rarityData.RarityColor;

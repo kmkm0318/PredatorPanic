@@ -15,6 +15,9 @@ public class GameShopState : GameBaseState
         //상점 UI 활성화
         GameManager.GameUIManager.ShopPresenter.ShowShopUI();
 
+        //플레이어 스탯 UI 표시
+        GameManager.GameUIManager.PlayerStatPresenter.Show();
+
         //입력 모드 변경
         InputManager.Instance.ChangeInputMode(InputMode.UI);
 
@@ -31,6 +34,9 @@ public class GameShopState : GameBaseState
     {
         //상점 UI 비활성화
         GameManager.GameUIManager.ShopPresenter.HideShopUI();
+
+        //플레이어 스탯 UI 숨기기
+        GameManager.GameUIManager.PlayerStatPresenter.Hide();
 
         //입력 모드 변경
         InputManager.Instance.ChangeInputMode(InputMode.None);

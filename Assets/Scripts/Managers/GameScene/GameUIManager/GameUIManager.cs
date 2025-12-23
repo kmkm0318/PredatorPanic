@@ -13,6 +13,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private DamageTextUI _damageTextUI;
     [SerializeField] private BossHealthListUI _bossHealthListUI;
     [SerializeField] private TooltipUI _tooltipUI;
+    [SerializeField] private PlayerStatUI _playerStatUI;
     #endregion
 
     #region MVP 구조를 위한 Presenter들
@@ -22,6 +23,7 @@ public class GameUIManager : MonoBehaviour
     public DamageTextPresenter DamageTextPresenter { get; private set; }
     public BossHealthListPresenter BossHealthListPresenter { get; private set; }
     public TooltipPresenter TooltipPresenter { get; private set; }
+    public PlayerStatPresenter PlayerStatPresenter { get; private set; }
     #endregion
 
     #region 레퍼런스
@@ -49,6 +51,9 @@ public class GameUIManager : MonoBehaviour
 
         TooltipPresenter = new TooltipPresenter(_tooltipUI, ShopPresenter);
         TooltipPresenter.Init();
+
+        PlayerStatPresenter = new PlayerStatPresenter(gameManager.Player, _playerStatUI);
+        PlayerStatPresenter.Init();
     }
 
     // 종료 시에 이벤트 해제
@@ -60,5 +65,6 @@ public class GameUIManager : MonoBehaviour
         DamageTextPresenter.Reset();
         BossHealthListPresenter.Reset();
         TooltipPresenter.Reset();
+        PlayerStatPresenter.Reset();
     }
 }

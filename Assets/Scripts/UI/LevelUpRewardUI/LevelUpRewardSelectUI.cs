@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 레벨 업 보상 선택 UI 클래스
@@ -10,6 +11,7 @@ using UnityEngine;
 public class LevelUpRewardSelectUI : ShowHideUI
 {
     [Header("UI Components")]
+    [SerializeField] private Outline _panelOutline;
     [SerializeField] private PointerHandler _panelPointerHandler;
     [SerializeField] private IconSlot _iconSlot;
     [SerializeField] private TMP_Text _nameText;
@@ -115,6 +117,7 @@ public class LevelUpRewardSelectUI : ShowHideUI
         if (rarityDataList.RarityDataDict.TryGetValue(data.Rarity, out var rarityData))
         {
             //희귀도 데이터가 있으면 색 지정
+            _panelOutline.effectColor = rarityData.RarityColor;
             _iconSlot.SetColor(rarityData.RarityColor);
             _nameText.color = rarityData.RarityColor;
         }

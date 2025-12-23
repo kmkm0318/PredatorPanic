@@ -12,7 +12,6 @@ public class AudioManager : Singleton<AudioManager>
     private const string MASTER_VOLUME = "MasterVolume";
     private const string BGM_VOLUME = "BGMVolume";
     private const string SFX_VOLUME = "SFXVolume";
-    private const int MAX_CONCURRENT_SFX = 10;
     #endregion
 
     [Header("Mixer Groups")]
@@ -113,7 +112,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (_activeSfxCount.TryGetValue(audioData, out var count))
         {
-            return count < MAX_CONCURRENT_SFX;
+            return count < audioData.MaxConcurrentCount;
         }
         else
         {
