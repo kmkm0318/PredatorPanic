@@ -19,7 +19,10 @@ public class GamePauseState : GameBaseState
         //UI 인풋 모드로 변경
         InputManager.Instance.ChangeInputMode(InputMode.UI);
 
-        //인풋 액션 이벤트 구독
+        //정지 UI 표시
+        GameManager.GameUIManager.PausePresenter.Show();
+
+        //이벤트 구독
         RegisterEvents();
     }
 
@@ -36,24 +39,38 @@ public class GamePauseState : GameBaseState
         //입력 모드 변경
         InputManager.Instance.ChangeInputMode(InputMode.None);
 
-        //인풋 액션 이벤트 구독 해제
+        //정지 UI 숨기기
+        GameManager.GameUIManager.PausePresenter.Hide();
+
+        //이벤트 해제
         UnregisterEvents();
     }
 
-    #region 이벤트 및 이벤트 구독, 해제
+    #region 이벤트 구독, 해제
     private void RegisterEvents()
     {
         var inputActions = InputManager.Instance.PlayerInputActions;
-        inputActions.UI.Resume.performed += OnResumePerformed;
+        inputActions.UI.Resume.performed += HandleOnResumePerformed;
+
+        GameManager.GameUIManager.PausePresenter.OnResumeButtonClicked += HandleOnResumeButtonClicked;
     }
 
     private void UnregisterEvents()
     {
         var inputActions = InputManager.Instance.PlayerInputActions;
-        inputActions.UI.Resume.performed -= OnResumePerformed;
+        inputActions.UI.Resume.performed -= HandleOnResumePerformed;
+
+        GameManager.GameUIManager.PausePresenter.OnResumeButtonClicked -= HandleOnResumeButtonClicked;
+    }
+    #endregion
+
+    #region 이벤트 핸들러
+    private void HandleOnResumePerformed(InputAction.CallbackContext context)
+    {
+        ChangeState(Factory.Playing);
     }
 
-    private void OnResumePerformed(InputAction.CallbackContext context)
+    private void HandleOnResumeButtonClicked()
     {
         ChangeState(Factory.Playing);
     }

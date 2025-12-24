@@ -29,6 +29,7 @@ public class ShopPresenter : IPresenter
     public void Init()
     {
         RegisterEvents();
+        _shopUI.Init();
         InitUI();
     }
 

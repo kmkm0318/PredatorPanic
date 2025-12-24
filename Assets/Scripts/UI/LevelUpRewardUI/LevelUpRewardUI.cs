@@ -26,6 +26,12 @@ public class LevelUpRewardUI : ShowHideUI
     public event Action<LevelUpRewardData> OnRewardSelected;
     #endregion
 
+    public void Init()
+    {
+        InitPool();
+    }
+
+    #region 오브젝트 풀링
     private void InitPool()
     {
         _rewardSelectUIPool = new(
@@ -36,12 +42,12 @@ public class LevelUpRewardUI : ShowHideUI
             false
         );
     }
+    #endregion
 
+    #region 보상 UI 함수
     // 보상 선택 UI 설정
     public void SetRewards(List<LevelUpRewardData> rewardDatas)
     {
-        if (_rewardSelectUIPool == null) InitPool();
-
         for (int i = 0; i < rewardDatas.Count; i++)
         {
             var rewardData = rewardDatas[i];
@@ -74,4 +80,5 @@ public class LevelUpRewardUI : ShowHideUI
 
         Hide();
     }
+    #endregion
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.UI;
 
 /// <summary>
 /// 상점 UI 클래스
@@ -46,13 +45,8 @@ public class ShopUI : ShowHideUI
     public event Action<IProduct> OnProductPointerExited;
     #endregion
 
-    private void Awake()
-    {
-        InitButtons();
-    }
-
-    //버튼 초기화
-    private void InitButtons()
+    //초기화
+    public void Init()
     {
         _refreshButton.OnPointerEntered += HandleRefreshButtonEntered;
         _refreshButton.OnPointerClicked += HandleRefreshButtonClicked;

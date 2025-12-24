@@ -98,8 +98,8 @@ public class TooltipUI : MonoBehaviour
         _descriptionText.text = product.Description;
         _priceText.text = product.Price.ToString();
 
-        //패널 활성화
-        _panel.gameObject.SetActive(true);
+        //오브젝트 활성화
+        gameObject.SetActive(true);
 
         //레이아웃 재빌드
         LayoutRebuilder.ForceRebuildLayoutImmediate(_panel);
@@ -107,8 +107,8 @@ public class TooltipUI : MonoBehaviour
 
     public void Hide()
     {
-        //패널 비활성화
-        _panel.gameObject.SetActive(false);
+        //오브젝트 비활성화
+        gameObject.SetActive(false);
     }
     #endregion
 }

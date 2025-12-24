@@ -17,6 +17,11 @@ public class PlayerStatUI : ShowHideUI
     private Dictionary<PlayerStatType, PlayerStatItem> _activeStatItems = new();
     #endregion
 
+    public void Init()
+    {
+        InitPool();
+    }
+
     #region 오브젝트 풀링
     private void InitPool()
     {
@@ -39,9 +44,6 @@ public class PlayerStatUI : ShowHideUI
 
         //데이터 리스트가 없으면 패스
         if (statTypeDataList == null) return;
-
-        //오브젝트 풀이 초기화되지 않았으면 초기화
-        if (_playerStatItemPool == null) InitPool();
 
         //기존 스탯 클리어
         ClearStats();

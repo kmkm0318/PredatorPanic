@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -19,6 +20,12 @@ public class BossHealthListUI : MonoBehaviour
     private Dictionary<Enemy, BossHealthUI> _healthUIDict = new();
     #endregion
 
+    public void Init()
+    {
+        InitPool();
+    }
+
+    #region 오브젝트 풀링
     private void InitPool()
     {
         _healthUIPool = new ObjectPool<BossHealthUI>(
@@ -33,15 +40,14 @@ public class BossHealthListUI : MonoBehaviour
             false
         );
     }
+    #endregion
 
+    #region UI 추가, 삭제, 업데이트
     /// <summary>
     /// 보스 체력 UI 추가
     /// </summary>
     public void AddBossHealthUI(Enemy bossEnemy)
     {
-        //풀 없을 시 초기화
-        if (_healthUIPool == null) InitPool();
-
         //이미 존재하는 UI일 시 패스
         if (_healthUIDict.ContainsKey(bossEnemy)) return;
 
@@ -79,4 +85,5 @@ public class BossHealthListUI : MonoBehaviour
             healthUI.SetHealth(currentHealth, maxHealth);
         }
     }
+    #endregion
 }

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -13,7 +14,6 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Progressbar _healthBar;
     [SerializeField] private Progressbar _expBar;
     #endregion
-
 
     #region UI 업데이트 함수
     public void SetHealth(float cur, float max)

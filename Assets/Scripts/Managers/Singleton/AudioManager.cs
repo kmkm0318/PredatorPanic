@@ -142,13 +142,13 @@ public class AudioManager : Singleton<AudioManager>
         _masterMixerGroup.audioMixer.SetFloat(MASTER_VOLUME, decibel);
     }
 
-    public void SetBgmVolume(float volume)
+    public void SetBGMVolume(float volume)
     {
         var decibel = VolumeToDecibel(volume);
         _bgmMixerGroup.audioMixer.SetFloat(BGM_VOLUME, decibel);
     }
 
-    public void SetSfxVolume(float volume)
+    public void SetSFXVolume(float volume)
     {
         var decibel = VolumeToDecibel(volume);
         _sfxMixerGroup.audioMixer.SetFloat(SFX_VOLUME, decibel);

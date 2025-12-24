@@ -25,6 +25,9 @@ public class PlayerStatPresenter : IPresenter
         // 이벤트 구독
         RegisterEvents();
 
+        // 플레이어 스탯 UI 초기화
+        _playerStatUI.Init();
+
         // 초기 UI 설정
         InitUI();
     }

@@ -26,6 +26,8 @@ public class LevelUpRewardPresenter : IPresenter
     public void Init()
     {
         RegisterEvents();
+
+        _levelUpRewardUI.Init();
     }
 
     public void Reset()

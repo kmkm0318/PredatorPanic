@@ -1,5 +1,3 @@
-using System;
-
 /// <summary>
 /// 툴팁 프레젠터 클래스
 /// </summary>

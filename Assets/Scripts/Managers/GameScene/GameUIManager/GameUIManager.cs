@@ -15,10 +15,12 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private TooltipUI _tooltipUI;
     [SerializeField] private PlayerStatUI _playerStatUI;
     [SerializeField] private RoundUI _roundUI;
+    [SerializeField] private SettingsUI _settingsUI;
+    [SerializeField] private PauseUI _pauseUI;
     #endregion
 
     #region MVP 구조를 위한 Presenter들
-    private PlayerPresenter _playerPresenter;
+    public PlayerPresenter PlayerPresenter { get; private set; }
     public LevelUpRewardPresenter LevelUpRewardPresenter { get; private set; }
     public ShopPresenter ShopPresenter { get; private set; }
     public DamageTextPresenter DamageTextPresenter { get; private set; }
@@ -26,6 +28,8 @@ public class GameUIManager : MonoBehaviour
     public TooltipPresenter TooltipPresenter { get; private set; }
     public PlayerStatPresenter PlayerStatPresenter { get; private set; }
     public RoundPresenter RoundPresenter { get; private set; }
+    public SettingsPresenter SettingsPresenter { get; private set; }
+    public PausePresenter PausePresenter { get; private set; }
     #endregion
 
     #region 레퍼런스
@@ -36,8 +40,8 @@ public class GameUIManager : MonoBehaviour
     {
         _gameManager = gameManager;
 
-        _playerPresenter = new PlayerPresenter(gameManager.Player, _playerUI);
-        _playerPresenter.Init();
+        PlayerPresenter = new PlayerPresenter(gameManager.Player, _playerUI);
+        PlayerPresenter.Init();
 
         LevelUpRewardPresenter = new LevelUpRewardPresenter(_levelUpRewardUI);
         LevelUpRewardPresenter.Init();
@@ -59,12 +63,18 @@ public class GameUIManager : MonoBehaviour
 
         RoundPresenter = new RoundPresenter(_gameManager, _roundUI);
         RoundPresenter.Init();
+
+        SettingsPresenter = new SettingsPresenter(SettingsManager.Instance, _settingsUI);
+        SettingsPresenter.Init();
+
+        PausePresenter = new PausePresenter(_pauseUI, SettingsPresenter);
+        PausePresenter.Init();
     }
 
     // 종료 시에 이벤트 해제
     private void OnDestroy()
     {
-        _playerPresenter.Reset();
+        PlayerPresenter.Reset();
         LevelUpRewardPresenter.Reset();
         ShopPresenter.Reset();
         DamageTextPresenter.Reset();
@@ -72,5 +82,7 @@ public class GameUIManager : MonoBehaviour
         TooltipPresenter.Reset();
         PlayerStatPresenter.Reset();
         RoundPresenter.Reset();
+        SettingsPresenter.Reset();
+        PausePresenter.Reset();
     }
 }

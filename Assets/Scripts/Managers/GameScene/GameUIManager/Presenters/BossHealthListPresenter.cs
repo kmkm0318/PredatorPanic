@@ -24,6 +24,8 @@ public class BossHealthListPresenter : IPresenter
     public void Init()
     {
         RegisterEvents();
+
+        _bossHealthListUI.Init();
     }
 
     public void Reset()
