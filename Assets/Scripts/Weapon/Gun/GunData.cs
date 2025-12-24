@@ -8,10 +8,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GunData", menuName = "SO/Weapon/Gun/GunData", order = 0)]
 public class GunData : WeaponData
 {
-    [Header("Basic Gun Data")]
-    [SerializeField] private GunType _type;
-    public GunType Type => _type;
-
     [Header("Gun Fire Data")]
     [SerializeField] private BulletData _bulletData;
     [SerializeField] private TrailData _trailData;

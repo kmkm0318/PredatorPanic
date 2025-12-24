@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f917baf7daeb07644a5fa6443511a017, type: 3}
   m_Name: DefaultTableData 1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTableData
-  <BossEnemyDatas>k__BackingField:
-  - {fileID: 11400000, guid: 871fb86ad18ccd7418e587b194741225, type: 2}
+  <BossEnemyDatas>k__BackingField: []
   <EnemyDatas>k__BackingField:
     _items:
     - <Item>k__BackingField: {fileID: 11400000, guid: 21891ae9a46a20e4c94eec8d9f183de8, type: 2}

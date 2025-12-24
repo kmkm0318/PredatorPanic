@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8670bb51d955a14d9884251ebd47dfb, type: 3}
+  m_Name: 0_Default
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerData
+  _gravity: -9.81
+  _groundedGravitySpeed: -9.81
+  _fallGravityMultiplier: 2
+  _fallSpeedMin: -20
+  _mouseSensitivityMultiplier: 10
+  _controllerSensitivityMultiplier: 500
+  _pitchMin: -90
+  _pitchMax: 90
+  _maxJumpHeight: 2.5
+  _maxJumpDuration: 1
+  _jumpBufferTime: 0.2
+  _coyoteTime: 0.2
+  _groundCheckDistance: 0.5
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 64

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,15 +6,14 @@ using UnityEngine;
 /// <summary>
 /// 총알 클래스
 /// </summary>
-[RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
-    #region 데이터
-    public BulletData Data { get; private set; }
+    #region 상수
+    private const int MAX_HIT_COUNT = 8;
     #endregion
 
-    #region 컴포넌트
-    private Rigidbody _rigidbody;
+    #region 데이터
+    public BulletData Data { get; private set; }
     #endregion
 
     #region 레퍼런스 변수
@@ -21,8 +21,12 @@ public class Bullet : MonoBehaviour
     private ExplosionManager _explosionManager;
     #endregion
 
-    #region 변수
+    #region Fire 관련 변수
     private BulletFireContext _context;
+    private Vector3 _fireDirection;
+    private float _speed;
+    private Vector3 _lastPosition;
+    private RaycastHit[] _hits = new RaycastHit[MAX_HIT_COUNT];
     public HashSet<Collider> HitColliders { get; private set; } = new(); //충돌한 콜라이더 기록
     private int _remainPenetrationCount = 0; //남은 관통 횟수
     private int _remainRicochetCount = 0; //남은 튕김 횟수
@@ -32,12 +36,7 @@ public class Bullet : MonoBehaviour
     private Coroutine _lifetimeCoroutine;
     #endregion
 
-    //컴포넌트 가져오기
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
-
+    #region 초기화
     //총알 데이터 초기화 및 매니저 레퍼런스 설정
     public void Init(BulletData data, BulletManager bulletManager)
     {
@@ -45,13 +44,49 @@ public class Bullet : MonoBehaviour
         _bulletManager = bulletManager;
         _explosionManager = bulletManager.GameManager.ExplosionManager;
     }
+    #endregion
 
-    #region 발사 및 지연 비활성화
+    private void FixedUpdate()
+    {
+        HandleMovement();
+    }
+
+    private void HandleMovement()
+    {
+        // 비활성화 시 패스
+        if (!gameObject.activeSelf) return;
+
+        //거리 계산
+        var distance = _speed * Time.fixedDeltaTime;
+
+        //레이캐스트로 충돌 판단
+        var hitCount = Physics.RaycastNonAlloc(_lastPosition, _fireDirection, _hits, distance, _context.HitLayerMask, QueryTriggerInteraction.Collide);
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            //충돌 처리
+            HandleHitCollider(_hits[i].collider);
+
+            //총알이 비활성화 되었으면 루프 탈출
+            if (!gameObject.activeSelf) break;
+        }
+
+        //위치 갱신
+        _lastPosition = transform.position;
+        transform.position += _fireDirection * distance;
+    }
+
+    #region 발사
     //총알 발사
     public void Fire(in BulletFireContext context)
     {
         //컨텍스트 저장
         _context = context;
+
+        //변수 설정
+        _fireDirection = context.FireDirection.normalized;
+        _speed = context.Speed;
+        _lastPosition = context.FirePosition;
 
         //위치 설정
         transform.position = context.FirePosition;
@@ -62,9 +97,6 @@ public class Bullet : MonoBehaviour
         //남은 관통 및 튕김 횟수 설정
         _remainPenetrationCount = context.PenetrationCount;
         _remainRicochetCount = context.RicochetCount;
-
-        //속도 설정
-        _rigidbody.linearVelocity = context.FireDirection * _context.Speed;
 
         //사거리 기반 생존 시간 후 비활성화
         float lifetime = _context.Range / _context.Speed;
@@ -122,7 +154,7 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region 충돌 및 비활성화
-    void OnTriggerEnter(Collider other)
+    private void HandleHitCollider(Collider other)
     {
         //비활성화 시 무시
         if (!gameObject.activeSelf) return;
@@ -157,10 +189,10 @@ public class Bullet : MonoBehaviour
             if (targetCollider != null && targetCollider.TryGetComponent<Enemy>(out var targetEnemy))
             {
                 Vector3 center = targetEnemy.CenterPosition;
-                var direction = (center - contact).normalized;
+                var newDirection = (center - contact).normalized;
 
-                Vector3 newSpeed = direction * _context.Speed;
-                _rigidbody.linearVelocity = newSpeed;
+                //방향 갱신
+                _fireDirection = newDirection;
 
                 //튕길 때 폭발 실행
                 ExecuteExplosion();
@@ -225,8 +257,6 @@ public class Bullet : MonoBehaviour
 
         //변수들 초기화
         HitColliders.Clear();
-        _rigidbody.linearVelocity = Vector3.zero;
-        _rigidbody.angularVelocity = Vector3.zero;
 
         //풀에 반환
         _bulletManager.ReleaseBullet(this);
