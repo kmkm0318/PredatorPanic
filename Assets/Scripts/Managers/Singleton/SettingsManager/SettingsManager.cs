@@ -90,7 +90,12 @@ public class SettingsManager : Singleton<SettingsManager>
     }
     #endregion
 
-    #region 설정 적용
+    #region 설정 변경 및 적용
+    public void ChangeSettings(SettingsData newData)
+    {
+        CurrentData = newData;
+    }
+
     public void ApplySettings()
     {
         ApplyDisplaySettings();
@@ -128,9 +133,9 @@ public class SettingsManager : Singleton<SettingsManager>
 
     private void ApplyAudioSettings()
     {
-        AudioManager.Instance.SetMasterVolume(CurrentData.MasterVolume);
-        AudioManager.Instance.SetBGMVolume(CurrentData.BGMVolume);
-        AudioManager.Instance.SetSFXVolume(CurrentData.SFXVolume);
+        AudioManager.Instance.SetMasterVolume(CurrentData.MasterVolume / 100f);
+        AudioManager.Instance.SetBGMVolume(CurrentData.BGMVolume / 100f);
+        AudioManager.Instance.SetSFXVolume(CurrentData.SFXVolume / 100f);
     }
     #endregion
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 /// <summary>
 /// 게임 일시정지 상태
@@ -39,9 +38,6 @@ public class GamePauseState : GameBaseState
         //입력 모드 변경
         InputManager.Instance.ChangeInputMode(InputMode.None);
 
-        //정지 UI 숨기기
-        GameManager.GameUIManager.PausePresenter.Hide();
-
         //이벤트 해제
         UnregisterEvents();
     }
@@ -49,28 +45,17 @@ public class GamePauseState : GameBaseState
     #region 이벤트 구독, 해제
     private void RegisterEvents()
     {
-        var inputActions = InputManager.Instance.PlayerInputActions;
-        inputActions.UI.Resume.performed += HandleOnResumePerformed;
-
-        GameManager.GameUIManager.PausePresenter.OnResumeButtonClicked += HandleOnResumeButtonClicked;
+        GameManager.GameUIManager.PausePresenter.OnPuaseUIClosed += HandleOnPuaseUIClosed;
     }
 
     private void UnregisterEvents()
     {
-        var inputActions = InputManager.Instance.PlayerInputActions;
-        inputActions.UI.Resume.performed -= HandleOnResumePerformed;
-
-        GameManager.GameUIManager.PausePresenter.OnResumeButtonClicked -= HandleOnResumeButtonClicked;
+        GameManager.GameUIManager.PausePresenter.OnPuaseUIClosed -= HandleOnPuaseUIClosed;
     }
     #endregion
 
     #region 이벤트 핸들러
-    private void HandleOnResumePerformed(InputAction.CallbackContext context)
-    {
-        ChangeState(Factory.Playing);
-    }
-
-    private void HandleOnResumeButtonClicked()
+    private void HandleOnPuaseUIClosed()
     {
         ChangeState(Factory.Playing);
     }

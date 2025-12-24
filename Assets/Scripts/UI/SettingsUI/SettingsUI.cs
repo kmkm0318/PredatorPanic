@@ -27,9 +27,9 @@ public class SettingsUI : ShowHideUI
     public event Action<int> OnResolutionIndexChanged;
     public event Action<bool> OnFullScreenToggled;
     public event Action<int> OnRefreshRateChanged;
-    public event Action<float> OnMasterVolumeChanged;
-    public event Action<float> OnBGMVolumeChanged;
-    public event Action<float> OnSFXVolumeChanged;
+    public event Action<int> OnMasterVolumeChanged;
+    public event Action<int> OnBGMVolumeChanged;
+    public event Action<int> OnSFXVolumeChanged;
     public event Action OnSaveButtonClicked;
     public event Action OnCloseButtonClicked;
     #endregion
@@ -47,9 +47,9 @@ public class SettingsUI : ShowHideUI
         _refreshRateSlider.onValueChanged.AddListener(value => OnRefreshRateChanged?.Invoke((int)value));
 
         //오디오 슬라이더 설정
-        _masterVolumeSlider.onValueChanged.AddListener(value => OnMasterVolumeChanged?.Invoke(value));
-        _bgmVolumeSlider.onValueChanged.AddListener(value => OnBGMVolumeChanged?.Invoke(value));
-        _sfxVolumeSlider.onValueChanged.AddListener(value => OnSFXVolumeChanged?.Invoke(value));
+        _masterVolumeSlider.onValueChanged.AddListener(value => OnMasterVolumeChanged?.Invoke((int)value));
+        _bgmVolumeSlider.onValueChanged.AddListener(value => OnBGMVolumeChanged?.Invoke((int)value));
+        _sfxVolumeSlider.onValueChanged.AddListener(value => OnSFXVolumeChanged?.Invoke((int)value));
 
         //저장 버튼 설정
         _saveButton.onClick.AddListener(() => OnSaveButtonClicked?.Invoke());

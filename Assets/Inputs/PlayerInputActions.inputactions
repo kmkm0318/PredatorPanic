@@ -183,7 +183,7 @@
             "id": "3c9f2b44-03f2-4b2f-9139-1d313275d3ec",
             "actions": [
                 {
-                    "name": "Resume",
+                    "name": "Cancel",
                     "type": "Button",
                     "id": "7e58f532-4269-4911-80d5-62c728365318",
                     "expectedControlType": "",
@@ -209,7 +209,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Resume",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -220,7 +220,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Resume",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

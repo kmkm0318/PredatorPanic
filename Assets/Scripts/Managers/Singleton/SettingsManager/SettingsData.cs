@@ -12,7 +12,21 @@ public class SettingsData
     public int RefreshRate = 60;
 
     //오디오 설정
-    public float MasterVolume = 0.5f;
-    public float BGMVolume = 0.5f;
-    public float SFXVolume = 0.5f;
+    public int MasterVolume = 50;
+    public int BGMVolume = 50;
+    public int SFXVolume = 50;
+
+    //기본 생성자
+    public SettingsData() { }
+
+    //복사 생성자
+    public SettingsData(SettingsData other)
+    {
+        ResolutionIndex = other.ResolutionIndex;
+        IsFullScreen = other.IsFullScreen;
+        RefreshRate = other.RefreshRate;
+        MasterVolume = other.MasterVolume;
+        BGMVolume = other.BGMVolume;
+        SFXVolume = other.SFXVolume;
+    }
 }

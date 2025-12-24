@@ -3,21 +3,23 @@ using System;
 /// <summary>
 /// 일시정지 UI 프레젠터
 /// </summary>
-public class PausePresenter : IPresenter
+public class PausePresenter : IPresenter, ICancelable
 {
     #region 레퍼런스
     private PauseUI _pauseUI;
     private SettingsPresenter _settingsPresenter;
+    private ICancelableManager _cancelableManager;
     #endregion
 
     #region 이벤트
-    public event Action OnResumeButtonClicked;
+    public event Action OnPuaseUIClosed;
     #endregion
 
-    public PausePresenter(PauseUI pauseUI, SettingsPresenter settingsPresenter)
+    public PausePresenter(PauseUI pauseUI, SettingsPresenter settingsPresenter, ICancelableManager cancelableManager)
     {
         _pauseUI = pauseUI;
         _settingsPresenter = settingsPresenter;
+        _cancelableManager = cancelableManager;
     }
 
     #region 초기화, 리셋
@@ -43,8 +45,6 @@ public class PausePresenter : IPresenter
         _pauseUI.OnResumeButtonClicked += HandleOnResumeButtonClicked;
         _pauseUI.OnSettingsButtonClicked += HandleOnSettingsButtonClicked;
         _pauseUI.OnMainMenuButtonClicked += HandleOnMainMenuButtonClicked;
-
-        _settingsPresenter.OnClosed += HandleOnCloseButtonClicked;
     }
 
     private void UnregisterEvents()
@@ -52,20 +52,19 @@ public class PausePresenter : IPresenter
         _pauseUI.OnResumeButtonClicked -= HandleOnResumeButtonClicked;
         _pauseUI.OnSettingsButtonClicked -= HandleOnSettingsButtonClicked;
         _pauseUI.OnMainMenuButtonClicked -= HandleOnMainMenuButtonClicked;
-
-        _settingsPresenter.OnClosed -= HandleOnCloseButtonClicked;
     }
     #endregion
 
     #region 이벤트 핸들러
     private void HandleOnResumeButtonClicked()
     {
-        OnResumeButtonClicked?.Invoke();
+        //닫기
+        Hide();
     }
 
     private void HandleOnSettingsButtonClicked()
     {
-        _pauseUI.Hide(0f);
+        //설정 UI 표시
         _settingsPresenter.Show();
     }
 
@@ -74,22 +73,34 @@ public class PausePresenter : IPresenter
         //TODO: MainMenu로 이동
         $"MainMenu로 이동".Log();
     }
-
-    private void HandleOnCloseButtonClicked()
-    {
-        _pauseUI.Show(0f);
-    }
     #endregion
 
     #region Show, Hide
-    public void Show() => _pauseUI.Show();
+    public void Show()
+    {
+        //일시정지 UI 표시
+        _pauseUI.Show();
+
+        //취소 가능한 항목으로 등록
+        _cancelableManager.PushCancelable(this);
+    }
+
     public void Hide()
     {
-        //설정 UI 숨기기
-        _settingsPresenter.Hide();
-
         //일시정지 UI 숨기기
         _pauseUI.Hide();
+
+        //취소 가능한 항목에서 제거
+        _cancelableManager.PopCancelable(this);
+
+        //닫힘 이벤트 호출
+        OnPuaseUIClosed?.Invoke();
+    }
+
+    public void Cancel()
+    {
+        //닫기 처리
+        Hide();
     }
     #endregion
 }
