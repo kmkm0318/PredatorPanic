@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2112202094565045607}
   - component: {fileID: 6790395661361880013}
   - component: {fileID: 2550955865852133986}
+  - component: {fileID: 3509011000221760773}
   m_Layer: 5
   m_Name: InventoryProductSlotUI
   m_TagString: Untagged
@@ -63,8 +64,6 @@ MonoBehaviour:
   _nameText: {fileID: 0}
   _priceText: {fileID: 0}
   _pointerHandler: {fileID: 2550955865852133986}
-  _hoverSfxData: {fileID: 11400000, guid: ab90ee5688293c1469d77c7c5610531c, type: 2}
-  _clickSfxData: {fileID: 11400000, guid: 0c6c98bea564ba94099310043e1ece40, type: 2}
 --- !u!114 &2550955865852133986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +76,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b95ba79ea3826ea4aaa8cb31f231dde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PointerHandler
+--- !u!114 &3509011000221760773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7791851914602490353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2fcb07e3842bc4ea26975e7629a889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PointerSfxPlayer
+  _pointerHandler: {fileID: 2550955865852133986}
+  _enterSfxData: {fileID: 11400000, guid: ab90ee5688293c1469d77c7c5610531c, type: 2}
+  _exitSfxData: {fileID: 0}
+  _downSfxData: {fileID: 0}
+  _upSfxData: {fileID: 0}
+  _clickSfxData: {fileID: 11400000, guid: 0c6c98bea564ba94099310043e1ece40, type: 2}
 --- !u!1001 &8052533580582778231
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -23,10 +23,6 @@ public class LevelUpRewardSelectUI : ShowHideUI
     [SerializeField] private float _duration = 0.1f;
     [SerializeField] private Ease _easeType = Ease.OutBack;
 
-    [Header("Audio Data")]
-    [SerializeField] private AudioData _hoverSfxData;
-    [SerializeField] private AudioData _clickSfxData;
-
     #region 데이터
     public LevelUpRewardData Data { get; private set; }
     #endregion
@@ -74,9 +70,6 @@ public class LevelUpRewardSelectUI : ShowHideUI
     {
         //패널 스케일 크게
         SetPanelScale(_bigScale);
-
-        //효과음 재생
-        AudioManager.Instance.PlaySfx(_hoverSfxData);
     }
 
     private void OnPointerExited()
@@ -99,9 +92,6 @@ public class LevelUpRewardSelectUI : ShowHideUI
 
     private void OnPointerClicked()
     {
-        //효과음 재생
-        AudioManager.Instance.PlaySfx(_clickSfxData);
-
         //클릭 이벤트 호출
         OnClicked?.Invoke(Data);
     }

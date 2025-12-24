@@ -15,10 +15,6 @@ public class ProductSlotUI : MonoBehaviour
     [SerializeField] private TMP_Text _priceText;
     [SerializeField] private PointerHandler _pointerHandler;
 
-    [Header("Audio Data")]
-    [SerializeField] private AudioData _hoverSfxData;
-    [SerializeField] private AudioData _clickSfxData;
-
     #region 타겟 상품
     private IProduct _product;
     #endregion
@@ -46,9 +42,6 @@ public class ProductSlotUI : MonoBehaviour
     #region 이벤트 핸들러
     private void HandleOnPointerEntered()
     {
-        //효과음 재생
-        AudioManager.Instance.PlaySfx(_hoverSfxData);
-
         //이벤트 호출
         OnPointerEntered?.Invoke(_product);
     }
@@ -61,9 +54,6 @@ public class ProductSlotUI : MonoBehaviour
 
     private void HandleOnPointerClicked()
     {
-        //효과음 재생
-        AudioManager.Instance.PlaySfx(_clickSfxData);
-
         //이벤트 호출
         OnClicked?.Invoke(_product);
     }

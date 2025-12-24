@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 581918871227444237}
   - component: {fileID: 881125276519115503}
   - component: {fileID: 8646743013696435507}
+  - component: {fileID: 4323050100967016216}
   m_Layer: 5
   m_Name: TextButton
   m_TagString: Untagged
@@ -134,6 +135,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b95ba79ea3826ea4aaa8cb31f231dde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PointerHandler
+--- !u!114 &4323050100967016216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964676618950384709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2fcb07e3842bc4ea26975e7629a889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PointerSfxPlayer
+  _pointerHandler: {fileID: 8646743013696435507}
+  _enterSfxData: {fileID: 11400000, guid: 0b1959fba735f5d47b2c258671fb6875, type: 2}
+  _exitSfxData: {fileID: 0}
+  _downSfxData: {fileID: 0}
+  _upSfxData: {fileID: 0}
+  _clickSfxData: {fileID: 11400000, guid: 0b1959fba735f5d47b2c258671fb6875, type: 2}
 --- !u!1 &6245221733030840591
 GameObject:
   m_ObjectHideFlags: 0

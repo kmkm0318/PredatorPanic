@@ -370,9 +370,10 @@ GameObject:
   - component: {fileID: 2876003776262544116}
   - component: {fileID: 2112202094565045607}
   - component: {fileID: 3816401233511409153}
+  - component: {fileID: 5992078505617904425}
   - component: {fileID: 6790395661361880013}
   - component: {fileID: 2550955865852133986}
-  - component: {fileID: 5992078505617904425}
+  - component: {fileID: 8398540607133402129}
   m_Layer: 5
   m_Name: ShopProductSlotUI
   m_TagString: Untagged
@@ -439,36 +440,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6790395661361880013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7791851914602490353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9539ea61eadc69844927de28af11bb61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProductSlotUI
-  _iconSlot: {fileID: 4860601908576163077}
-  _nameText: {fileID: 2953281148972262276}
-  _priceText: {fileID: 6991496727286298814}
-  _pointerHandler: {fileID: 2550955865852133986}
-  _hoverSfxData: {fileID: 11400000, guid: ab90ee5688293c1469d77c7c5610531c, type: 2}
-  _clickSfxData: {fileID: 11400000, guid: 0c6c98bea564ba94099310043e1ece40, type: 2}
---- !u!114 &2550955865852133986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7791851914602490353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b95ba79ea3826ea4aaa8cb31f231dde4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PointerHandler
 --- !u!114 &5992078505617904425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,6 +466,52 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &6790395661361880013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7791851914602490353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9539ea61eadc69844927de28af11bb61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProductSlotUI
+  _iconSlot: {fileID: 4860601908576163077}
+  _nameText: {fileID: 2953281148972262276}
+  _priceText: {fileID: 6991496727286298814}
+  _pointerHandler: {fileID: 2550955865852133986}
+--- !u!114 &2550955865852133986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7791851914602490353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b95ba79ea3826ea4aaa8cb31f231dde4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PointerHandler
+--- !u!114 &8398540607133402129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7791851914602490353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2fcb07e3842bc4ea26975e7629a889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PointerSfxPlayer
+  _pointerHandler: {fileID: 2550955865852133986}
+  _enterSfxData: {fileID: 11400000, guid: ab90ee5688293c1469d77c7c5610531c, type: 2}
+  _exitSfxData: {fileID: 0}
+  _downSfxData: {fileID: 0}
+  _upSfxData: {fileID: 0}
+  _clickSfxData: {fileID: 11400000, guid: 0c6c98bea564ba94099310043e1ece40, type: 2}
 --- !u!1 &9204489201491089572
 GameObject:
   m_ObjectHideFlags: 0

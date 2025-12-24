@@ -25,10 +25,6 @@ public class ShopUI : ShowHideUI
     [Header("Next Round")]
     [SerializeField] private PointerHandler _nextRoundButton;
 
-    [Header("Audio Data")]
-    [SerializeField] private AudioData _buttonHoverAudioData;
-    [SerializeField] private AudioData _buttonClickAudioData;
-
     #region 오브젝트 풀
     private ObjectPool<ProductSlotUI> _shopProductSlotUIpool;
     private ObjectPool<ProductSlotUI> _inventoryProductSlotUIpool;
@@ -48,39 +44,19 @@ public class ShopUI : ShowHideUI
     //초기화
     public void Init()
     {
-        _refreshButton.OnPointerEntered += HandleRefreshButtonEntered;
         _refreshButton.OnPointerClicked += HandleRefreshButtonClicked;
 
-        _nextRoundButton.OnPointerEntered += HandleNextRoundButtonEntered;
         _nextRoundButton.OnPointerClicked += HandleNextRoundButtonClicked;
-    }
-
-    private void HandleRefreshButtonEntered()
-    {
-        //버튼 호버 사운드 재생
-        AudioManager.Instance.PlaySfx(_buttonHoverAudioData);
     }
 
     private void HandleRefreshButtonClicked()
     {
-        //버튼 클릭 사운드 재생
-        AudioManager.Instance.PlaySfx(_buttonClickAudioData);
-
         //이벤트 호출
         OnRefreshButtonClicked?.Invoke();
     }
 
-    private void HandleNextRoundButtonEntered()
-    {
-        //버튼 호버 사운드 재생
-        AudioManager.Instance.PlaySfx(_buttonHoverAudioData);
-    }
-
     private void HandleNextRoundButtonClicked()
     {
-        //버튼 클릭 사운드 재생
-        AudioManager.Instance.PlaySfx(_buttonClickAudioData);
-
         //이벤트 호출
         OnNextRoundButtonClicked?.Invoke();
     }
