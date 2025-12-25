@@ -76,7 +76,7 @@ public class ConfirmPopupPresenter : IPresenter, ICancelable
 
     public void Cancel()
     {
-        //취소로 처리
+        //취소 버튼을 누른 것으로 처리
         HandleOnCancelled();
     }
 }

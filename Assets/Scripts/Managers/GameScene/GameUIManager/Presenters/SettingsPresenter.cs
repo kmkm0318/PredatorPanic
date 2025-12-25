@@ -21,6 +21,10 @@ public class SettingsPresenter : IPresenter, ICancelable
     private SettingsData _tempData;
     #endregion
 
+    #region 이벤트
+    public event Action OnClosed;
+    #endregion
+
     //생성자
     public SettingsPresenter(SettingsManager settingsManager, SettingsUI settingsUI, ConfirmPopupPresenter confirmPopupPresenter, ICancelableManager cancelableManager)
     {
@@ -176,6 +180,9 @@ public class SettingsPresenter : IPresenter, ICancelable
 
             //Cancelable 매니저에서 제거
             _cancelableManager.PopCancelable(this);
+
+            //닫힘 이벤트 호출
+            OnClosed?.Invoke();
         }
         else
         {
@@ -225,7 +232,7 @@ public class SettingsPresenter : IPresenter, ICancelable
 
     public void Cancel()
     {
-        //닫기 처리
-        Hide();
+        //닫기 버튼을 누른 것으로 처리
+        HandleOnCloseButtonClicked();
     }
 }

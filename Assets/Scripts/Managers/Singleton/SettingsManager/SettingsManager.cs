@@ -84,13 +84,13 @@ public class SettingsManager : Singleton<SettingsManager>
             catch
             {
                 //오류 발생 시 기본 설정 생성
-                CurrentData = new SettingsData();
+                CurrentData = new();
             }
         }
         else
         {
             //파일이 존재하지 않으면 기본 설정 생성
-            CurrentData = new SettingsData();
+            CurrentData = new();
         }
     }
     #endregion

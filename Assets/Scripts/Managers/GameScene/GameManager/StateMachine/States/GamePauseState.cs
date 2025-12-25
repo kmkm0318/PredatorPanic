@@ -45,17 +45,17 @@ public class GamePauseState : GameBaseState
     #region 이벤트 구독, 해제
     private void RegisterEvents()
     {
-        GameManager.GameUIManager.PausePresenter.OnPuaseUIClosed += HandleOnPuaseUIClosed;
+        GameManager.GameUIManager.PausePresenter.OnResumeRequested += HandleOnResumeRequested;
     }
 
     private void UnregisterEvents()
     {
-        GameManager.GameUIManager.PausePresenter.OnPuaseUIClosed -= HandleOnPuaseUIClosed;
+        GameManager.GameUIManager.PausePresenter.OnResumeRequested -= HandleOnResumeRequested;
     }
     #endregion
 
     #region 이벤트 핸들러
-    private void HandleOnPuaseUIClosed()
+    private void HandleOnResumeRequested()
     {
         ChangeState(Factory.Playing);
     }
