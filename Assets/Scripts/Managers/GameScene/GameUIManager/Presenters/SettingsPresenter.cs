@@ -6,6 +6,10 @@ using System.Collections.Generic;
 /// </summary>
 public class SettingsPresenter : IPresenter, ICancelable
 {
+    #region 상수
+    private const float SLIDER_MIN_DIFFERENCE = 0.01f;
+    #endregion
+
     #region 레퍼런스
     private SettingsManager _settingsManager;
     private SettingsUI _settingsUI;
@@ -52,6 +56,7 @@ public class SettingsPresenter : IPresenter, ICancelable
         _settingsUI.OnMasterVolumeChanged += HandleOnMasterVolumeChanged;
         _settingsUI.OnBGMVolumeChanged += HandleOnBGMVolumeChanged;
         _settingsUI.OnSFXVolumeChanged += HandleOnSFXVolumeChanged;
+        _settingsUI.OnSensitivityChanged += HandleOnSensitivityChanged;
         _settingsUI.OnSaveButtonClicked += HandleOnSaveButtonClicked;
         _settingsUI.OnCloseButtonClicked += HandleOnCloseButtonClicked;
     }
@@ -64,6 +69,7 @@ public class SettingsPresenter : IPresenter, ICancelable
         _settingsUI.OnMasterVolumeChanged -= HandleOnMasterVolumeChanged;
         _settingsUI.OnBGMVolumeChanged -= HandleOnBGMVolumeChanged;
         _settingsUI.OnSFXVolumeChanged -= HandleOnSFXVolumeChanged;
+        _settingsUI.OnSensitivityChanged -= HandleOnSensitivityChanged;
         _settingsUI.OnSaveButtonClicked -= HandleOnSaveButtonClicked;
         _settingsUI.OnCloseButtonClicked -= HandleOnCloseButtonClicked;
     }
@@ -98,6 +104,11 @@ public class SettingsPresenter : IPresenter, ICancelable
     private void HandleOnSFXVolumeChanged(int sfxVolume)
     {
         _tempData.SFXVolume = sfxVolume;
+    }
+
+    private void HandleOnSensitivityChanged(float sensitivity)
+    {
+        _tempData.Sensitivity = sensitivity;
     }
 
     private void HandleOnSaveButtonClicked()
@@ -152,6 +163,7 @@ public class SettingsPresenter : IPresenter, ICancelable
         _settingsUI.SetMasterVolumeSlider(_tempData.MasterVolume);
         _settingsUI.SetBGMVolumeSlider(_tempData.BGMVolume);
         _settingsUI.SetSFXVolumeSlider(_tempData.SFXVolume);
+        _settingsUI.SetSensitivitySlider(_tempData.Sensitivity);
     }
 
     public void Hide(bool isForce = false)
@@ -205,9 +217,10 @@ public class SettingsPresenter : IPresenter, ICancelable
         return originalData.ResolutionIndex != _tempData.ResolutionIndex ||
                originalData.RefreshRate != _tempData.RefreshRate ||
                originalData.IsFullScreen != _tempData.IsFullScreen ||
-               Math.Abs(originalData.MasterVolume - _tempData.MasterVolume) > 0.01f ||
-               Math.Abs(originalData.BGMVolume - _tempData.BGMVolume) > 0.01f ||
-               Math.Abs(originalData.SFXVolume - _tempData.SFXVolume) > 0.01f;
+               Math.Abs(originalData.MasterVolume - _tempData.MasterVolume) > SLIDER_MIN_DIFFERENCE ||
+               Math.Abs(originalData.BGMVolume - _tempData.BGMVolume) > SLIDER_MIN_DIFFERENCE ||
+               Math.Abs(originalData.SFXVolume - _tempData.SFXVolume) > SLIDER_MIN_DIFFERENCE ||
+               Math.Abs(originalData.Sensitivity - _tempData.Sensitivity) > SLIDER_MIN_DIFFERENCE;
     }
 
     public void Cancel()

@@ -19,6 +19,9 @@ public class SettingsUI : ShowHideUI
     [SerializeField] private Slider _bgmVolumeSlider;
     [SerializeField] private Slider _sfxVolumeSlider;
 
+    [Header("Input Settings")]
+    [SerializeField] private Slider _sensitivitySlider;
+
     [Header("Buttons")]
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _closeButton;
@@ -30,6 +33,7 @@ public class SettingsUI : ShowHideUI
     public event Action<int> OnMasterVolumeChanged;
     public event Action<int> OnBGMVolumeChanged;
     public event Action<int> OnSFXVolumeChanged;
+    public event Action<float> OnSensitivityChanged;
     public event Action OnSaveButtonClicked;
     public event Action OnCloseButtonClicked;
     #endregion
@@ -50,6 +54,9 @@ public class SettingsUI : ShowHideUI
         _masterVolumeSlider.onValueChanged.AddListener(value => OnMasterVolumeChanged?.Invoke((int)value));
         _bgmVolumeSlider.onValueChanged.AddListener(value => OnBGMVolumeChanged?.Invoke((int)value));
         _sfxVolumeSlider.onValueChanged.AddListener(value => OnSFXVolumeChanged?.Invoke((int)value));
+
+        //민감도 슬라이더 설정
+        _sensitivitySlider.onValueChanged.AddListener(value => OnSensitivityChanged?.Invoke(value));
 
         //저장 버튼 설정
         _saveButton.onClick.AddListener(() => OnSaveButtonClicked?.Invoke());
@@ -100,6 +107,12 @@ public class SettingsUI : ShowHideUI
     {
         //SFX 볼륨 슬라이더 설정
         _sfxVolumeSlider.SetValueWithoutNotify(volume);
+    }
+
+    public void SetSensitivitySlider(float sensitivity)
+    {
+        //민감도 슬라이더 설정
+        _sensitivitySlider.SetValueWithoutNotify(sensitivity);
     }
     #endregion
 }

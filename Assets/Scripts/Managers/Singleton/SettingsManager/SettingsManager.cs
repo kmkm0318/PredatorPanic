@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,10 @@ public class SettingsManager : Singleton<SettingsManager>
     private string _savePath;
     public SettingsData CurrentData { get; private set; }
     public List<(int, int)> ResolutionOptions { get; private set; } = new();
+    #endregion
+
+    #region 이벤트
+    public event Action<SettingsData> OnSettingsChanged;
     #endregion
 
     protected override void Awake()
@@ -93,7 +98,11 @@ public class SettingsManager : Singleton<SettingsManager>
     #region 설정 변경 및 적용
     public void ChangeSettings(SettingsData newData)
     {
+        //설정 변경
         CurrentData = newData;
+
+        //이벤트 호출
+        OnSettingsChanged?.Invoke(CurrentData);
     }
 
     public void ApplySettings()

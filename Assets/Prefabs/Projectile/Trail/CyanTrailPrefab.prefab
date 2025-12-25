@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: efcaeb36f029e0d439f936525c155d61, type: 2}
     - target: {fileID: 6918927831433283349, guid: c36662d8bd2e7384ab6659e0c54c2421, type: 3}
       propertyPath: m_Name
-      value: LightningTrailPrefab
+      value: CyanTrailPrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

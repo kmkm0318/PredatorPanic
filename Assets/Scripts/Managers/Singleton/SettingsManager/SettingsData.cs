@@ -16,6 +16,9 @@ public class SettingsData
     public int BGMVolume = 50;
     public int SFXVolume = 50;
 
+    //입력 설정
+    public float Sensitivity = 1.0f;
+
     //기본 생성자
     public SettingsData() { }
 
@@ -28,5 +31,6 @@ public class SettingsData
         MasterVolume = other.MasterVolume;
         BGMVolume = other.BGMVolume;
         SFXVolume = other.SFXVolume;
+        Sensitivity = other.Sensitivity;
     }
 }
