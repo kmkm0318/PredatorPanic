@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -18,6 +19,13 @@ public class Trail : MonoBehaviour
 
     #region 레퍼런스
     private TrailManager _trailManager;
+    private Transform _targetTransform;
+    #endregion
+
+    #region 라이프타임
+    private bool _isLifetimeRunning = false;
+    private float _lifetimeElapsed = 0f;
+    private float _lifetimeDuration = 0f;
     #endregion
 
     //컴포넌트 가져오기
@@ -33,35 +41,96 @@ public class Trail : MonoBehaviour
         _trailManager = trailManager;
     }
 
-    //불릿에 부착
+    private void Update()
+    {
+        HandleLifetime();
+    }
+
+    private void LateUpdate()
+    {
+        HandleMovement();
+    }
+
+    #region 총알 관련
+    private void HandleMovement()
+    {
+        //비활성화 시 패스
+        if (!gameObject.activeSelf) return;
+
+        //타겟이 없으면 패스
+        if (_targetTransform == null) return;
+
+        //트레일 위치 갱신
+        transform.position = _targetTransform.position;
+    }
+
     public void AttachToBullet(Bullet bullet)
     {
-        //부모로 설정 및 위치, 방향 초기화
-        transform.SetParent(bullet.transform, false);
-        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //타겟으로 설정
+        _targetTransform = bullet.transform;
+
+        //위치 초기화
+        transform.position = _targetTransform.position;
 
         //트레일 초기화
         _trailRenderer.Clear();
         _trailRenderer.emitting = true;
     }
 
-    //불릿에서 분리
     public void DetachFromBullet()
     {
-        //부모를 트레일 매니저로 변경
-        transform.SetParent(_trailManager.transform, true);
+        //타겟 해제
+        _targetTransform = null;
 
         //트레일 방출 중지
         _trailRenderer.emitting = false;
 
         //일정 시간 후 트레일 반환
-        StartCoroutine(DelayReleaseCoroutine());
+        StartLifetime(_trailRenderer.time);
+    }
+    #endregion
+
+    #region 라이프 타임
+    private void HandleLifetime()
+    {
+        // 비활성화 시 패스
+        if (!gameObject.activeSelf) return;
+
+        //라이프타임이 동작 중이지 않으면 패스
+        if (!_isLifetimeRunning) return;
+
+        //경과 시간 갱신
+        _lifetimeElapsed += Time.deltaTime;
+
+        //지속 시간 경과 시
+        if (_lifetimeElapsed >= _lifetimeDuration)
+        {
+            //비활성화
+            StopLifetime();
+        }
     }
 
-    private IEnumerator DelayReleaseCoroutine()
+    private void StartLifetime(float duration)
     {
-        yield return new WaitForSeconds(_trailRenderer.time);
+        //기존 라이프타임 중지
+        StopLifetime();
 
+        //변수 설정
+        _lifetimeDuration = duration;
+        _lifetimeElapsed = 0f;
+        _isLifetimeRunning = true;
+    }
+
+    private void StopLifetime()
+    {
+        //라이프 타임이 동작 중이지 않으면 패스
+        if (!_isLifetimeRunning) return;
+
+        //변수 초기화
+        _isLifetimeRunning = false;
+
+        //트레일 반환
         _trailManager.ReleaseTrail(this);
     }
+    #endregion
 }

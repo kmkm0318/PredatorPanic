@@ -18,13 +18,24 @@ public class Explosion : MonoBehaviour
     private ExplosionManager _explosionManager;
     #endregion
 
+    #region 라이프타임
+    private bool _isLifetimeRunning = false;
+    private float _lifetimeElapsed = 0f;
+    private float _lifetimeDuration = 0f;
+    #endregion
+
     public void Init(ExplosionData explosionData, ExplosionManager explosionManager)
     {
         ExplosionData = explosionData;
         _explosionManager = explosionManager;
     }
 
-    #region 폭발 및 반환
+    private void Update()
+    {
+        HandleLifetime();
+    }
+
+    #region 폭발
     public void Explode(in ExplosionExplodeContext context)
     {
         //위치 설정
@@ -78,15 +89,48 @@ public class Explosion : MonoBehaviour
             enemy.TakeDamage(damageContext);
         }
 
-        //폭발 후 반환 코루틴 시작
-        StartCoroutine(DelayedReleaseCoroutine());
+        //폭발 라이프타임 시작
+        StartLifetime(ExplosionData.VisualDuration);
+    }
+    #endregion
+
+    #region 라이프타임
+    private void HandleLifetime()
+    {
+        //비활성화 시 패스
+        if (!gameObject.activeSelf) return;
+
+        //라이프타임이 동작 중이지 않으면 패스
+        if (!_isLifetimeRunning) return;
+
+        //경과 시간 누적
+        _lifetimeElapsed += Time.deltaTime;
+
+        //지정된 지속 시간 도달 시 폭발 반환
+        if (_lifetimeElapsed >= _lifetimeDuration)
+        {
+            StopLifetime();
+        }
     }
 
-    //지연 반환 코루틴
-    private IEnumerator DelayedReleaseCoroutine()
+    private void StartLifetime(float duration)
     {
-        //지연 대기
-        yield return new WaitForSeconds(ExplosionData.VisualDuration);
+        //기존 라이프타임 중지
+        StopLifetime();
+
+        //변수 설정
+        _lifetimeDuration = duration;
+        _lifetimeElapsed = 0f;
+        _isLifetimeRunning = true;
+    }
+
+    private void StopLifetime()
+    {
+        //라이프 타임이 동작 중이지 않으면 패스
+        if (!_isLifetimeRunning) return;
+
+        //변수 초기화
+        _isLifetimeRunning = false;
 
         //폭발 반환
         _explosionManager.ReleaseExplosion(this);

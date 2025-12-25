@@ -32,8 +32,10 @@ public class Bullet : MonoBehaviour
     private int _remainRicochetCount = 0; //남은 튕김 횟수
     #endregion
 
-    #region 코루틴
-    private Coroutine _lifetimeCoroutine;
+    #region 라이프타임
+    private bool _isLifetimeRunning = false;
+    private float _lifetimeElapsed = 0f;
+    private float _lifetimeDuration = 0f;
     #endregion
 
     #region 초기화
@@ -46,18 +48,20 @@ public class Bullet : MonoBehaviour
     }
     #endregion
 
-    private void FixedUpdate()
+    private void Update()
     {
+        HandleLifetime();
         HandleMovement();
     }
 
+    #region 이동
     private void HandleMovement()
     {
         // 비활성화 시 패스
         if (!gameObject.activeSelf) return;
 
         //거리 계산
-        var distance = _speed * Time.fixedDeltaTime;
+        var distance = _speed * Time.deltaTime;
 
         //레이캐스트로 충돌 판단
         var hitCount = Physics.RaycastNonAlloc(_lastPosition, _fireDirection, _hits, distance, _context.HitLayerMask, QueryTriggerInteraction.Collide);
@@ -75,6 +79,7 @@ public class Bullet : MonoBehaviour
         _lastPosition = transform.position;
         transform.position += _fireDirection * distance;
     }
+    #endregion
 
     #region 발사
     //총알 발사
@@ -285,27 +290,47 @@ public class Bullet : MonoBehaviour
     }
     #endregion
 
-    #region 라이프타임 코루틴
-    private IEnumerator LifetimeCoroutine(float duration)
+    #region 라이프타임
+    private void HandleLifetime()
     {
-        yield return new WaitForSeconds(duration);
-        StopLifetime();
+        // 비활성화 시 패스
+        if (!gameObject.activeSelf) return;
+
+        //라이프타임이 동작 중이지 않으면 패스
+        if (!_isLifetimeRunning) return;
+
+        //경과 시간 갱신
+        _lifetimeElapsed += Time.deltaTime;
+
+        //지속 시간 경과 시
+        if (_lifetimeElapsed >= _lifetimeDuration)
+        {
+            //비활성화
+            StopLifetime();
+        }
     }
 
     private void StartLifetime(float duration)
     {
+        //기존 라이프타임 중지
         StopLifetime();
-        _lifetimeCoroutine = StartCoroutine(LifetimeCoroutine(duration));
+
+        //변수 설정
+        _lifetimeDuration = duration;
+        _lifetimeElapsed = 0f;
+        _isLifetimeRunning = true;
     }
 
     private void StopLifetime()
     {
-        if (_lifetimeCoroutine != null)
-        {
-            StopCoroutine(_lifetimeCoroutine);
-            _lifetimeCoroutine = null;
-            ReleaseBullet();
-        }
+        //라이프 타임이 동작 중이지 않으면 패스
+        if (!_isLifetimeRunning) return;
+
+        //변수 초기화
+        _isLifetimeRunning = false;
+
+        //총알 반환
+        ReleaseBullet();
     }
     #endregion
 }

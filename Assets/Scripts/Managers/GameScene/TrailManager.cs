@@ -68,7 +68,6 @@ public class TrailManager : MonoBehaviour
     /// </summary>
     public void ReleaseTrail(Trail trail)
     {
-        trail.transform.SetParent(transform);
         var pool = GetPool(trail.TrailData);
         pool.Release(trail);
     }
