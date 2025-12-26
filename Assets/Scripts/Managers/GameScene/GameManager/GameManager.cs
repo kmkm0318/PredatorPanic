@@ -110,6 +110,9 @@ public class GameManager : MonoBehaviour
 
         //기본 무기 장착
         Player.TryAddWeapon(_weaponData);
+
+        //스폰 애니메이션 재생
+        Player.OnSpawn();
     }
 
     // 시네머신 카메라 초기화

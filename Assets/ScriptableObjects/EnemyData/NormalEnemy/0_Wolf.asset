@@ -27,6 +27,6 @@ MonoBehaviour:
   _dropItemTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}
   _hitAudio: {fileID: 0}
   _deathAudio: {fileID: 0}
-  _spawnVisualOffsetY: 10
+  _spawnVisualOffsetY: -10
   _spawnVisualDuration: 0.5
   _spawnVisualEase: 27

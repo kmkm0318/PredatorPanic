@@ -11,7 +11,7 @@ public class PlayerJumpState : PlayerBaseState
     public override void Enter()
     {
         //점프 애니메이션 재생 및 초기 점프 속도 설정
-        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsJumpingHash, true);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerVisual.IsJumpingHash, true);
         PlayerController.MovementY = PlayerController.InitialJumpSpeed;
 
         //서브 상태 초기화
@@ -37,7 +37,7 @@ public class PlayerJumpState : PlayerBaseState
         SubState?.Exit();
 
         //점프 애니메이션 종료
-        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsJumpingHash, false);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerVisual.IsJumpingHash, false);
     }
 
     public override void InitSubState()

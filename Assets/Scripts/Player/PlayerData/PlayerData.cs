@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 /// <summary>
@@ -33,4 +34,12 @@ public class PlayerData : ScriptableObject
     [Header("Item Pickup")]
     [SerializeField] private float _itemPickupRadiusSqr = 4f;
     public float ItemPickupRadiusSqr => _itemPickupRadiusSqr;
+
+    [Header("Spawn Animation Data")]
+    [SerializeField] private float _spawnVisualOffsetY = -10f;
+    [SerializeField] private float _spawnVisualDuration = 0.5f;
+    [SerializeField] private Ease _spawnVisualEase = Ease.OutBack;
+    public float SpawnVisualOffsetY => _spawnVisualOffsetY;
+    public float SpawnVisualDuration => _spawnVisualDuration;
+    public Ease SpawnVisualEase => _spawnVisualEase;
 }

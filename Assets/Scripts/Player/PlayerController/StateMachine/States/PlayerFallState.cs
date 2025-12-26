@@ -13,7 +13,7 @@ public class PlayerFallState : PlayerBaseState
     public override void Enter()
     {
         //떨어지는 애니메이션 재생
-        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsFallingHash, true);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerVisual.IsFallingHash, true);
 
         //서브 상태 초기화
         InitSubState();
@@ -41,7 +41,7 @@ public class PlayerFallState : PlayerBaseState
         SubState?.Exit();
 
         //떨어지는 애니메이션 종료
-        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsFallingHash, false);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerVisual.IsFallingHash, false);
     }
 
     public override void InitSubState()

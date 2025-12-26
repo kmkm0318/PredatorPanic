@@ -8,7 +8,7 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void Enter()
     {
-        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsMovingHash, true);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerVisual.IsMovingHash, true);
     }
 
     public override void Update()
@@ -22,7 +22,7 @@ public class PlayerMoveState : PlayerBaseState
     {
         PlayerController.MovementX = 0;
         PlayerController.MovementZ = 0;
-        PlayerController.PlayerVisual.Animator.SetBool(PlayerController.PlayerVisual.IsMovingHash, false);
+        PlayerController.PlayerVisual.Animator.SetBool(PlayerVisual.IsMovingHash, false);
     }
 
     public override void CheckChangeState()

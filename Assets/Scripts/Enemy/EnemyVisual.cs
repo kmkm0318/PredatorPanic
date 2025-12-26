@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -16,8 +15,9 @@ public class EnemyVisual : MonoBehaviour
     // 머티리얼 프로퍼티 블럭
     private MaterialPropertyBlock _mpb;
 
-    #region 플래시
-    static readonly int _FlashID = Shader.PropertyToID("_Flash");
+    #region 히트 플래시
+    static readonly int _emissionColorHash = Shader.PropertyToID("_EmissionColor");
+    static readonly Color _hitFlashColor = Color.white;
     bool _isFlashing = false;
     float _flashTimer = 0f;
     #endregion
@@ -74,7 +74,7 @@ public class EnemyVisual : MonoBehaviour
         {
             _isFlashing = true;
 
-            SetFlashValue(1f);
+            SetFlashValue(true);
         }
 
         //타이머 초기화
@@ -86,16 +86,21 @@ public class EnemyVisual : MonoBehaviour
         // 플래시 종료
         _isFlashing = false;
 
-        SetFlashValue(0f);
+        SetFlashValue(false);
     }
 
     /// 플래시 값 설정
-    private void SetFlashValue(float value)
+    private void SetFlashValue(bool isFlashing)
     {
         foreach (var renderer in _renderers)
         {
+            //MPB 가져오기
             renderer.GetPropertyBlock(_mpb);
-            _mpb.SetFloat(_FlashID, value);
+
+            //색 설정
+            _mpb.SetColor(_emissionColorHash, isFlashing ? _hitFlashColor : Color.black);
+
+            //MPB 다시 설정
             renderer.SetPropertyBlock(_mpb);
         }
     }
@@ -103,15 +108,16 @@ public class EnemyVisual : MonoBehaviour
     public void PlaySpawnAnimation(float spawnVisualOffsetY, float spawnVisualDuration, Ease spawnVisualEase)
     {
         //이전 트윈이 있으면 종료
-        _spawnTween?.Kill(false);
-
-        //시작 위치 설정
-        Vector3 startPos = transform.localPosition;
-        startPos.y -= spawnVisualOffsetY;
+        _spawnTween?.Kill();
 
         //스폰 애니메이션 실행
         _spawnTween = transform.DOLocalMoveY(0f, spawnVisualDuration)
-            .From(startPos)
-            .SetEase(spawnVisualEase);
+            .From(spawnVisualOffsetY)
+            .SetEase(spawnVisualEase)
+            .OnComplete(() =>
+            {
+                //완료 시 위치 초기화
+                transform.localPosition = Vector3.zero;
+            });
     }
 }

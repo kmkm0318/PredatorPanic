@@ -137,7 +137,13 @@ public class Player : MonoBehaviour
 
     private void OnInvincibleStateChanged(bool isInvincible)
     {
-        //TODO: 무적 상태일 때 비주얼 이펙트 처리
+        _playerVisual.SetInvincibleVisual(isInvincible);
+    }
+
+    // 스폰 시 애니메이션 재생
+    public void OnSpawn()
+    {
+        _playerVisual.PlaySpawnAnimation(PlayerData.SpawnVisualOffsetY, PlayerData.SpawnVisualDuration, PlayerData.SpawnVisualEase);
     }
     #endregion
 

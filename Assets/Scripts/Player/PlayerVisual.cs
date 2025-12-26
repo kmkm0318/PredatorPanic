@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 /// <summary>
@@ -11,24 +12,74 @@ public class PlayerVisual : MonoBehaviour
     public Animator Animator { get; private set; }
     #endregion
 
-    #region 애니메이션 이름, 해시
-    private const string IS_MOVING = "isMoving";
-    private const string IS_JUMPING = "isJumping";
-    private const string IS_FALLING = "isFalling";
-    public int IsMovingHash { get; private set; } = Animator.StringToHash(IS_MOVING);
-    public int IsJumpingHash { get; private set; } = Animator.StringToHash(IS_JUMPING);
-    public int IsFallingHash { get; private set; } = Animator.StringToHash(IS_FALLING);
+    #region 애니메이션 해시
+    public static readonly int IsMovingHash = Animator.StringToHash("isMoving");
+    public static readonly int IsJumpingHash = Animator.StringToHash("isJumping");
+    public static readonly int IsFallingHash = Animator.StringToHash("isFalling");
+    #endregion
+
+    #region 무적 상태 시 EmissionColor 변경
+    private static readonly int _emissionColorHash = Shader.PropertyToID("_EmissionColor");
+    private static readonly Color _invincibleColor = Color.gray;
+    private Renderer[] _renderers;
+    private MaterialPropertyBlock _mpb;
+    #endregion
+
+    #region 스폰 애니메이션
+    private Tween _spawnTween;
     #endregion
 
     private void Awake()
     {
+        //애니메이터 가져오기
         Animator = GetComponent<Animator>();
+
+        //자식 오브젝트의 모든 렌더러 수집
+        _renderers = GetComponentsInChildren<Renderer>();
+
+        //mpb 초기화
+        _mpb = new();
     }
 
-    //무적 상태일 시 반투명화
+    private void OnEnable()
+    {
+        //무적 상태 비주얼 초기화
+        SetInvincibleVisual(false);
+    }
+
+    #region 무적 상태 비주얼 처리
     public void SetInvincibleVisual(bool isInvincible)
     {
-        $"플레이어 무적 상태 변경: {isInvincible}".Log();
-        //TODO: 반투명화 처리
+        //모든 렌더러에 대해 머티리얼 프로퍼티 블럭 설정
+        foreach (var renderer in _renderers)
+        {
+            //MPB 가져옥;
+            renderer.GetPropertyBlock(_mpb);
+
+            //Invincible 설정
+            _mpb.SetColor(_emissionColorHash, isInvincible ? _invincibleColor : Color.black);
+
+            //MPB 다시 설정
+            renderer.SetPropertyBlock(_mpb);
+        }
     }
+    #endregion
+
+    #region 스폰 애니메이션
+    public void PlaySpawnAnimation(float spawnVisualOffsetY, float spawnVisualDuration, Ease spawnVisualEase)
+    {
+        //이전 트윈이 있으면 종료
+        _spawnTween?.Kill();
+
+        //스폰 애니메이션 실행
+        _spawnTween = transform.DOLocalMoveY(0f, spawnVisualDuration)
+            .From(spawnVisualOffsetY)
+            .SetEase(spawnVisualEase)
+            .OnComplete(() =>
+            {
+                //이동 완료 시 위치 초기화
+                transform.localPosition = Vector3.zero;
+            });
+    }
+    #endregion
 }
