@@ -10,6 +10,18 @@ public class GameClearState : GameBaseState
 
     public override void Enter()
     {
+        //게임 클리어 데이터 저장
+        SaveData();
+
+        //인풋 모드 변경
+        InputManager.Instance.ChangeInputMode(InputMode.UI);
+
+        //게임 클리어 UI 표시
+        GameManager.GameUIManager.GameResultPresenter.ShowGameResult("클리어!", GameManager.Player.DNA);
+    }
+
+    private void SaveData()
+    {
         //유저 세이브 데이터 가져오기
         var userSaveData = UserSaveDataManager.Instance.UserSaveData;
 
@@ -21,9 +33,6 @@ public class GameClearState : GameBaseState
 
         //저장
         UserSaveDataManager.Instance.SaveUserSaveData();
-
-        //TODO: 게임 클리어 UI 표시 및 기타 처리
-        $"Game Cleared!".Log();
     }
 
     public override void Update() { }

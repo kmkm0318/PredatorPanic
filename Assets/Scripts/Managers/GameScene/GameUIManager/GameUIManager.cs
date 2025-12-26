@@ -19,6 +19,7 @@ public class GameUIManager : MonoBehaviour, ICancelableManager
     [SerializeField] private SettingsUI _settingsUI;
     [SerializeField] private PauseUI _pauseUI;
     [SerializeField] private ConfirmPopupUI _confirmPopupUI;
+    [SerializeField] private GameResultUI _gameResultUI;
     #endregion
 
     #region MVP 구조를 위한 Presenter들
@@ -33,6 +34,7 @@ public class GameUIManager : MonoBehaviour, ICancelableManager
     public SettingsPresenter SettingsPresenter { get; private set; }
     public PausePresenter PausePresenter { get; private set; }
     public ConfirmPopupPresenter ConfirmPopupPresenter { get; private set; }
+    public GameResultPresenter GameResultPresenter { get; private set; }
     #endregion
 
     #region 레퍼런스
@@ -86,6 +88,9 @@ public class GameUIManager : MonoBehaviour, ICancelableManager
 
         PausePresenter = new PausePresenter(_pauseUI, SettingsPresenter, this);
         PausePresenter.Init();
+
+        GameResultPresenter = new GameResultPresenter(_gameResultUI);
+        GameResultPresenter.Init();
     }
 
     private void OnDestroy()
@@ -98,8 +103,10 @@ public class GameUIManager : MonoBehaviour, ICancelableManager
         TooltipPresenter.Reset();
         PlayerStatPresenter.Reset();
         RoundPresenter.Reset();
+        ConfirmPopupPresenter.Reset();
         SettingsPresenter.Reset();
         PausePresenter.Reset();
+        GameResultPresenter.Reset();
 
         UnregisterEvents();
     }
