@@ -25,3 +25,8 @@ MonoBehaviour:
     _value: 4
   _enemyStatGrowthRate: 1.2
   _dropItemTable: {fileID: 11400000, guid: 26344a7f6cd3cb447828f23e7b216f33, type: 2}
+  _hitAudio: {fileID: 0}
+  _deathAudio: {fileID: 0}
+  _spawnVisualOffsetY: 10
+  _spawnVisualDuration: 0.5
+  _spawnVisualEase: 27

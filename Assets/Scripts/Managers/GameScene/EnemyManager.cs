@@ -234,6 +234,9 @@ public class EnemyManager : MonoBehaviour
         //적 사망 이벤트 등록
         enemy.OnDeath += HandleEnemyDeath;
 
+        //스폰 함수 실행
+        enemy.OnSpawn();
+
         return enemy;
     }
 

@@ -113,6 +113,9 @@ public class Enemy : MonoBehaviour
 
         if (Health.IsDead)
         {
+            //사망 사운드 재생
+            AudioManager.Instance.PlaySfx(EnemyData.DeathAudio, transform.position);
+
             //사망 시 플레이어에게 처치 처리 알림
             context.Player.HandleOnKill(context);
         }
@@ -120,6 +123,9 @@ public class Enemy : MonoBehaviour
         {
             //피격 플래시 재생
             _enemyVisual.StartHitFlash();
+
+            //피격 사운드 재생
+            AudioManager.Instance.PlaySfx(EnemyData.HitAudio, transform.position);
         }
     }
 
@@ -134,5 +140,11 @@ public class Enemy : MonoBehaviour
     public void SetTarget(Transform target)
     {
         _enemyController.SetTarget(target);
+    }
+
+    public void OnSpawn()
+    {
+        //스폰 비주얼 애니메이션 실행
+        _enemyVisual.PlaySpawnAnimation(EnemyData.SpawnVisualOffsetY, EnemyData.SpawnVisualDuration, EnemyData.SpawnVisualEase);
     }
 }

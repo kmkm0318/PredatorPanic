@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
   _bulletPrefab: {fileID: -6739877800168031272, guid: 68be54c0a018d304c975597cedeb26fe, type: 3}
   _isHoming: 1
-  _homingPower: 10
+  _homingPower: 15
