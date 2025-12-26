@@ -15,8 +15,7 @@ MonoBehaviour:
   _playerPrefab: {fileID: 347489321014641408, guid: f3211ced68d72484e918623866b82a9d, type: 3}
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
   _playerBaseStatsData: {fileID: 11400000, guid: a154443229cae5747a70711c4d708b92, type: 2}
-  _characterEffectDatas:
-  - {fileID: 11400000, guid: f58f632a2f6b5dc4d9d32bb2d52a4a21, type: 2}
+  _characterEffectDatas: []
   _playerExpData: {fileID: 11400000, guid: 56c6b05865b2d0e45bca3f1b95d9bf19, type: 2}
   _weaponCountMax: 6
   _itemPickupRadiusSqr: 4

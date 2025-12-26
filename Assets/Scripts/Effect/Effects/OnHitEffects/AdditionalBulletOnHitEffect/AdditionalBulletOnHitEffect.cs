@@ -1,3 +1,4 @@
+using UnityEngine;
 
 /// <summary>
 /// 공격 적중 시 추가 탄환 발사 효과 클래스
@@ -61,13 +62,24 @@ public class AdditionalBulletOnHitEffect : Effect
         //적이 없으면 반환
         if (targetEnemyCollider == null || !targetEnemyCollider.TryGetComponent<Enemy>(out var targetEnemy)) return;
 
-        // 목표 지점 계산
-        var targetPosition = targetEnemy.CenterPosition;
-        var fireDirection = (targetPosition - origin).normalized;
+        // 발사 방향 계산
+        Vector3 fireDirection;
+
+        if (_data.BulletData.IsHoming)
+        {
+            // 호밍 총알은 위 방향으로 발사
+            fireDirection = Vector3.up;
+        }
+        else
+        {
+            // 기본 총알은 적을 향한 방향 계산
+            fireDirection = (targetEnemy.CenterPosition - origin).normalized;
+        }
 
         // 총알 발사 컨텍스트 생성
         BulletFireContext fireContext = new(
             context.Player,
+            targetEnemy, //첫 목표 적
             null, //무기는 null
             trail,
             origin,

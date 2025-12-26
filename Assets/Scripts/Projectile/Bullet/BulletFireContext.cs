@@ -7,6 +7,8 @@ public readonly struct BulletFireContext
 {
     //발사한 플레이어
     public readonly Player Player;
+    //첫 목표 적
+    public readonly Enemy InitialTargetEnemy;
     //발사한 총기
     public readonly Gun Gun;
     //총알 궤적 이펙트
@@ -34,9 +36,10 @@ public readonly struct BulletFireContext
     //충돌 레이어 마스크
     public readonly LayerMask HitLayerMask;
 
-    public BulletFireContext(Player player, Gun gun, Trail trail, Vector3 firePosition, Vector3 fireDirection, float baseDamage, float speed, float range, float criticalRate, float criticalDamageRate, int penetrationCount, int ricochetCount, ExplosionData explosionData, LayerMask hitLayerMask)
+    public BulletFireContext(Player player, Enemy initialTargetEnemy, Gun gun, Trail trail, Vector3 firePosition, Vector3 fireDirection, float baseDamage, float speed, float range, float criticalRate, float criticalDamageRate, int penetrationCount, int ricochetCount, ExplosionData explosionData, LayerMask hitLayerMask)
     {
         Player = player;
+        InitialTargetEnemy = initialTargetEnemy;
         Gun = gun;
         Trail = trail;
         FirePosition = firePosition;

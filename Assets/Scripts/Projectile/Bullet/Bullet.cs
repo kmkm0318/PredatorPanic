@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,13 +20,24 @@ public class Bullet : MonoBehaviour
     private ExplosionManager _explosionManager;
     #endregion
 
-    #region Fire 관련 변수
+    #region 컨텍스트
     private BulletFireContext _context;
-    private Vector3 _fireDirection;
+    #endregion
+
+    #region 이동
+    private Vector3 _direction;
     private float _speed;
     private Vector3 _lastPosition;
-    private RaycastHit[] _hits = new RaycastHit[MAX_HIT_COUNT];
+    private RaycastHit[] _hits = new RaycastHit[MAX_HIT_COUNT]; //레이캐스트 히트 정보 배열
     public HashSet<Collider> HitColliders { get; private set; } = new(); //충돌한 콜라이더 기록
+    #endregion
+
+    #region 호밍
+    private bool _isHoming = false;
+    private Enemy _targetEnemy = null;
+    #endregion
+
+    #region 관통, 튕김
     private int _remainPenetrationCount = 0; //남은 관통 횟수
     private int _remainRicochetCount = 0; //남은 튕김 횟수
     #endregion
@@ -51,8 +61,46 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         HandleLifetime();
+        HandleHoming();
         HandleMovement();
     }
+
+    #region 호밍
+    private void HandleHoming()
+    {
+        //비활성화 시 패스
+        if (!gameObject.activeSelf) return;
+
+        //호밍이 아니면 패스
+        if (!_isHoming) return;
+
+        //타겟이 없거나 비활성화 되었으면
+        if (_targetEnemy == null || !_targetEnemy.gameObject.activeSelf)
+        {
+            //가까운 적 찾기
+            var targetCollider = PhysicsUtility.GetNearestCollider(transform.position, _context.Range, _context.HitLayerMask, HitColliders);
+
+            //타겟이 없으면
+            if (targetCollider != null && targetCollider.TryGetComponent<Enemy>(out var targetEnemy))
+            {
+                //타겟 설정
+                _targetEnemy = targetEnemy;
+            }
+            else
+            {
+                //호밍 중지
+                _isHoming = false;
+                return;
+            }
+        }
+
+        //타겟 방향 계산
+        Vector3 toTarget = (_targetEnemy.CenterPosition - transform.position).normalized;
+
+        //호밍 방향 보간
+        _direction = Vector3.RotateTowards(_direction, toTarget, Data.HomingPower * Time.deltaTime, 0f);
+    }
+    #endregion
 
     #region 이동
     private void HandleMovement()
@@ -64,7 +112,7 @@ public class Bullet : MonoBehaviour
         var distance = _speed * Time.deltaTime;
 
         //레이캐스트로 충돌 판단
-        var hitCount = Physics.RaycastNonAlloc(_lastPosition, _fireDirection, _hits, distance, _context.HitLayerMask, QueryTriggerInteraction.Collide);
+        var hitCount = Physics.RaycastNonAlloc(_lastPosition, _direction, _hits, distance, _context.HitLayerMask, QueryTriggerInteraction.Collide);
 
         for (int i = 0; i < hitCount; i++)
         {
@@ -77,7 +125,7 @@ public class Bullet : MonoBehaviour
 
         //위치 갱신
         _lastPosition = transform.position;
-        transform.position += _fireDirection * distance;
+        transform.position += _direction * distance;
     }
     #endregion
 
@@ -89,9 +137,13 @@ public class Bullet : MonoBehaviour
         _context = context;
 
         //변수 설정
-        _fireDirection = context.FireDirection.normalized;
+        _direction = context.FireDirection.normalized;
         _speed = context.Speed;
         _lastPosition = context.FirePosition;
+
+        //호밍 설정
+        _targetEnemy = context.InitialTargetEnemy;
+        _isHoming = Data.IsHoming;
 
         //위치 설정
         transform.position = context.FirePosition;
@@ -197,7 +249,7 @@ public class Bullet : MonoBehaviour
                 var newDirection = (center - contact).normalized;
 
                 //방향 갱신
-                _fireDirection = newDirection;
+                _direction = newDirection;
 
                 //튕길 때 폭발 실행
                 ExecuteExplosion();

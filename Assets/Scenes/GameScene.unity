@@ -8841,7 +8841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _gameData: {fileID: 11400000, guid: 2ee2fad1bb622a2438b89f052e254012, type: 2}
   _playerData: {fileID: 11400000, guid: b9044c35c2eb3cf4e9a35ba46d43eecc, type: 2}
-  _weaponData: {fileID: 11400000, guid: bf426479c996d644db24dc1ec891048c, type: 2}
+  _weaponData: {fileID: 11400000, guid: b1f5c635133cf504688cd34c1bf4778e, type: 2}
   _cinemachineCamera: {fileID: 1872452256}
   _enemyManager: {fileID: 773417688}
   _dropItemManager: {fileID: 444637222}

@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcea048978664ab44ac6ec828ad77e53, type: 3}
   m_Name: DefaultBulletData
   m_EditorClassIdentifier: Assembly-CSharp::BulletData
-  <BulletPrefab>k__BackingField: {fileID: -6739877800168031272, guid: 68be54c0a018d304c975597cedeb26fe, type: 3}
+  _bulletPrefab: {fileID: -6739877800168031272, guid: 68be54c0a018d304c975597cedeb26fe, type: 3}
+  _isHoming: 0
+  _homingPower: 5
+  _homingRange: 10

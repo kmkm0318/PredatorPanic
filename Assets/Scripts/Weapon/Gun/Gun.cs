@@ -26,6 +26,10 @@ public class Gun : Weapon
     private float _nextTimeToFire = 0f;
     #endregion
 
+    #region 적
+    private Enemy _targetEnemy = null;
+    #endregion
+
     public Gun(GunData gunData) : base(gunData)
     {
         _gunData = gunData;
@@ -63,13 +67,24 @@ public class Gun : Weapon
 
         //가장 가까운 적 찾기
         //실패 시 패스
-        if (!TryGetNearestEnemy(out var targetEnemy)) return;
+        if (!TryGetNearestEnemy(out _targetEnemy)) return;
 
-        //적을 향한 방향 계산
-        var directionToEnemy = (targetEnemy.CenterPosition - Player.CenterPosition).normalized;
+        //발사 방향 계산
+        Vector3 fireDirection;
+
+        if (_gunData.BulletData.IsHoming)
+        {
+            //호밍 총알은 위 방향으로 발사
+            fireDirection = Vector3.up;
+        }
+        else
+        {
+            //기본 총알은 적을 향한 방향 계산
+            fireDirection = (_targetEnemy.CenterPosition - Player.CenterPosition).normalized;
+        }
 
         //총알들 발사
-        FireBullets(directionToEnemy);
+        FireBullets(fireDirection);
 
         //다음 발사 시간 계산
         float fireSpeed = CombatUtility.CalculateFireSpeed(Player, this);
@@ -111,9 +126,11 @@ public class Gun : Weapon
     {
         int bulltCount = CombatUtility.CalculateBulletCount(Player, this);
 
+        Vector3 rotationAxis = _gunData.BulletData.IsHoming ? Player.transform.forward : Vector3.up;
+
         for (int i = 0; i < bulltCount; i++)
         {
-            var curDirection = CombatUtility.GetSpreadDirection(fireDirection, i, bulltCount);
+            var curDirection = CombatUtility.GetSpreadDirection(fireDirection, i, bulltCount, rotationAxis);
             FireBullet(curDirection);
         }
     }
@@ -141,6 +158,7 @@ public class Gun : Weapon
         //컨텍스트 생성
         BulletFireContext context = new(
             Player,
+            _targetEnemy,
             this,
             trail,
             Player.CenterPosition,

@@ -148,7 +148,7 @@ public static class CombatUtility
     /// <param name="idx">현재 총알 인덱스</param>
     /// <param name="totalCount">총 발사할 총알 수</param>
     /// <param name="spreadAngle">각 총알 방향 사이 각도 (기본값 1도)</param>
-    public static Vector3 GetSpreadDirection(Vector3 fireDirection, int idx, int totalCount, float spreadAngle = 1f)
+    public static Vector3 GetSpreadDirection(Vector3 fireDirection, int idx, int totalCount, Vector3 rotationAxis, float spreadAngle = 1f)
     {
         //총알이 1개일 때는 퍼짐 없음
         if (totalCount == 1) return fireDirection;
@@ -159,7 +159,7 @@ public static class CombatUtility
         float startAngle = -spreadAngle * (totalCount - 1) / 2f;
         float angle = startAngle + spreadAngle * idx;
 
-        Quaternion spreadRotation = Quaternion.AngleAxis(angle, Vector3.up);
+        Quaternion spreadRotation = Quaternion.AngleAxis(angle, rotationAxis);
         Vector3 spreadDirection = spreadRotation * fireDirection;
         return spreadDirection.normalized;
     }
