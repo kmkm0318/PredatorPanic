@@ -67,4 +67,13 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
         }
     }
     #endregion
+
+    public void AddDNA(int amount)
+    {
+        //DNA 추가
+        UserSaveData.DNA += amount;
+
+        //최대, 최소 클램핑
+        UserSaveData.DNA = Mathf.Clamp(UserSaveData.DNA, 0, int.MaxValue);
+    }
 }

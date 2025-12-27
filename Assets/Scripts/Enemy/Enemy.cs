@@ -100,16 +100,13 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 플레이어가 적에게 피해를 주는 경우
     /// </summary>
-    public void TakeDamage(in PlayerDamageContext context, bool isTriggerHit = true)
+    public void TakeDamage(in PlayerDamageContext context)
     {
         //데미지 적용
         Health.TakeDamage(context.Damage);
 
-        if (isTriggerHit)
-        {
-            //플레이어에게 적중 처리 알림
-            context.Player.HandleOnHit(context);
-        }
+        //플레이어에게 적중 처리 알림
+        context.Player.HandleOnHit(context);
 
         if (Health.IsDead)
         {

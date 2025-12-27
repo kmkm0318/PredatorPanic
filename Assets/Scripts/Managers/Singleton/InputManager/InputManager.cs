@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -12,6 +13,11 @@ public class InputManager : Singleton<InputManager>
 
     #region 프로퍼티
     public Vector2 MousePosition => PlayerInputActions.UI.Point.ReadValue<Vector2>();
+    public InputMode CurrentInputMode { get; private set; } = InputMode.None;
+    #endregion
+
+    #region 이벤트
+    public event Action<InputMode> OnInputModeChanged;
     #endregion
 
     protected override void Awake()
@@ -28,6 +34,9 @@ public class InputManager : Singleton<InputManager>
     /// </summary>
     public void ChangeInputMode(InputMode mode)
     {
+        //현재 모드와 동일하면 변경하지 않음
+        if (CurrentInputMode == mode) return;
+
         switch (mode)
         {
             case InputMode.Player:
@@ -52,5 +61,11 @@ public class InputManager : Singleton<InputManager>
                 Cursor.visible = true;
                 break;
         }
+
+        //현재 입력 모드 업데이트
+        CurrentInputMode = mode;
+
+        //입력 모드 변경 이벤트 호출
+        OnInputModeChanged?.Invoke(mode);
     }
 }

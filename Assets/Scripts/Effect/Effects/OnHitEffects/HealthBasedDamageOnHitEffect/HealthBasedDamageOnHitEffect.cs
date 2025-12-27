@@ -49,7 +49,6 @@ public class HealthBasedDamageOnHitEffect : Effect
         );
 
         //적에게 데미지 적용
-        //이때 isTriggerHit은 false로 설정하여 무한 루프 방지
-        context.Enemy.TakeDamage(damageContext, false);
+        context.Enemy.TakeDamage(damageContext);
     }
 }

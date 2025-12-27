@@ -23,6 +23,7 @@ public class PlayerHealth : Health
 
     #region 이벤트
     public event Action<bool> OnInvincibleStateChanged;
+    public event Action<float> OnTakeDamage;
     #endregion
 
     #region 초기화
@@ -136,6 +137,9 @@ public class PlayerHealth : Health
 
             //적과 충돌 시 데미지 입기
             TakeDamage(damage);
+
+            //데미지 입음 이벤트 호출
+            OnTakeDamage?.Invoke(damage);
 
             if (!IsDead)
             {

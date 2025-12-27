@@ -72,30 +72,32 @@ public class GamePlayingState : GameBaseState
     private void RegisterEvents()
     {
         var inputActions = InputManager.Instance.PlayerInputActions;
-        inputActions.Player.Pause.performed += OnPause;
+        inputActions.Player.Pause.performed += HandleOnPause;
 
-        GameManager.Player.OnLevelUpped += OnLevelUpped;
-        GameManager.EnemyManager.OnAllBossDeath += OnAllBossDead;
+        GameManager.Player.OnLevelUpped += HandleOnLevelUpped;
+        GameManager.Player.PlayerHealth.OnDeath += HandleOnPlayerDeath;
+        GameManager.EnemyManager.OnAllBossDeath += HandleOnAllBossDead;
     }
 
     private void UnregisterEvents()
     {
         var inputActions = InputManager.Instance.PlayerInputActions;
-        inputActions.Player.Pause.performed -= OnPause;
+        inputActions.Player.Pause.performed -= HandleOnPause;
 
-        GameManager.Player.OnLevelUpped -= OnLevelUpped;
-        GameManager.EnemyManager.OnAllBossDeath -= OnAllBossDead;
+        GameManager.Player.OnLevelUpped -= HandleOnLevelUpped;
+        GameManager.Player.PlayerHealth.OnDeath -= HandleOnPlayerDeath;
+        GameManager.EnemyManager.OnAllBossDeath -= HandleOnAllBossDead;
     }
     #endregion
 
     #region 이벤트 핸들러
-    private void OnPause(InputAction.CallbackContext context)
+    private void HandleOnPause(InputAction.CallbackContext context)
     {
         //일시정지 상태로 전환
         ChangeState(Factory.Pause);
     }
 
-    private void OnLevelUpped(int level)
+    private void HandleOnLevelUpped(int level)
     {
         //레벨업 상태로 전환하기 전 현재 상태를 저장
         Factory.LevelUpPreviousState = this;
@@ -104,7 +106,13 @@ public class GamePlayingState : GameBaseState
         ChangeState(Factory.LevelUp);
     }
 
-    private void OnAllBossDead()
+    private void HandleOnPlayerDeath()
+    {
+        //게임 오버 상태로 전환
+        ChangeState(Factory.Over);
+    }
+
+    private void HandleOnAllBossDead()
     {
         //보스가 모두 사망했을 때 라운드 클리어 상태로 전환
         ChangeState(Factory.RoundClear);

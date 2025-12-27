@@ -1,5 +1,3 @@
-using UnityEngine;
-
 /// <summary>
 /// 게임 클리어 시의 상태 클래스
 /// 목표 라운드를 클리어했을 시의 상태
@@ -10,29 +8,17 @@ public class GameClearState : GameBaseState
 
     public override void Enter()
     {
-        //게임 클리어 데이터 저장
-        SaveData();
+        //유저 데이터에 DNA 추가
+        UserSaveDataManager.Instance.AddDNA(GameManager.Player.DNA);
+
+        //데이터 저장
+        UserSaveDataManager.Instance.SaveUserSaveData();
 
         //인풋 모드 변경
         InputManager.Instance.ChangeInputMode(InputMode.UI);
 
         //게임 클리어 UI 표시
-        GameManager.GameUIManager.GameResultPresenter.ShowGameResult("클리어!", GameManager.Player.DNA);
-    }
-
-    private void SaveData()
-    {
-        //유저 세이브 데이터 가져오기
-        var userSaveData = UserSaveDataManager.Instance.UserSaveData;
-
-        //플레이어의 DNA 재화를 UserSaveData에 반영
-        userSaveData.DNA += GameManager.Player.DNA;
-
-        //최대, 최소값 클램핑
-        userSaveData.DNA = Mathf.Clamp(userSaveData.DNA, 0, int.MaxValue);
-
-        //저장
-        UserSaveDataManager.Instance.SaveUserSaveData();
+        GameManager.GameUIManager.GameResultPresenter.ShowGameResult("게임 클리어!", GameManager.Player.DNA);
     }
 
     public override void Update() { }

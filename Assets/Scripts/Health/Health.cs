@@ -65,9 +65,6 @@ public class Health : MonoBehaviour
             //이벤트 호출
             OnDeath?.Invoke();
         }
-
-        //방어력 적용 후 데미지 반환
-        return;
     }
     #endregion
 

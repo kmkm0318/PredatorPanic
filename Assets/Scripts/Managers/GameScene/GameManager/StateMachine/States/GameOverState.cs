@@ -1,5 +1,3 @@
-using UnityEngine;
-
 /// <summary>
 /// 게임 오버 시의 상태 클래스
 /// </summary>
@@ -9,20 +7,17 @@ public class GameOverState : GameBaseState
 
     public override void Enter()
     {
-        //유저 세이브 데이터 가져오기
-        var userSaveData = UserSaveDataManager.Instance.UserSaveData;
+        //유저 데이터에 DNA 추가
+        UserSaveDataManager.Instance.AddDNA(GameManager.Player.DNA);
 
-        //플레이어의 DNA 재화를 UserSaveData에 반영
-        userSaveData.DNA += GameManager.Player.DNA;
-
-        //최대, 최소값 클램핑
-        userSaveData.DNA = Mathf.Clamp(userSaveData.DNA, 0, int.MaxValue);
-
-        //저장
+        //데이터 저장
         UserSaveDataManager.Instance.SaveUserSaveData();
 
-        //TODO: 게임 오버 UI 표시 및 기타 처리
-        $"Game Over!".Log();
+        //인풋 모드 변경
+        InputManager.Instance.ChangeInputMode(InputMode.UI);
+
+        //게임 오버  UI 표시
+        GameManager.GameUIManager.GameResultPresenter.ShowGameResult("게임 오버!", GameManager.Player.DNA);
     }
 
     public override void Update() { }

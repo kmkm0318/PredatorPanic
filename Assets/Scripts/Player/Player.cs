@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
     public event Action<PlayerDamageContext> OnKill; //킬 이벤트
     public event Action<List<Weapon>> OnWeaponsChanged; //무기 리스트 변경 이벤트
     public event Action<List<Item>> OnItemsChanged; //아이템 리스트 변경 이벤트
+    public event Action OnDeath; //플레이어 사망 이벤트
     #endregion
 
     private void Awake()
@@ -132,13 +133,34 @@ public class Player : MonoBehaviour
         _playerItemCollector.Init(this);
         PlayerHealth.Init(this);
 
-        PlayerHealth.OnInvincibleStateChanged += OnInvincibleStateChanged;
+        PlayerHealth.OnInvincibleStateChanged += HandleOnInvincibleStateChanged;
+        PlayerHealth.OnTakeDamage += HandleOnTakeDamage;
+        PlayerHealth.OnDeath += HandleOnDeath;
     }
 
-    private void OnInvincibleStateChanged(bool isInvincible)
+    #region 플레이어 체력 이벤트 핸들러
+    private void HandleOnInvincibleStateChanged(bool isInvincible)
     {
+        //비주얼에 무적 상태 반영
         _playerVisual.SetInvincibleVisual(isInvincible);
     }
+
+    private void HandleOnTakeDamage(float damage)
+    {
+        //TODO: 데미지 효과, 데미지 효과음, 카메라 흔들림
+    }
+
+    private void HandleOnDeath()
+    {
+        //플레이어 오브젝트 숨기기
+        gameObject.SetActive(false);
+
+        //TODO: 사망 효과, 사망 효과음 재생 등
+
+        //이벤트 호출
+        OnDeath?.Invoke();
+    }
+    #endregion
 
     // 스폰 시 애니메이션 재생
     public void OnSpawn()

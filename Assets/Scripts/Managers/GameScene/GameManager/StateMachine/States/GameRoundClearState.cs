@@ -55,7 +55,7 @@ public class GameRoundClearState : GameBaseState
         GameManager.Player.OnLevelUpped -= OnLevelUpped;
     }
 
-    private void OnLevelUpped(int obj)
+    private void OnLevelUpped(int level)
     {
         //레벨업 상태로 전환. 전환 이전에 현재 상태 저장
         Factory.LevelUpPreviousState = this;

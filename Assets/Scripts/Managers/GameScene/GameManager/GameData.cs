@@ -10,10 +10,9 @@ public class GameData : ScriptableObject
     [Header("Round Settings")]
     [SerializeField] private float _roundStartDelay = 3f;
     [SerializeField] private float _roundDuration = 60f;
-    [SerializeField] private int _targetRound = 10;
     public float RoundStartDelay => _roundStartDelay;
     public float RoundDuration => _roundDuration;
-    public int TargetRound => _targetRound;
+    public int TargetRound => _enemyTableDataList.EnemyTableDatas.Count;
 
     [Header("Enemy Settings")]
     [SerializeField] private EnemyTableDataList _enemyTableDataList;
