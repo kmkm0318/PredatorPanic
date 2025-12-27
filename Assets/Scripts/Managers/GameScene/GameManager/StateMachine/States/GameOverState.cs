@@ -18,6 +18,9 @@ public class GameOverState : GameBaseState
 
         //게임 오버  UI 표시
         GameManager.GameUIManager.GameResultPresenter.ShowGameResult("게임 오버!", GameManager.Player.DNA);
+
+        //게임 오버 BGM 재생
+        AudioManager.Instance.ChangeBGM(GameManager.GameData.GameOverBGMAudioData);
     }
 
     public override void Update() { }

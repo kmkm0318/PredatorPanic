@@ -25,4 +25,12 @@ public class GameData : ScriptableObject
     public int EnemySpawnCountIncrementPerRound => _enemySpawnCountIncrementPerRound;
     public float BaseEnemySpawnSpeed => _baseEnemySpawnSpeed;
     public float EnemySpawnSpeedIncrementPerRound => _enemySpawnSpeedIncrementPerRound;
+
+    [Header("BGM Audio Data")]
+    [SerializeField] private AudioData _gamePlayingBGMAudioData;
+    [SerializeField] private AudioData _gameClearBGMAudioData;
+    [SerializeField] private AudioData _gameOverBGMAudioData;
+    public AudioData GamePlayingBGMAudioData => _gamePlayingBGMAudioData;
+    public AudioData GameClearBGMAudioData => _gameClearBGMAudioData;
+    public AudioData GameOverBGMAudioData => _gameOverBGMAudioData;
 }

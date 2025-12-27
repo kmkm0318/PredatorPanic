@@ -17,7 +17,7 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: 0759057b60b3d8846b3a376e1e65d7e8, type: 3}
   _rarity: 3
   _basePrice: 4800
-  _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}
+  _bulletData: {fileID: 11400000, guid: 7154d03fcc24b044f81560c6c9399e88, type: 2}
   _trailData: {fileID: 11400000, guid: 23749c4912aea89429b73f3b448f0c57, type: 2}
   _explosionData: {fileID: 0}
   _fireSfxData: {fileID: 11400000, guid: 27e6e8e2acd81cc48be3f7c7d88e902f, type: 2}
@@ -25,7 +25,7 @@ MonoBehaviour:
   - _statType: 0
     _value: 8
   - _statType: 1
-    _value: 1
+    _value: 0.1
   - _statType: 2
     _value: 100
   - _statType: 3

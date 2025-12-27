@@ -15,4 +15,6 @@ MonoBehaviour:
   _audioClip: {fileID: 0}
   _volume: 1
   _pitch: 1
-  _pitchRandomness: 0.1
+  _pitchRandomness: 0
+  _is2D: 0
+  _maxConcurrentCount: 10

@@ -26,6 +26,9 @@ public class GameShopState : GameBaseState
 
         //이벤트 구독
         RegisterEvents();
+
+        //BGM 줄이기
+        AudioManager.Instance.SetBGMVolumeRatio(0.5f);
     }
 
     public override void Update() { }
@@ -46,6 +49,9 @@ public class GameShopState : GameBaseState
 
         //이벤트 구독 해제
         UnregisterEvents();
+
+        //BGM 볼륨 원래대로 복원
+        AudioManager.Instance.SetBGMVolumeRatio(1f);
     }
 
     private void RegisterEvents()

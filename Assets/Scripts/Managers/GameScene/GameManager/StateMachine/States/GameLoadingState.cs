@@ -15,6 +15,9 @@ public class GameLoadingState : GameBaseState
 
         //바로 라운드 시작 상태로 전환
         ChangeState(Factory.RoundStart);
+
+        //게임 플레이 BGM 재생
+        AudioManager.Instance.ChangeBGM(GameManager.GameData.GamePlayingBGMAudioData);
     }
 
     public override void Update() { }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Pool;
@@ -28,6 +30,10 @@ public class AudioManager : Singleton<AudioManager>
     #region 오브젝트 풀
     private ObjectPool<SfxObject> _sfxObjectPool;
     private Dictionary<AudioData, int> _activeSfxCount = new();
+    #endregion
+
+    #region BGM
+    private AudioData _currentBgmAudioData;
     #endregion
 
     protected override void Awake()
@@ -65,20 +71,53 @@ public class AudioManager : Singleton<AudioManager>
     }
     #endregion
 
-    #region 오디오 재생
+    #region BGM
+    public void ChangeBGM(AudioData audioData, float fadeDuration = 1f, Action onComplete = null)
+    {
+        // 기존 트윈 중지
+        _bgmAudioSource.DOKill();
+
+        if (fadeDuration <= 0f)
+        {
+            // 즉시 변경
+            PlayBgm(audioData);
+            return;
+        }
+
+        // 볼륨 페이드 아웃
+        _bgmAudioSource.DOFade(0f, fadeDuration / 2f).OnComplete(() =>
+        {
+            // BGM 변경
+            PlayBgm(audioData, false);
+
+            // 볼륨 페이드 인
+            _bgmAudioSource.volume = 0f;
+            _bgmAudioSource.DOFade(audioData.Volume, fadeDuration / 2f).OnComplete(() => onComplete?.Invoke());
+        });
+    }
+
     /// <summary>
     /// AudioData를 통한 배경음 재생
     /// </summary>
-    public void PlayBgm(AudioData audioData)
+    private void PlayBgm(AudioData audioData, bool changeVolume = true)
     {
         // null 체크
         if (audioData == null || audioData.AudioClip == null) return;
 
+        // 현재 재생 중인 BGM과 동일하면 재생하지 않음
+        if (_currentBgmAudioData == audioData) return;
+
+        // 현재 BGM 갱신
+        _currentBgmAudioData = audioData;
+
         // 클립 설정
         _bgmAudioSource.clip = audioData.AudioClip;
 
-        // 볼륨 설정
-        _bgmAudioSource.volume = audioData.Volume;
+        if (changeVolume)
+        {
+            // 볼륨 설정
+            _bgmAudioSource.volume = audioData.Volume;
+        }
 
         // 피치 설정
         _bgmAudioSource.pitch = audioData.Pitch;
@@ -87,6 +126,20 @@ public class AudioManager : Singleton<AudioManager>
         _bgmAudioSource.Play();
     }
 
+    public void SetBGMVolumeRatio(float ratio = 1f, float fadeDuration = 1f, Action onComplete = null)
+    {
+        // 현재 BGM이 없으면 패스
+        if (_currentBgmAudioData == null) return;
+
+        // 기존 트윈 중지
+        _bgmAudioSource.DOKill();
+
+        // 볼륨 페이드
+        _bgmAudioSource.DOFade(_currentBgmAudioData.Volume * ratio, fadeDuration).OnComplete(() => onComplete?.Invoke());
+    }
+    #endregion
+
+    #region SFX
     /// <summary>
     /// AudioData를 통한 효과음 재생
     /// </summary>

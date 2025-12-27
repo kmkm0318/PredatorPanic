@@ -70,18 +70,7 @@ public class Gun : Weapon
         if (!TryGetNearestEnemy(out _targetEnemy)) return;
 
         //발사 방향 계산
-        Vector3 fireDirection;
-
-        if (_gunData.BulletData.IsHoming)
-        {
-            //호밍 총알은 위 방향으로 발사
-            fireDirection = Vector3.up;
-        }
-        else
-        {
-            //기본 총알은 적을 향한 방향 계산
-            fireDirection = (_targetEnemy.CenterPosition - Player.CenterPosition).normalized;
-        }
+        Vector3 fireDirection = (_targetEnemy.CenterPosition - Player.CenterPosition).normalized;
 
         //총알들 발사
         FireBullets(fireDirection);
@@ -126,11 +115,9 @@ public class Gun : Weapon
     {
         int bulltCount = CombatUtility.CalculateBulletCount(Player, this);
 
-        Vector3 rotationAxis = _gunData.BulletData.IsHoming ? Player.transform.forward : Vector3.up;
-
         for (int i = 0; i < bulltCount; i++)
         {
-            var curDirection = CombatUtility.GetSpreadDirection(fireDirection, i, bulltCount, rotationAxis);
+            var curDirection = CombatUtility.GetSpreadDirection(fireDirection, i, bulltCount);
             FireBullet(curDirection);
         }
     }

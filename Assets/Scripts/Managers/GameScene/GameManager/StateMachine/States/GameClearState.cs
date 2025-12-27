@@ -19,6 +19,9 @@ public class GameClearState : GameBaseState
 
         //게임 클리어 UI 표시
         GameManager.GameUIManager.GameResultPresenter.ShowGameResult("게임 클리어!", GameManager.Player.DNA);
+
+        //게임 클리어 BGM 재생
+        AudioManager.Instance.ChangeBGM(GameManager.GameData.GameClearBGMAudioData);
     }
 
     public override void Update() { }

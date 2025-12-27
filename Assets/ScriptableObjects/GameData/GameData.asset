@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameData
   _roundStartDelay: 0
   _roundDuration: 60
-  _targetRound: 10
   _enemyTableDataList: {fileID: 11400000, guid: 27d893cf08ea962438994e6953335326, type: 2}
   _baseEnemySpawnCount: 5
   _enemySpawnCountIncrementPerRound: 3
   _baseEnemySpawnSpeed: 0.5
   _enemySpawnSpeedIncrementPerRound: 0.1
+  _gamePlayingBGMAudioData: {fileID: 11400000, guid: 217a56f7c7c4db64e971f4e29affa923, type: 2}
+  _gameClearBGMAudioData: {fileID: 11400000, guid: d26f156ff34501b42a38bf648e243b28, type: 2}
+  _gameOverBGMAudioData: {fileID: 11400000, guid: ea234646fa4866949822cb09ac2deffd, type: 2}
