@@ -76,9 +76,4 @@ crashlytics-build.properties
 
 # 추가 에셋들
 /[Aa]ssets/plugins
-/[Aa]ssets/Models
-/[Aa]ssets/Nokobot
-/[Aa]ssets/SimpleNaturePack
-/[Aa]ssets/BOXOPHOBIC
-/[Aa]ssets/Stylized Fences Free
-/[Aa]ssets/Audio
+/[Aa]ssets/External
