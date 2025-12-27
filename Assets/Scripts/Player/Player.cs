@@ -147,7 +147,14 @@ public class Player : MonoBehaviour
 
     private void HandleOnTakeDamage(float damage)
     {
-        //TODO: 데미지 효과, 데미지 효과음, 카메라 흔들림
+        //플레이어 히트 효과음 재생
+        AudioManager.Instance.PlaySfx(PlayerData.HitAudioData, CenterPosition);
+
+        //플레이어 히트 이펙트 재생
+        ParticleEffectManager.Instance.Play(PlayerData.HitParticleEffectData, CenterPosition, transform.rotation);
+
+        //카메라 흔들림 재생
+        GameManager.CameraManager.PlayDamageImpulse();
     }
 
     private void HandleOnDeath()
@@ -155,7 +162,11 @@ public class Player : MonoBehaviour
         //플레이어 오브젝트 숨기기
         gameObject.SetActive(false);
 
-        //TODO: 사망 효과, 사망 효과음 재생 등
+        //플레이어 사망 효과음 재생
+        AudioManager.Instance.PlaySfx(PlayerData.DeathAudioData, CenterPosition);
+
+        //플레이어 사망 이펙트 재생
+        ParticleEffectManager.Instance.Play(PlayerData.DeathParticleEffectData, CenterPosition, transform.rotation);
 
         //이벤트 호출
         OnDeath?.Invoke();

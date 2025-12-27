@@ -61,6 +61,7 @@ public class SettingsPresenter : IPresenter, ICancelable
         _settingsUI.OnBGMVolumeChanged += HandleOnBGMVolumeChanged;
         _settingsUI.OnSFXVolumeChanged += HandleOnSFXVolumeChanged;
         _settingsUI.OnSensitivityChanged += HandleOnSensitivityChanged;
+        _settingsUI.OnCameraShakeToggled += HandleOnCameraShakeToggled;
         _settingsUI.OnSaveButtonClicked += HandleOnSaveButtonClicked;
         _settingsUI.OnCloseButtonClicked += HandleOnCloseButtonClicked;
     }
@@ -74,6 +75,7 @@ public class SettingsPresenter : IPresenter, ICancelable
         _settingsUI.OnBGMVolumeChanged -= HandleOnBGMVolumeChanged;
         _settingsUI.OnSFXVolumeChanged -= HandleOnSFXVolumeChanged;
         _settingsUI.OnSensitivityChanged -= HandleOnSensitivityChanged;
+        _settingsUI.OnCameraShakeToggled -= HandleOnCameraShakeToggled;
         _settingsUI.OnSaveButtonClicked -= HandleOnSaveButtonClicked;
         _settingsUI.OnCloseButtonClicked -= HandleOnCloseButtonClicked;
     }
@@ -113,6 +115,11 @@ public class SettingsPresenter : IPresenter, ICancelable
     private void HandleOnSensitivityChanged(float sensitivity)
     {
         _tempData.Sensitivity = sensitivity;
+    }
+
+    private void HandleOnCameraShakeToggled(bool isEnable)
+    {
+        _tempData.EnableCameraShake = isEnable;
     }
 
     private void HandleOnSaveButtonClicked()
@@ -168,6 +175,7 @@ public class SettingsPresenter : IPresenter, ICancelable
         _settingsUI.SetBGMVolumeSlider(_tempData.BGMVolume);
         _settingsUI.SetSFXVolumeSlider(_tempData.SFXVolume);
         _settingsUI.SetSensitivitySlider(_tempData.Sensitivity);
+        _settingsUI.SetCameraShakeToggle(_tempData.EnableCameraShake);
     }
 
     public void Hide(bool isForce = false)
@@ -227,7 +235,8 @@ public class SettingsPresenter : IPresenter, ICancelable
                Math.Abs(originalData.MasterVolume - _tempData.MasterVolume) > SLIDER_MIN_DIFFERENCE ||
                Math.Abs(originalData.BGMVolume - _tempData.BGMVolume) > SLIDER_MIN_DIFFERENCE ||
                Math.Abs(originalData.SFXVolume - _tempData.SFXVolume) > SLIDER_MIN_DIFFERENCE ||
-               Math.Abs(originalData.Sensitivity - _tempData.Sensitivity) > SLIDER_MIN_DIFFERENCE;
+               Math.Abs(originalData.Sensitivity - _tempData.Sensitivity) > SLIDER_MIN_DIFFERENCE ||
+               originalData.EnableCameraShake != _tempData.EnableCameraShake;
     }
 
     public void Cancel()

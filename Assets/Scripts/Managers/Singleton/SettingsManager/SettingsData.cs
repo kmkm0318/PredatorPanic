@@ -19,6 +19,9 @@ public class SettingsData
     //입력 설정
     public float Sensitivity = 1.0f;
 
+    //접근성 설정
+    public bool EnableCameraShake = true;
+
     //기본 생성자
     public SettingsData() { }
 
@@ -32,5 +35,6 @@ public class SettingsData
         BGMVolume = other.BGMVolume;
         SFXVolume = other.SFXVolume;
         Sensitivity = other.Sensitivity;
+        EnableCameraShake = other.EnableCameraShake;
     }
 }

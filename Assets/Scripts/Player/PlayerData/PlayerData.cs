@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -42,4 +43,16 @@ public class PlayerData : ScriptableObject
     public float SpawnVisualOffsetY => _spawnVisualOffsetY;
     public float SpawnVisualDuration => _spawnVisualDuration;
     public Ease SpawnVisualEase => _spawnVisualEase;
+
+    [Header("Audio Data")]
+    [SerializeField] private AudioData _hitAudioData;
+    [SerializeField] private AudioData _deathAudioData;
+    public AudioData HitAudioData => _hitAudioData;
+    public AudioData DeathAudioData => _deathAudioData;
+
+    [Header("Particle Effect Data")]
+    [SerializeField] private ParticleEffectData _hitParticleEffectData;
+    [SerializeField] private ParticleEffectData _deathParticleEffectData;
+    public ParticleEffectData HitParticleEffectData => _hitParticleEffectData;
+    public ParticleEffectData DeathParticleEffectData => _deathParticleEffectData;
 }

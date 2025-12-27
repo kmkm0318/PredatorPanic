@@ -19,7 +19,7 @@ MonoBehaviour:
   _basePrice: 4800
   _bulletData: {fileID: 11400000, guid: 7154d03fcc24b044f81560c6c9399e88, type: 2}
   _trailData: {fileID: 11400000, guid: 23749c4912aea89429b73f3b448f0c57, type: 2}
-  _explosionData: {fileID: 0}
+  _explosionData: {fileID: 11400000, guid: 9fc1c5a967c23c64db353c0b1b2983dc, type: 2}
   _fireSfxData: {fileID: 11400000, guid: 27e6e8e2acd81cc48be3f7c7d88e902f, type: 2}
   _initialStats:
   - _statType: 0

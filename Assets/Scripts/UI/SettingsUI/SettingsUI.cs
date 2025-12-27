@@ -22,6 +22,9 @@ public class SettingsUI : ShowHideUI
     [Header("Input Settings")]
     [SerializeField] private Slider _sensitivitySlider;
 
+    [Header("Accessibility Settings")]
+    [SerializeField] private Toggle _cameraShakeToggle;
+
     [Header("Buttons")]
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _closeButton;
@@ -34,6 +37,7 @@ public class SettingsUI : ShowHideUI
     public event Action<int> OnBGMVolumeChanged;
     public event Action<int> OnSFXVolumeChanged;
     public event Action<float> OnSensitivityChanged;
+    public event Action<bool> OnCameraShakeToggled;
     public event Action OnSaveButtonClicked;
     public event Action OnCloseButtonClicked;
     #endregion
@@ -57,6 +61,9 @@ public class SettingsUI : ShowHideUI
 
         //민감도 슬라이더 설정
         _sensitivitySlider.onValueChanged.AddListener(value => OnSensitivityChanged?.Invoke(value));
+
+        //카메라 흔들림 토글 설정
+        _cameraShakeToggle.onValueChanged.AddListener(isOn => OnCameraShakeToggled?.Invoke(isOn));
 
         //저장 버튼 설정
         _saveButton.onClick.AddListener(() => OnSaveButtonClicked?.Invoke());
@@ -113,6 +120,12 @@ public class SettingsUI : ShowHideUI
     {
         //민감도 슬라이더 설정
         _sensitivitySlider.SetValueWithoutNotify(sensitivity);
+    }
+
+    public void SetCameraShakeToggle(bool isEnabled)
+    {
+        //카메라 흔들림 토글 설정
+        _cameraShakeToggle.SetIsOnWithoutNotify(isEnabled);
     }
     #endregion
 }

@@ -22,3 +22,7 @@ MonoBehaviour:
   _spawnVisualOffsetY: -10
   _spawnVisualDuration: 0.5
   _spawnVisualEase: 27
+  _hitAudioData: {fileID: 11400000, guid: b181720f06607de44b55473c79f2456d, type: 2}
+  _deathAudioData: {fileID: 11400000, guid: a13737c23b96e044981453dfa636402e, type: 2}
+  _hitParticleEffectData: {fileID: 11400000, guid: e5e9bd38ce8d8e84ab2a002babc2f2f4, type: 2}
+  _deathParticleEffectData: {fileID: 11400000, guid: 89cd1f9f4d204ca4db5962e7aa9829a2, type: 2}

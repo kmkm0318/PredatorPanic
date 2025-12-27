@@ -21,20 +21,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CinemachineCamera _cinemachineCamera;
 
     [Header("Managers")]
+    [SerializeField] private GameUIManager _gameUIManager;
     [SerializeField] private EnemyManager _enemyManager;
     [SerializeField] private DropItemManager _dropItemManager;
     [SerializeField] private ShopManager _shopManager;
     [SerializeField] private BulletManager _bulletManager;
     [SerializeField] private TrailManager _trailManager;
     [SerializeField] private ExplosionManager _explosionManager;
-    [SerializeField] private GameUIManager _gameUIManager;
+    [SerializeField] private CameraManager _cameraManager;
+    public GameUIManager GameUIManager => _gameUIManager;
     public EnemyManager EnemyManager => _enemyManager;
     public DropItemManager DropItemManager => _dropItemManager;
     public ShopManager ShopManager => _shopManager;
     public BulletManager BulletManager => _bulletManager;
     public TrailManager TrailManager => _trailManager;
     public ExplosionManager ExplosionManager => _explosionManager;
-    public GameUIManager GameUIManager => _gameUIManager;
+    public CameraManager CameraManager => _cameraManager;
 
     #region 플레이어
     public Player Player { get; private set; }

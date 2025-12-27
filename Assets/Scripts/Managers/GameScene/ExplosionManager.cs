@@ -13,12 +13,12 @@ public class ExplosionManager : MonoBehaviour
     #endregion
 
     #region 레퍼런스
-    private GameManager _gameManager;
+    public GameManager GameManager { get; private set; }
     #endregion
 
     public void Init(GameManager gameManager)
     {
-        _gameManager = gameManager;
+        GameManager = gameManager;
     }
 
     #region 오브젝트 풀링

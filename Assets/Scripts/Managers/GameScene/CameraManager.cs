@@ -7,8 +7,10 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     [Header("Cinemachine Camera")]
-    [SerializeField] private CinemachineCamera _cinemachineCamera;
     [SerializeField] private CinemachineInputAxisController _cinemachineInputAxisController;
+    [SerializeField] private CinemachineImpulseListener _cinemachineImpulseListener;
+    [SerializeField] private CinemachineImpulseSource _damageImpulseSource;
+    [SerializeField] private CinemachineImpulseSource _explosionImpulseSource;
 
     private void Start()
     {
@@ -66,12 +68,27 @@ public class CameraManager : MonoBehaviour
             //Y축 민감도 설정
             _cinemachineInputAxisController.Controllers[1].Input.Gain = data.Sensitivity;
         }
+
+        //카메라 흔들림 설정
+        _cinemachineImpulseListener.Gain = data.EnableCameraShake ? 1f : 0f;
     }
 
     private void HandleOnInputModeChanged(InputMode mode)
     {
         //플레이어 모드일 때만 카메라 입력 활성화
         _cinemachineInputAxisController.enabled = mode == InputMode.Player;
+    }
+    #endregion
+
+    #region 카메라 흔들림
+    public void PlayDamageImpulse(float force = 1f)
+    {
+        _damageImpulseSource.GenerateImpulse(force);
+    }
+
+    public void PlayExplosionImpulse(float force = 1f)
+    {
+        _explosionImpulseSource.GenerateImpulse(force);
     }
     #endregion
 }
