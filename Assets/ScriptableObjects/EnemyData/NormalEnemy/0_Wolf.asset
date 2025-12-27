@@ -25,8 +25,10 @@ MonoBehaviour:
     _value: 3
   _enemyStatGrowthRate: 1.2
   _dropItemTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}
-  _hitAudio: {fileID: 0}
-  _deathAudio: {fileID: 0}
+  _hitAudio: {fileID: 11400000, guid: b181720f06607de44b55473c79f2456d, type: 2}
+  _deathAudio: {fileID: 11400000, guid: a13737c23b96e044981453dfa636402e, type: 2}
+  _hitParticleEffect: {fileID: 11400000, guid: e5e9bd38ce8d8e84ab2a002babc2f2f4, type: 2}
+  _deathParticleEffect: {fileID: 11400000, guid: 89cd1f9f4d204ca4db5962e7aa9829a2, type: 2}
   _spawnVisualOffsetY: -10
   _spawnVisualDuration: 0.5
   _spawnVisualEase: 27

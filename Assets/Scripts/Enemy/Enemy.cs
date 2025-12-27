@@ -111,7 +111,10 @@ public class Enemy : MonoBehaviour
         if (Health.IsDead)
         {
             //사망 사운드 재생
-            AudioManager.Instance.PlaySfx(EnemyData.DeathAudio, transform.position);
+            AudioManager.Instance.PlaySfx(EnemyData.DeathAudio, CenterPosition);
+
+            //사망 파티클 이펙트 재생
+            ParticleEffectManager.Instance.Play(EnemyData.DeathParticleEffect, CenterPosition, transform.rotation);
 
             //사망 시 플레이어에게 처치 처리 알림
             context.Player.HandleOnKill(context);
@@ -122,7 +125,10 @@ public class Enemy : MonoBehaviour
             _enemyVisual.StartHitFlash();
 
             //피격 사운드 재생
-            AudioManager.Instance.PlaySfx(EnemyData.HitAudio, transform.position);
+            AudioManager.Instance.PlaySfx(EnemyData.HitAudio, CenterPosition);
+
+            //피격 파티클 이펙트 재생
+            ParticleEffectManager.Instance.Play(EnemyData.HitParticleEffect, CenterPosition, transform.rotation);
         }
     }
 

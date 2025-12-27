@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 /// <summary>
 /// 파티클 이펙트 매니저 클래스
 /// </summary>
-public class ParticleEffectManager : MonoBehaviour
+public class ParticleEffectManager : Singleton<ParticleEffectManager>
 {
     #region 오브젝트 풀
     private Dictionary<ParticleEffectData, ObjectPool<ParticleEffect>> _pools = new();
@@ -46,23 +46,6 @@ public class ParticleEffectManager : MonoBehaviour
 
         return pool;
     }
-    #endregion
-
-    #region 플레이 및 반환
-    public void Play(ParticleEffectData data, Vector3 position, Quaternion rotation, Action onComplete = null)
-    {
-        //풀 가져오기
-        var pool = GetPool(data);
-
-        //풀에서 이펙트 가져오기
-        var effect = pool.Get();
-
-        //이펙트 위치, 방향 설정
-        effect.transform.SetPositionAndRotation(position, rotation);
-
-        //이펙트 재생
-        effect.Play(onComplete);
-    }
 
     public void Release(ParticleEffect effect)
     {
@@ -80,6 +63,26 @@ public class ParticleEffectManager : MonoBehaviour
             //오브젝트 파괴
             Destroy(effect.gameObject);
         }
+    }
+    #endregion
+
+    #region 플레이 및 반환
+    public void Play(ParticleEffectData data, Vector3 position, Quaternion rotation, Action onComplete = null)
+    {
+        //데이터 없을 시 패스
+        if (data == null) return;
+
+        //풀 가져오기
+        var pool = GetPool(data);
+
+        //풀에서 이펙트 가져오기
+        var effect = pool.Get();
+
+        //이펙트 위치, 방향 설정
+        effect.transform.SetPositionAndRotation(position, rotation);
+
+        //이펙트 재생
+        effect.Play(onComplete);
     }
     #endregion
 }

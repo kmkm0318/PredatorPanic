@@ -18,4 +18,4 @@ MonoBehaviour:
   _followHeight: 10
   _followSpeed: 20
   _targetHeight: 1
-  _pickupSfxData: {fileID: 11400000, guid: 8b3cc9595036f504883a1fb9bfeb842e, type: 2}
+  _pickupSfxData: {fileID: 11400000, guid: f0310cf028ccf9244bb6e52cc8f472ad, type: 2}

@@ -37,6 +37,12 @@ public class EnemyData : ScriptableObject
     public AudioData HitAudio => _hitAudio;
     public AudioData DeathAudio => _deathAudio;
 
+    [Header("Particle Effect Data")]
+    [SerializeField] private ParticleEffectData _hitParticleEffect;
+    [SerializeField] private ParticleEffectData _deathParticleEffect;
+    public ParticleEffectData HitParticleEffect => _hitParticleEffect;
+    public ParticleEffectData DeathParticleEffect => _deathParticleEffect;
+
     [Header("Spawn Animation Data")]
     [SerializeField] private float _spawnVisualOffsetY = -10f;
     [SerializeField] private float _spawnVisualDuration = 0.5f;
