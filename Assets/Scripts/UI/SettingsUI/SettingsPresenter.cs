@@ -183,14 +183,11 @@ public class SettingsPresenter : IPresenter, ICancelable
         //강제로 혹은 변경되지 않았을 시
         if (isForce || !IsChanged())
         {
-            //바로 숨기기
-            _settingsUI.Hide(0f);
-
             //Cancelable 매니저에서 제거
             _cancelableManager.PopCancelable(this);
 
-            //닫힘 이벤트 호출
-            OnClosed?.Invoke();
+            //바로 숨기기 및 이벤트 호출
+            _settingsUI.Hide(0f, OnClosed);
         }
         else
         {

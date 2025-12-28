@@ -11,6 +11,7 @@ public class MainMenuUIManager : MonoBehaviour, ICancelableManager
     [SerializeField] private TooltipUI _tooltipUI;
     [SerializeField] private SettingsUI _settingsUI;
     [SerializeField] private ConfirmPopupUI _confirmPopupUI;
+    [SerializeField] private EvolutionUI _evolutionUI;
     #endregion
 
     #region MVP 구조를 위한 Presenter들
@@ -18,6 +19,7 @@ public class MainMenuUIManager : MonoBehaviour, ICancelableManager
     public TooltipPresenter TooltipPresenter { get; private set; }
     public SettingsPresenter SettingsPresenter { get; private set; }
     public ConfirmPopupPresenter ConfirmPopupPresenter { get; private set; }
+    public EvolutionPresenter EvolutionPresenter { get; private set; }
     #endregion
 
     #region 변수
@@ -39,25 +41,29 @@ public class MainMenuUIManager : MonoBehaviour, ICancelableManager
 
     private void InitPresenter()
     {
-        MainMenuPresenter = new MainMenuPresenter(_mainMenuManager, _mainMenuUI);
-        MainMenuPresenter.Init();
-
-        TooltipPresenter = new TooltipPresenter(_tooltipUI);
-        TooltipPresenter.Init();
-
         ConfirmPopupPresenter = new ConfirmPopupPresenter(_confirmPopupUI, this);
         ConfirmPopupPresenter.Init();
 
         SettingsPresenter = new SettingsPresenter(SettingsManager.Instance, _settingsUI, ConfirmPopupPresenter, this);
         SettingsPresenter.Init();
+
+        EvolutionPresenter = new EvolutionPresenter(_mainMenuManager.EvolutionManager, _evolutionUI, this);
+        EvolutionPresenter.Init();
+
+        TooltipPresenter = new TooltipPresenter(_tooltipUI, EvolutionPresenter);
+        TooltipPresenter.Init();
+
+        MainMenuPresenter = new MainMenuPresenter(_mainMenuManager, _mainMenuUI, EvolutionPresenter, SettingsPresenter);
+        MainMenuPresenter.Init();
     }
 
     private void OnDestroy()
     {
-        MainMenuPresenter.Reset();
         TooltipPresenter.Reset();
         ConfirmPopupPresenter.Reset();
         SettingsPresenter.Reset();
+        EvolutionPresenter.Reset();
+        MainMenuPresenter.Reset();
 
         UnregisterEvents();
     }

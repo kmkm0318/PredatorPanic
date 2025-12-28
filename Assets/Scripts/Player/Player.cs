@@ -429,10 +429,17 @@ public class Player : MonoBehaviour
 
     public void AddEvolution(EvolutionData evolutionData)
     {
+        //유효성 검사
         if (evolutionData == null) return;
 
+        //레벨 가져오기
+        int level = UserSaveDataManager.Instance.GetEvolutionLevel(evolutionData.ID);
+
+        //레벨이 0이면 패스
+        if (level <= 0) return;
+
         //진화 생성
-        var evolution = new Evolution(evolutionData);
+        var evolution = new Evolution(evolutionData, level);
 
         //진화 추가
         Evolutions.Add(evolution);

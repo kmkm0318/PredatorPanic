@@ -22,7 +22,7 @@ public class UserSaveData
     public List<string> AcquiredWeapons;
 
     //획득한 진화 정보 리스트
-    public List<string> AcquiredEvolutions;
+    public SerializableDictionary<string, int> AcquiredEvolutions;
 
     public UserSaveData()
     {

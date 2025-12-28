@@ -36,6 +36,9 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
     #region 세이브, 로드
     public void SaveUserSaveData()
     {
+        //진화 리스트 업데이트
+        UserSaveData.AcquiredEvolutions.UpdateList();
+
         //Json 으로 변경
         string json = JsonUtility.ToJson(UserSaveData);
 
@@ -68,7 +71,7 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
     }
     #endregion
 
-    #region 데이터 변경
+    #region DNA
     public void AddDNA(int amount)
     {
         //DNA 추가
@@ -78,6 +81,20 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
         UserSaveData.DNA = Mathf.Clamp(UserSaveData.DNA, 0, int.MaxValue);
     }
 
+    public bool TrySpendDNA(int amount)
+    {
+        //DNA가 충분한지 확인
+        if (UserSaveData.DNA >= amount)
+        {
+            //DNA 차감
+            UserSaveData.DNA -= amount;
+            return true;
+        }
+        return false;
+    }
+    #endregion
+
+    #region 플레이어
     public void AddPlayerData(string playerID)
     {
         //중복 방지
@@ -86,7 +103,9 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
         //플레이어 ID 추가
         UserSaveData.AcquiredPlayers.Add(playerID);
     }
+    #endregion
 
+    #region 무기
     public void AddWeaponData(string weaponID)
     {
         //중복 방지
@@ -95,14 +114,25 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
         //무기 ID 추가
         UserSaveData.AcquiredWeapons.Add(weaponID);
     }
+    #endregion
 
-    public void AddEvolutionData(string evolutionID)
+    #region 진화
+    public int GetEvolutionLevel(string evolutionID)
     {
-        //중복 방지
-        if (UserSaveData.AcquiredEvolutions.Contains(evolutionID)) return;
+        //진화 ID가 존재하는지 확인
+        if (UserSaveData.AcquiredEvolutions.Dictionary.TryGetValue(evolutionID, out int level))
+        {
+            return level;
+        }
 
-        //진화 ID 추가
-        UserSaveData.AcquiredEvolutions.Add(evolutionID);
+        //존재하지 않으면 레벨 0 반환
+        return 0;
+    }
+
+    public void UpdateEvolutionLevel(string evolutionID, int level)
+    {
+        //진화 레벨 증가
+        UserSaveData.AcquiredEvolutions.Dictionary[evolutionID] = level;
     }
     #endregion
 }

@@ -24,21 +24,48 @@ public abstract class ShowHideUI : MonoBehaviour, IShowHide
     /// <param name="onComplete">애니메이션 완료 후 호출될 함수</param>
     public virtual void Show(float duration = 0.5f, Action onComplete = null)
     {
+        //이전 시퀀스 종료
         _currentSequence?.Kill(true);
+
+        //UI 활성화
         gameObject.SetActive(true);
 
+        //배경 및 패널 존재 여부 확인
         bool hasBackground = _background != null;
         bool hasPanel = _panel != null;
 
+        //존재하지 않으면 바로 완료 호출
         if (!hasBackground && !hasPanel)
         {
             onComplete?.Invoke();
             return;
         }
 
+        if (duration <= 0f)
+        {
+            //배경 초기화
+            if (hasBackground)
+            {
+                _background.alpha = 1f;
+            }
+
+            //패널 위치 초기화
+            if (hasPanel)
+            {
+                _panel.anchoredPosition = _showPos;
+            }
+
+            //이벤트 호출
+            onComplete?.Invoke();
+
+            return;
+        }
+
+        //애니메이션 시퀀스 생성
         _currentSequence = DOTween.Sequence();
         _currentSequence.SetUpdate(true);
 
+        //배경 애니메이션 추가
         if (hasBackground)
         {
             _background.alpha = 0f;
@@ -46,21 +73,27 @@ public abstract class ShowHideUI : MonoBehaviour, IShowHide
             _currentSequence.Append(backgroundTween);
         }
 
+        //패널 애니메이션 추가
         if (hasPanel)
         {
             var panelTween = _panel.DOAnchorPos(_showPos, duration).From(_hidePos).SetEase(_ease);
 
             if (hasBackground)
             {
+                //배경이 있으면
                 _currentSequence.Join(panelTween);
             }
             else
             {
+                //배경이 없으면
                 _currentSequence.Append(panelTween);
             }
         }
 
+        // 완료 콜백 설정
         _currentSequence.OnComplete(() => onComplete?.Invoke());
+
+        // 재생
         _currentSequence.Play();
     }
 
@@ -71,20 +104,49 @@ public abstract class ShowHideUI : MonoBehaviour, IShowHide
     /// <param name="onComplete">애니메이션 완료 후 호출될 함수</param>
     public virtual void Hide(float duration = 0.5F, Action onComplete = null)
     {
+        //이전 시퀀스 종료
         _currentSequence?.Kill(true);
 
+        //배경 및 패널 존재 여부 확인
         bool hasBackground = _background != null;
         bool hasPanel = _panel != null;
 
+        //존재하지 않으면 바로 완료 호출
         if (!hasBackground && !hasPanel)
         {
             onComplete?.Invoke();
             return;
         }
 
+        //지속 시간이 0 이하일 경우 즉시 숨기기
+        if (duration <= 0f)
+        {
+            //배경 초기화
+            if (hasBackground)
+            {
+                _background.alpha = 0f;
+            }
+
+            //패널 위치 초기화
+            if (hasPanel)
+            {
+                _panel.anchoredPosition = _hidePos;
+            }
+
+            //즉시 숨기기
+            gameObject.SetActive(false);
+
+            //이벤트 호출
+            onComplete?.Invoke();
+
+            return;
+        }
+
+        //애니메이션 시퀀스 생성
         _currentSequence = DOTween.Sequence();
         _currentSequence.SetUpdate(true);
 
+        //배경 애니메이션 추가
         if (hasBackground)
         {
             _background.alpha = 1f;
@@ -92,25 +154,31 @@ public abstract class ShowHideUI : MonoBehaviour, IShowHide
             _currentSequence.Append(backgroundTween);
         }
 
+        //패널 애니메이션 추가
         if (hasPanel)
         {
             var panelTween = _panel.DOAnchorPos(_hidePos, duration).From(_showPos).SetEase(_ease);
 
             if (hasBackground)
             {
+                //배경이 있으면
                 _currentSequence.Join(panelTween);
             }
             else
             {
+                //배경이 없으면
                 _currentSequence.Append(panelTween);
             }
         }
 
+        // 완료 콜백 설정
         _currentSequence.OnComplete(() =>
         {
             onComplete?.Invoke();
             gameObject.SetActive(false);
         });
+
+        // 재생
         _currentSequence.Play();
     }
 }

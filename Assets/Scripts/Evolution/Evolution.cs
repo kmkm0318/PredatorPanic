@@ -12,19 +12,26 @@ public class Evolution
 
     #region 변수
     private readonly List<Effect> _effects = new();
+    private int _level = 0;
     #endregion
 
     #region 초기화
-    public Evolution(EvolutionData evolutionData)
+    public Evolution(EvolutionData evolutionData, int level)
     {
         _evolutionData = evolutionData;
+
+        _level = level;
 
         InitEffects();
     }
 
     private void InitEffects()
     {
-        foreach (var data in _evolutionData.Effects)
+        //데이터 리스트 가져오기
+        var datas = _evolutionData.GetEffectsByLevel(_level);
+
+        //이펙트 생성 및 추가
+        foreach (var data in datas)
         {
             var effect = data.GetEffect();
             _effects.Add(effect);

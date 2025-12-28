@@ -8,17 +8,18 @@ public class MainMenuPresenter : IPresenter
     #region 레퍼런스
     private MainMenuManager _mainMenuManager;
     private MainMenuUI _mainMenuUI;
+    private EvolutionPresenter _evolutionPresenter;
+    private SettingsPresenter _settingsPresenter;
     #endregion
 
-    public event Action OnStartButtonClicked;
-    public event Action OnEvolutionButtonClicked;
-    public event Action OnSettingsButtonClicked;
     public event Action OnExitButtonClicked;
 
-    public MainMenuPresenter(MainMenuManager mainMenuManager, MainMenuUI mainMenuUI)
+    public MainMenuPresenter(MainMenuManager mainMenuManager, MainMenuUI mainMenuUI, EvolutionPresenter evolutionPresenter, SettingsPresenter settingsPresenter)
     {
         _mainMenuManager = mainMenuManager;
         _mainMenuUI = mainMenuUI;
+        _evolutionPresenter = evolutionPresenter;
+        _settingsPresenter = settingsPresenter;
     }
 
     #region 초기화 및 리셋
@@ -54,21 +55,54 @@ public class MainMenuPresenter : IPresenter
     #region 이벤트 핸들러
     private void HandleStartButtonClicked()
     {
-        OnStartButtonClicked?.Invoke();
+        //TODO: StartPresenter 추가
     }
 
     private void HandleEvolutionButtonClicked()
     {
-        OnEvolutionButtonClicked?.Invoke();
+        //진화 UI 닫힘 이벤트 구독
+        _evolutionPresenter.OnClosed += HandleOnEvolutionUIClosed;
+
+        //메인 메뉴 숨기기
+        _mainMenuUI.Hide(0f);
+
+        //진화 UI 표시
+        _evolutionPresenter.Show();
+    }
+
+    private void HandleOnEvolutionUIClosed()
+    {
+        //진화 UI 닫힘 이벤트 해제
+        _evolutionPresenter.OnClosed -= HandleOnEvolutionUIClosed;
+
+        //메인 메뉴 다시 표시
+        _mainMenuUI.Show(0f);
     }
 
     private void HandleSettingsButtonClicked()
     {
-        OnSettingsButtonClicked?.Invoke();
+        //설정 UI 닫힘 이벤트 구독
+        _settingsPresenter.OnClosed += HandleOnSettingsUIClosed;
+
+        //메인 메뉴 숨기기
+        _mainMenuUI.Hide(0f);
+
+        //설정 UI 표시
+        _settingsPresenter.Show();
+    }
+
+    private void HandleOnSettingsUIClosed()
+    {
+        //설정 UI 닫힘 이벤트 해제
+        _settingsPresenter.OnClosed -= HandleOnSettingsUIClosed;
+
+        //메인 메뉴 다시 표시
+        _mainMenuUI.Show(0f);
     }
 
     private void HandleExitButtonClicked()
     {
+        //종료 버튼 클릭 이벤트 호출
         OnExitButtonClicked?.Invoke();
     }
     #endregion
