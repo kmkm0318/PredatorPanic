@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,5 +5,17 @@ using UnityEngine;
 /// </summary>
 public class MainMenuManager : MonoBehaviour
 {
+    #region 레퍼런스
+    [SerializeField] private MainMenuUIManager _mainMenuUIManager;
+    #endregion
 
+    private void Start()
+    {
+        InitManagers();
+    }
+
+    private void InitManagers()
+    {
+        _mainMenuUIManager.Init(this);
+    }
 }
