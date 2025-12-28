@@ -72,32 +72,47 @@ public class TooltipUI : MonoBehaviour
     }
     #endregion
 
-    #region Show, Hide
-    public void Show(IProduct product)
+    #region UI 설정
+    public void SetName(string name)
     {
-        //UI 업데이트
+        //이름 설정
+        _nameText.text = name;
+    }
 
-        //레어도 색 가져오기
-        if (DataManager.Instance.RarityDataList.RarityDataDict.TryGetValue(product.Rarity, out var rarityData))
-        {
-            //배경 색 설정
-            _iconSlot.SetColor(rarityData.RarityColor);
+    public void SetDescription(string description)
+    {
+        //설명 설정
+        _descriptionText.text = description;
+    }
 
-            //아웃라인 색 설정
-            _panelOutline.effectColor = rarityData.RarityColor;
+    public void SetColor(Color color)
+    {
+        //배경 색 설정
+        _iconSlot.SetColor(color);
 
-            //이름 색 설정
-            _nameText.color = rarityData.RarityColor;
-        }
+        //테두리 색 설정
+        _panelOutline.effectColor = color;
 
+        //이름 텍스트 색 설정
+        _nameText.color = color;
+    }
+
+    public void SetIcon(Sprite icon)
+    {
         //아이콘 설정
-        _iconSlot.SetIcon(product.Icon);
+        _iconSlot.SetIcon(icon);
+    }
 
-        //이름, 설명, 가격 설정
-        _nameText.text = product.Name;
-        _descriptionText.text = product.Description;
-        _priceText.text = product.Price.ToString();
+    public void SetPrice(int price)
+    {
+        //가격 설정
+        _priceText.text = price.ToString();
+    }
+    #endregion
 
+    #region Show, Hide
+    public void Show()
+    {
         //오브젝트 활성화
         gameObject.SetActive(true);
 

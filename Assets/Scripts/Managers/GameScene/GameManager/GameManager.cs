@@ -3,9 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 
 /// <summary>
-/// 게임 씬에서 사용하는 매니저 클래스
-/// 플레이어와 카메라를 초기화
-/// 플레이어에게 기본 무기 장착
+/// 게임 씬에서 사용하는 게임 매니저 클래스
 /// </summary>
 public class GameManager : MonoBehaviour
 {

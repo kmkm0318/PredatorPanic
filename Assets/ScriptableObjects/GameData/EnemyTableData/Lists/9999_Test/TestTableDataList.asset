@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTableListData
   <EnemyTableDatas>k__BackingField:
   - {fileID: 11400000, guid: 3784e74ca7e6eaf4bad12d8e2fa22613, type: 2}
+  - {fileID: 11400000, guid: 3784e74ca7e6eaf4bad12d8e2fa22613, type: 2}
