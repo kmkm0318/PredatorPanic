@@ -474,8 +474,10 @@ MonoBehaviour:
   _playerStatTypeDataList: {fileID: 11400000, guid: 2d2b3a3b49715ad4a863820748aca3f1, type: 2}
   _gunStatTypeDataList: {fileID: 11400000, guid: 150f7c494d2da81489d4691a849c6123, type: 2}
   _levelUpRewardDataList: {fileID: 11400000, guid: 405cbfecb03faf541a3c84320853dae3, type: 2}
+  _playerDataList: {fileID: 11400000, guid: 45550833818cff345a1f01b2ff500e30, type: 2}
   _weaponDataList: {fileID: 11400000, guid: 9bb2182ddefb3334b804d55e7cdf638d, type: 2}
   _itemDataList: {fileID: 11400000, guid: 3ed1d69047a93f046bc726b9221dc875, type: 2}
+  _evolutionDataList: {fileID: 11400000, guid: 309cc89aa5dad5e4ea40e73811eaea04, type: 2}
   _damageTextDataList: {fileID: 11400000, guid: 21a942e663a5494438591478f4d5969a, type: 2}
   _rarityDataList: {fileID: 11400000, guid: c01256f267d7a364086a8d0b87621241, type: 2}
   _rarityWeightData: {fileID: 11400000, guid: 72070da959960d84da7e33a74f271950, type: 2}

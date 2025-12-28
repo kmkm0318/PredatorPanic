@@ -3,15 +3,17 @@ using UnityEngine;
 /// <summary>
 /// 무기 데이터 스크립터블 오브젝트
 /// </summary>
-public abstract class WeaponData : ScriptableObject
+public abstract class WeaponData : ScriptableObject, IBasicData
 {
-    [Header("Basic Weapon Data")]
-    [SerializeField] private string _weaponName;
+    [Header("Basic Data")]
+    [SerializeField] private string _id;
+    [SerializeField] private string _name;
     [SerializeField] private string _description;
     [SerializeField] private Sprite _icon;
     [SerializeField] private Rarity _rarity;
     [SerializeField] private int _basePrice;
-    public string WeaponName => _weaponName;
+    public string ID => _id;
+    public string Name => _name;
     public string Description => _description;
     public Sprite Icon => _icon;
     public Rarity Rarity => _rarity;

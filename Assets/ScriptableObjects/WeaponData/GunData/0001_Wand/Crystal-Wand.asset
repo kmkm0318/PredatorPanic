@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093c09d5b2f9974ab03018333ab26c4, type: 3}
   m_Name: Crystal-Wand
   m_EditorClassIdentifier: Assembly-CSharp::GunData
-  _weaponName: "\uD06C\uB9AC\uC2A4\uD0C8 \uC644\uB4DC"
+  _id: Weapon_Wand_Crystal-Wand
+  _name: "\uD06C\uB9AC\uC2A4\uD0C8 \uC644\uB4DC"
   _description: 
   _icon: {fileID: 21300000, guid: e0ae05a8eb028ae4db112fdc7cc34384, type: 3}
   _rarity: 0

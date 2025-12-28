@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     #region 효과 주체 리스트
     public List<LevelUpReward> LevelUpRewards { get; private set; } = new();
     public List<Item> Items { get; private set; } = new();
+    public List<Evolution> Evolutions { get; private set; } = new();
     #endregion
 
     #region 레벨, 경험치
@@ -409,6 +410,49 @@ public class Player : MonoBehaviour
 
             //아이템 변경 이벤트 발생
             OnItemsChanged?.Invoke(Items);
+        }
+    }
+    #endregion
+
+    #region 진화
+    public void ApplyEvolutions(List<EvolutionData> evolutionDatas)
+    {
+        //진화 데이터가 없으면 패스
+        if (evolutionDatas == null || evolutionDatas.Count == 0) return;
+
+        //각 진화 추가
+        foreach (var data in evolutionDatas)
+        {
+            AddEvolution(data);
+        }
+    }
+
+    public void AddEvolution(EvolutionData evolutionData)
+    {
+        if (evolutionData == null) return;
+
+        //진화 생성
+        var evolution = new Evolution(evolutionData);
+
+        //진화 추가
+        Evolutions.Add(evolution);
+
+        //효과 적용
+        evolution.ApplyEffect(this);
+    }
+
+    public void RemoveEvolution(Evolution evolution)
+    {
+        if (evolution == null) return;
+
+        //진화가 적용된 상태인지 확인
+        if (Evolutions.Contains(evolution))
+        {
+            //효과 제거
+            evolution.RemoveEffect(this);
+
+            //진화 제거
+            Evolutions.Remove(evolution);
         }
     }
     #endregion

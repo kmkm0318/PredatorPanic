@@ -7,12 +7,14 @@ using UnityEngine;
 public class MainMenuUIManager : MonoBehaviour, ICancelableManager
 {
     #region 씬 내 UI
+    [SerializeField] private MainMenuUI _mainMenuUI;
     [SerializeField] private TooltipUI _tooltipUI;
     [SerializeField] private SettingsUI _settingsUI;
     [SerializeField] private ConfirmPopupUI _confirmPopupUI;
     #endregion
 
     #region MVP 구조를 위한 Presenter들
+    public MainMenuPresenter MainMenuPresenter { get; private set; }
     public TooltipPresenter TooltipPresenter { get; private set; }
     public SettingsPresenter SettingsPresenter { get; private set; }
     public ConfirmPopupPresenter ConfirmPopupPresenter { get; private set; }
@@ -37,6 +39,9 @@ public class MainMenuUIManager : MonoBehaviour, ICancelableManager
 
     private void InitPresenter()
     {
+        MainMenuPresenter = new MainMenuPresenter(_mainMenuManager, _mainMenuUI);
+        MainMenuPresenter.Init();
+
         TooltipPresenter = new TooltipPresenter(_tooltipUI);
         TooltipPresenter.Init();
 
@@ -49,6 +54,7 @@ public class MainMenuUIManager : MonoBehaviour, ICancelableManager
 
     private void OnDestroy()
     {
+        MainMenuPresenter.Reset();
         TooltipPresenter.Reset();
         ConfirmPopupPresenter.Reset();
         SettingsPresenter.Reset();

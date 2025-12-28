@@ -68,6 +68,7 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
     }
     #endregion
 
+    #region 데이터 변경
     public void AddDNA(int amount)
     {
         //DNA 추가
@@ -76,4 +77,32 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
         //최대, 최소 클램핑
         UserSaveData.DNA = Mathf.Clamp(UserSaveData.DNA, 0, int.MaxValue);
     }
+
+    public void AddPlayerData(string playerID)
+    {
+        //중복 방지
+        if (UserSaveData.AcquiredPlayers.Contains(playerID)) return;
+
+        //플레이어 ID 추가
+        UserSaveData.AcquiredPlayers.Add(playerID);
+    }
+
+    public void AddWeaponData(string weaponID)
+    {
+        //중복 방지
+        if (UserSaveData.AcquiredWeapons.Contains(weaponID)) return;
+
+        //무기 ID 추가
+        UserSaveData.AcquiredWeapons.Add(weaponID);
+    }
+
+    public void AddEvolutionData(string evolutionID)
+    {
+        //중복 방지
+        if (UserSaveData.AcquiredEvolutions.Contains(evolutionID)) return;
+
+        //진화 ID 추가
+        UserSaveData.AcquiredEvolutions.Add(evolutionID);
+    }
+    #endregion
 }

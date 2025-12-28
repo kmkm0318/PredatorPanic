@@ -10,22 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2093c09d5b2f9974ab03018333ab26c4, type: 3}
-  m_Name: TestGun
+  m_Name: Fairy-Wand
   m_EditorClassIdentifier: Assembly-CSharp::GunData
-  _weaponName: "\uC704\uC790\uB4DC \uC2A4\uD0DC\uD504"
+  _id: Weapon_Wand_Fairy-Wand
+  _name: "\uD398\uC5B4\uB9AC \uC644\uB4DC"
   _description: 
-  _icon: {fileID: 21300000, guid: 0759057b60b3d8846b3a376e1e65d7e8, type: 3}
-  _rarity: 3
-  _basePrice: 4800
-  _bulletData: {fileID: 11400000, guid: 7154d03fcc24b044f81560c6c9399e88, type: 2}
-  _trailData: {fileID: 11400000, guid: 23749c4912aea89429b73f3b448f0c57, type: 2}
-  _explosionData: {fileID: 11400000, guid: 9fc1c5a967c23c64db353c0b1b2983dc, type: 2}
+  _icon: {fileID: 21300000, guid: b8070c19584bfa443978535a2089b445, type: 3}
+  _rarity: 1
+  _basePrice: 1200
+  _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}
+  _trailData: {fileID: 11400000, guid: 798e0e5ecd25bbb46ae8c4e9ce888394, type: 2}
+  _explosionData: {fileID: 0}
   _fireSfxData: {fileID: 11400000, guid: 27e6e8e2acd81cc48be3f7c7d88e902f, type: 2}
   _initialStats:
   - _statType: 0
     _value: 8
   - _statType: 1
-    _value: 0.1
+    _value: 4
   - _statType: 2
     _value: 100
   - _statType: 3

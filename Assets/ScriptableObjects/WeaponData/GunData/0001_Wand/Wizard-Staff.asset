@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093c09d5b2f9974ab03018333ab26c4, type: 3}
   m_Name: Wizard-Staff
   m_EditorClassIdentifier: Assembly-CSharp::GunData
-  _weaponName: "\uC704\uC790\uB4DC \uC2A4\uD0DC\uD504"
+  _id: Weapon_Wand_Wizrd-Staff
+  _name: "\uC704\uC790\uB4DC \uC2A4\uD0DC\uD504"
   _description: 
   _icon: {fileID: 21300000, guid: 0759057b60b3d8846b3a376e1e65d7e8, type: 3}
   _rarity: 3

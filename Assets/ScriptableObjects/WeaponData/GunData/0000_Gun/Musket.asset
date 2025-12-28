@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093c09d5b2f9974ab03018333ab26c4, type: 3}
   m_Name: Musket
   m_EditorClassIdentifier: Assembly-CSharp::GunData
-  _weaponName: "\uBA38\uC2A4\uD0B7"
+  _id: Weapon_Gun_Musket
+  _name: "\uBA38\uC2A4\uD0B7"
   _description: 
   _icon: {fileID: 21300000, guid: 4bd94f3150e5a454a9e356c405d763cd, type: 3}
   _rarity: 2
   _basePrice: 2400
-  _type: 0
   _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}
   _trailData: {fileID: 11400000, guid: c2b5c624b7dd3184db3e5cc908b6f473, type: 2}
   _explosionData: {fileID: 0}

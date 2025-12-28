@@ -17,6 +17,10 @@ public class DataManager : Singleton<DataManager>
     [SerializeField] private LevelUpRewardDataList _levelUpRewardDataList;
     public LevelUpRewardDataList LevelUpRewardDataList => _levelUpRewardDataList;
 
+    [Header("Player Data List")]
+    [SerializeField] private PlayerDataList _playerDataList;
+    public PlayerDataList PlayerDataList => _playerDataList;
+
     [Header("Weapon Data List")]
     [SerializeField] private WeaponDataList _weaponDataList;
     public WeaponDataList WeaponDataList => _weaponDataList;
@@ -24,6 +28,10 @@ public class DataManager : Singleton<DataManager>
     [Header("Item Data List")]
     [SerializeField] private ItemDataList _itemDataList;
     public ItemDataList ItemDataList => _itemDataList;
+
+    [Header("Evolution Data List")]
+    [SerializeField] private EvolutionDataList _evolutionDataList;
+    public EvolutionDataList EvolutionDataList => _evolutionDataList;
 
     [Header("Damage Text Data List")]
     [SerializeField] private DamageTextDataList _damageTextDataList;

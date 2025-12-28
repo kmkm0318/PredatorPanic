@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -8,8 +7,22 @@ using UnityEngine;
 /// 플레이어 프리팹, 비주얼 프리팹, 컨트롤러 데이터 포함
 /// </summary>
 [CreateAssetMenu(fileName = "PlayerData", menuName = "SO/Player/PlayerData", order = 0)]
-public class PlayerData : ScriptableObject
+public class PlayerData : ScriptableObject, IBasicData
 {
+    [Header("Basic Info")]
+    [SerializeField] private string _id;
+    [SerializeField] private string _name;
+    [SerializeField] private string _description;
+    [SerializeField] private Sprite _icon;
+    [SerializeField] private Rarity _rarity;
+    [SerializeField] private int _basePrice = 500;
+    public string ID => _id;
+    public string Name => _name;
+    public string Description => _description;
+    public Sprite Icon => _icon;
+    public Rarity Rarity => _rarity;
+    public int BasePrice => _basePrice;
+
     [Header("Player Prefab")]
     [SerializeField] private Player _playerPrefab;
     public Player PlayerPrefab => _playerPrefab;
@@ -55,4 +68,19 @@ public class PlayerData : ScriptableObject
     [SerializeField] private ParticleEffectData _deathParticleEffectData;
     public ParticleEffectData HitParticleEffectData => _hitParticleEffectData;
     public ParticleEffectData DeathParticleEffectData => _deathParticleEffectData;
+
+    public string GetDescription()
+    {
+        //스트링 리스트 생성
+        List<string> effecDescriptions = new();
+
+        //각 이펙트 데이터의 설명을 스트링 리스트에 추가
+        foreach (var effectData in _characterEffectDatas)
+        {
+            effecDescriptions.Add(effectData.GetDescription());
+        }
+
+        //개행 문자로 구분된 설명 반환
+        return string.Join("\n", effecDescriptions);
+    }
 }

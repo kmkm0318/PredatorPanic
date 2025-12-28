@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093c09d5b2f9974ab03018333ab26c4, type: 3}
   m_Name: Boomerang
   m_EditorClassIdentifier: Assembly-CSharp::GunData
-  _weaponName: "\uBD80\uBA54\uB791"
+  _id: Weapon_Throw_Boomerang
+  _name: "\uBD80\uBA54\uB791"
   _description: 
   _icon: {fileID: 21300000, guid: 7602dd97dc159df42922aad58967a557, type: 3}
   _rarity: 2

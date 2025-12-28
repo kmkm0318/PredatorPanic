@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093c09d5b2f9974ab03018333ab26c4, type: 3}
   m_Name: Shuriken
   m_EditorClassIdentifier: Assembly-CSharp::GunData
-  _weaponName: "\uC218\uB9AC\uAC80"
+  _id: Weapon_Throw_Shiriken
+  _name: "\uC218\uB9AC\uAC80"
   _description: 
   _icon: {fileID: 21300000, guid: 8eae35ef7a7e9774f865f9d318e9ad66, type: 3}
   _rarity: 0

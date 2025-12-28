@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6684518dfa83fe14d883d3a733820fb4, type: 3}
+  m_Name: Nose
+  m_EditorClassIdentifier: Assembly-CSharp::EvolutionData
+  _id: Evolution_Nose
+  _name: "\uCF54"
+  _description: 
+  _icon: {fileID: 21300000, guid: b59b00fe3be13ec48b86d8aa72fa05d9, type: 3}
+  _rarity: 0
+  _basePrice: 200
+  _effects:
+  - {fileID: 11400000, guid: 74a7c313d5a687d408f9e35bca1f50cc, type: 2}

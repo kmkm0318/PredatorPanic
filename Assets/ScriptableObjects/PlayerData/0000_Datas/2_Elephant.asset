@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb32c6dbc07c2b4293194528fb0b516, type: 3}
   m_Name: 2_Elephant
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  _id: Player_Elephant
+  _name: "\uCF54\uB07C\uB9AC"
+  _description: 
+  _icon: {fileID: 0}
+  _rarity: 0
+  _basePrice: 500
   _playerPrefab: {fileID: 347489321014641408, guid: ed571f36eccaefa43bb14cb42478b03e, type: 3}
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
   _playerBaseStatsData: {fileID: 11400000, guid: a154443229cae5747a70711c4d708b92, type: 2}

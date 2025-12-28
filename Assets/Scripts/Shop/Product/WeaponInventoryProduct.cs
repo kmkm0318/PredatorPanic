@@ -19,7 +19,7 @@ public class WeaponInventoryProduct : IProduct
 
         Weapon = weapon;
         Icon = weaponData.Icon;
-        Name = weaponData.WeaponName;
+        Name = weaponData.Name;
         Description = Weapon.GetDescription();
         Rarity = weaponData.Rarity;
         Price = Mathf.CeilToInt(weaponData.BasePrice * priceRate);

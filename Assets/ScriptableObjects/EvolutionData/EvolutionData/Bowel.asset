@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6684518dfa83fe14d883d3a733820fb4, type: 3}
+  m_Name: Bowel
+  m_EditorClassIdentifier: Assembly-CSharp::EvolutionData
+  _id: Evolusion_Bowel
+  _name: "\uB300\uC7A5"
+  _description: 
+  _icon: {fileID: 21300000, guid: ba6ea1ee157bc744a8121d0d844114a8, type: 3}
+  _rarity: 0
+  _basePrice: 200
+  _effects: []

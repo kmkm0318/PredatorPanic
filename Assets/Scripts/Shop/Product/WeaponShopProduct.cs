@@ -17,7 +17,7 @@ public class WeaponShopProduct : IProduct
     {
         WeaponData = weaponData;
         Icon = weaponData.Icon;
-        Name = weaponData.WeaponName;
+        Name = weaponData.Name;
         Description = weaponData.GetDescription();
         Rarity = weaponData.Rarity;
         Price = Mathf.CeilToInt(weaponData.BasePrice * priceRate);
