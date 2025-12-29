@@ -132,6 +132,9 @@ public class SettingsPresenter : IPresenter, ICancelable
 
         //설정 저장
         _settingsManager.SaveSettings();
+
+        //새로운 임시 데이터 생성
+        _tempData = new SettingsData(_settingsManager.CurrentData);
     }
 
     private void HandleOnCloseButtonClicked()

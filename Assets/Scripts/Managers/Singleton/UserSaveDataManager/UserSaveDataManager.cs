@@ -1,3 +1,5 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +11,10 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
     #region 변수
     private string _savePath;
     public UserSaveData UserSaveData { get; private set; }
+    #endregion
+
+    #region 이벤트
+    public event Action<int> OnDNAChanged;
     #endregion
 
     protected override void Awake()
@@ -79,6 +85,9 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
 
         //최대, 최소 클램핑
         UserSaveData.DNA = Mathf.Clamp(UserSaveData.DNA, 0, int.MaxValue);
+
+        //이벤트 호출
+        OnDNAChanged?.Invoke(UserSaveData.DNA);
     }
 
     public bool TrySpendDNA(int amount)
@@ -88,6 +97,10 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
         {
             //DNA 차감
             UserSaveData.DNA -= amount;
+
+            //이벤트 호출
+            OnDNAChanged?.Invoke(UserSaveData.DNA);
+
             return true;
         }
         return false;

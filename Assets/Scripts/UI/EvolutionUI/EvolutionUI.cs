@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ using UnityEngine.UI;
 public class EvolutionUI : ShowHideUI
 {
     [Header("UI Elements")]
+    [SerializeField] private TMP_Text _dnaText;
     [SerializeField] private EvolutionItemUI _evolutionItemUIPrefab;
     [SerializeField] private Transform _evolutionItemUIParent;
     [SerializeField] private Button _closeButton;
@@ -51,6 +53,11 @@ public class EvolutionUI : ShowHideUI
     #endregion
 
     #region UI 업데이트
+    public void UpdateDNAText(int dnaAmount)
+    {
+        _dnaText.text = dnaAmount.ToString();
+    }
+
     public void UpdateEvolutionItems(List<EvolutionData> evolutionDatas)
     {
         //풀 초기화

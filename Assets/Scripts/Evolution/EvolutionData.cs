@@ -52,7 +52,7 @@ public class EvolutionData : ScriptableObject, IBasicData
         // 각 이펙트의 설명을 리스트에 추가
         foreach (var effect in effects)
         {
-            effectDescriptions.Add(effect.Description);
+            effectDescriptions.Add(effect.GetDescription());
         }
 
         // 리스트의 설명들을 개행 문자로 구분하여 하나의 문자열로 반환

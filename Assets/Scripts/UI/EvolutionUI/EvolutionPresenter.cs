@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,10 @@ using UnityEngine;
 /// </summary>
 public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
 {
+    #region 상수
+    private const string GARY_COLOR_HEX = "#c0c0c0";
+    #endregion
+
     #region 레퍼런스
     private EvolutionManager _evolutionManager;
     private EvolutionUI _evolutionUI;
@@ -35,8 +40,12 @@ public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
 
     private void InitUI()
     {
-        var evolutionDataList = DataManager.Instance.EvolutionDataList.EvolutionDatas;
+        //DNA 텍스트 초기화
+        int dnaAmount = UserSaveDataManager.Instance.UserSaveData.DNA;
+        _evolutionUI.UpdateDNAText(dnaAmount);
 
+        //진화 아이템들 초기화
+        var evolutionDataList = DataManager.Instance.EvolutionDataList.EvolutionDatas;
         _evolutionUI.UpdateEvolutionItems(evolutionDataList);
     }
 
@@ -49,6 +58,8 @@ public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
     #region 이벤트 구독, 해제
     private void RegisterEvents()
     {
+        UserSaveDataManager.Instance.OnDNAChanged += HandleOnDNAChanged;
+
         _evolutionUI.OnCloseButtonClicked += HandleOnCloseButtonClicked;
         _evolutionUI.OnEvolutionItemPointerEntered += HandleOnEvolutionItemPointerEntered;
         _evolutionUI.OnEvolutionItemPointerExited += HandleOnEvolutionItemPointerExited;
@@ -57,6 +68,8 @@ public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
 
     private void UnregisterEvents()
     {
+        UserSaveDataManager.Instance.OnDNAChanged += HandleOnDNAChanged;
+
         _evolutionUI.OnCloseButtonClicked -= HandleOnCloseButtonClicked;
         _evolutionUI.OnEvolutionItemPointerEntered -= HandleOnEvolutionItemPointerEntered;
         _evolutionUI.OnEvolutionItemPointerExited -= HandleOnEvolutionItemPointerExited;
@@ -65,6 +78,11 @@ public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
     #endregion
 
     #region 이벤트 핸들러
+    private void HandleOnDNAChanged(int dnaAmount)
+    {
+        _evolutionUI.UpdateDNAText(dnaAmount);
+    }
+
     private void HandleOnCloseButtonClicked()
     {
         //UI 숨기기
@@ -79,8 +97,31 @@ public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
         //다음 레벨 계산
         int nextLevel = currentLevel + 1;
 
+        //맥스 레벨인지?
+        bool isMaxLevel = currentLevel >= data.MaxLevel;
+
         //다음 레벨 가격 계산
         int price = data.GetPriceForLevel(nextLevel);
+
+        //설명 생성
+        List<string> descriptions = new();
+
+        //현재 레벨에 0이 아니면
+        if (currentLevel != 0)
+        {
+            //현재 레벨 설명 추가
+            descriptions.Add($"({currentLevel}/{data.MaxLevel})\n{data.GetDescriptionByLevel(currentLevel)}");
+        }
+
+        //맥스 레벨이 아니면
+        if (!isMaxLevel)
+        {
+            //다음 레벨 설명 회색으로 추가
+            descriptions.Add($"<color={GARY_COLOR_HEX}>({nextLevel}/{data.MaxLevel}):\n{data.GetDescriptionByLevel(nextLevel)}</color>");
+        }
+
+        //전체 설명 합치기
+        string description = string.Join("\n\n", descriptions);
 
         //현재 레벨로 희귀도 계산
         Rarity rarity = (Rarity)currentLevel;
@@ -103,7 +144,7 @@ public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
         OnTooltipRequested?.Invoke(new(
             data,
             $"{data.Name}({currentLevel}/{data.MaxLevel})",
-            data.GetDescriptionByLevel(currentLevel),
+            description,
             targetColor,
             data.Icon,
             price

@@ -55,6 +55,9 @@ public class EvolutionItemUI : MonoBehaviour
 
         //이벤트 호출
         OnPointerClicked?.Invoke(_evolutionData);
+
+        //색 업데이트
+        UpdateBackgroundColor();
     }
     #endregion
 
@@ -81,10 +84,20 @@ public class EvolutionItemUI : MonoBehaviour
         //희귀도 데이터 딕셔너리 가져오기
         var rarityDataDict = DataManager.Instance.RarityDataList.RarityDataDict;
 
-        //색 설정
-        var color = Color.white;
+        //레벨 가져오기
+        var currentLevel = UserSaveDataManager.Instance.GetEvolutionLevel(_evolutionData.ID);
 
-        if (rarityDataDict.TryGetValue(_evolutionData.Rarity, out var rarityData))
+        //레벨을 레어도로 변환
+        var levelToRarity = (Rarity)currentLevel;
+
+        //레벨이 최대 Rarity를 넘지 않도록
+        if (levelToRarity > Rarity.Legendary) levelToRarity = Rarity.Legendary;
+
+        //색 설정
+        var color = Color.gray;
+
+        //희귀도 데이터가 있으면
+        if (rarityDataDict.TryGetValue(levelToRarity, out var rarityData))
         {
             //희귀도 색 설정
             color = rarityData.RarityColor;
