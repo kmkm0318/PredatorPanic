@@ -123,22 +123,8 @@ public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
         //전체 설명 합치기
         string description = string.Join("\n\n", descriptions);
 
-        //현재 레벨로 희귀도 계산
-        Rarity rarity = (Rarity)currentLevel;
-
-        //레벨이 Rarity를 넘지 않도록
-        if (rarity > Rarity.Legendary)
-        {
-            rarity = Rarity.Legendary;
-        }
-
         //Rarity 색 가져오기
-        Color targetColor = Color.gray;
-        var rarityDict = DataManager.Instance.RarityDataList.RarityDataDict;
-        if (rarityDict.TryGetValue(rarity, out var rarityData))
-        {
-            targetColor = rarityData.RarityColor;
-        }
+        Color targetColor = DataManager.Instance.RarityDataList.GetRarityColor(currentLevel);
 
         //툴팁 요청 이벤트 호출
         OnTooltipRequested?.Invoke(new(

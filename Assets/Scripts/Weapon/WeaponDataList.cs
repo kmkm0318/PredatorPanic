@@ -28,4 +28,17 @@ public class WeaponDataList : ScriptableObject
         }
     }
     #endregion
+
+    /// <summary>
+    /// ID로 무기 데이터 가져오기
+    /// </summary>
+    public WeaponData GetData(string id)
+    {
+        if (WeaponDataDict.TryGetValue(id, out var weaponData))
+        {
+            return weaponData;
+        }
+        Debug.LogError($"WeaponData with ID {id} not found.");
+        return null;
+    }
 }

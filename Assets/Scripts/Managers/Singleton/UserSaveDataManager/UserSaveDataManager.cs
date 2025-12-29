@@ -116,6 +116,11 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
         //플레이어 ID 추가
         UserSaveData.AcquiredPlayers.Add(playerID);
     }
+
+    public bool IsPlayerUnlocked(string playerID)
+    {
+        return UserSaveData.AcquiredPlayers.Contains(playerID);
+    }
     #endregion
 
     #region 무기
@@ -126,6 +131,11 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
 
         //무기 ID 추가
         UserSaveData.AcquiredWeapons.Add(weaponID);
+    }
+
+    public bool IsWeaponUnlocked(string weaponID)
+    {
+        return UserSaveData.AcquiredWeapons.Contains(weaponID);
     }
     #endregion
 
@@ -147,5 +157,20 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
         //진화 레벨 증가
         UserSaveData.AcquiredEvolutions.Dictionary[evolutionID] = level;
     }
+    #endregion
+
+    #region 마지막으로 선택한 플레이어
+    public void SetLastSelectedPlayerID(string playerID)
+    {
+        UserSaveData.LastSelectedPlayerID = playerID;
+    }
+    #endregion
+
+    #region 마지막으로 선택한 무기
+    public void SetLastSelectedWeaponID(string weaponID)
+    {
+        UserSaveData.LastSelectedWeaponID = weaponID;
+    }
+
     #endregion
 }

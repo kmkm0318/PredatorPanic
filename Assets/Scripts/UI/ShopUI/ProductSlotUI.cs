@@ -71,17 +71,11 @@ public class ProductSlotUI : MonoBehaviour
         if (_iconSlot)
         {
             //레어도 색 가져오기
-            if (DataManager.Instance.RarityDataList.RarityDataDict.TryGetValue(product.Rarity, out var rarityData))
-            {
-                //배경 색 설정
-                _iconSlot.SetColor(rarityData.RarityColor);
+            var color = DataManager.Instance.RarityDataList.GetRarityColor(product.Rarity);
 
-                if (_nameText)
-                {
-                    //이름 색 설정
-                    _nameText.color = rarityData.RarityColor;
-                }
-            }
+            //색상 설정
+            _iconSlot.SetColor(color);
+            _nameText.color = color;
 
             //아이콘 설정
             _iconSlot.SetIcon(product.Icon);

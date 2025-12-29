@@ -24,6 +24,12 @@ public class UserSaveData
     //획득한 진화 정보 리스트
     public SerializableDictionary<string, int> AcquiredEvolutions;
 
+    //마지막으로 선택한 플레이어 ID
+    public string LastSelectedPlayerID;
+
+    //마지막으로 선택한 무기 ID
+    public string LastSelectedWeaponID;
+
     public UserSaveData()
     {
         DNA = 0;
@@ -42,5 +48,9 @@ public class UserSaveData
         {
             //초기 진화 정보는 빈 상태로 시작
         };
+
+        LastSelectedPlayerID = INITIAL_PLAYER_ID;
+
+        LastSelectedWeaponID = INITIAL_WEAPON_ID;
     }
 }

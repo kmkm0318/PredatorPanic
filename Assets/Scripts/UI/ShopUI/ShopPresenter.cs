@@ -169,16 +169,7 @@ public class ShopPresenter : IPresenter, ITooltipProvider
     private void HandleProductPointerEntered(IProduct product)
     {
         //색 설정
-        var color = Color.white;
-
-        //레어도 데이터 리스트 가져오기
-        var dataList = DataManager.Instance.RarityDataList;
-
-        //레어도에 맞는 색 가져오기
-        if (dataList.RarityDataDict.TryGetValue(product.Rarity, out var rarityData))
-        {
-            color = rarityData.RarityColor;
-        }
+        var color = DataManager.Instance.RarityDataList.GetRarityColor(product.Rarity);
 
         //컨텍스트 생성
         var context = new TooltipContext(product, product.Name, product.Description, color, product.Icon, product.Price);

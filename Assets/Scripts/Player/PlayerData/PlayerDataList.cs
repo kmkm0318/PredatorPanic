@@ -10,7 +10,7 @@ public class PlayerDataList : ScriptableObject
     [SerializeField] private List<PlayerData> _playerDatas = new();
     public List<PlayerData> PlayerDatas => _playerDatas;
 
-    #region ID를 통한 접근
+    #region 딕셔너리
     private Dictionary<string, PlayerData> _playerDataDict;
     public Dictionary<string, PlayerData> PlayerDataDict
     {
@@ -28,4 +28,17 @@ public class PlayerDataList : ScriptableObject
         }
     }
     #endregion
+
+    /// <summary>
+    /// ID로 플레이어 데이터 가져오기
+    /// </summary>
+    public PlayerData GetData(string id)
+    {
+        if (PlayerDataDict.TryGetValue(id, out var playerData))
+        {
+            return playerData;
+        }
+        Debug.LogError($"PlayerData with ID {id} not found.");
+        return null;
+    }
 }

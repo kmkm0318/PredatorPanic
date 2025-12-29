@@ -29,4 +29,17 @@ public class EvolutionDataList : ScriptableObject
         }
     }
     #endregion
+
+    /// <summary>
+    /// ID로 진화 데이터 가져오기
+    /// </summary>
+    public EvolutionData GetData(string id)
+    {
+        if (EvolutionDataDict.TryGetValue(id, out var data))
+        {
+            return data;
+        }
+        Debug.LogError($"EvolutionData with ID {id} not found.");
+        return null;
+    }
 }

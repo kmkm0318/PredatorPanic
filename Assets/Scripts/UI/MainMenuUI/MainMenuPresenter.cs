@@ -8,16 +8,18 @@ public class MainMenuPresenter : IPresenter
     #region 레퍼런스
     private MainMenuManager _mainMenuManager;
     private MainMenuUI _mainMenuUI;
+    private StartPresenter _startPresenter;
     private EvolutionPresenter _evolutionPresenter;
     private SettingsPresenter _settingsPresenter;
     #endregion
 
     public event Action OnExitButtonClicked;
 
-    public MainMenuPresenter(MainMenuManager mainMenuManager, MainMenuUI mainMenuUI, EvolutionPresenter evolutionPresenter, SettingsPresenter settingsPresenter)
+    public MainMenuPresenter(MainMenuManager mainMenuManager, MainMenuUI mainMenuUI, StartPresenter startPresenter, EvolutionPresenter evolutionPresenter, SettingsPresenter settingsPresenter)
     {
         _mainMenuManager = mainMenuManager;
         _mainMenuUI = mainMenuUI;
+        _startPresenter = startPresenter;
         _evolutionPresenter = evolutionPresenter;
         _settingsPresenter = settingsPresenter;
     }
@@ -55,7 +57,23 @@ public class MainMenuPresenter : IPresenter
     #region 이벤트 핸들러
     private void HandleStartButtonClicked()
     {
-        //TODO: StartPresenter 추가
+        //시작 UI 닫힘 이벤트 구독
+        _startPresenter.OnClosed += HandleOnStartUIClosed;
+
+        //메인 메뉴 숨기기
+        _mainMenuUI.Hide(0f);
+
+        //시작 UI 표시
+        _startPresenter.Show();
+    }
+
+    private void HandleOnStartUIClosed()
+    {
+        //시작 UI 닫힘 이벤트 해제
+        _startPresenter.OnClosed -= HandleOnStartUIClosed;
+
+        //메인 메뉴 다시 표시
+        _mainMenuUI.Show(0f);
     }
 
     private void HandleEvolutionButtonClicked()

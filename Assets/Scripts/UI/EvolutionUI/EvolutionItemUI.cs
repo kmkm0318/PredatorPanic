@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// 진화 아이템 UI 클래스
@@ -81,27 +82,11 @@ public class EvolutionItemUI : MonoBehaviour
         //데이터 없으면 패스
         if (_evolutionData == null) return;
 
-        //희귀도 데이터 딕셔너리 가져오기
-        var rarityDataDict = DataManager.Instance.RarityDataList.RarityDataDict;
-
         //레벨 가져오기
         var currentLevel = UserSaveDataManager.Instance.GetEvolutionLevel(_evolutionData.ID);
 
-        //레벨을 레어도로 변환
-        var levelToRarity = (Rarity)currentLevel;
-
-        //레벨이 최대 Rarity를 넘지 않도록
-        if (levelToRarity > Rarity.Legendary) levelToRarity = Rarity.Legendary;
-
-        //색 설정
-        var color = Color.gray;
-
-        //희귀도 데이터가 있으면
-        if (rarityDataDict.TryGetValue(levelToRarity, out var rarityData))
-        {
-            //희귀도 색 설정
-            color = rarityData.RarityColor;
-        }
+        //희귀도 색상 가져오기
+        var color = DataManager.Instance.RarityDataList.GetRarityColor(currentLevel);
 
         //색 적용
         _iconSlot.SetColor(color);

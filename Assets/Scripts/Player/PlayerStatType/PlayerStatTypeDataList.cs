@@ -11,23 +11,31 @@ public class PlayerStatTypeDataList : ScriptableObject
     [SerializeField] private List<PlayerStatTypeData> _playerStatTypeDatas;
     public List<PlayerStatTypeData> PlayerStatTypeDatas => _playerStatTypeDatas;
 
-    // 빠르게 찾기 위한 딕셔너리
+    #region 딕셔너리
     private Dictionary<PlayerStatType, PlayerStatTypeData> _playerStatTypeDataDict;
+    public Dictionary<PlayerStatType, PlayerStatTypeData> PlayerStatTypeDataDict
+    {
+        get
+        {
+            if (_playerStatTypeDataDict == null)
+            {
+                _playerStatTypeDataDict = new();
+                foreach (var data in _playerStatTypeDatas)
+                {
+                    _playerStatTypeDataDict[data.PlayerStatType] = data;
+                }
+            }
+            return _playerStatTypeDataDict;
+        }
+    }
+    #endregion
 
-    // 최초 접근 시 딕셔너리 생성
-    // PlayerStatType으로 PlayerStatTypeData 조회
+    /// <summary>
+    /// 플레이어 스탯 타입에 해당하는 데이터 반환
+    /// </summary>
     public PlayerStatTypeData GetData(PlayerStatType type)
     {
-        if (_playerStatTypeDataDict == null)
-        {
-            _playerStatTypeDataDict = new();
-            foreach (var data in _playerStatTypeDatas)
-            {
-                _playerStatTypeDataDict[data.PlayerStatType] = data;
-            }
-        }
-
-        if (_playerStatTypeDataDict.TryGetValue(type, out var statTypeData))
+        if (PlayerStatTypeDataDict.TryGetValue(type, out var statTypeData))
         {
             return statTypeData;
         }

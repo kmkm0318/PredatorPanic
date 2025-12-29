@@ -29,4 +29,17 @@ public class GunStatTypeDataList : ScriptableObject
         }
     }
     #endregion
+
+    /// <summary>
+    /// GunStatType에 해당하는 GunStatTypeData 반환
+    /// </summary>
+    public GunStatTypeData GetData(GunStatType gunStatType)
+    {
+        if (GunStatTypeDataDict.TryGetValue(gunStatType, out var data))
+        {
+            return data;
+        }
+        Debug.LogError($"GunStatTypeData not found for GunStatType: {gunStatType}");
+        return null;
+    }
 }

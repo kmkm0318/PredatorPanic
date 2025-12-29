@@ -102,15 +102,8 @@ public class LevelUpRewardSelectUI : ShowHideUI
         //데이터 할당
         Data = data;
 
-        //희귀도 데이터 리스트 가져오기
-        var rarityDataList = DataManager.Instance.RarityDataList;
-        if (rarityDataList.RarityDataDict.TryGetValue(data.Rarity, out var rarityData))
-        {
-            //희귀도 데이터가 있으면 색 지정
-            _panelOutline.effectColor = rarityData.RarityColor;
-            _iconSlot.SetColor(rarityData.RarityColor);
-            _nameText.color = rarityData.RarityColor;
-        }
+        //희귀도에 따른 색상 설정
+        var rarityDataList = DataManager.Instance.RarityDataList.GetRarityColor(data.Rarity);
 
         //아이콘 지정
         _iconSlot.SetIcon(data.RewardIcon);
