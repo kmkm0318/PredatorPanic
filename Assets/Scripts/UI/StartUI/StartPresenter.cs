@@ -9,7 +9,6 @@ using UnityEngine;
 public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
 {
     #region 레퍼런스
-    private MainMenuManager _mainMenuManager;
     private StartUI _startUI;
     private ICancelableManager _cancelableManager;
     #endregion
@@ -20,9 +19,8 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
     public event Action<object> OnTooltipRequestCanceled;
     #endregion
 
-    public StartPresenter(MainMenuManager mainMenuManager, StartUI startUI, ICancelableManager cancelableManager)
+    public StartPresenter(StartUI startUI, ICancelableManager cancelableManager)
     {
-        _mainMenuManager = mainMenuManager;
         _startUI = startUI;
         _cancelableManager = cancelableManager;
     }
@@ -139,7 +137,11 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
 
     private void HandleOnStartButtonClicked()
     {
-        //TODO: 게임 시작 로직 추가
+        //적용된 진화 정보 설정
+        GlobalGameManager.Instance.SetAppliedEvolutions();
+
+        //게임 씬으로 전환
+        SceneTransitionManager.Instance.ChangeScene(SceneTransitionManager.GAME_SCENE_NAME);
     }
 
     private void HandleOnCloseButtonClicked()

@@ -63,7 +63,7 @@ public class GlobalGameManager : Singleton<GlobalGameManager>
     /// <summary>
     /// 적용된 진화 정보 설정
     /// </summary>
-    public void InitAppliedEvolutions()
+    public void SetAppliedEvolutions()
     {
         //매니저 인스턴스 가져오기
         var userSaveDataManager = UserSaveDataManager.Instance;

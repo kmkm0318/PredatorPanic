@@ -14,12 +14,24 @@ public class SceneTransitionUI : ShowHideUI
     #region Show, Hide
     public override void Show(float duration = 0.5F, Action onComplete = null)
     {
-        _irisFade.IrisIn(duration, onComplete);
+        //UI 활성화
+        gameObject.SetActive(true);
+
+        //아이리스 아웃 효과 실행
+        _irisFade.IrisOut(duration, onComplete);
     }
 
     public override void Hide(float duration = 0.5F, Action onComplete = null)
     {
-        _irisFade.IrisOut(duration, onComplete);
+        //아이리스 인 효과 실행
+        _irisFade.IrisIn(duration, () =>
+        {
+            //콜백 실행
+            onComplete?.Invoke();
+
+            //UI 비활성화
+            gameObject.SetActive(false);
+        });
     }
     #endregion
 }

@@ -46,7 +46,7 @@ public class MainMenuUIManager : MonoBehaviour, ICancelableManager
         ConfirmPopupPresenter = new ConfirmPopupPresenter(_confirmPopupUI, this);
         ConfirmPopupPresenter.Init();
 
-        StartPresenter = new StartPresenter(_mainMenuManager, _startUI, this);
+        StartPresenter = new StartPresenter(_startUI, this);
         StartPresenter.Init();
 
         EvolutionPresenter = new EvolutionPresenter(_mainMenuManager.EvolutionManager, _evolutionUI, this);

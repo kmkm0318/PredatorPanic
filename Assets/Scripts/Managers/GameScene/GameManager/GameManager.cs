@@ -11,10 +11,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameData _gameData;
     public GameData GameData => _gameData;
 
-    [Header("Player")]
-    [SerializeField] private PlayerData _playerData;
-    [SerializeField] private WeaponData _weaponData;
-
     [Header("Camera")]
     [SerializeField] private CinemachineCamera _cinemachineCamera;
 
@@ -102,14 +98,18 @@ public class GameManager : MonoBehaviour
         //초기 위치는 (0,0,0)
         var spawnPos = Vector3.zero;
 
+        //선택된 플레이어, 무기 데이터 가져오기
+        var playerData = GlobalGameManager.Instance.SelectedPlayerData;
+        var weaponData = GlobalGameManager.Instance.SelectedWeaponData;
+
         //플레이어 생성
-        Player = Instantiate(_playerData.PlayerPrefab, spawnPos, Quaternion.identity);
+        Player = Instantiate(playerData.PlayerPrefab, spawnPos, Quaternion.identity);
 
         //플레이어 초기화
-        Player.Init(_playerData, this);
+        Player.Init(playerData, this);
 
         //기본 무기 장착
-        Player.TryAddWeapon(_weaponData);
+        Player.TryAddWeapon(weaponData);
 
         //스폰 애니메이션 재생
         Player.OnSpawn();

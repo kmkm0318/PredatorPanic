@@ -75,7 +75,12 @@ public class ProductSlotUI : MonoBehaviour
 
             //색상 설정
             _iconSlot.SetColor(color);
-            _nameText.color = color;
+
+            if (_nameText)
+            {
+                //이름 색상 설정
+                _nameText.color = color;
+            }
 
             //아이콘 설정
             _iconSlot.SetIcon(product.Icon);
