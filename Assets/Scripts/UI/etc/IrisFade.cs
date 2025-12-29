@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class IrisFade : MonoBehaviour
 {
     [SerializeField] private Image _irisImage;
-    [SerializeField] private Ease _easeType = Ease.InOutSine;
+    [SerializeField] private Ease _easeType = Ease.OutBounce;
 
     #region 변수
     private Material _irisMaterial;
