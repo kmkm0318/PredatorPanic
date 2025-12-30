@@ -13,5 +13,13 @@ MonoBehaviour:
   m_Name: TestTableDataList
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTableListData
   <EnemyTableDatas>k__BackingField:
-  - {fileID: 11400000, guid: 3784e74ca7e6eaf4bad12d8e2fa22613, type: 2}
-  - {fileID: 11400000, guid: 3784e74ca7e6eaf4bad12d8e2fa22613, type: 2}
+  - {fileID: 11400000, guid: e632de5de0e130749a9cf753cbba5ea4, type: 2}
+  - {fileID: 11400000, guid: e632de5de0e130749a9cf753cbba5ea4, type: 2}
+  - {fileID: 11400000, guid: e632de5de0e130749a9cf753cbba5ea4, type: 2}
+  - {fileID: 11400000, guid: e632de5de0e130749a9cf753cbba5ea4, type: 2}
+  - {fileID: 11400000, guid: 61cb0f37911c7df40ab26fc1fa19e90e, type: 2}
+  - {fileID: 11400000, guid: 568e9d53c99f5814a9750c48d55155d0, type: 2}
+  - {fileID: 11400000, guid: 568e9d53c99f5814a9750c48d55155d0, type: 2}
+  - {fileID: 11400000, guid: 568e9d53c99f5814a9750c48d55155d0, type: 2}
+  - {fileID: 11400000, guid: 568e9d53c99f5814a9750c48d55155d0, type: 2}
+  - {fileID: 11400000, guid: b1e20657721f4d942b6db94a45c10112, type: 2}

@@ -68,8 +68,11 @@ public class GamePauseState : GameBaseState
 
     private void HandleOnMainMenuRequested()
     {
-        //게임 오버 상태로 전환
-        ChangeState(Factory.Over);
+        //게임 플레이 상태로 전환
+        ChangeState(Factory.Playing);
+
+        //플레이어 체력 0으로 설정
+        GameManager.Player.DamageFull();
     }
     #endregion
 }

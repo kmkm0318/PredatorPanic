@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
         //선택된 플레이어, 무기 데이터 가져오기
         var playerData = GlobalGameManager.Instance.SelectedPlayerData;
         var weaponData = GlobalGameManager.Instance.SelectedWeaponData;
+        var appliedEvolutions = GlobalGameManager.Instance.AppliedEvolutions;
 
         //플레이어 생성
         Player = Instantiate(playerData.PlayerPrefab, spawnPos, Quaternion.identity);
@@ -110,6 +111,17 @@ public class GameManager : MonoBehaviour
 
         //기본 무기 장착
         Player.TryAddWeapon(weaponData);
+
+        //적용된 진화들 장착
+        foreach (var evolutionEntry in appliedEvolutions)
+        {
+            var evolutionData = evolutionEntry.Key;
+            var evolutionLevel = evolutionEntry.Value;
+            Player.AddEvolution(evolutionData, evolutionLevel);
+        }
+
+        //플레이어 체력 최대로 설정
+        Player.HealFull();
 
         //스폰 애니메이션 재생
         Player.OnSpawn();

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3379dabf83607aa45b7a36f9748a309b, type: 3}
-  m_Name: TestGameData
+  m_Name: GameData_Test
   m_EditorClassIdentifier: Assembly-CSharp::GameData
   _roundStartDelay: 0
   _roundDuration: 60

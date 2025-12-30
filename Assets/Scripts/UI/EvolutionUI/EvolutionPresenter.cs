@@ -124,7 +124,7 @@ public class EvolutionPresenter : IPresenter, ITooltipProvider, ICancelable
         string description = string.Join("\n\n", descriptions);
 
         //Rarity 색 가져오기
-        Color targetColor = DataManager.Instance.RarityDataList.GetRarityColor(currentLevel);
+        Color targetColor = DataManager.Instance.RarityDataList.GetRarityColor(currentLevel - 1);
 
         //툴팁 요청 이벤트 호출
         OnTooltipRequested?.Invoke(new(

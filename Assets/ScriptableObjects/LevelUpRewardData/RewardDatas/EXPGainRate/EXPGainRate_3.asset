@@ -17,4 +17,3 @@ MonoBehaviour:
   _rarity: 3
   _effectDatas:
   - {fileID: 11400000, guid: 9c9803b4b0eb23e49a026f85a1b69455, type: 2}
-  - {fileID: 11400000, guid: e4ad6855be7f5054dbb9cd38cb29c22e, type: 2}

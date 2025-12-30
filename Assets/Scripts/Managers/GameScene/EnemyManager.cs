@@ -120,14 +120,10 @@ public class EnemyManager : MonoBehaviour
         _isBossSpawned = false;
 
         //스폰 수 계산
-        _spawnCount = gameData.BaseEnemySpawnCount
-        + roundIdx
-        * gameData.EnemySpawnCountIncrementPerRound;
+        _spawnCount = Mathf.FloorToInt(gameData.BaseEnemySpawnCount * Mathf.Pow(gameData.EnemySpawnCountIncreaseRate, roundIdx));
 
         //스폰 속도 계산
-        float enemySpawnSpeed = gameData.BaseEnemySpawnSpeed
-        + roundIdx
-        * gameData.EnemySpawnSpeedIncrementPerRound;
+        float enemySpawnSpeed = gameData.BaseEnemySpawnSpeed * Mathf.Pow(gameData.EnemySpawnSpeedIncreaseRate, roundIdx);
 
         //스폰 간격 계산
         _spawnInterval = 1f / enemySpawnSpeed;

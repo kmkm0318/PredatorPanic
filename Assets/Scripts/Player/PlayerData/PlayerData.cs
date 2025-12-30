@@ -46,7 +46,7 @@ public class PlayerData : ScriptableObject, IBasicData
     public int WeaponCountMax => _weaponCountMax;
 
     [Header("Item Pickup")]
-    [SerializeField] private float _itemPickupRadiusSqr = 4f;
+    [SerializeField] private float _itemPickupRadiusSqr = 1f;
     public float ItemPickupRadiusSqr => _itemPickupRadiusSqr;
 
     [Header("Spawn Animation Data")]

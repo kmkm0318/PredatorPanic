@@ -16,5 +16,4 @@ MonoBehaviour:
   _rewardIcon: {fileID: 21300000, guid: d5b9fa7fda253ab42b8a74cb9dcdd71d, type: 3}
   _rarity: 3
   _effectDatas:
-  - {fileID: 11400000, guid: 80a9577eb972b224697f2116524b80cc, type: 2}
   - {fileID: 11400000, guid: 254cd54a30c362040bba27999eee99e1, type: 2}

@@ -415,25 +415,10 @@ public class Player : MonoBehaviour
     #endregion
 
     #region 진화
-    public void ApplyEvolutions(List<EvolutionData> evolutionDatas)
-    {
-        //진화 데이터가 없으면 패스
-        if (evolutionDatas == null || evolutionDatas.Count == 0) return;
-
-        //각 진화 추가
-        foreach (var data in evolutionDatas)
-        {
-            AddEvolution(data);
-        }
-    }
-
-    public void AddEvolution(EvolutionData evolutionData)
+    public void AddEvolution(EvolutionData evolutionData, int level)
     {
         //유효성 검사
         if (evolutionData == null) return;
-
-        //레벨 가져오기
-        int level = UserSaveDataManager.Instance.GetEvolutionLevel(evolutionData.ID);
 
         //레벨이 0이면 패스
         if (level <= 0) return;
@@ -463,4 +448,22 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+    /// <summary>
+    /// 플레이어 체력 완전 회복
+    /// 게임 시작 시에 최대 체력을 맞추기 위해 사용
+    /// </summary>
+    public void HealFull()
+    {
+        PlayerHealth.Heal(PlayerHealth.MaxHealth);
+    }
+
+    /// <summary>
+    /// 플레이어 체력 완전 소진
+    /// 게임 종료 시에 사용
+    /// </summary>
+    public void DamageFull()
+    {
+        PlayerHealth.TakeDamage(PlayerHealth.CurrentHealth);
+    }
 }

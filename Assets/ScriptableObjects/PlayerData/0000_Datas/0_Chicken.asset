@@ -21,11 +21,10 @@ MonoBehaviour:
   _playerPrefab: {fileID: 347489321014641408, guid: f3211ced68d72484e918623866b82a9d, type: 3}
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
   _playerBaseStatsData: {fileID: 11400000, guid: a154443229cae5747a70711c4d708b92, type: 2}
-  _characterEffectDatas:
-  - {fileID: 11400000, guid: e8960b790a1445b45889b36a3daa5915, type: 2}
+  _characterEffectDatas: []
   _playerExpData: {fileID: 11400000, guid: 56c6b05865b2d0e45bca3f1b95d9bf19, type: 2}
   _weaponCountMax: 6
-  _itemPickupRadiusSqr: 4
+  _itemPickupRadiusSqr: 1
   _spawnVisualOffsetY: -10
   _spawnVisualDuration: 0.5
   _spawnVisualEase: 27

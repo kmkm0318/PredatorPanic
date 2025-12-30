@@ -16,15 +16,15 @@ public class GameData : ScriptableObject
 
     [Header("Enemy Settings")]
     [SerializeField] private EnemyTableDataList _enemyTableDataList;
-    [SerializeField] private int _baseEnemySpawnCount = 5;
-    [SerializeField] private int _enemySpawnCountIncrementPerRound = 3;
+    [SerializeField] private int _baseEnemySpawnCount = 3;
+    [SerializeField] private float _enemySpawnCountIncreaseRate = 1.2f;
     [SerializeField] private float _baseEnemySpawnSpeed = 0.5f;
-    [SerializeField] private float _enemySpawnSpeedIncrementPerRound = 0.1f;
+    [SerializeField] private float _enemySpawnSpeedIncreaseRate = 1.2f;
     public EnemyTableDataList EnemyTableDataList => _enemyTableDataList;
     public int BaseEnemySpawnCount => _baseEnemySpawnCount;
-    public int EnemySpawnCountIncrementPerRound => _enemySpawnCountIncrementPerRound;
+    public float EnemySpawnCountIncreaseRate => _enemySpawnCountIncreaseRate;
     public float BaseEnemySpawnSpeed => _baseEnemySpawnSpeed;
-    public float EnemySpawnSpeedIncrementPerRound => _enemySpawnSpeedIncrementPerRound;
+    public float EnemySpawnSpeedIncreaseRate => _enemySpawnSpeedIncreaseRate;
 
     [Header("BGM Audio Data")]
     [SerializeField] private AudioData _gamePlayingBGMAudioData;

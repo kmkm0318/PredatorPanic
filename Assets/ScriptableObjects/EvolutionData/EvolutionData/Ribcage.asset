@@ -21,4 +21,16 @@ MonoBehaviour:
   _priceIncreaseRate: 1.5
   _leveleffects:
   - Effects:
-    - {fileID: 11400000, guid: 620127e6253c7bd4492b5930ebda46b2, type: 2}
+    - {fileID: 11400000, guid: 612f038660943ff428ca58cac3ef569a, type: 2}
+  - Effects:
+    - {fileID: 11400000, guid: 4bcb82b0c80716c49bca18d4412231b9, type: 2}
+  - Effects:
+    - {fileID: 11400000, guid: 4bcb82b0c80716c49bca18d4412231b9, type: 2}
+    - {fileID: 11400000, guid: 6278952bfece4ec4a8b691154aabd451, type: 2}
+  - Effects:
+    - {fileID: 11400000, guid: 4bcb82b0c80716c49bca18d4412231b9, type: 2}
+    - {fileID: 11400000, guid: dad1493c665115a4b9f03e8db3e1b497, type: 2}
+  - Effects:
+    - {fileID: 11400000, guid: 4bcb82b0c80716c49bca18d4412231b9, type: 2}
+    - {fileID: 11400000, guid: dad1493c665115a4b9f03e8db3e1b497, type: 2}
+    - {fileID: 11400000, guid: 17d089a0d78b7d64fb30159c966e0ef1, type: 2}

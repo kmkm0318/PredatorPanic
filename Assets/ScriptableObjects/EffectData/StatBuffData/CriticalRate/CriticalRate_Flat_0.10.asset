@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 415d94fea10b3214f9c439dfb048718f, type: 3}
-  m_Name: RicochetCount_Flat_0.2
+  m_Name: CriticalRate_Flat_0.10
   m_EditorClassIdentifier: Assembly-CSharp::StatBuffEffectData
   <Description>k__BackingField: 
-  <StatType>k__BackingField: 13
+  <StatType>k__BackingField: 5
   <ModifierType>k__BackingField: 0
-  <BuffAmount>k__BackingField: 0.2
+  <BuffAmount>k__BackingField: 0.1
