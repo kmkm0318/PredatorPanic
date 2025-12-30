@@ -3088,6 +3088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
   _mainMenuUIManager: {fileID: 861930990}
   _evolutionManager: {fileID: 69414241}
+  _mainMenuBGM: {fileID: 11400000, guid: 6c68ab6f027c9534cb569c5cb0b3a478, type: 2}
 --- !u!1001 &1078902395
 PrefabInstance:
   m_ObjectHideFlags: 0

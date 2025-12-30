@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53ca5bf0962f685439ada433cc9ed705, type: 3}
-  m_Name: MainMenuAudioData
+  m_Name: MainMenuBGMAudioData
   m_EditorClassIdentifier: Assembly-CSharp::AudioData
-  _audioClip: {fileID: 0}
+  _audioClip: {fileID: 8300000, guid: b85595fffc0d04648a45a2041f5c1e38, type: 3}
   _volume: 1
   _pitch: 1
   _pitchRandomness: 0
