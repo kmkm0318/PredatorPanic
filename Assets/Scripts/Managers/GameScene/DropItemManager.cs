@@ -5,6 +5,7 @@ using UnityEngine.Pool;
 /// <summary>
 /// 드롭 아이템 매니저
 /// 드롭 아이템 오브젝트 풀링 및 스폰 기능 담당
+/// 매니저의 위치를 y -1000 등으로 설정해서 버그 예방
 /// </summary>
 public class DropItemManager : MonoBehaviour
 {
@@ -89,7 +90,14 @@ public class DropItemManager : MonoBehaviour
                 return item;
             },
             (item) => item.gameObject.SetActive(true),
-            (item) => item.gameObject.SetActive(false),
+            (item) =>
+            {
+                //비활성화
+                item.gameObject.SetActive(false);
+
+                //위치 초기화
+                item.transform.position = transform.position;
+            },
             (item) => Destroy(item.gameObject),
             false
         );

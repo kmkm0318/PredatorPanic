@@ -23,9 +23,9 @@ public class ParticleEffectManager : Singleton<ParticleEffectManager>
                 effect.Init(data, this);
                 return effect;
             },
-            (effect) => { effect.gameObject.SetActive(true); },
-            (effect) => { effect.gameObject.SetActive(false); },
-            (effect) => { Destroy(effect.gameObject); }
+            (effect) => effect.gameObject.SetActive(true),
+            (effect) => effect.gameObject.SetActive(false),
+            (effect) => Destroy(effect.gameObject)
         );
 
         //딕셔너리에 추가
@@ -66,7 +66,7 @@ public class ParticleEffectManager : Singleton<ParticleEffectManager>
     }
     #endregion
 
-    #region 플레이 및 반환
+    #region 플레이
     public void Play(ParticleEffectData data, Vector3 position, Quaternion rotation, Action onComplete = null)
     {
         //데이터 없을 시 패스

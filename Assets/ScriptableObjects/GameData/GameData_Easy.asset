@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3379dabf83607aa45b7a36f9748a309b, type: 3}
-  m_Name: GameData
+  m_Name: GameData_Easy
   m_EditorClassIdentifier: Assembly-CSharp::GameData
-  _roundStartDelay: 0
+  _roundStartDelay: 3
   _roundDuration: 60
   _enemyTableDataList: {fileID: 11400000, guid: 27d893cf08ea962438994e6953335326, type: 2}
-  _baseEnemySpawnCount: 5
-  _enemySpawnCountIncrementPerRound: 3
+  _baseEnemySpawnCount: 3
+  _enemySpawnCountIncrementPerRound: 1
   _baseEnemySpawnSpeed: 0.5
   _enemySpawnSpeedIncrementPerRound: 0.1
   _gamePlayingBGMAudioData: {fileID: 11400000, guid: 217a56f7c7c4db64e971f4e29affa923, type: 2}

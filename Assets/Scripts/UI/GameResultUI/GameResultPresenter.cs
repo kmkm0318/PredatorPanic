@@ -9,10 +9,6 @@ public class GameResultPresenter : IPresenter
     private GameResultUI _gameResultUI;
     #endregion
 
-    #region 이벤트
-    public event Action OnMainMenuButtonClicked;
-    #endregion
-
     public GameResultPresenter(GameResultUI gameResultUI)
     {
         _gameResultUI = gameResultUI;
@@ -45,7 +41,8 @@ public class GameResultPresenter : IPresenter
     #region 이벤트 핸들러
     private void HandleOnMainMenuButtonClicked()
     {
-        OnMainMenuButtonClicked?.Invoke();
+        //메인 메뉴 씬으로 전환
+        SceneTransitionManager.Instance.ChangeScene(SceneTransitionManager.MAIN_MENU_SCENE_NAME);
     }
     #endregion
 

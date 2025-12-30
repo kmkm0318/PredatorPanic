@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DefaultHitParticleEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 4739264407584629229, guid: 841004c4c6a39e244abe2257394de913, type: 3}
+      propertyPath: stopAction
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

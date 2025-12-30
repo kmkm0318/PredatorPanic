@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
 {
     #region 상수
     private const int MAX_HIT_COUNT = 8;
+    private const float RAYCAST_START_OFFSET = 0.1f;
     #endregion
 
     #region 데이터
@@ -108,11 +109,17 @@ public class Bullet : MonoBehaviour
         // 비활성화 시 패스
         if (!gameObject.activeSelf) return;
 
-        //거리 계산
+        //이동 거리 계산
         var distance = _speed * Time.deltaTime;
 
+        //레이캐스트 시작 위치 계산
+        var raycastOrigin = _lastPosition - _direction * RAYCAST_START_OFFSET;
+
+        //레이캐스트 거리 계산
+        var rayDistance = distance + RAYCAST_START_OFFSET;
+
         //레이캐스트로 충돌 판단
-        var hitCount = Physics.RaycastNonAlloc(_lastPosition, _direction, _hits, distance, _context.HitLayerMask, QueryTriggerInteraction.Collide);
+        var hitCount = Physics.RaycastNonAlloc(raycastOrigin, _direction, _hits, rayDistance, _context.HitLayerMask, QueryTriggerInteraction.Collide);
 
         for (int i = 0; i < hitCount; i++)
         {
