@@ -14,7 +14,6 @@ public abstract class DropItem : MonoBehaviour
     #region 따라가기
     private Player _player;
     public bool IsFollowing { get; private set; }
-    private float _magnetDelayTimer = 0f;
     #endregion
 
     #region 이벤트
@@ -28,7 +27,6 @@ public abstract class DropItem : MonoBehaviour
 
     public virtual void ResetItem()
     {
-        StopAllCoroutines();
         IsFollowing = false;
         _player = null;
     }
@@ -45,9 +43,6 @@ public abstract class DropItem : MonoBehaviour
         if (!DropItemData.IsFollow) return;
         if (IsFollowing) return;
 
-        // 딜레이 타이머 초기화
-        _magnetDelayTimer = 0f;
-
         //플레이어 저장 및 따라가기 시작
         _player = player;
         IsFollowing = true;
@@ -57,16 +52,6 @@ public abstract class DropItem : MonoBehaviour
     {
         //따라가기 중이 아닐 시, 플레이어가 없을 시 패스
         if (!IsFollowing || _player == null) return;
-
-        //자석 딜레이 시간 내일 시
-        if (_magnetDelayTimer < DropItemData.MagnetDelay)
-        {
-            //자석 딜레이 타이머 갱신
-            _magnetDelayTimer += Time.deltaTime;
-
-            //패스
-            return;
-        }
 
         //방향 계산
         var dirToPlayer = (_player.CenterPosition - transform.position).normalized;
