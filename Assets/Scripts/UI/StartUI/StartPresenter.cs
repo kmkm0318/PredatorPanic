@@ -288,6 +288,9 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
         //취소 가능 관리자에서 해제
         _cancelableManager.PopCancelable(this);
 
+        //툴팁 요청 취소
+        OnTooltipRequestCanceled?.Invoke(null);
+
         //닫힘 이벤트 호출
         OnClosed?.Invoke();
     }

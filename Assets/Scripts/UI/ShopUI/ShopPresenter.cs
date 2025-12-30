@@ -191,7 +191,7 @@ public class ShopPresenter : IPresenter, ITooltipProvider
     /// 상점 UI 표시 함수
     /// ShopState진입 시 호출합니다
     /// </summary>
-    public void ShowShopUI()
+    public void Show()
     {
         //상점 매니저의 모든 상품 갱신
 
@@ -206,9 +206,13 @@ public class ShopPresenter : IPresenter, ITooltipProvider
     /// 상점 UI 숨기기 함수
     /// ShopState 종료 시 호출합니다
     /// </summary>
-    public void HideShopUI()
+    public void Hide()
     {
+        //UI 숨기기
         _shopUI.Hide();
+
+        //툴팁 요청 취소
+        OnTooltipRequestCanceled?.Invoke(null);
     }
     #endregion
 }

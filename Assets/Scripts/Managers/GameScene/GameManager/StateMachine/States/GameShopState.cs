@@ -13,7 +13,7 @@ public class GameShopState : GameBaseState
     public override void Enter()
     {
         //상점 UI 활성화
-        GameManager.GameUIManager.ShopPresenter.ShowShopUI();
+        GameManager.GameUIManager.ShopPresenter.Show();
 
         //플레이어 스탯 UI 표시
         GameManager.GameUIManager.PlayerStatPresenter.Show();
@@ -36,7 +36,7 @@ public class GameShopState : GameBaseState
     public override void Exit()
     {
         //상점 UI 비활성화
-        GameManager.GameUIManager.ShopPresenter.HideShopUI();
+        GameManager.GameUIManager.ShopPresenter.Hide();
 
         //플레이어 스탯 UI 숨기기
         GameManager.GameUIManager.PlayerStatPresenter.Hide();
