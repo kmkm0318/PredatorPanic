@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,7 @@ public class SceneTransitionManager : Singleton<SceneTransitionManager>
     #region 상수
     public const string MAIN_MENU_SCENE_NAME = "MainMenuScene";
     public const string GAME_SCENE_NAME = "GameScene";
+    private const float SCENE_SHOW_DELAY = 0.5f;
     #endregion
 
     [Header("UI Elements")]
@@ -32,27 +34,38 @@ public class SceneTransitionManager : Singleton<SceneTransitionManager>
         // 전환 상태 설정
         _isTransitioning = true;
 
+        // 코루틴 시작
+        StartCoroutine(ChangeSceneCoroutine(sceneName, duration));
+    }
+
+    private IEnumerator ChangeSceneCoroutine(string sceneName, float duration)
+    {
         // 씬 전환 시작 이벤트 호출
         OnSceneTransitionStarted?.Invoke();
 
-        // 전환 시간의 절반 계산
+        //시간 절반 계산
         float halfDuration = duration / 2f;
 
-        // 씬 전환 UI 보여주기
-        _sceneTransitionUI.Show(halfDuration, () =>
-        {
-            // 씬 로드
-            SceneManager.LoadScene(sceneName);
+        //씬 전환 UI 보여주기
+        bool isShown = false;
+        _sceneTransitionUI.Show(halfDuration, () => isShown = true);
+        yield return new WaitUntil(() => isShown);
 
-            // 씬 전환 UI 숨기기
-            _sceneTransitionUI.Hide(halfDuration, () =>
-            {
-                // 씬 전환 완료 이벤트 호출
-                OnSceneTransitionCompleted?.Invoke();
+        //씬 로드
+        SceneManager.LoadScene(sceneName);
 
-                // 전환 상태 초기화
-                _isTransitioning = false;
-            });
-        });
+        //대기 시간
+        yield return new WaitForSeconds(SCENE_SHOW_DELAY);
+
+        //씬 전환 UI 숨기기
+        bool isHidden = false;
+        _sceneTransitionUI.Hide(halfDuration, () => isHidden = true);
+        yield return new WaitUntil(() => isHidden);
+
+        //씬 전환 완료 이벤트 호출
+        OnSceneTransitionCompleted?.Invoke();
+
+        //전환 상태 초기화
+        _isTransitioning = false;
     }
 }

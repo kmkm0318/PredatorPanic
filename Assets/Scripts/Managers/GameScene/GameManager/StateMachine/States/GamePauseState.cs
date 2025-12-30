@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -45,19 +46,30 @@ public class GamePauseState : GameBaseState
     #region 이벤트 구독, 해제
     private void RegisterEvents()
     {
-        GameManager.GameUIManager.PausePresenter.OnResumeRequested += HandleOnResumeRequested;
+        var pausePresenter = GameManager.GameUIManager.PausePresenter;
+        pausePresenter.OnResumeRequested += HandleOnResumeRequested;
+        pausePresenter.OnMainMenuRequested += HandleOnMainMenuRequested;
     }
 
     private void UnregisterEvents()
     {
-        GameManager.GameUIManager.PausePresenter.OnResumeRequested -= HandleOnResumeRequested;
+        var pausePresenter = GameManager.GameUIManager.PausePresenter;
+        pausePresenter.OnResumeRequested -= HandleOnResumeRequested;
+        pausePresenter.OnMainMenuRequested -= HandleOnMainMenuRequested;
     }
     #endregion
 
     #region 이벤트 핸들러
     private void HandleOnResumeRequested()
     {
+        //게임 플레이 상태로 전환
         ChangeState(Factory.Playing);
+    }
+
+    private void HandleOnMainMenuRequested()
+    {
+        //게임 오버 상태로 전환
+        ChangeState(Factory.Over);
     }
     #endregion
 }

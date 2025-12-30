@@ -91,9 +91,6 @@ public class Explosion : MonoBehaviour
 
         //폭발 라이프타임 시작
         StartLifetime(ExplosionData.VisualDuration);
-
-        //카메라 흔들림 재생
-        _explosionManager.GameManager.CameraManager.PlayExplosionImpulse();
     }
     #endregion
 

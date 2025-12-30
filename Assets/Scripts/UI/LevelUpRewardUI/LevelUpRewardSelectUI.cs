@@ -108,6 +108,15 @@ public class LevelUpRewardSelectUI : ShowHideUI
         //아이콘 지정
         _iconSlot.SetIcon(data.RewardIcon);
 
+        //배경 색상 설정
+        _iconSlot.SetColor(rarityDataList);
+
+        //외곽선 색상 설정
+        _panelOutline.effectColor = rarityDataList;
+
+        //이름 색 설정
+        _nameText.color = rarityDataList;
+
         //이름 및 설명 지정
         _nameText.text = data.RewardName;
         _descriptionText.text = string.Join("\n", data.EffectDatas.ConvertAll(effect => effect.GetDescription()));

@@ -13,6 +13,7 @@ public class PausePresenter : IPresenter, ICancelable
 
     #region 이벤트
     public event Action OnResumeRequested;
+    public event Action OnMainMenuRequested;
     #endregion
 
     public PausePresenter(PauseUI pauseUI, SettingsPresenter settingsPresenter, ICancelableManager cancelableManager)
@@ -60,6 +61,9 @@ public class PausePresenter : IPresenter, ICancelable
     {
         //닫기
         Hide();
+
+        //계속하기 요청 이벤트 호출
+        OnResumeRequested?.Invoke();
     }
 
     private void HandleOnSettingsButtonClicked()
@@ -70,8 +74,8 @@ public class PausePresenter : IPresenter, ICancelable
         //설정 UI가 닫히면 다시 열리도록 이벤트 구독
         _settingsPresenter.OnClosed += HandleOnClosed;
 
-        //일시정지 UI 즉시 숨기기 (닫힘 이벤트는 호출하지 않음)
-        Hide(0f, false);
+        //일시정지 UI 즉시 숨기기
+        Hide(0f);
     }
 
     private void HandleOnClosed()
@@ -85,8 +89,11 @@ public class PausePresenter : IPresenter, ICancelable
 
     private void HandleOnMainMenuButtonClicked()
     {
-        //TODO: MainMenu로 이동
-        $"MainMenu로 이동".Log();
+        //일시정지 UI 즉시 숨기기
+        Hide();
+
+        //메인 메뉴 요청 이벤트 호출
+        OnMainMenuRequested?.Invoke();
     }
     #endregion
 
@@ -100,19 +107,13 @@ public class PausePresenter : IPresenter, ICancelable
         _cancelableManager.PushCancelable(this);
     }
 
-    public void Hide(float duration = 0.5f, bool invokeResumeEvent = true)
+    public void Hide(float duration = 0.5f)
     {
         //일시정지 UI 숨기기
         _pauseUI.Hide(duration);
 
         //취소 가능한 항목에서 제거
         _cancelableManager.PopCancelable(this);
-
-        if (invokeResumeEvent)
-        {
-            //닫힘 이벤트 호출
-            OnResumeRequested?.Invoke();
-        }
     }
 
     public void Cancel()

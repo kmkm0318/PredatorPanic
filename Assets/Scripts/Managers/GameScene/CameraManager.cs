@@ -10,7 +10,6 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineInputAxisController _cinemachineInputAxisController;
     [SerializeField] private CinemachineImpulseListener _cinemachineImpulseListener;
     [SerializeField] private CinemachineImpulseSource _damageImpulseSource;
-    [SerializeField] private CinemachineImpulseSource _explosionImpulseSource;
 
     private void Start()
     {
@@ -84,11 +83,6 @@ public class CameraManager : MonoBehaviour
     public void PlayDamageImpulse(float force = 1f)
     {
         _damageImpulseSource.GenerateImpulse(force);
-    }
-
-    public void PlayExplosionImpulse(float force = 1f)
-    {
-        _explosionImpulseSource.GenerateImpulse(force);
     }
     #endregion
 }

@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 1769387825939974017}
   - component: {fileID: 1653182900562442927}
   - component: {fileID: 7493822477543782092}
+  - component: {fileID: 6046047068165235693}
   m_Layer: 5
   m_Name: WeaponSelectItemUI
   m_TagString: Untagged
@@ -253,6 +254,24 @@ MonoBehaviour:
   optionalScrambleMode: 0
   optionalShakeRandomnessMode: 0
   optionalString: 
+--- !u!114 &6046047068165235693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4502696083799323710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2fcb07e3842bc4ea26975e7629a889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PointerSfxPlayer
+  _pointerHandler: {fileID: 1653182900562442927}
+  _enterSfxData: {fileID: 11400000, guid: 042d6b357834ad0408560fc682bdac21, type: 2}
+  _exitSfxData: {fileID: 0}
+  _downSfxData: {fileID: 0}
+  _upSfxData: {fileID: 0}
+  _clickSfxData: {fileID: 11400000, guid: 0b1959fba735f5d47b2c258671fb6875, type: 2}
 --- !u!1 &4895674313933501514
 GameObject:
   m_ObjectHideFlags: 0
