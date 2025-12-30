@@ -126,8 +126,8 @@ public class Bullet : MonoBehaviour
             //충돌 처리
             HandleHitCollider(_hits[i].collider);
 
-            //총알이 비활성화 되었으면 루프 탈출
-            if (!gameObject.activeSelf) break;
+            //총알이 비활성화 되었으면 종료
+            if (!gameObject.activeSelf) return;
         }
 
         //위치 갱신

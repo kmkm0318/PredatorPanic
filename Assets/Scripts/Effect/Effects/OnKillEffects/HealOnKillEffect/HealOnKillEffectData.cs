@@ -22,12 +22,12 @@ public class HealOnKillEffectData : EffectData
         if (_targetKillCount <= 1)
         {
             //목표 처치 수가 1 이하일 시 targetKillCount 포함하지 않음
-            return $"적 처치 시 {_healAmount} 회복";
+            return $"적 처치 시 체력 {_healAmount} 회복";
         }
         else
         {
             //목표 처치 수가 2 이상일 시 targetKillCount 포함
-            return $"적 {_targetKillCount}회 처치 시 {_healAmount} 회복";
+            return $"적 {_targetKillCount}회 처치 시 체력 {_healAmount} 회복";
         }
     }
 }

@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -16,6 +16,10 @@ public class DamageText : MonoBehaviour
     public DamageTextData Data { get; private set; }
     #endregion
 
+    #region 변수
+    private Sequence _showSequence;
+    #endregion
+
     #region 이벤트
     public static event Action<DamageText> OnAnyDamageTextDone;
     #endregion
@@ -30,74 +34,27 @@ public class DamageText : MonoBehaviour
         _damageText.color = isCritical ? Data.CriticalColor : Data.NormalColor;
 
         // 애니메이션 시작
-        StartCoroutine(AnimationCoroutine());
+        PlayShowAnimation();
     }
 
-    #region 애니메이션 코루틴
-    //데미지 텍스트 애니메이션 코루틴
-    private IEnumerator AnimationCoroutine()
+    private void PlayShowAnimation()
     {
-        //이동 및 페이드 코루틴 실행
-        yield return StartCoroutine(MoveCoroutine());
-        yield return StartCoroutine(FadeCoroutine());
+        //이전 시퀀스가 있으면 종료
+        _showSequence?.Kill();
 
-        //애니메이션 완료 이벤트 호출
-        OnAnyDamageTextDone?.Invoke(this);
+        //투명도 초기화
+        _damageText.alpha = 1f;
+
+        //새 시퀀스 생성
+        _showSequence = DOTween.Sequence();
+
+        //위로 이동 애니메이션 추가
+        _showSequence.Append(transform.DOLocalMoveY(transform.localPosition.y + Data.MoveDistance, Data.MoveDuration).SetEase(Data.MoveEase));
+
+        //페이드 아웃 애니메이션 추가
+        _showSequence.Append(_damageText.DOFade(0f, Data.FadeDuration));
+
+        //애니메이션 완료 시 이벤트 호출
+        _showSequence.OnComplete(() => OnAnyDamageTextDone?.Invoke(this));
     }
-
-    //움직임 코루틴
-    private IEnumerator MoveCoroutine()
-    {
-        //시작, 목표 위치 및 색
-        Vector3 startPosition = transform.localPosition;
-        Vector3 targetPosition = startPosition + new Vector3(0, Data.MoveDistance, 0); // 위로 이동
-
-        //시간
-        float elapsedTime = 0f;
-        float duration = Data.MoveDuration;
-
-        while (elapsedTime < duration)
-        {
-            // 비율
-            float t = elapsedTime / duration;
-
-            // 위치 보간
-            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, t);
-
-            // 시간 증가
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // 최종 위치
-        transform.localPosition = targetPosition;
-    }
-
-    //페이드 아웃 코루틴
-    private IEnumerator FadeCoroutine()
-    {
-        //시작, 목표 색
-        Color startColor = _damageText.color;
-        Color targetColor = new(startColor.r, startColor.g, startColor.b, 0); // 투명해짐
-
-        //애니메이션 시간
-        float elapsedTime = 0f;
-        float duration = Data.FadeDuration;
-
-        while (elapsedTime < duration)
-        {
-            // 비율
-            float t = elapsedTime / duration;
-
-            // 색상 보간
-            _damageText.color = Color.Lerp(startColor, targetColor, t);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // 최종 색상 설정
-        _damageText.color = targetColor;
-    }
-    #endregion
 }
