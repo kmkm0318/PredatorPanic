@@ -102,11 +102,11 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public void TakeDamage(in PlayerDamageContext context)
     {
-        //데미지 적용
-        Health.TakeDamage(context.Damage);
-
         //플레이어에게 적중 처리 알림
         context.Player.HandleOnHit(context);
+
+        //데미지 적용
+        Health.TakeDamage(context.Damage);
 
         if (Health.IsDead)
         {
