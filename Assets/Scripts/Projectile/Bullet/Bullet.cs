@@ -36,6 +36,7 @@ public class Bullet : MonoBehaviour
     #region 호밍
     private bool _isHoming = false;
     private Enemy _targetEnemy = null;
+    private float _homingDelayTimer = 0f;
     #endregion
 
     #region 관통, 튕김
@@ -74,6 +75,14 @@ public class Bullet : MonoBehaviour
 
         //호밍이 아니면 패스
         if (!_isHoming) return;
+
+        //호밍 딜레이 시간 경과 전이면
+        if (_homingDelayTimer < Data.HomingDelay)
+        {
+            //시간 갱신 후 패스
+            _homingDelayTimer += Time.deltaTime;
+            return;
+        }
 
         //타겟이 없거나 비활성화 되었으면
         if (_targetEnemy == null || !_targetEnemy.gameObject.activeSelf)
@@ -151,6 +160,7 @@ public class Bullet : MonoBehaviour
         //호밍 설정
         _targetEnemy = context.InitialTargetEnemy;
         _isHoming = Data.IsHoming;
+        _homingDelayTimer = 0f;
 
         //위치 설정
         transform.position = context.FirePosition;

@@ -110,13 +110,7 @@ public class Enemy : MonoBehaviour
 
         if (Health.IsDead)
         {
-            //사망 사운드 재생
-            AudioManager.Instance.PlaySfx(EnemyData.DeathAudio, CenterPosition);
-
-            //사망 파티클 이펙트 재생
-            ParticleEffectManager.Instance.Play(EnemyData.DeathParticleEffect, CenterPosition, transform.rotation);
-
-            //사망 시 플레이어에게 처치 처리 알림
+            //플레이어의 공격으로 사망 시 플레이어에게 처치 처리 알림
             context.Player.HandleOnKill(context);
         }
         else
@@ -136,6 +130,12 @@ public class Enemy : MonoBehaviour
     // 체력이 0이 되거나 EnemyManager에서 호출
     public void Die()
     {
+        //사망 사운드 재생
+        AudioManager.Instance.PlaySfx(EnemyData.DeathAudio, CenterPosition);
+
+        //사망 파티클 이펙트 재생
+        ParticleEffectManager.Instance.Play(EnemyData.DeathParticleEffect, CenterPosition, transform.rotation);
+
         //사망 이벤트 호출
         OnDeath?.Invoke(this);
     }

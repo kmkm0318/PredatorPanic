@@ -86,7 +86,7 @@ public class EvolutionItemUI : MonoBehaviour
         var currentLevel = UserSaveDataManager.Instance.GetEvolutionLevel(_evolutionData.ID);
 
         //희귀도 색상 가져오기
-        var color = DataManager.Instance.RarityDataList.GetRarityColor(currentLevel);
+        var color = DataManager.Instance.RarityDataList.GetRarityColor(currentLevel - 1);
 
         //색 적용
         _iconSlot.SetColor(color);
