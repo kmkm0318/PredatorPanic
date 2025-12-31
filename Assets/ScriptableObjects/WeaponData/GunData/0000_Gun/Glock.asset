@@ -24,17 +24,17 @@ MonoBehaviour:
   _fireSfxData: {fileID: 11400000, guid: bb0e56f7c17ac8b4fa0d7f0b16e737ad, type: 2}
   _initialStats:
   - _statType: 0
-    _value: 10
+    _value: 5
   - _statType: 1
-    _value: 2
+    _value: 1
   - _statType: 2
     _value: 50
   - _statType: 3
-    _value: 50
+    _value: 25
   - _statType: 4
-    _value: 0
+    _value: 0.05
   - _statType: 5
-    _value: 1.25
+    _value: 1.5
   - _statType: 6
     _value: 1
   - _statType: 7

@@ -19,7 +19,7 @@ public static class CombatUtility
     {
         float baseDamage = gun.GunStats.GetStat(GunStatType.Damage).FinalValue;
         float attack = player.PlayerStats.GetStat(PlayerStatType.Attack).FinalValue;
-        float attackMultiplier = attack / (attack + ATTACK_CONSTANT);
+        float attackMultiplier = attack / ATTACK_CONSTANT;
 
         return baseDamage * attackMultiplier;
     }
@@ -52,7 +52,7 @@ public static class CombatUtility
     /// </summary>
     public static float CalculateDefensedDamage(float damage, float defense)
     {
-        float damageReduction = defense / (defense + DEFENSE_CONSTANT);
+        float damageReduction = defense / DEFENSE_CONSTANT;
         return damage * (1f - damageReduction);
     }
 

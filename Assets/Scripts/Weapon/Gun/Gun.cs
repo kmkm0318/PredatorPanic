@@ -69,6 +69,8 @@ public class Gun : Weapon
         //실패 시 패스
         if (!TryGetNearestEnemy(out _targetEnemy)) return;
 
+        Debug.DrawLine(Player.CenterPosition, _targetEnemy.CenterPosition, Color.red, 0.1f);
+
         //발사 방향 계산
         Vector3 fireDirection = (_targetEnemy.CenterPosition - Player.CenterPosition).normalized;
 
@@ -92,7 +94,7 @@ public class Gun : Weapon
         var enemyLayerMask = DataManager.Instance.EnemyLayerMask;
 
         //가장 가까운 적 찾기
-        var target = PhysicsUtility.GetNearestCollider(Player.transform.position, range, enemyLayerMask);
+        var target = PhysicsUtility.GetNearestCollider(Player.CenterPosition, range, enemyLayerMask);
 
         //적 컴포넌트 가져오기 시도
         if (target != null && target.TryGetComponent(out targetEnemy))

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,10 +8,21 @@ using UnityEngine;
 /// </summary>
 public static class PhysicsUtility
 {
+    #region 상수
     //콜라이더 버퍼 최대 크기
     private const int MAX_COLLIDER_BUFFER_SIZE = 128;
+
+    //레이캐스트 히트 버퍼 최대 크기
+    private const int MAX_RAYCAST_HIT_BUFFER_SIZE = 16;
+    #endregion
+
+    #region 버퍼
     //콜라이더 배열 재사용을 위한 버퍼
     private static Collider[] _colliders = new Collider[MAX_COLLIDER_BUFFER_SIZE];
+
+    //레이캐스트 히트 배열 재사용을 위한 버퍼
+    private static RaycastHit[] _raycastHits = new RaycastHit[MAX_RAYCAST_HIT_BUFFER_SIZE];
+    #endregion
 
     /// <summary>
     /// 가장 가까운 타겟 찾기
@@ -47,6 +59,18 @@ public static class PhysicsUtility
     {
         int hitCount = Physics.OverlapSphereNonAlloc(position, radius, _colliders, layerMask);
         colliders = _colliders;
+        return hitCount;
+    }
+
+    /// <summary>
+    /// RaycastNonAlloc 래퍼 함수
+    /// RaycastHit 배열 버퍼를 재사용하여 할당 최소화
+    /// </summary>
+    public static int RaycastNonAlloc(Vector3 position, Vector3 direction, float distance, LayerMask layerMask, out RaycastHit[] hitInfo)
+    {
+        Ray ray = new(position, direction);
+        int hitCount = Physics.RaycastNonAlloc(ray, _raycastHits, distance, layerMask);
+        hitInfo = _raycastHits;
         return hitCount;
     }
 }

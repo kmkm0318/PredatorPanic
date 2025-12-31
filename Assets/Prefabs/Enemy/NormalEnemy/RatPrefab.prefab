@@ -953,10 +953,6 @@ PrefabInstance:
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4989826920938878453, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4989826920938878453, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
       propertyPath: m_StoppingDistance
       value: 2
       objectReference: {fileID: 0}

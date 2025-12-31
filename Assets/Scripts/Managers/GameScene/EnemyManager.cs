@@ -78,7 +78,11 @@ public class EnemyManager : MonoBehaviour
                 return enemy;
             },
             (enemy) => enemy.gameObject.SetActive(true),
-            (enemy) => enemy.gameObject.SetActive(false),
+            (enemy) =>
+            {
+                enemy.gameObject.SetActive(false);
+                enemy.transform.position = transform.position;
+            },
             (enemy) => Destroy(enemy.gameObject)
         );
 

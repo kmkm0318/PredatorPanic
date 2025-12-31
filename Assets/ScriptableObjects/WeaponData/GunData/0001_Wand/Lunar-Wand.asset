@@ -16,25 +16,25 @@ MonoBehaviour:
   _name: "\uB8E8\uB098 \uC644\uB4DC"
   _description: 
   _icon: {fileID: 21300000, guid: a970e2d82d1f237408ad9b97e9303467, type: 3}
-  _rarity: 1
-  _basePrice: 1200
-  _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}
-  _trailData: {fileID: 11400000, guid: 4cbd0840957cbbc4aa53f66d7d2658ef, type: 2}
+  _rarity: 2
+  _basePrice: 2400
+  _bulletData: {fileID: 11400000, guid: 7154d03fcc24b044f81560c6c9399e88, type: 2}
+  _trailData: {fileID: 11400000, guid: 798e0e5ecd25bbb46ae8c4e9ce888394, type: 2}
   _explosionData: {fileID: 0}
   _fireSfxData: {fileID: 11400000, guid: 27e6e8e2acd81cc48be3f7c7d88e902f, type: 2}
   _initialStats:
   - _statType: 0
-    _value: 8
+    _value: 5
   - _statType: 1
-    _value: 4
+    _value: 2
   - _statType: 2
-    _value: 100
+    _value: 35
   - _statType: 3
-    _value: 100
+    _value: 35
   - _statType: 4
     _value: 0
   - _statType: 5
-    _value: 1.5
+    _value: 1.25
   - _statType: 6
     _value: 1
   - _statType: 7
