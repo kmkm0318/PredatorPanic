@@ -69,8 +69,6 @@ public class Gun : Weapon
         //실패 시 패스
         if (!TryGetNearestEnemy(out _targetEnemy)) return;
 
-        Debug.DrawLine(Player.CenterPosition, _targetEnemy.CenterPosition, Color.red, 0.1f);
-
         //발사 방향 계산
         Vector3 fireDirection = (_targetEnemy.CenterPosition - Player.CenterPosition).normalized;
 

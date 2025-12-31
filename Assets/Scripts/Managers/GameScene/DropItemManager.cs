@@ -120,6 +120,9 @@ public class DropItemManager : MonoBehaviour
     #region 아이템 스폰
     public void SpawnDropItems(DropItemTableData dropItemTable, Vector3 position)
     {
+        //y 위치 보정
+        position.y = 0f;
+
         //드랍 테이블의 각 아이템에 대해 각각 진행
         foreach (var entry in dropItemTable.DropItemTableEntries)
         {

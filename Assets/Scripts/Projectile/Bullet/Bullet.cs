@@ -1,15 +1,15 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// 총알 클래스
 /// </summary>
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IManualUpdate
 {
     #region 상수
-    private const int MAX_HIT_COUNT = 8;
+    private const int DEFAULT_HIT_BUFFER_SIZE = 16;
     private const float RAYCAST_START_OFFSET = 0.1f;
+    private const float MIN_HOMING_DISTANCE_SQR = 0.01f;
     #endregion
 
     #region 데이터
@@ -19,6 +19,7 @@ public class Bullet : MonoBehaviour
     #region 레퍼런스 변수
     private BulletManager _bulletManager;
     private ExplosionManager _explosionManager;
+    private Transform _transform;
     #endregion
 
     #region 컨텍스트
@@ -28,9 +29,7 @@ public class Bullet : MonoBehaviour
     #region 이동
     private Vector3 _direction;
     private float _speed;
-    private Vector3 _lastPosition;
-    private RaycastHit[] _hits = new RaycastHit[MAX_HIT_COUNT]; //레이캐스트 히트 정보 배열
-    public HashSet<Collider> HitColliders { get; private set; } = new(); //충돌한 콜라이더 기록
+    public HashSet<Collider> HitColliders { get; private set; } = new(DEFAULT_HIT_BUFFER_SIZE); //충돌한 콜라이더 기록
     #endregion
 
     #region 호밍
@@ -45,10 +44,16 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region 라이프타임
-    private bool _isLifetimeRunning = false;
+    public bool IsActive { get; set; } = false;
     private float _lifetimeElapsed = 0f;
     private float _lifetimeDuration = 0f;
     #endregion
+
+    private void Awake()
+    {
+        //트랜스폼 캐싱
+        _transform = transform;
+    }
 
     #region 초기화
     //총알 데이터 초기화 및 매니저 레퍼런스 설정
@@ -60,19 +65,27 @@ public class Bullet : MonoBehaviour
     }
     #endregion
 
-    private void Update()
-    {
-        HandleLifetime();
-        HandleHoming();
-        HandleMovement();
-    }
-
-    #region 호밍
-    private void HandleHoming()
+    /// <summary>
+    /// 업데이트 처리
+    /// Manager에서 호출해서 처리
+    /// </summary>
+    public void ManualUpdate(float deltaTime)
     {
         //비활성화 시 패스
         if (!gameObject.activeSelf) return;
 
+        HandleLifetime(deltaTime);
+
+        //라이프 타임 중지 시 패스
+        if (!IsActive) return;
+
+        HandleHoming(deltaTime);
+        HandleMovement(deltaTime);
+    }
+
+    #region 호밍
+    private void HandleHoming(float deltaTime)
+    {
         //호밍이 아니면 패스
         if (!_isHoming) return;
 
@@ -80,7 +93,7 @@ public class Bullet : MonoBehaviour
         if (_homingDelayTimer < Data.HomingDelay)
         {
             //시간 갱신 후 패스
-            _homingDelayTimer += Time.deltaTime;
+            _homingDelayTimer += deltaTime;
             return;
         }
 
@@ -88,14 +101,15 @@ public class Bullet : MonoBehaviour
         if (_targetEnemy == null || !_targetEnemy.gameObject.activeSelf)
         {
             //가까운 적 찾기
-            var targetCollider = PhysicsUtility.GetNearestCollider(transform.position, _context.Range, _context.HitLayerMask, HitColliders);
+            var targetCollider = PhysicsUtility.GetNearestCollider(_transform.position, _context.Range, _context.HitLayerMask, HitColliders);
 
-            //타겟이 없으면
+            //타겟이 있으면
             if (targetCollider != null && targetCollider.TryGetComponent<Enemy>(out var targetEnemy))
             {
                 //타겟 설정
                 _targetEnemy = targetEnemy;
             }
+            //타겟이 없으면
             else
             {
                 //호밍 중지
@@ -105,43 +119,42 @@ public class Bullet : MonoBehaviour
         }
 
         //타겟 방향 계산
-        Vector3 toTarget = (_targetEnemy.CenterPosition - transform.position).normalized;
+        Vector3 toTarget = _targetEnemy.CenterPosition - _transform.position;
+
+        //타겟과의 거리가 너무 가까우면 패스
+        if (toTarget.sqrMagnitude <= MIN_HOMING_DISTANCE_SQR) return;
 
         //호밍 방향 보간
-        _direction = Vector3.RotateTowards(_direction, toTarget, Data.HomingPower * Time.deltaTime, 0f);
+        _direction = Vector3.RotateTowards(_direction, toTarget.normalized, Data.HomingPower * deltaTime, 0f);
     }
     #endregion
 
     #region 이동
-    private void HandleMovement()
+    private void HandleMovement(float deltaTime)
     {
-        // 비활성화 시 패스
-        if (!gameObject.activeSelf) return;
-
         //이동 거리 계산
-        var distance = _speed * Time.deltaTime;
+        var distance = _speed * deltaTime;
 
         //레이캐스트 시작 위치 계산
-        var raycastOrigin = _lastPosition - _direction * RAYCAST_START_OFFSET;
+        var raycastOrigin = _transform.position - _direction * RAYCAST_START_OFFSET;
 
         //레이캐스트 거리 계산
         var rayDistance = distance + RAYCAST_START_OFFSET;
 
         //레이캐스트로 충돌 판단
-        var hitCount = Physics.RaycastNonAlloc(raycastOrigin, _direction, _hits, rayDistance, _context.HitLayerMask, QueryTriggerInteraction.Collide);
+        var hitCount = PhysicsUtility.RaycastNonAlloc(raycastOrigin, _direction, rayDistance, _context.HitLayerMask, out var hits, QueryTriggerInteraction.Collide);
 
         for (int i = 0; i < hitCount; i++)
         {
             //충돌 처리
-            HandleHitCollider(_hits[i].collider);
+            HandleHitCollider(hits[i].collider);
 
             //총알이 비활성화 되었으면 종료
             if (!gameObject.activeSelf) return;
         }
 
         //위치 갱신
-        _lastPosition = transform.position;
-        transform.position += _direction * distance;
+        _transform.position += _direction * distance;
     }
     #endregion
 
@@ -155,7 +168,6 @@ public class Bullet : MonoBehaviour
         //변수 설정
         _direction = context.FireDirection.normalized;
         _speed = context.Speed;
-        _lastPosition = context.FirePosition;
 
         //호밍 설정
         _targetEnemy = context.InitialTargetEnemy;
@@ -163,7 +175,7 @@ public class Bullet : MonoBehaviour
         _homingDelayTimer = 0f;
 
         //위치 설정
-        transform.position = context.FirePosition;
+        _transform.position = context.FirePosition;
 
         //궤적 이펙트 부착
         AttachTrail();
@@ -174,6 +186,7 @@ public class Bullet : MonoBehaviour
 
         //사거리 기반 생존 시간 후 비활성화
         float lifetime = _context.Range / _context.Speed;
+
         StartLifetime(lifetime);
     }
     #endregion
@@ -214,7 +227,7 @@ public class Bullet : MonoBehaviour
         ExplosionExplodeContext context = new(
             _context.Player,
             _context.Gun,
-            transform.position,
+            _transform.position,
             _context.BaseDamage,
             radius,
             _context.CriticalRate,
@@ -360,16 +373,16 @@ public class Bullet : MonoBehaviour
     #endregion
 
     #region 라이프타임
-    private void HandleLifetime()
+    private void HandleLifetime(float deltaTime)
     {
         // 비활성화 시 패스
         if (!gameObject.activeSelf) return;
 
         //라이프타임이 동작 중이지 않으면 패스
-        if (!_isLifetimeRunning) return;
+        if (!IsActive) return;
 
         //경과 시간 갱신
-        _lifetimeElapsed += Time.deltaTime;
+        _lifetimeElapsed += deltaTime;
 
         //지속 시간 경과 시
         if (_lifetimeElapsed >= _lifetimeDuration)
@@ -384,19 +397,21 @@ public class Bullet : MonoBehaviour
         //기존 라이프타임 중지
         StopLifetime();
 
+        //활성화
+        IsActive = true;
+
         //변수 설정
         _lifetimeDuration = duration;
         _lifetimeElapsed = 0f;
-        _isLifetimeRunning = true;
     }
 
     private void StopLifetime()
     {
-        //라이프 타임이 동작 중이지 않으면 패스
-        if (!_isLifetimeRunning) return;
+        //동작 중이지 않으면 패스
+        if (!IsActive) return;
 
-        //변수 초기화
-        _isLifetimeRunning = false;
+        //비활성화
+        IsActive = false;
 
         //총알 반환
         ReleaseBullet();

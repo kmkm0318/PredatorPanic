@@ -66,10 +66,10 @@ public static class PhysicsUtility
     /// RaycastNonAlloc 래퍼 함수
     /// RaycastHit 배열 버퍼를 재사용하여 할당 최소화
     /// </summary>
-    public static int RaycastNonAlloc(Vector3 position, Vector3 direction, float distance, LayerMask layerMask, out RaycastHit[] hitInfo)
+    public static int RaycastNonAlloc(Vector3 position, Vector3 direction, float distance, LayerMask layerMask, out RaycastHit[] hitInfo, QueryTriggerInteraction queryTrigger = QueryTriggerInteraction.UseGlobal)
     {
         Ray ray = new(position, direction);
-        int hitCount = Physics.RaycastNonAlloc(ray, _raycastHits, distance, layerMask);
+        int hitCount = Physics.RaycastNonAlloc(ray, _raycastHits, distance, layerMask, queryTrigger);
         hitInfo = _raycastHits;
         return hitCount;
     }

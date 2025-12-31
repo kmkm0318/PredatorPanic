@@ -27,12 +27,12 @@ MonoBehaviour:
   _luckWeights:
     _items:
     - <Item>k__BackingField: 0
-      <Weight>k__BackingField: 1
+      <Weight>k__BackingField: 0.1
     - <Item>k__BackingField: 1
-      <Weight>k__BackingField: 3
+      <Weight>k__BackingField: 0.3
     - <Item>k__BackingField: 2
-      <Weight>k__BackingField: 9
+      <Weight>k__BackingField: 0.9
     - <Item>k__BackingField: 3
-      <Weight>k__BackingField: 27
+      <Weight>k__BackingField: 2.7
     - <Item>k__BackingField: 4
-      <Weight>k__BackingField: 81
+      <Weight>k__BackingField: 8.1

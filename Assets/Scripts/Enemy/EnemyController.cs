@@ -117,11 +117,15 @@ public class EnemyController : MonoBehaviour
             //높이 차이 계산
             float heightDiff = _target.position.y - _enemy.transform.position.y;
 
-            //위아래로 이동
+            //이동 방향 설정
             var dir = heightDiff > 0 ? Vector3.up : Vector3.down;
 
-            var velocity = dir * speed;
-            _enemy.transform.position += velocity * Time.deltaTime;
+            //프레임 이동량 계산
+            //거리 이상으로 움직이지 않도록 제한
+            float moveAmount = Mathf.Min(Mathf.Abs(heightDiff), speed * Time.deltaTime);
+
+            //이동
+            _enemy.transform.position += dir * moveAmount;
         }
     }
     #endregion
