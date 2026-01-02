@@ -58,14 +58,8 @@ public class Explosion : MonoBehaviour
             //적 캐릭터인지 확인
             if (!collider.TryGetComponent<Enemy>(out var enemy)) continue;
 
-            //거리 계산
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-
-            //거리가 폭발 반경을 초과하면 패스
-            if (distance > context.Radius) continue;
-
-            //거리 기반 데미지 계산
-            float damage = CombatUtility.CalculateRangedDamage(context.BaseDamage, context.Radius, distance);
+            //데미지 가져오기
+            float damage = context.BaseDamage;
 
             //치명타 여부 결정
             bool isCritical = context.CriticalRate.ChanceTest();

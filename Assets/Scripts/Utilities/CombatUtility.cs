@@ -33,26 +33,6 @@ public static class CombatUtility
     }
 
     /// <summary>
-    /// 최대 거리와 실제 거리에 따른 데미지 감소를 계산하여 반환
-    /// </summary>
-    public static float CalculateRangedDamage(float baseDamage, float range, float distance)
-    {
-        //사거리가 0 이하일 때 기본 데미지 반환
-        if (range <= 0f) return baseDamage;
-
-        //거리의 절반까지 최대 데미지를 받음
-        //거리의 절반부터 최대 거리까지 선형적으로 감소
-        //최대 50%까지 감소
-        float halfRange = range / 2f;
-        float distanceFactor = 1.0f;
-        if (distance > halfRange)
-        {
-            distanceFactor = 1f - (distance - halfRange) / halfRange * 0.5f; // 최대 50% 감소
-        }
-        return baseDamage * distanceFactor;
-    }
-
-    /// <summary>
     /// 데미지를 받았을 때 방어력을 통해 줄어든 데미지를 얻는 계산 함수
     /// 방어도를 고려하여 최종 데미지 반환
     /// 플레이어가 공격을 당할 경우에만 사용

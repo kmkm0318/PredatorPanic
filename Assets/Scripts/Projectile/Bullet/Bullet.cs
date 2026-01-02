@@ -264,9 +264,8 @@ public class Bullet : MonoBehaviour, IManualUpdate
         //충돌 지점 처리
         var contact = enemy.CenterPosition;
 
-        //거리에 따른 데미지 적용
-        float distance = Vector3.Distance(_context.FirePosition, contact);
-        ApplyDamage(enemy, distance);
+        //데미지 적용
+        ApplyDamage(enemy);
 
         //튕김 시도
         if (TryRicochet())
@@ -307,10 +306,10 @@ public class Bullet : MonoBehaviour, IManualUpdate
         }
     }
 
-    private void ApplyDamage(Enemy enemy, float distance)
+    private void ApplyDamage(Enemy enemy)
     {
-        //거리 비례 데미지 계산
-        float damage = CombatUtility.CalculateRangedDamage(_context.BaseDamage, _context.Range, distance);
+        //데미지 가져오기
+        float damage = _context.BaseDamage;
 
         //치명타 여부 결정
         bool isCritical = _context.CriticalRate.ChanceTest();
