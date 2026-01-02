@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8963f2c98473054e823dafb32ba6f09, type: 3}
   m_Name: ItemData_4000
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  _itemName: "\uD638\uBC15"
-  _icon: {fileID: 21300000, guid: 08861caf4f335404c885bedc45abdf42, type: 3}
+  _itemName: "\uC2A4\uD0C0\uD6C4\uB974\uCE20"
+  _icon: {fileID: 21300000, guid: 9aa2d6e377ca8c74390f12e009c80e31, type: 3}
   _rarity: 4
-  _basePrice: 4000
-  _effectDatas: []
+  _basePrice: 12000
+  _effectDatas:
+  - {fileID: 11400000, guid: a031d4bc616ded043ad9dfbdb8c17aad, type: 2}
+  - {fileID: 11400000, guid: fd45007bf0b4bb445a68e2837a1ad674, type: 2}
+  - {fileID: 11400000, guid: a3d98bff3568b404c93683dc881f8c2d, type: 2}

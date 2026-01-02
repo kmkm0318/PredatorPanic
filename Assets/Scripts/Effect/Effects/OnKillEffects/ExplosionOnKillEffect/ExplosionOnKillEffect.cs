@@ -1,4 +1,3 @@
-
 /// <summary>
 /// 적 처치 시 폭발 효과 클래스
 /// </summary>
@@ -43,17 +42,27 @@ public class ExplosionOnKillEffect : Effect
         //폭발이 없으면 패스
         if (explosion == null) return;
 
+        //플레이어 가져오기
+        var player = context.Player;
+
+        //플레이어 공격력 가져오기
+        var playerAttack = player.PlayerStats.GetStat(PlayerStatType.Attack).FinalValue;
+
+        //폭발 데미지 계산
+        var damage = CombatUtility.CalculateAttackDamage(playerAttack, _data.Damage);
+
         //적 레이어 마스크 가져오기
         var enemyLayerMask = DataManager.Instance.EnemyLayerMask;
 
+        //폭발 위치는 적의 중앙 위치
         var origin = context.Enemy.CenterPosition;
 
         //폭발 폭파 컨텍스트 생성
         ExplosionExplodeContext explosionContext = new(
-            context.Player,
+            player,
             null,
             origin,
-            _data.Damage,
+            damage,
             _data.Radius,
             0f, //치명타 확률은 0
             1f, //치명타 데미지 배율은 1

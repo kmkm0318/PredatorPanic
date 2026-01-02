@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthBasedDamageOnHitEffectData
   <Description>k__BackingField: 
   _damageRate: 0.01
-  _isCurrentHealthBased: 0
+  _isCurrentHealthBased: 1

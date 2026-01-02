@@ -30,7 +30,7 @@ MonoBehaviour:
   - _statType: 2
     _value: 50
   - _statType: 3
-    _value: 25
+    _value: 30
   - _statType: 4
     _value: 0.05
   - _statType: 5

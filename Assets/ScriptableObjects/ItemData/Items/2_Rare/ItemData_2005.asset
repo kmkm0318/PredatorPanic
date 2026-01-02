@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8963f2c98473054e823dafb32ba6f09, type: 3}
+  m_Name: ItemData_2005
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  _itemName: "\uC644\uB450\uCF69"
+  _icon: {fileID: 21300000, guid: 58ff37f7eb59e9d4f90925c2c564726c, type: 3}
+  _rarity: 2
+  _basePrice: 2100
+  _effectDatas:
+  - {fileID: 11400000, guid: b764bd873a15a874f80c4d9224347e87, type: 2}

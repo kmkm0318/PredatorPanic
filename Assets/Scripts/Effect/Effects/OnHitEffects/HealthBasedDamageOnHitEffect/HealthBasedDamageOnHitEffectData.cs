@@ -8,7 +8,7 @@ public class HealthBasedDamageOnHitEffectData : EffectData
 {
     [Header("Percent Damage On Hit Info")]
     [SerializeField, Range(0f, 1f)] private float _damageRate = 0.01f;
-    [SerializeField] private bool _isCurrentHealthBased = false;
+    [SerializeField] private bool _isCurrentHealthBased = true;
     public float DamageRate => _damageRate;
     public bool IsCurrentHealthBased => _isCurrentHealthBased;
 

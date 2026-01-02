@@ -13,15 +13,23 @@ public static class CombatUtility
     public const float EXPLOSION_RADIUS_RATIO = 0.1f;
 
     /// <summary>
+    /// 공격력에 따른 데미지 계산 함수
+    /// </summary>
+    public static float CalculateAttackDamage(float baseDamage, float attack)
+    {
+        float attackMultiplier = Mathf.Max(attack, 0f) / ATTACK_CONSTANT;
+        return baseDamage * attackMultiplier;
+    }
+
+    /// <summary>
     /// 플레이어의 공격력과 총기의 기본 데미지를 통한 총알의 기본 데미지를 반환하는 함수
     /// </summary>
     public static float CalculateBulletBaseDamage(Player player, Gun gun)
     {
         float baseDamage = gun.GunStats.GetStat(GunStatType.Damage).FinalValue;
         float attack = player.PlayerStats.GetStat(PlayerStatType.Attack).FinalValue;
-        float attackMultiplier = Mathf.Max(attack, 0f) / ATTACK_CONSTANT;
 
-        return baseDamage * attackMultiplier;
+        return CalculateAttackDamage(baseDamage, attack);
     }
 
     /// <summary>
