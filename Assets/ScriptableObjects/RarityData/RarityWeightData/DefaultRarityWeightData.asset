@@ -15,15 +15,15 @@ MonoBehaviour:
   _baseWeights:
     _items:
     - <Item>k__BackingField: 0
-      <Weight>k__BackingField: 625
+      <Weight>k__BackingField: 1024
     - <Item>k__BackingField: 1
-      <Weight>k__BackingField: 125
+      <Weight>k__BackingField: 256
     - <Item>k__BackingField: 2
-      <Weight>k__BackingField: 25
+      <Weight>k__BackingField: 64
     - <Item>k__BackingField: 3
-      <Weight>k__BackingField: 5
+      <Weight>k__BackingField: 16
     - <Item>k__BackingField: 4
-      <Weight>k__BackingField: 1
+      <Weight>k__BackingField: 4
   _luckWeights:
     _items:
     - <Item>k__BackingField: 0
@@ -33,6 +33,6 @@ MonoBehaviour:
     - <Item>k__BackingField: 2
       <Weight>k__BackingField: 2
     - <Item>k__BackingField: 3
-      <Weight>k__BackingField: 4
+      <Weight>k__BackingField: 3
     - <Item>k__BackingField: 4
-      <Weight>k__BackingField: 8
+      <Weight>k__BackingField: 4
