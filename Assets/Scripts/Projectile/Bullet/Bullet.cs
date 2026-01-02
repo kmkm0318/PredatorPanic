@@ -271,9 +271,11 @@ public class Bullet : MonoBehaviour, IManualUpdate
         //튕김 시도
         if (TryRicochet())
         {
-            //가장 가까운 적 찾기. 현재 적 제외
-            float halfRange = _context.Range / 2f;
-            var targetCollider = PhysicsUtility.GetNearestCollider(contact, halfRange, _context.HitLayerMask, HitColliders);
+            //라이프 타임 내에 도달할 수 있는 최대 거리 계산
+            float range = _context.Range * _lifetimeElapsed / _lifetimeDuration;
+
+            //가장 가까운 적 찾기. 단, 이미 충돌한 적은 제외
+            var targetCollider = PhysicsUtility.GetNearestCollider(contact, range, _context.HitLayerMask, HitColliders);
 
             //튕길 방향 계산 및 속도 설정
             if (targetCollider != null && targetCollider.TryGetComponent<Enemy>(out var targetEnemy))
