@@ -17,7 +17,7 @@ MonoBehaviour:
   _description: 
   _icon: {fileID: 21300000, guid: 7602dd97dc159df42922aad58967a557, type: 3}
   _rarity: 2
-  _basePrice: 2400
+  _basePrice: 4000
   _bulletData: {fileID: 11400000, guid: 2645a7a24f38e164c8339f46cc57dbf3, type: 2}
   _trailData: {fileID: 11400000, guid: 29bda2aba1e5be74993db9628cbc95e6, type: 2}
   _explosionData: {fileID: 0}

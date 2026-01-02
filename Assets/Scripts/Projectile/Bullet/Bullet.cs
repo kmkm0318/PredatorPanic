@@ -271,7 +271,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
         if (TryRicochet())
         {
             //라이프 타임 내에 도달할 수 있는 최대 거리 계산
-            float range = _context.Range * _lifetimeElapsed / _lifetimeDuration;
+            float range = _speed * (_lifetimeDuration - _lifetimeElapsed);
 
             //가장 가까운 적 찾기. 단, 이미 충돌한 적은 제외
             var targetCollider = PhysicsUtility.GetNearestCollider(contact, range, _context.HitLayerMask, HitColliders);
