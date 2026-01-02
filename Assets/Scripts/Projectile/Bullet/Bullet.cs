@@ -100,8 +100,11 @@ public class Bullet : MonoBehaviour, IManualUpdate
         //타겟이 없거나 비활성화 되었으면
         if (_targetEnemy == null || !_targetEnemy.gameObject.activeSelf)
         {
+            //라이프 타임 내에 도달할 수 있는 최대 거리 계산
+            var range = _speed * (_lifetimeDuration - _lifetimeElapsed);
+
             //가까운 적 찾기
-            var targetCollider = PhysicsUtility.GetNearestCollider(_transform.position, _context.Range, _context.HitLayerMask, HitColliders);
+            var targetCollider = PhysicsUtility.GetNearestCollider(_transform.position, range, _context.HitLayerMask, HitColliders);
 
             //타겟이 있으면
             if (targetCollider != null && targetCollider.TryGetComponent<Enemy>(out var targetEnemy))
