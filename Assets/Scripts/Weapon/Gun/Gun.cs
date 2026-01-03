@@ -142,11 +142,6 @@ public class Gun : Weapon
         var explosionData = _gunData.ExplosionData;
         var enemyLayerMask = DataManager.Instance.EnemyLayerMask;
 
-        var playerspeed = Player.PlayerStats.GetStat(PlayerStatType.BulletSpeed).FinalValue;
-        var gunspeed = this.GunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
-
-        $"Player Bullet Speed Stat: {playerspeed}, Gun Bullet Speed Stat: {gunspeed}".Log();
-
         //컨텍스트 생성
         BulletFireContext context = new(
             Player,

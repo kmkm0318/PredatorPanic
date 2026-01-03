@@ -172,8 +172,6 @@ public class Bullet : MonoBehaviour, IManualUpdate
         _direction = context.FireDirection.normalized;
         _speed = context.Speed;
 
-        $"Speed: {_speed}".Log();
-
         //호밍 설정
         _targetEnemy = context.InitialTargetEnemy;
         _isHoming = Data.IsHoming;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31233d113d52b24dbf7fbe11f687173, type: 3}
   m_Name: 0_Spider
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  _enemyPrefab: {fileID: 4943510184041093272, guid: 83c73ab8f571b5d4da9d9e4e9039e55f, type: 3}
+  _enemyPrefab: {fileID: 4943510184041093272, guid: 21ab1ca9b633cb74bbaef3f5e3b231b3, type: 3}
   _isBoss: 1
   _enemyName: "\uAC70\uBBF8"
   _enemyControllerData: {fileID: 11400000, guid: ace5ab14331167341964fc362450165b, type: 2}
