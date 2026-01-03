@@ -41,7 +41,6 @@ public class DropItemManager : MonoBehaviour
         if (enemyManager)
         {
             enemyManager.OnEnemyDeath += HandleEnemyDeath;
-            enemyManager.OnBossDeath += HandleBossEnemyDeath;
         }
     }
 
@@ -52,7 +51,6 @@ public class DropItemManager : MonoBehaviour
         if (enemyManager)
         {
             enemyManager.OnEnemyDeath -= HandleEnemyDeath;
-            enemyManager.OnBossDeath -= HandleBossEnemyDeath;
         }
     }
 
@@ -61,18 +59,8 @@ public class DropItemManager : MonoBehaviour
         //드랍 불가 시 패스
         if (!CanDrop) return;
 
-        //보스 라운드일 시 패스
-        //보스의 드랍 아이템은 따로 처리
-        if (_gameManager.EnemyManager.IsBossRound) return;
-
-        //아이템 드랍
-        SpawnDropItems(enemy.EnemyData.DropItemTable, enemy.transform.position);
-    }
-
-    private void HandleBossEnemyDeath(Enemy enemy)
-    {
-        //드랍 불가 시 패스
-        if (!CanDrop) return;
+        //보스 라운드이면서 보스가 아닐 시 패스
+        if (_gameManager.EnemyManager.IsBossRound && !enemy.EnemyData.IsBoss) return;
 
         //아이템 드랍
         SpawnDropItems(enemy.EnemyData.DropItemTable, enemy.transform.position);
