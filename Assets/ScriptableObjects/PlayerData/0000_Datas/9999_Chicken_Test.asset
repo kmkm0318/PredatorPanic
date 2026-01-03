@@ -24,10 +24,12 @@ MonoBehaviour:
   _characterEffectDatas:
   - {fileID: 11400000, guid: 8a01259056896354aa22ba4dc76300cb, type: 2}
   - {fileID: 11400000, guid: f58f632a2f6b5dc4d9d32bb2d52a4a21, type: 2}
+  - {fileID: 11400000, guid: 4c3d73ad98d49e942b74661e277fcaa2, type: 2}
   - {fileID: 11400000, guid: f109982861768824eb1fdd46c3d8d716, type: 2}
   - {fileID: 11400000, guid: 90e81a6cb310e1745bcf83eadc51e951, type: 2}
   - {fileID: 11400000, guid: 25c77925d71672d409e0fcb78861bcf2, type: 2}
   - {fileID: 11400000, guid: c39b218b235ec4b4fbdba926c873e44a, type: 2}
+  - {fileID: 11400000, guid: 569b6d1ad07eb5743b7cea0e10c18d8b, type: 2}
   _playerExpData: {fileID: 11400000, guid: 56c6b05865b2d0e45bca3f1b95d9bf19, type: 2}
   _weaponCountMax: 6
   _itemPickupRadiusSqr: 1

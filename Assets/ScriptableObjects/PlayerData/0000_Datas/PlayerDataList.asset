@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerDataList
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDataList
   _playerDatas:
-  - {fileID: 11400000, guid: 4f1ef008dda880b4e842cf646af6c030, type: 2}
+  - {fileID: 11400000, guid: 48802959069d2aa4b9c6d9ff99f4b0ed, type: 2}
   - {fileID: 11400000, guid: 1bffedc502b3d814d86a5c9a3c4d9615, type: 2}
   - {fileID: 11400000, guid: d5a7b8a475242f642bd60cee7a96a4d4, type: 2}
   - {fileID: 11400000, guid: ad804e9e1c985eb4093d10c6da27cbff, type: 2}

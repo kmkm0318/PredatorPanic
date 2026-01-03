@@ -261,7 +261,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
             return;
         }
 
-        //충돌 지점 처리
+        //충돌 지점 저장
         var contact = enemy.CenterPosition;
 
         //데미지 적용
@@ -280,7 +280,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
             if (targetCollider != null && targetCollider.TryGetComponent<Enemy>(out var targetEnemy))
             {
                 Vector3 center = targetEnemy.CenterPosition;
-                var newDirection = (center - contact).normalized;
+                var newDirection = (center - _transform.position).normalized;
 
                 //방향 갱신
                 _direction = newDirection;
