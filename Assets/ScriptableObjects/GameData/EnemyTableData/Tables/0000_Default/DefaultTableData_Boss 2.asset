@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTableData
   <BossEnemyDatas>k__BackingField:
   - {fileID: 11400000, guid: 871fb86ad18ccd7418e587b194741225, type: 2}
-  - {fileID: 11400000, guid: 871fb86ad18ccd7418e587b194741225, type: 2}
   <EnemyDatas>k__BackingField:
     _items:
-    - <Item>k__BackingField: {fileID: 11400000, guid: 21891ae9a46a20e4c94eec8d9f183de8, type: 2}
-      <Weight>k__BackingField: 50
-    - <Item>k__BackingField: {fileID: 11400000, guid: 0d7718c8b82a97e42a3ca362b3c86c09, type: 2}
-      <Weight>k__BackingField: 100
+    - <Item>k__BackingField: {fileID: 11400000, guid: f6ba86d17ee1cee45ba00280292834dc, type: 2}
+      <Weight>k__BackingField: 2
+    - <Item>k__BackingField: {fileID: 11400000, guid: 3f37d573503ae7f458e4206d2d672c7a, type: 2}
+      <Weight>k__BackingField: 2
+    - <Item>k__BackingField: {fileID: 11400000, guid: 713a3b782323b2644a21fe8a03b179ba, type: 2}
+      <Weight>k__BackingField: 1

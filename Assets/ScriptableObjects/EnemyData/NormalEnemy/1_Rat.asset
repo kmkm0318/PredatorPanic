@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   _enemyPrefab: {fileID: 4943510184041093272, guid: 4afe77ae5d345af49aca9f6c3e2755c6, type: 3}
   _isBoss: 0
-  _enemyName: Rat
+  _enemyName: "\uC950"
   _enemyControllerData: {fileID: 11400000, guid: 9b92ea86d480b6a4599140dec156a811, type: 2}
   _baseStats:
   - _statType: 0

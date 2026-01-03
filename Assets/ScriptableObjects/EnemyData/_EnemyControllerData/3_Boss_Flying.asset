@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 3_Boss_Flying
   m_EditorClassIdentifier: Assembly-CSharp::EnemyControllerData
   _moveType: 1
-  _minMoveDistanceSqr: 4
+  _minMoveDistanceSqr: 16

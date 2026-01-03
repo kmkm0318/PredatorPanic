@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e31233d113d52b24dbf7fbe11f687173, type: 3}
-  m_Name: 0_Wolf
+  m_Name: 1_Shark
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  _enemyPrefab: {fileID: 4943510184041093272, guid: ba571e777d529c446bf6076a7134e762, type: 3}
-  _isBoss: 0
-  _enemyName: "\uB291\uB300"
-  _enemyControllerData: {fileID: 11400000, guid: 9b92ea86d480b6a4599140dec156a811, type: 2}
+  _enemyPrefab: {fileID: 4943510184041093272, guid: 83c73ab8f571b5d4da9d9e4e9039e55f, type: 3}
+  _isBoss: 1
+  _enemyName: "\uC0C1\uC5B4"
+  _enemyControllerData: {fileID: 11400000, guid: ce5baaeb6cff8ef439a0f784c8e5de9e, type: 2}
   _baseStats:
   - _statType: 0
-    _value: 10
+    _value: 1000
   - _statType: 1
-    _value: 10
+    _value: 25
   - _statType: 2
-    _value: 3
+    _value: 4
   _enemyStatGrowthRate: 1.2
-  _dropItemTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}
+  _dropItemTable: {fileID: 11400000, guid: 26344a7f6cd3cb447828f23e7b216f33, type: 2}
   _hitAudio: {fileID: 11400000, guid: b181720f06607de44b55473c79f2456d, type: 2}
   _deathAudio: {fileID: 11400000, guid: a13737c23b96e044981453dfa636402e, type: 2}
   _hitParticleEffect: {fileID: 11400000, guid: e5e9bd38ce8d8e84ab2a002babc2f2f4, type: 2}
   _deathParticleEffect: {fileID: 11400000, guid: 89cd1f9f4d204ca4db5962e7aa9829a2, type: 2}
-  _spawnVisualOffsetY: -10
+  _spawnVisualOffsetY: -20
   _spawnVisualDuration: 0.5
   _spawnVisualEase: 27

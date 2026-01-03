@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 2_Boss_Walking
   m_EditorClassIdentifier: Assembly-CSharp::EnemyControllerData
   _moveType: 0
-  _minMoveDistanceSqr: 4
+  _minMoveDistanceSqr: 16

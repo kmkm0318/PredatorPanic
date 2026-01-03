@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 0_Normal_Walking
   m_EditorClassIdentifier: Assembly-CSharp::EnemyControllerData
   _moveType: 0
-  _minMoveDistanceSqr: 1
+  _minMoveDistanceSqr: 4

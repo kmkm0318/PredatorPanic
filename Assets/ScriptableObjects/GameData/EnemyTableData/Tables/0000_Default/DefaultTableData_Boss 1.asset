@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: DefaultTableData_Boss 1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTableData
   <BossEnemyDatas>k__BackingField:
-  - {fileID: 11400000, guid: 871fb86ad18ccd7418e587b194741225, type: 2}
+  - {fileID: 11400000, guid: 34fb0b8f0a9d99445b68d02987836a7c, type: 2}
   <EnemyDatas>k__BackingField:
     _items:
     - <Item>k__BackingField: {fileID: 11400000, guid: 21891ae9a46a20e4c94eec8d9f183de8, type: 2}
-      <Weight>k__BackingField: 25
+      <Weight>k__BackingField: 1
     - <Item>k__BackingField: {fileID: 11400000, guid: 0d7718c8b82a97e42a3ca362b3c86c09, type: 2}
-      <Weight>k__BackingField: 100
+      <Weight>k__BackingField: 4
