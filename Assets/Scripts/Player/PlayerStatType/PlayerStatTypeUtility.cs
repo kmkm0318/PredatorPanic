@@ -29,6 +29,7 @@ public static class PlayerStatTypeUtility
         { PlayerStatType.AirJumpCount, 0f },
         { PlayerStatType.InvincibleDuration, 0.5f },
         { PlayerStatType.Luck, 0f },
+        { PlayerStatType.BulletSpeed, 1f },
     };
 
     /// <summary>

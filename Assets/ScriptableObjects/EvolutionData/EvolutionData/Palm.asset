@@ -21,16 +21,16 @@ MonoBehaviour:
   _priceIncreaseRate: 1.5
   _leveleffects:
   - Effects:
-    - {fileID: 11400000, guid: 131d847061267724abfc7d6d93ca9206, type: 2}
+    - {fileID: 11400000, guid: cdcdd0c6082a3004cba2d1d8ec549011, type: 2}
   - Effects:
-    - {fileID: 11400000, guid: 19b917d239e3f364fb2f2776f35d6371, type: 2}
+    - {fileID: 11400000, guid: 9a8947f978fbee94390178e99efb0417, type: 2}
   - Effects:
-    - {fileID: 11400000, guid: 19b917d239e3f364fb2f2776f35d6371, type: 2}
-    - {fileID: 11400000, guid: 4a18058fbafc734468f4ca28097e8110, type: 2}
+    - {fileID: 11400000, guid: 9a8947f978fbee94390178e99efb0417, type: 2}
+    - {fileID: 11400000, guid: 89dcea302585a8646b8dd619b3961081, type: 2}
   - Effects:
-    - {fileID: 11400000, guid: 19b917d239e3f364fb2f2776f35d6371, type: 2}
-    - {fileID: 11400000, guid: 10b76b0d53abfe54ca78cc61d8560b59, type: 2}
+    - {fileID: 11400000, guid: 9a8947f978fbee94390178e99efb0417, type: 2}
+    - {fileID: 11400000, guid: 474e0bce9c34238408d741e0b27290aa, type: 2}
   - Effects:
-    - {fileID: 11400000, guid: 19b917d239e3f364fb2f2776f35d6371, type: 2}
-    - {fileID: 11400000, guid: 10b76b0d53abfe54ca78cc61d8560b59, type: 2}
-    - {fileID: 11400000, guid: ced9e24d14e92c2499ed107c1048f9f7, type: 2}
+    - {fileID: 11400000, guid: 9a8947f978fbee94390178e99efb0417, type: 2}
+    - {fileID: 11400000, guid: 474e0bce9c34238408d741e0b27290aa, type: 2}
+    - {fileID: 11400000, guid: 71d0b5f6a3ad5024794120030d4628b6, type: 2}

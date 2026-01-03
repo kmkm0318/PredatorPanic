@@ -51,3 +51,5 @@ MonoBehaviour:
     _value: 0.5
   - _statType: 18
     _value: 0
+  - _statType: 19
+    _value: 1

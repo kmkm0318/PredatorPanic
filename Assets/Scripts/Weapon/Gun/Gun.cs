@@ -133,7 +133,7 @@ public class Gun : Weapon
 
         //총알 발사를 위한 변수 설정
         var baseDamage = CombatUtility.CalculateBulletBaseDamage(Player, this);
-        var speed = _gunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
+        var speed = CombatUtility.CalculateBulletSpeed(Player, this);
         var range = _gunStats.GetStat(GunStatType.Range).FinalValue;
         var criticalRate = CombatUtility.CalculateCriticalRate(Player, this);
         var criticalDamageRate = CombatUtility.CalculateCriticalDamageRate(Player, this);
@@ -141,6 +141,11 @@ public class Gun : Weapon
         var ricochetCount = CombatUtility.CalculateRicochetCount(Player, this);
         var explosionData = _gunData.ExplosionData;
         var enemyLayerMask = DataManager.Instance.EnemyLayerMask;
+
+        var playerspeed = Player.PlayerStats.GetStat(PlayerStatType.BulletSpeed).FinalValue;
+        var gunspeed = this.GunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
+
+        $"Player Bullet Speed Stat: {playerspeed}, Gun Bullet Speed Stat: {gunspeed}".Log();
 
         //컨텍스트 생성
         BulletFireContext context = new(

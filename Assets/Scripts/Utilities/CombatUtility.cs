@@ -108,6 +108,17 @@ public static class CombatUtility
     }
 
     /// <summary>
+    /// 탄환 속도 계산 함수
+    /// </summary>
+    public static float CalculateBulletSpeed(Player player, Gun gun)
+    {
+        float baseBulletSpeed = gun.GunStats.GetStat(GunStatType.BulletSpeed).FinalValue;
+        float additionalBulletSpeed = player.PlayerStats.GetStat(PlayerStatType.BulletSpeed).FinalValue;
+
+        return baseBulletSpeed * additionalBulletSpeed;
+    }
+
+    /// <summary>
     /// 관통 수 계산 함수
     /// </summary>
     public static int CalculatePenetrationCount(Player player, Gun gun)
