@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EXPGainRate_3
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
   _rewardName: "\uB3CC\uACE0\uB798"
-  _rewardIcon: {fileID: 21300000, guid: 26b09c20d98a6894ea04f406b7483445, type: 3}
+  _rewardIcon: {fileID: 21300000, guid: a3bbd64edea09db46842a8707e8383db, type: 3}
   _rarity: 3
   _effectDatas:
   - {fileID: 11400000, guid: 9c9803b4b0eb23e49a026f85a1b69455, type: 2}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Attack_0
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
   _rewardName: "\uC0AC\uC790"
-  _rewardIcon: {fileID: 21300000, guid: d5b9fa7fda253ab42b8a74cb9dcdd71d, type: 3}
+  _rewardIcon: {fileID: 21300000, guid: a7c88a1c7cbcef045b84d32544d93786, type: 3}
   _rarity: 0
   _effectDatas:
   - {fileID: 11400000, guid: cdcdd0c6082a3004cba2d1d8ec549011, type: 2}

@@ -15,14 +15,16 @@ MonoBehaviour:
   _id: Player_Donkey
   _name: "\uB2F9\uB098\uADC0"
   _description: 
-  _icon: {fileID: 21300000, guid: 1416c89ea4de37c4facf3a8a7f173955, type: 3}
-  _rarity: 0
-  _basePrice: 500
+  _icon: {fileID: 21300000, guid: b05e1345dd680bc4080c9f7b4fb7e53f, type: 3}
+  _rarity: 1
+  _basePrice: 600
   _playerPrefab: {fileID: 347489321014641408, guid: 722bc2458e76121498061c090c2b0ed6, type: 3}
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
   _playerBaseStatsData: {fileID: 11400000, guid: a154443229cae5747a70711c4d708b92, type: 2}
   _characterEffectDatas:
-  - {fileID: 11400000, guid: b09d03ab730bd6b4189a848244105f77, type: 2}
+  - {fileID: 11400000, guid: c864ddb7966a61d4c95e44a194b7a275, type: 2}
+  - {fileID: 11400000, guid: 17d089a0d78b7d64fb30159c966e0ef1, type: 2}
+  - {fileID: 11400000, guid: 60d0e49de5aed15429272c5bfad152d0, type: 2}
   _playerExpData: {fileID: 11400000, guid: 56c6b05865b2d0e45bca3f1b95d9bf19, type: 2}
   _weaponCountMax: 6
   _itemPickupRadiusSqr: 1

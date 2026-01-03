@@ -22,7 +22,9 @@ MonoBehaviour:
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
   _playerBaseStatsData: {fileID: 11400000, guid: a154443229cae5747a70711c4d708b92, type: 2}
   _characterEffectDatas:
-  - {fileID: 11400000, guid: a4dcfe65e2b98254b97b9c1840d9333b, type: 2}
+  - {fileID: 11400000, guid: 7cde41e5247f4ce489710c8563cf764c, type: 2}
+  - {fileID: 11400000, guid: ce24a112b53bfde4ebb1fc01361a2760, type: 2}
+  - {fileID: 11400000, guid: 782cb6e22ddae704b9e77ec16b77b96b, type: 2}
   _playerExpData: {fileID: 11400000, guid: 56c6b05865b2d0e45bca3f1b95d9bf19, type: 2}
   _weaponCountMax: 6
   _itemPickupRadiusSqr: 1

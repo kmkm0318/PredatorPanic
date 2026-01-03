@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: JumpForce_2
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
   _rewardName: "\uCEA5\uAC70\uB8E8"
-  _rewardIcon: {fileID: 21300000, guid: 04a1f3af147da8f47945471f36276d91, type: 3}
+  _rewardIcon: {fileID: 21300000, guid: 2efe74438f5ac6a489715abb00a6afac, type: 3}
   _rarity: 2
   _effectDatas:
   - {fileID: 11400000, guid: 48545b61244b020429541be2ebe9b5ee, type: 2}

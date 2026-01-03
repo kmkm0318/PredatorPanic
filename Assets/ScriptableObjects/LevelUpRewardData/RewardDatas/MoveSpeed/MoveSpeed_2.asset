@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MoveSpeed_2
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
   _rewardName: "\uB9D0"
-  _rewardIcon: {fileID: 21300000, guid: b37d433561ccece47ae6ecd6f85a2677, type: 3}
+  _rewardIcon: {fileID: 21300000, guid: 59e25a61349f4564f94cdcd5f7369ef9, type: 3}
   _rarity: 2
   _effectDatas:
   - {fileID: 11400000, guid: 48aca3101293b1d48a3e5ffe0addd044, type: 2}

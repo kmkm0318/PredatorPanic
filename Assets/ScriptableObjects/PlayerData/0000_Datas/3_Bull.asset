@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb32c6dbc07c2b4293194528fb0b516, type: 3}
+  m_Name: 3_Bull
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  _id: Player_Bull
+  _name: "\uD669\uC18C"
+  _description: 
+  _icon: {fileID: 21300000, guid: 8663a2fca9134414296b73d51ea17b2b, type: 3}
+  _rarity: 2
+  _basePrice: 3500
+  _playerPrefab: {fileID: 347489321014641408, guid: 500cafcbd7465404f8f06a8d5418412d, type: 3}
+  _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
+  _playerBaseStatsData: {fileID: 11400000, guid: a154443229cae5747a70711c4d708b92, type: 2}
+  _characterEffectDatas:
+  - {fileID: 11400000, guid: 7272e4845a531094bb5049db297cbf38, type: 2}
+  - {fileID: 11400000, guid: c864ddb7966a61d4c95e44a194b7a275, type: 2}
+  - {fileID: 11400000, guid: 812017a3f118055488cd4ba97b6b8e8a, type: 2}
+  _playerExpData: {fileID: 11400000, guid: 56c6b05865b2d0e45bca3f1b95d9bf19, type: 2}
+  _weaponCountMax: 6
+  _itemPickupRadiusSqr: 1
+  _spawnVisualOffsetY: -10
+  _spawnVisualDuration: 0.5
+  _spawnVisualEase: 27
+  _hitAudioData: {fileID: 11400000, guid: b181720f06607de44b55473c79f2456d, type: 2}
+  _deathAudioData: {fileID: 11400000, guid: a13737c23b96e044981453dfa636402e, type: 2}
+  _hitParticleEffectData: {fileID: 11400000, guid: e5e9bd38ce8d8e84ab2a002babc2f2f4, type: 2}
+  _deathParticleEffectData: {fileID: 11400000, guid: 89cd1f9f4d204ca4db5962e7aa9829a2, type: 2}

@@ -24,9 +24,9 @@ MonoBehaviour:
   _fireSfxData: {fileID: 11400000, guid: 982d2be4ffbdd334184300b5086e772b, type: 2}
   _initialStats:
   - _statType: 0
-    _value: 1.5
+    _value: 3
   - _statType: 1
-    _value: 4
+    _value: 3
   - _statType: 2
     _value: 30
   - _statType: 3
