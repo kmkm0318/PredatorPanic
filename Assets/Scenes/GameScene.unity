@@ -6606,15 +6606,15 @@ MonoBehaviour:
   Radius: 5
   Orbits:
     Top:
-      Radius: 3
+      Radius: 10
       Height: 7
     Center:
-      Radius: 7
+      Radius: 10
       Height: 3
     Bottom:
-      Radius: 5
+      Radius: 10
       Height: 0
-    SplineCurvature: 0.3
+    SplineCurvature: 0
   RecenteringTarget: 2
   HorizontalAxis:
     Value: 0

@@ -898,7 +898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2343017840163401876, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
       propertyPath: m_Size
-      value: 3.5549345
+      value: 7.109869
       objectReference: {fileID: 0}
     - target: {fileID: 2343017840163401876, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
       propertyPath: m_Enabled
@@ -906,15 +906,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2343017840163401876, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
       propertyPath: m_LocalReferencePoint.x
-      value: -0.0001231432
+      value: -0.0002462864
       objectReference: {fileID: 0}
     - target: {fileID: 2343017840163401876, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
       propertyPath: m_LocalReferencePoint.y
-      value: 0.5494802
+      value: 1.0989604
       objectReference: {fileID: 0}
     - target: {fileID: 2343017840163401876, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
       propertyPath: m_LocalReferencePoint.z
-      value: -0.6760628
+      value: -1.3521256
       objectReference: {fileID: 0}
     - target: {fileID: 2343017840163401876, guid: f3caea3384fecb5478e3bd265bea7cdd, type: 3}
       propertyPath: m_LODs.Array.data[0].renderers.Array.size

@@ -128,7 +128,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
         if (toTarget.sqrMagnitude <= MIN_HOMING_DISTANCE_SQR) return;
 
         //호밍 방향 보간
-        _direction = Vector3.RotateTowards(_direction, toTarget.normalized, Data.HomingPower * deltaTime, 0f);
+        _direction = Vector3.RotateTowards(_direction, toTarget.normalized, _speed * deltaTime, 0f);
     }
     #endregion
 

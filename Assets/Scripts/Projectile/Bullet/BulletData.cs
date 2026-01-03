@@ -12,9 +12,7 @@ public class BulletData : ScriptableObject
 
     [Header("Homing")]
     [SerializeField] private bool _isHoming = false;
-    [SerializeField] private float _homingPower = 15f;
     [SerializeField] private float _homingDelay = 0.2f;
     public bool IsHoming => _isHoming;
-    public float HomingPower => _homingPower;
     public float HomingDelay => _homingDelay;
 }

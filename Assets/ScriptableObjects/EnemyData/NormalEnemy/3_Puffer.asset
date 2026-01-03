@@ -18,11 +18,11 @@ MonoBehaviour:
   _enemyControllerData: {fileID: 11400000, guid: b0a04d39f4322624891a55685a0c0c43, type: 2}
   _baseStats:
   - _statType: 0
-    _value: 20
+    _value: 15
   - _statType: 1
     _value: 5
   - _statType: 2
-    _value: 2
+    _value: 3
   _enemyStatGrowthRate: 1.2
   _dropItemTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}
   _hitAudio: {fileID: 11400000, guid: b181720f06607de44b55473c79f2456d, type: 2}

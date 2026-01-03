@@ -7,7 +7,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     #region 상수
-    private const float MIN_RATATE_MAGNITUDE_SQR = 0.0001f;
+    private const float MIN_ROTATE_MAGNITUDE_SQR = 0.0001f;
     #endregion
 
     #region 레퍼런스
@@ -21,6 +21,7 @@ public class EnemyController : MonoBehaviour
 
     #region 이동 변수
     private bool _isMoving = false;
+    private float _speed = 0f;
     #endregion
 
     public void Init(Enemy enemy)
@@ -46,6 +47,9 @@ public class EnemyController : MonoBehaviour
         //최소 이동 거리 이내면 리턴
         if (distanceSqr < _enemyControllerData.MinMoveDistanceSqr) return;
 
+        //속도 가져오기
+        _speed = _enemy.EnemyStats.GetStat(EnemyStatType.MoveSpeed).FinalValue;
+
         HandleRotation();
         HandleHorizontalMovement();
         HandleVerticalMovement();
@@ -54,19 +58,26 @@ public class EnemyController : MonoBehaviour
     #region 회전
     private void HandleRotation()
     {
-        //타겟 바라보기
-        LookTarget();
+        //수평으로만 회전
+        var dir = _target.position - transform.position;
+        dir.y = 0;
+
+        //최소 회전 벡터 크기 이하이면 리턴
+        if (dir.sqrMagnitude < MIN_ROTATE_MAGNITUDE_SQR) return;
+
+        //목표 방향 계산
+        var toTarget = Quaternion.LookRotation(dir, Vector3.up);
+
+        //부드럽게 회전
+        transform.rotation = Quaternion.Slerp(transform.rotation, toTarget, Time.deltaTime * _speed);
     }
     #endregion
 
     #region 움직임
     private void HandleHorizontalMovement()
     {
-        //속도 가져오기
-        float speed = _enemy.EnemyStats.GetStat(EnemyStatType.MoveSpeed).FinalValue;
-
         //앞으로 이동
-        var velocity = transform.forward * speed;
+        var velocity = transform.forward * _speed;
 
         //이동
         transform.position += velocity * Time.deltaTime;
@@ -77,9 +88,6 @@ public class EnemyController : MonoBehaviour
         //지상 이동일 경우 패스
         if (_enemyControllerData.MoveType == EnemyMoveType.Walking) return;
 
-        //속도 가져오기
-        float speed = _enemy.EnemyStats.GetStat(EnemyStatType.MoveSpeed).FinalValue;
-
         //높이 차이 계산
         float heightDiff = _target.position.y - _enemy.transform.position.y;
 
@@ -88,7 +96,7 @@ public class EnemyController : MonoBehaviour
 
         //프레임 이동량 계산
         //거리 이상으로 움직이지 않도록 제한
-        float moveAmount = Mathf.Min(Mathf.Abs(heightDiff), speed * Time.deltaTime);
+        float moveAmount = Mathf.Min(Mathf.Abs(heightDiff), _speed * Time.deltaTime);
 
         //이동
         transform.position += dir * moveAmount;
@@ -118,7 +126,7 @@ public class EnemyController : MonoBehaviour
         dir.y = 0;
 
         //최소 회전 벡터 크기 이하이면 리턴
-        if (dir.sqrMagnitude < MIN_RATATE_MAGNITUDE_SQR) return;
+        if (dir.sqrMagnitude < MIN_ROTATE_MAGNITUDE_SQR) return;
 
         //목표 방향으로 회전
         var toTarget = Quaternion.LookRotation(dir, Vector3.up);
