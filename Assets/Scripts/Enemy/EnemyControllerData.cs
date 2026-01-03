@@ -8,17 +8,7 @@ public class EnemyControllerData : ScriptableObject
 {
     [Header("Movement")]
     [SerializeField] private EnemyMoveType _moveType;
-    [SerializeField] private float _rotationSpeed = 5f;
-    [SerializeField] private float _minMoveDistanceSqr = 0.25f;
+    [SerializeField] private float _minMoveDistanceSqr = 1f;
     public EnemyMoveType MoveType => _moveType;
-    public float RotationSpeed => _rotationSpeed;
     public float MinMoveDistanceSqr => _minMoveDistanceSqr;
-
-    [Header("Ground")]
-    [SerializeField] private float _gravity = -9.81f;
-    [SerializeField] private float _groundCheckDistance = 0.2f;
-    [SerializeField] private LayerMask _groundLayerMask;
-    public float Gravity => _gravity;
-    public float GroundCheckDistance => _groundCheckDistance;
-    public LayerMask GroundLayerMask => _groundLayerMask;
 }

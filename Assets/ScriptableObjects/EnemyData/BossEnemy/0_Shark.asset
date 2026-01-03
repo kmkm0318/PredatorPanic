@@ -15,7 +15,7 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 4943510184041093272, guid: 83c73ab8f571b5d4da9d9e4e9039e55f, type: 3}
   _isBoss: 1
   _enemyName: Shark
-  _enemyControllerData: {fileID: 11400000, guid: 9b92ea86d480b6a4599140dec156a811, type: 2}
+  _enemyControllerData: {fileID: 11400000, guid: ce5baaeb6cff8ef439a0f784c8e5de9e, type: 2}
   _baseStats:
   - _statType: 0
     _value: 1000
