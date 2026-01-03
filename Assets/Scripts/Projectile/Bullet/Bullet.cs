@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
     private const int DEFAULT_HIT_BUFFER_SIZE = 16;
     private const float RAYCAST_START_OFFSET = 0.1f;
     private const float MIN_HOMING_DISTANCE_SQR = 0.01f;
+    private const float OVERLAP_RADIUS = 0.1f;
     #endregion
 
     #region 데이터
@@ -161,7 +162,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
     }
     #endregion
 
-    #region 발사
+    #region 발사 및 영거리 사격 처리
     //총알 발사
     public void Fire(in BulletFireContext context)
     {
@@ -191,6 +192,29 @@ public class Bullet : MonoBehaviour, IManualUpdate
         float lifetime = _context.Range / _context.Speed;
 
         StartLifetime(lifetime);
+
+        //적 트리거 내부에서 사격을 했는지 확인
+        FireInTrigger();
+
+        //비활성화 되었으면 종료
+        if (!gameObject.activeSelf) return;
+    }
+
+    //적 트리거 내부에서 사격을 시작했을 때 처리하는 함수
+    private void FireInTrigger()
+    {
+        //아주 작은 범위에서 충돌한 콜라이더들 가져오기
+        var hitColliders = PhysicsUtility.GetOverlapSphereNonAlloc(_transform.position, OVERLAP_RADIUS, _context.HitLayerMask, out var colliders, QueryTriggerInteraction.Collide);
+
+        //충돌한 콜라이더들 처리
+        for (int i = 0; i < hitColliders; i++)
+        {
+            //충돌 처리
+            HandleHitCollider(colliders[i]);
+
+            //총알이 비활성화 되었으면 종료
+            if (!gameObject.activeSelf) return;
+        }
     }
     #endregion
 

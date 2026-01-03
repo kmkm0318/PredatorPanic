@@ -55,9 +55,9 @@ public static class PhysicsUtility
     /// OverlapSphereNonAlloc 래퍼 함수
     /// 콜라이더 배열 버퍼를 재사용하여 할당 최소화
     /// </summary>
-    public static int GetOverlapSphereNonAlloc(Vector3 position, float radius, LayerMask layerMask, out Collider[] colliders)
+    public static int GetOverlapSphereNonAlloc(Vector3 position, float radius, LayerMask layerMask, out Collider[] colliders, QueryTriggerInteraction queryTrigger = QueryTriggerInteraction.UseGlobal)
     {
-        int hitCount = Physics.OverlapSphereNonAlloc(position, radius, _colliders, layerMask);
+        int hitCount = Physics.OverlapSphereNonAlloc(position, radius, _colliders, layerMask, queryTrigger);
         colliders = _colliders;
         return hitCount;
     }
