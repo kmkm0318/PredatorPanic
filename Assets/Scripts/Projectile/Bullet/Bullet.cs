@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
     private const float RAYCAST_START_OFFSET = 0.1f;
     private const float MIN_HOMING_DISTANCE_SQR = 0.01f;
     private const float OVERLAP_RADIUS = 0.1f;
+    private const float HOMING_DELAY_RATIO = 0.5f;
     #endregion
 
     #region 데이터
@@ -36,6 +37,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
     #region 호밍
     private bool _isHoming = false;
     private Enemy _targetEnemy = null;
+    private float _homingDelay = 0f;
     private float _homingDelayTimer = 0f;
     #endregion
 
@@ -91,7 +93,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
         if (!_isHoming) return;
 
         //호밍 딜레이 시간 경과 전이면
-        if (_homingDelayTimer < Data.HomingDelay)
+        if (_homingDelayTimer < _homingDelay)
         {
             //시간 갱신 후 패스
             _homingDelayTimer += deltaTime;
@@ -176,6 +178,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
         //호밍 설정
         _targetEnemy = context.InitialTargetEnemy;
         _isHoming = Data.IsHoming;
+        _homingDelay = _lifetimeDuration * HOMING_DELAY_RATIO;
         _homingDelayTimer = 0f;
 
         //위치 설정
