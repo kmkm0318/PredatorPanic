@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
 {
     #region 상수
     private const float MIN_ROTATE_MAGNITUDE_SQR = 0.0001f;
+    private const float ROTATE_SPEED_RATIO = 0.25f;
     #endregion
 
     #region 레퍼런스
@@ -21,7 +22,9 @@ public class EnemyController : MonoBehaviour
 
     #region 이동 변수
     private bool _isMoving = false;
+    private Vector3 _direction = Vector3.zero;
     private float _speed = 0f;
+    private float _rotateSpeed = 0f;
     #endregion
 
     public void Init(Enemy enemy)
@@ -50,56 +53,44 @@ public class EnemyController : MonoBehaviour
         //속도 가져오기
         _speed = _enemy.EnemyStats.GetStat(EnemyStatType.MoveSpeed).FinalValue;
 
-        HandleRotation();
-        HandleHorizontalMovement();
-        HandleVerticalMovement();
+        //회전 속도 계산
+        _rotateSpeed = _speed * ROTATE_SPEED_RATIO;
+
+        HandleDirection();
+
+        //이동 적용
+        transform.position += _direction * _speed * Time.deltaTime;
     }
 
-    #region 회전
-    private void HandleRotation()
+    #region 방향 처리
+    private void HandleDirection()
     {
-        //수평으로만 회전
-        var dir = _target.position - transform.position;
-        dir.y = 0;
+        //목표 방향 구하기
+        var targetdir = _target.position - transform.position;
 
-        //최소 회전 벡터 크기 이하이면 리턴
-        if (dir.sqrMagnitude < MIN_ROTATE_MAGNITUDE_SQR) return;
+        if (_enemyControllerData.MoveType == EnemyMoveType.Walking)
+        {
+            //지상 이동일 경우 수평 방향으로만 회전
+            targetdir.y = 0;
+        }
 
-        //목표 방향 계산
-        var toTarget = Quaternion.LookRotation(dir, Vector3.up);
+        //정규화
+        targetdir.Normalize();
 
-        //부드럽게 회전
-        transform.rotation = Quaternion.Slerp(transform.rotation, toTarget, Time.deltaTime * _speed);
-    }
-    #endregion
+        //이미 거의 같은 방향이면 리턴
+        if ((_direction - targetdir).sqrMagnitude < MIN_ROTATE_MAGNITUDE_SQR) return;
 
-    #region 움직임
-    private void HandleHorizontalMovement()
-    {
-        //앞으로 이동
-        var velocity = transform.forward * _speed;
+        //현재 방향과 목표 방향 사이의 회전 계산
+        _direction = Vector3.Lerp(_direction, targetdir, _rotateSpeed * Time.deltaTime);
 
-        //이동
-        transform.position += velocity * Time.deltaTime;
-    }
+        //정규화
+        _direction.Normalize();
 
-    private void HandleVerticalMovement()
-    {
-        //지상 이동일 경우 패스
-        if (_enemyControllerData.MoveType == EnemyMoveType.Walking) return;
+        //방향이 Vector3.zero면 리턴
+        if (_direction == Vector3.zero) return;
 
-        //높이 차이 계산
-        float heightDiff = _target.position.y - _enemy.transform.position.y;
-
-        //이동 방향 설정
-        var dir = heightDiff > 0 ? Vector3.up : Vector3.down;
-
-        //프레임 이동량 계산
-        //거리 이상으로 움직이지 않도록 제한
-        float moveAmount = Mathf.Min(Mathf.Abs(heightDiff), _speed * Time.deltaTime);
-
-        //이동
-        transform.position += dir * moveAmount;
+        //회전
+        transform.rotation = Quaternion.LookRotation(_direction, Vector3.up);
     }
     #endregion
 
@@ -121,16 +112,29 @@ public class EnemyController : MonoBehaviour
 
     private void LookTarget()
     {
-        //수평으로만 회전
-        var dir = _target.position - transform.position;
-        dir.y = 0;
+        //목표 방향 구하기
+        var targetdir = _target.position - transform.position;
 
-        //최소 회전 벡터 크기 이하이면 리턴
-        if (dir.sqrMagnitude < MIN_ROTATE_MAGNITUDE_SQR) return;
+        if (_enemyControllerData.MoveType == EnemyMoveType.Walking)
+        {
+            //지상 이동일 경우 수평 방향으로만 회전
+            targetdir.y = 0;
+        }
 
-        //목표 방향으로 회전
-        var toTarget = Quaternion.LookRotation(dir, Vector3.up);
-        transform.rotation = toTarget;
+        //정규화
+        targetdir.Normalize();
+
+        //이미 거의 같은 방향이면 리턴
+        if ((_direction - targetdir).sqrMagnitude < MIN_ROTATE_MAGNITUDE_SQR) return;
+
+        //현재 방향을 목표 방향으로 설정
+        _direction = targetdir;
+
+        //방향이 Vector3.zero면 리턴
+        if (_direction == Vector3.zero) return;
+
+        //회전
+        transform.rotation = Quaternion.LookRotation(_direction, Vector3.up);
     }
     #endregion
 }
