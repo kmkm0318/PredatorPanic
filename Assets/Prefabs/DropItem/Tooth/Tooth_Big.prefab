@@ -76,6 +76,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1882385499809101617}
   m_SourcePrefab: {fileID: 100100000, guid: 86489e28ab79a094cbc6ba5bee53966c, type: 3}
+--- !u!114 &2934640292148656086 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8187711302940391131, guid: 86489e28ab79a094cbc6ba5bee53966c, type: 3}
+  m_PrefabInstance: {fileID: 6420294413165510925}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b99afbb6281fe44a08ca0cd188b104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropItemVisual
 --- !u!1 &8806838222631615611 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2531405016186355062, guid: 86489e28ab79a094cbc6ba5bee53966c, type: 3}
@@ -93,4 +104,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 009ef2a54bb34664c8563d2fed4cde17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tooth
+  _visual: {fileID: 2934640292148656086}
   _toothAmount: 500

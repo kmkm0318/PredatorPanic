@@ -67,6 +67,39 @@ public class DropItemManager : MonoBehaviour
     }
     #endregion
 
+    private void Update()
+    {
+        ManualUpdateDropItem();
+    }
+
+    private void ManualUpdateDropItem()
+    {
+        //시간 캐싱
+        float deltaTime = Time.deltaTime;
+
+        for (int i = _activeDropItems.Count - 1; i >= 0; i--)
+        {
+            var item = _activeDropItems[i];
+
+            //Active 상태일 시 수동 업데이트
+            if (item.IsActive)
+            {
+                item.ManualUpdate(deltaTime);
+            }
+
+            //Active 상태가 아니거나 업데이트 후 비활성화된 아이템 처리
+            if (!item.IsActive)
+            {
+                //맨 뒤 아이템으로 교체
+                int lastIndex = _activeDropItems.Count - 1;
+                _activeDropItems[i] = _activeDropItems[lastIndex];
+
+                //목록에서 제거
+                _activeDropItems.RemoveAt(lastIndex);
+            }
+        }
+    }
+
     #region 오브젝트 풀링
     private void InitPool(DropItemData dropItemData)
     {
@@ -142,6 +175,9 @@ public class DropItemManager : MonoBehaviour
                 //아이템 초기화
                 dropItem.ResetItem();
 
+                //아이템 활성화
+                dropItem.IsActive = true;
+
                 //아이템 이벤트 등록
                 dropItem.OnPickuped += HandlePickuped;
 
@@ -154,6 +190,12 @@ public class DropItemManager : MonoBehaviour
     //드롭 아이템 획득 시
     private void HandlePickuped(DropItem item)
     {
+        //이미 비활성화된 아이템일 시 패스
+        if (!item.IsActive) return;
+
+        //비활성화
+        item.IsActive = false;
+
         //이벤트 해제
         item.OnPickuped -= HandlePickuped;
 

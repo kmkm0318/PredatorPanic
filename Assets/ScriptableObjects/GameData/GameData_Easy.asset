@@ -17,7 +17,7 @@ MonoBehaviour:
   _enemyTableDataList: {fileID: 11400000, guid: 27d893cf08ea962438994e6953335326, type: 2}
   _baseEnemySpawnCount: 3
   _enemySpawnCountIncreaseRate: 1.2
-  _baseEnemySpawnSpeed: 0.5
+  _baseEnemySpawnSpeed: 5
   _enemySpawnSpeedIncreaseRate: 1.2
   _gamePlayingBGMAudioData: {fileID: 11400000, guid: 217a56f7c7c4db64e971f4e29affa923, type: 2}
   _gameClearBGMAudioData: {fileID: 11400000, guid: d26f156ff34501b42a38bf648e243b28, type: 2}

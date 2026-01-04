@@ -5,7 +5,7 @@ using UnityEngine;
 /// 드롭 아이템 추상 클래스
 /// 플레이어가 획득할 수 있는 아이템의 기본 동작 정의
 /// </summary>
-public abstract class DropItem : MonoBehaviour
+public abstract class DropItem : MonoBehaviour, IManualUpdate
 {
     #region 데이터
     public DropItemData DropItemData { get; private set; }
@@ -14,6 +14,10 @@ public abstract class DropItem : MonoBehaviour
     #region 따라가기
     private Player _player;
     public bool IsFollowing { get; private set; }
+    #endregion
+
+    #region 변수
+    public bool IsActive { get; set; } = false;
     #endregion
 
     #region 이벤트
@@ -31,9 +35,10 @@ public abstract class DropItem : MonoBehaviour
         _player = null;
     }
 
-    private void Update()
+    public void ManualUpdate(float deltaTime)
     {
-        HandleFollow();
+        //따라가기 처리
+        HandleFollow(deltaTime);
     }
 
     #region 따라가기 및 획득
@@ -48,7 +53,7 @@ public abstract class DropItem : MonoBehaviour
         IsFollowing = true;
     }
 
-    private void HandleFollow()
+    private void HandleFollow(float deltaTime)
     {
         //따라가기 중이 아닐 시, 플레이어가 없을 시 패스
         if (!IsFollowing || _player == null) return;
@@ -57,7 +62,7 @@ public abstract class DropItem : MonoBehaviour
         var dirToPlayer = (_player.CenterPosition - transform.position).normalized;
 
         //위치 갱신
-        transform.position += DropItemData.FollowSpeed * Time.deltaTime * dirToPlayer;
+        transform.position += DropItemData.FollowSpeed * deltaTime * dirToPlayer;
 
         //플레이어에 가까워졌을 시
         var distanceSqr = (_player.CenterPosition - transform.position).sqrMagnitude;
