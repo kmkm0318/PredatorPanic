@@ -77,6 +77,7 @@ public class DropItemManager : MonoBehaviour
         //시간 캐싱
         float deltaTime = Time.deltaTime;
 
+        //뒤에서부터 접근해서 문제 방지
         for (int i = _activeDropItems.Count - 1; i >= 0; i--)
         {
             var item = _activeDropItems[i];
@@ -202,9 +203,6 @@ public class DropItemManager : MonoBehaviour
         //아이템 반환
         var pool = GetPool(item.DropItemData);
         pool.Release(item);
-
-        //활성화된 드롭 아이템 리스트에서 제거
-        _activeDropItems.Remove(item);
     }
     #endregion
 
