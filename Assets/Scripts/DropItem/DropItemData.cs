@@ -17,9 +17,11 @@ public class DropItemData : ScriptableObject
 
     [Header("Follow Settings")]
     [SerializeField] private bool _isFollow = true;
-    [SerializeField] private float _followSpeed = 10f;
+    [SerializeField] private float _initialFollowSpeed = 10f;
+    [SerializeField] private float _followSpeedAcceleration = 10f;
     public bool IsFollow => _isFollow;
-    public float FollowSpeed => _followSpeed;
+    public float InitialFollowSpeed => _initialFollowSpeed;
+    public float FollowSpeedAcceleration => _followSpeedAcceleration;
 
     [Header("Audio Settings")]
     [SerializeField] private AudioData _pickupSfxData;

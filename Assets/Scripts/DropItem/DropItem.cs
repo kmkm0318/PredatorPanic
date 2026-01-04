@@ -14,6 +14,7 @@ public abstract class DropItem : MonoBehaviour, IManualUpdate
     #region 따라가기
     private Player _player;
     public bool IsFollowing { get; private set; }
+    private float _speed = 0f;
     #endregion
 
     #region 변수
@@ -33,6 +34,7 @@ public abstract class DropItem : MonoBehaviour, IManualUpdate
     {
         IsFollowing = false;
         _player = null;
+        _speed = 0f;
     }
 
     public void ManualUpdate(float deltaTime)
@@ -51,6 +53,7 @@ public abstract class DropItem : MonoBehaviour, IManualUpdate
         //플레이어 저장 및 따라가기 시작
         _player = player;
         IsFollowing = true;
+        _speed = DropItemData.InitialFollowSpeed;
     }
 
     private void HandleFollow(float deltaTime)
@@ -61,8 +64,11 @@ public abstract class DropItem : MonoBehaviour, IManualUpdate
         //방향 계산
         var dirToPlayer = (_player.CenterPosition - transform.position).normalized;
 
+        //속도 갱신
+        _speed += DropItemData.FollowSpeedAcceleration * deltaTime;
+
         //위치 갱신
-        transform.position += DropItemData.FollowSpeed * deltaTime * dirToPlayer;
+        transform.position += _speed * deltaTime * dirToPlayer;
 
         //플레이어에 가까워졌을 시
         var distanceSqr = (_player.CenterPosition - transform.position).sqrMagnitude;
