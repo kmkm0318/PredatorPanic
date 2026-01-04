@@ -44,8 +44,11 @@ public class EnemyController : MonoBehaviour
         //이동 중이 아니면 리턴, 타겟이 없으면 리턴
         if (!_isMoving || _target == null) return;
 
-        //타겟과의 거리 계산
-        float distanceSqr = (_target.position - transform.position).sqrMagnitude;
+        //타겟까지의 벡터 계산
+        var toTarget = _target.position - transform.position;
+
+        //타겟과의 거리 제곱 계산
+        float distanceSqr = toTarget.sqrMagnitude;
 
         //최소 이동 거리 이내면 리턴
         if (distanceSqr < _enemyControllerData.MinMoveDistanceSqr) return;
@@ -56,37 +59,34 @@ public class EnemyController : MonoBehaviour
         //회전 속도 계산
         _rotateSpeed = _speed * ROTATE_SPEED_RATIO;
 
-        HandleDirection();
+        HandleDirection(toTarget);
 
         //이동 적용
         transform.position += _direction * _speed * Time.deltaTime;
     }
 
     #region 방향 처리
-    private void HandleDirection()
+    private void HandleDirection(Vector3 toTarget)
     {
-        //목표 방향 구하기
-        var targetdir = _target.position - transform.position;
-
         if (_enemyControllerData.MoveType == EnemyMoveType.Walking)
         {
             //지상 이동일 경우 수평 방향으로만 회전
-            targetdir.y = 0;
+            toTarget.y = 0;
         }
 
         //정규화
-        targetdir.Normalize();
+        toTarget.Normalize();
 
         //이미 거의 같은 방향이면 리턴
-        if ((_direction - targetdir).sqrMagnitude < MIN_ROTATE_MAGNITUDE_SQR) return;
+        if ((_direction - toTarget).sqrMagnitude < MIN_ROTATE_MAGNITUDE_SQR) return;
 
         //현재 방향과 목표 방향 사이의 회전 계산
-        _direction = Vector3.Lerp(_direction, targetdir, _rotateSpeed * Time.deltaTime);
+        _direction = Vector3.Lerp(_direction, toTarget, _rotateSpeed * Time.deltaTime);
 
         //정규화
         _direction.Normalize();
 
-        //방향이 Vector3.zero면 리턴
+        //방향이 없으면 리턴
         if (_direction == Vector3.zero) return;
 
         //회전
