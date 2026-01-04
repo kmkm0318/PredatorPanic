@@ -99,6 +99,9 @@ public class BulletManager : MonoBehaviour
         //총알 가져오기
         var bullet = pool.Get();
 
+        //활성화
+        bullet.IsActive = true;
+
         //활성 총알 목록에 추가
         _activeBullets.Add(bullet);
 
@@ -111,6 +114,12 @@ public class BulletManager : MonoBehaviour
     /// </summary>
     public void ReleaseBullet(Bullet bullet)
     {
+        //유효성 검사
+        if (!bullet.IsActive) return;
+
+        //비활성화
+        bullet.IsActive = false;
+
         //풀 가져오기
         var pool = GetPool(bullet.Data);
 

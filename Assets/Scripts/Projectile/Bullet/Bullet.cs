@@ -422,12 +422,6 @@ public class Bullet : MonoBehaviour, IManualUpdate
 
     private void StartLifetime(float duration)
     {
-        //기존 라이프타임 중지
-        StopLifetime();
-
-        //활성화
-        IsActive = true;
-
         //변수 설정
         _lifetimeDuration = duration;
         _lifetimeElapsed = 0f;
@@ -435,12 +429,6 @@ public class Bullet : MonoBehaviour, IManualUpdate
 
     private void StopLifetime()
     {
-        //동작 중이지 않으면 패스
-        if (!IsActive) return;
-
-        //비활성화
-        IsActive = false;
-
         //총알 반환
         ReleaseBullet();
     }
