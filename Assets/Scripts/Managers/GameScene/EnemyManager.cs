@@ -136,7 +136,7 @@ public class EnemyManager : MonoBehaviour
         _spawnInterval = 1f / enemySpawnSpeed;
 
         //스탯 성장률 설정
-        _statGrowthRate = runData.BaseEnemyStatGrowthRate * Mathf.Pow(runData.EnemyStatGrowthIncreaseRate, roundIdx);
+        _statGrowthRate = runData.BaseEnemyStatRate * Mathf.Pow(runData.EnemyStatIncreaseRate, roundIdx);
 
         //다음 스폰 시간 초기화
         _nextSpawnTime = 0f;

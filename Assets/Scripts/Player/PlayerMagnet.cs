@@ -10,7 +10,10 @@ public class PlayerMagnet : MonoBehaviour
 
     [SerializeField] private LayerMask _itemLayerMask;
 
+    #region 레퍼런스
     private Player _player;
+    private DropItemManager _dropItemManager;
+    #endregion
 
     #region 자석 변수
     private float _magnetRadius = 0f;
@@ -23,6 +26,9 @@ public class PlayerMagnet : MonoBehaviour
     {
         //플레이어 저장
         _player = player;
+
+        //드랍 아이템 매니저 저장
+        _dropItemManager = _player.GameManager.DropItemManager;
 
         //자석 반경 스탯 변경 시 콜백 등록
         player.PlayerStats.GetStat(PlayerStatType.MagnetRadius).OnValueChanged += SetMagnetRadius;
@@ -67,40 +73,8 @@ public class PlayerMagnet : MonoBehaviour
         //체크 시간에 현재 시간 + interval 설정
         _nextCheckTime = Time.time + CHECK_INTERVAL;
 
-        //자석 반경 내의 아이템 감지
-        int count = PhysicsUtility.GetOverlapSphereNonAlloc(transform.position, _magnetRadius, _itemLayerMask, out var colliders);
-
-        //플레이어 기준 위치
-        Vector3 playerPos = transform.position;
-
-        //아이템 수만큼 반복
-        for (int i = 0; i < count; i++)
-        {
-            if (colliders[i] == null) continue;
-
-            //드랍 아이템이 아닐 시 패스
-            if (!colliders[i].TryGetComponent<DropItem>(out var dropItem)) continue;
-
-            //아이템이 플레이어를 따라오도록 설정되어 있을 시
-            if (dropItem.DropItemData.IsFollow)
-            {
-                //아직 따라오고 있지 않을 시 따라오게 함
-                if (!dropItem.IsFollowing)
-                {
-                    dropItem.StartFollowPlayer(_player);
-                }
-            }
-            //아이템이 플레이어를 따라오는 게 아닐 시
-            else
-            {
-                //픽업 반경 내에 있을 시 즉시 픽업
-                var distanceSqr = (dropItem.transform.position - playerPos).sqrMagnitude;
-                if (distanceSqr <= _pickupRadiusSqr)
-                {
-                    dropItem.OnPickup(_player);
-                }
-            }
-        }
+        //드랍 아이템 매니저에 아이템 체크 요청
+        _dropItemManager.CheckDropItems(_player, _magnetRadius, _pickupRadiusSqr);
     }
 
     private void StartCheckItem()

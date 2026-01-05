@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3379dabf83607aa45b7a36f9748a309b, type: 3}
+  m_Name: GameData
+  m_EditorClassIdentifier: Assembly-CSharp::GameData
+  _roundStartDelay: 3
+  _roundDuration: 60
+  _enemyTableDataList: {fileID: 11400000, guid: 27d893cf08ea962438994e6953335326, type: 2}
+  _baseEnemySpawnCount: 3
+  _enemySpawnCountIncreaseRate: 1.2
+  _baseEnemySpawnSpeed: 0.5
+  _enemySpawnSpeedIncreaseRate: 1.2
+  _gamePlayingBGMAudioData: {fileID: 11400000, guid: 217a56f7c7c4db64e971f4e29affa923, type: 2}
+  _gameClearBGMAudioData: {fileID: 11400000, guid: d26f156ff34501b42a38bf648e243b28, type: 2}
+  _gameOverBGMAudioData: {fileID: 11400000, guid: ea234646fa4866949822cb09ac2deffd, type: 2}

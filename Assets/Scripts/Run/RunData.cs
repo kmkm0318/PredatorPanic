@@ -10,7 +10,7 @@ public class RunData : ScriptableObject, IBasicData
     [Header("Basic Data")]
     [SerializeField] private string _id;
     [SerializeField] private string _name;
-    [SerializeField, TextArea(3, 10)] private string _description;
+    [SerializeField] private string _description;
     [SerializeField] private Sprite _icon;
     [SerializeField] private Rarity _rarity;
     [SerializeField] private int _basePrice;
@@ -27,13 +27,25 @@ public class RunData : ScriptableObject, IBasicData
     [SerializeField] private float _enemySpawnCountIncreaseRate = 1.25f;
     [SerializeField] private float _baseEnemySpawnSpeed = 0.5f;
     [SerializeField] private float _enemySpawnSpeedIncreaseRate = 1.25f;
-    [SerializeField] private float _baseEnemyStatGrowthRate = 1f;
-    [SerializeField] private float _enemyStatGrowthIncreaseRate = 1.25f;
+    [SerializeField] private float _baseEnemyStatRate = 1f;
+    [SerializeField] private float _enemyStatIncreaseRate = 1.25f;
     public EnemyTableDataList EnemyTableDataList => _enemyTableDataList;
     public int BaseEnemySpawnCount => _baseEnemySpawnCount;
     public float EnemySpawnCountIncreaseRate => _enemySpawnCountIncreaseRate;
     public float BaseEnemySpawnSpeed => _baseEnemySpawnSpeed;
     public float EnemySpawnSpeedIncreaseRate => _enemySpawnSpeedIncreaseRate;
-    public float BaseEnemyStatGrowthRate => _baseEnemyStatGrowthRate;
-    public float EnemyStatGrowthIncreaseRate => _enemyStatGrowthIncreaseRate;
+    public float BaseEnemyStatRate => _baseEnemyStatRate;
+    public float EnemyStatIncreaseRate => _enemyStatIncreaseRate;
+
+    public string GetDescription()
+    {
+        return
+        $"목표 라운드: {_enemyTableDataList.EnemyTableDatas.Count}\n" +
+        $"기본 적 수: {_baseEnemySpawnCount}\n" +
+        $"적 수 증가율: {_enemySpawnCountIncreaseRate}\n" +
+        $"기본 적 출현 속도: {_baseEnemySpawnSpeed}\n" +
+        $"적 출현 속도 증가율: {_enemySpawnSpeedIncreaseRate}\n" +
+        $"기본 적 능력치 배율: {_baseEnemyStatRate}\n" +
+        $"적 능력치 배율 증가율: {_enemyStatIncreaseRate}";
+    }
 }

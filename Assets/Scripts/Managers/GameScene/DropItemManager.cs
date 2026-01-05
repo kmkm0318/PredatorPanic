@@ -207,6 +207,42 @@ public class DropItemManager : MonoBehaviour
     #endregion
 
     #region 필드 위 드랍 아이템
+    public void CheckDropItems(Player player, float magnetRadius, float pickupRadiusSqr)
+    {
+        //플레이어 기준 위치
+        var playerPos = player.transform.position;
+
+        //뒤에서부터 접근해서 문제 방지
+        for (int i = _activeDropItems.Count - 1; i >= 0; i--)
+        {
+            var dropItem = _activeDropItems[i];
+            var dropItemPos = dropItem.transform.position;
+
+            //자석 반경 밖일 시 패스
+            if ((dropItemPos - playerPos).sqrMagnitude > magnetRadius * magnetRadius) continue;
+
+            //아이템이 플레이어를 따라오도록 설정되어 있을 시
+            if (dropItem.DropItemData.IsFollow)
+            {
+                //아직 따라오고 있지 않을 시 따라오게 함
+                if (!dropItem.IsFollowing)
+                {
+                    dropItem.StartFollowPlayer(player);
+                }
+            }
+            //아이템이 플레이어를 따라오는 게 아닐 시
+            else
+            {
+                //픽업 반경 내에 있을 시 즉시 픽업
+                var distanceSqr = (dropItem.transform.position - playerPos).sqrMagnitude;
+                if (distanceSqr <= pickupRadiusSqr)
+                {
+                    dropItem.OnPickup(player);
+                }
+            }
+        }
+    }
+
     public void CollectAllDropItems(Player player)
     {
         //뒤에서부터 접근해서 문제 방지

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ItemData_4002
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   _itemName: "\uBCF5\uC22D\uC544"
-  _icon: {fileID: 21300000, guid: ebbb4441cd610984ba3e5315e49501b6, type: 3}
+  _icon: {fileID: 21300000, guid: 7719fde44b917e94183314e96ad93eeb, type: 3}
   _rarity: 4
   _basePrice: 16000
   _effectDatas:

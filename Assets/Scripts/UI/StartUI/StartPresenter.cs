@@ -189,7 +189,7 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
         OnTooltipRequested?.Invoke(new(
             data,
             data.Name,
-            data.Description,
+            data.GetDescription(),
             color,
             data.Icon,
             data.BasePrice
