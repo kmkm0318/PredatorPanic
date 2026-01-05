@@ -1,5 +1,6 @@
 using System;
 using Unity.Cinemachine;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region 게임 데이터
+    public int TargetRound { get; private set; }
     private int _currentRound = 0;
     public int CurrentRound
     {
@@ -88,8 +90,7 @@ public class GameManager : MonoBehaviour
         InitPlayer();
         InitCamera();
         InitManagers();
-
-        CurrentRound = 0;
+        InitRoundData();
     }
 
     // 플레이어 생성 및 초기화
@@ -98,9 +99,13 @@ public class GameManager : MonoBehaviour
         //초기 위치는 (0,0,0)
         var spawnPos = Vector3.zero;
 
-        //선택된 플레이어, 무기 데이터 가져오기
+        //선택된 플레이어
         var playerData = GlobalGameManager.Instance.SelectedPlayerData;
+
+        //선택된 무기
         var weaponData = GlobalGameManager.Instance.SelectedWeaponData;
+
+        //적용된 진화들
         var appliedEvolutions = GlobalGameManager.Instance.AppliedEvolutions;
 
         //플레이어 생성
@@ -146,6 +151,19 @@ public class GameManager : MonoBehaviour
         _trailManager.Init(this);
         _explosionManager.Init(this);
         _gameUIManager.Init(this);
+    }
+
+    //라운드 데이터 초기화
+    private void InitRoundData()
+    {
+        //런 데이터 가져오기
+        var runData = GlobalGameManager.Instance.SelectedRunData;
+
+        //테이블 수를 타겟 라운드로 설정
+        TargetRound = runData.EnemyTableDataList.EnemyTableDatas.Count;
+
+        //현재 라운드를 0으로 초기화
+        CurrentRound = 0;
     }
     #endregion
 

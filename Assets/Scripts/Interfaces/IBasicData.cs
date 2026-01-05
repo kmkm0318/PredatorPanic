@@ -7,4 +7,5 @@ public interface IBasicData
     string Description { get; }
     Sprite Icon { get; }
     Rarity Rarity { get; }
+    int BasePrice { get; }
 }

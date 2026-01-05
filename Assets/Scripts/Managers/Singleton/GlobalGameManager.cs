@@ -8,12 +8,14 @@ using System.Collections.Generic;
 public class GlobalGameManager : Singleton<GlobalGameManager>
 {
     #region 선택된 데이터
+    public RunData SelectedRunData { get; private set; }
     public PlayerData SelectedPlayerData { get; private set; }
     public WeaponData SelectedWeaponData { get; private set; }
     public Dictionary<EvolutionData, int> AppliedEvolutions { get; private set; } = new();
     #endregion
 
     #region 이벤트
+    public event Action<RunData> OnSelectedRunDataChanged;
     public event Action<PlayerData> OnSelectedPlayerDataChanged;
     public event Action<WeaponData> OnSelectedWeaponDataChanged;
     #endregion
@@ -30,16 +32,28 @@ public class GlobalGameManager : Singleton<GlobalGameManager>
         var dataManager = DataManager.Instance;
 
         //마지막으로 선택된 플레이어, 무기 ID 가져오기
+        var lastSelectedRunID = userSaveDataManager.UserSaveData.LastSelectedRunID;
         var lastSelectedPlayerID = userSaveDataManager.UserSaveData.LastSelectedPlayerID;
         var lastSelectedWeaponID = userSaveDataManager.UserSaveData.LastSelectedWeaponID;
 
         //데이터 매니저에서 해당 ID의 플레이어, 무기 데이터 가져오기
+        var runData = dataManager.RunDataList.GetData(lastSelectedRunID);
         var playerData = dataManager.PlayerDataList.GetData(lastSelectedPlayerID);
         var weaponData = dataManager.WeaponDataList.GetData(lastSelectedWeaponID);
 
         //선택된 플레이어, 무기 데이터 설정
+        SetSelectedRunData(runData);
         SetSelectedPlayerData(playerData);
         SetSelectedWeaponData(weaponData);
+    }
+
+    /// <summary>
+    /// 선택된 런 데이터 설정
+    /// </summary>
+    public void SetSelectedRunData(RunData runData)
+    {
+        SelectedRunData = runData;
+        OnSelectedRunDataChanged?.Invoke(runData);
     }
 
     /// <summary>

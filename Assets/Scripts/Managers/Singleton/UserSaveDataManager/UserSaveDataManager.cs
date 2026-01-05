@@ -107,6 +107,22 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
     }
     #endregion
 
+    #region 런
+    public void AddRunData(string runID)
+    {
+        //중복 방지
+        if (UserSaveData.AcquiredRuns.Contains(runID)) return;
+
+        //런 ID 추가
+        UserSaveData.AcquiredRuns.Add(runID);
+    }
+
+    public bool IsRunUnlocked(string runID)
+    {
+        return UserSaveData.AcquiredRuns.Contains(runID);
+    }
+    #endregion
+
     #region 플레이어
     public void AddPlayerData(string playerID)
     {
@@ -159,14 +175,17 @@ public class UserSaveDataManager : Singleton<UserSaveDataManager>
     }
     #endregion
 
-    #region 마지막으로 선택한 플레이어
+    #region 마지막으로 선택한 항목
+    public void SetLastSelectedRunID(string runID)
+    {
+        UserSaveData.LastSelectedRunID = runID;
+    }
+
     public void SetLastSelectedPlayerID(string playerID)
     {
         UserSaveData.LastSelectedPlayerID = playerID;
     }
-    #endregion
 
-    #region 마지막으로 선택한 무기
     public void SetLastSelectedWeaponID(string weaponID)
     {
         UserSaveData.LastSelectedWeaponID = weaponID;

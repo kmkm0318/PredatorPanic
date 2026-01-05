@@ -26,7 +26,7 @@ public class GameRoundClearState : GameBaseState
         //필드 위에 드랍 아이템 있을 시 전환하지 않음
         if (GameManager.DropItemManager.HasActiveDropItems()) return;
 
-        if (GameManager.CurrentRound == GameManager.GameData.TargetRound)
+        if (GameManager.CurrentRound == GameManager.TargetRound)
         {
             //타겟 라운드 클리어 시 게임 클리어 상태로 전환
             ChangeState(Factory.Clear);

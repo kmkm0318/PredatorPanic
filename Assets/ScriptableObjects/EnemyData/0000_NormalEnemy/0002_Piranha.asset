@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31233d113d52b24dbf7fbe11f687173, type: 3}
+  m_Name: 0002_Piranha
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  _enemyPrefab: {fileID: 4943510184041093272, guid: f1a5ed3cef7580e41a44fb3ba36e0cb6, type: 3}
+  _isBoss: 0
+  _enemyName: "\uD53C\uB77C\uB0D0"
+  _enemyControllerData: {fileID: 11400000, guid: b0a04d39f4322624891a55685a0c0c43, type: 2}
+  _baseStats:
+  - _statType: 0
+    _value: 5
+  - _statType: 1
+    _value: 5
+  - _statType: 2
+    _value: 3.5
+  _enemyStatGrowthRate: 1.2
+  _dropItemTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}
+  _hitAudio: {fileID: 11400000, guid: b181720f06607de44b55473c79f2456d, type: 2}
+  _deathAudio: {fileID: 11400000, guid: a13737c23b96e044981453dfa636402e, type: 2}
+  _hitParticleEffect: {fileID: 11400000, guid: e5e9bd38ce8d8e84ab2a002babc2f2f4, type: 2}
+  _deathParticleEffect: {fileID: 11400000, guid: 89cd1f9f4d204ca4db5962e7aa9829a2, type: 2}
+  _spawnVisualOffsetY: -10
+  _spawnVisualDuration: 0.5
+  _spawnVisualEase: 27

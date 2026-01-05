@@ -17,6 +17,10 @@ public class DataManager : Singleton<DataManager>
     [SerializeField] private LevelUpRewardDataList _levelUpRewardDataList;
     public LevelUpRewardDataList LevelUpRewardDataList => _levelUpRewardDataList;
 
+    [Header("Run Data List")]
+    [SerializeField] private RunDataList _runDataList;
+    public RunDataList RunDataList => _runDataList;
+
     [Header("Player Data List")]
     [SerializeField] private PlayerDataList _playerDataList;
     public PlayerDataList PlayerDataList => _playerDataList;

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -13,21 +12,6 @@ public class GameData : ScriptableObject
     [SerializeField] private float _roundDuration = 60f;
     public float RoundStartDelay => _roundStartDelay;
     public float RoundDuration => _roundDuration;
-    public int TargetRound => _enemyTableDataList.EnemyTableDatas.Count;
-
-    [Header("Enemy Settings")]
-    [SerializeField] private EnemyTableDataList _enemyTableDataList;
-    [SerializeField] private int _baseEnemySpawnCount = 3;
-    [SerializeField] private float _enemySpawnCountIncreaseRate = 1.2f;
-    [SerializeField] private float _baseEnemySpawnSpeed = 0.5f;
-    [SerializeField] private float _enemySpawnSpeedIncreaseRate = 1.2f;
-    [SerializeField] private float _enemyStatIncreaseRate = 1.2f;
-    public EnemyTableDataList EnemyTableDataList => _enemyTableDataList;
-    public int BaseEnemySpawnCount => _baseEnemySpawnCount;
-    public float EnemySpawnCountIncreaseRate => _enemySpawnCountIncreaseRate;
-    public float BaseEnemySpawnSpeed => _baseEnemySpawnSpeed;
-    public float EnemySpawnSpeedIncreaseRate => _enemySpawnSpeedIncreaseRate;
-    public float EnemyStatIncreaseRate => _enemyStatIncreaseRate;
 
     [Header("BGM Audio Data")]
     [SerializeField] private AudioData _gamePlayingBGMAudioData;

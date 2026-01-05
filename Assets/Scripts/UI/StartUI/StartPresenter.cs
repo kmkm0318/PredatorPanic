@@ -38,11 +38,26 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
         //DNA 텍스트 초기화
         HandleDNAChanged(UserSaveDataManager.Instance.UserSaveData.DNA);
 
+        //선택된 런 초기화
+        HandleOnSelectedRunDataChanged(GlobalGameManager.Instance.SelectedRunData);
+
         //선택된 플레이어 초기화
         HandleOnSelectedPlayerDataChanged(GlobalGameManager.Instance.SelectedPlayerData);
 
         //선택된 무기 초기화
         HandleOnSelectedWeaponDataChanged(GlobalGameManager.Instance.SelectedWeaponData);
+
+        //런 선택 아이템 UI 초기화
+        List<RunSelectItemContext> runSelectItemContexts = new();
+        foreach (var runData in DataManager.Instance.RunDataList.RunDatas)
+        {
+            bool isUnlocked = UserSaveDataManager.Instance.IsRunUnlocked(runData.ID);
+            bool isSelected = GlobalGameManager.Instance.SelectedRunData == runData;
+
+            runSelectItemContexts.Add(new(runData, isUnlocked, isSelected));
+        }
+
+        _startUI.SetRunSelectItems(runSelectItemContexts);
 
         //플레이어 선택 아이템 UI 초기화
         List<PlayerSelectItemContext> playerSelectItemContexts = new();
@@ -81,11 +96,16 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
     {
         UserSaveDataManager.Instance.OnDNAChanged += HandleDNAChanged;
 
+        GlobalGameManager.Instance.OnSelectedRunDataChanged += HandleOnSelectedRunDataChanged;
         GlobalGameManager.Instance.OnSelectedPlayerDataChanged += HandleOnSelectedPlayerDataChanged;
         GlobalGameManager.Instance.OnSelectedWeaponDataChanged += HandleOnSelectedWeaponDataChanged;
 
         _startUI.OnStartButtonClicked += HandleOnStartButtonClicked;
         _startUI.OnCloseButtonClicked += HandleOnCloseButtonClicked;
+
+        _startUI.OnRunSelectItemPointerEntered += HandleOnRunSelectItemPointerEntered;
+        _startUI.OnRunSelectItemPointerExited += HandleOnRunSelectItemPointerExited;
+        _startUI.OnRunSelectItemClicked += HandleOnRunSelectItemClicked;
 
         _startUI.OnPlayerSelectItemPointerEntered += HandleOnPlayerSelectItemPointerEntered;
         _startUI.OnPlayerSelectItemPointerExited += HandleOnPlayerSelectItemPointerExited;
@@ -100,11 +120,16 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
     {
         UserSaveDataManager.Instance.OnDNAChanged -= HandleDNAChanged;
 
+        GlobalGameManager.Instance.OnSelectedRunDataChanged -= HandleOnSelectedRunDataChanged;
         GlobalGameManager.Instance.OnSelectedPlayerDataChanged -= HandleOnSelectedPlayerDataChanged;
         GlobalGameManager.Instance.OnSelectedWeaponDataChanged -= HandleOnSelectedWeaponDataChanged;
 
         _startUI.OnStartButtonClicked -= HandleOnStartButtonClicked;
         _startUI.OnCloseButtonClicked -= HandleOnCloseButtonClicked;
+
+        _startUI.OnRunSelectItemPointerEntered -= HandleOnRunSelectItemPointerEntered;
+        _startUI.OnRunSelectItemPointerExited -= HandleOnRunSelectItemPointerExited;
+        _startUI.OnRunSelectItemClicked -= HandleOnRunSelectItemClicked;
 
         _startUI.OnPlayerSelectItemPointerEntered -= HandleOnPlayerSelectItemPointerEntered;
         _startUI.OnPlayerSelectItemPointerExited -= HandleOnPlayerSelectItemPointerExited;
@@ -121,6 +146,12 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
     {
         //DNA 텍스트 업데이트
         _startUI.UpdateDNAText(dnaAmount);
+    }
+
+    private void HandleOnSelectedRunDataChanged(RunData data)
+    {
+        //선택된 런 업데이트
+        _startUI.UpdateSelectedRun(data);
     }
 
     private void HandleOnSelectedPlayerDataChanged(PlayerData data)
@@ -147,6 +178,66 @@ public class StartPresenter : IPresenter, ICancelable, ITooltipProvider
     private void HandleOnCloseButtonClicked()
     {
         Hide();
+    }
+
+    private void HandleOnRunSelectItemPointerEntered(RunData data)
+    {
+        //색 가져오기
+        Color color = DataManager.Instance.RarityDataList.GetRarityColor(data.Rarity);
+
+        //툴팁 요청
+        OnTooltipRequested?.Invoke(new(
+            data,
+            data.Name,
+            data.Description,
+            color,
+            data.Icon,
+            data.BasePrice
+        ));
+    }
+
+    private void HandleOnRunSelectItemPointerExited(RunData data)
+    {
+        //툴팁 요청 취소
+        OnTooltipRequestCanceled?.Invoke(data);
+    }
+
+    private void HandleOnRunSelectItemClicked(RunData data)
+    {
+        bool isUnlocked = UserSaveDataManager.Instance.IsRunUnlocked(data.ID);
+
+        if (isUnlocked)
+        {
+            //선택된 런 데이터 설정
+            GlobalGameManager.Instance.SetSelectedRunData(data);
+
+            //마지막으로 선택한 런 ID 저장
+            UserSaveDataManager.Instance.SetLastSelectedRunID(data.ID);
+
+            //저장
+            UserSaveDataManager.Instance.SaveUserSaveData();
+        }
+        else
+        {
+            //구매 시도
+            bool success = UserSaveDataManager.Instance.TrySpendDNA(data.BasePrice);
+
+            if (success)
+            {
+                //런 잠금 해제
+                UserSaveDataManager.Instance.AddRunData(data.ID);
+
+                //저장
+                UserSaveDataManager.Instance.SaveUserSaveData();
+
+                //UI 업데이트
+                _startUI.UpdateRunSelectItem(new(data, true, false));
+            }
+            else
+            {
+                //TODO: 구매 실패 처리 (예: 알림 표시)
+            }
+        }
     }
 
     private void HandleOnPlayerSelectItemPointerEntered(PlayerData data)

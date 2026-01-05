@@ -8,12 +8,16 @@ using System.Collections.Generic;
 public class UserSaveData
 {
     #region 상수
+    private const string INITIAL_RUN_ID = "Run_Default_Easy";
     private const string INITIAL_PLAYER_ID = "Player_Chicken";
     private const string INITIAL_WEAPON_ID = "Weapon_Gun_Glock";
     #endregion
 
     //DNA 재화
     public int DNA;
+
+    //획득한 런 리스트
+    public List<string> AcquiredRuns;
 
     //획득한 플레이어 리스트
     public List<string> AcquiredPlayers;
@@ -24,6 +28,9 @@ public class UserSaveData
     //획득한 진화 정보 리스트
     public SerializableDictionary<string, int> AcquiredEvolutions;
 
+    //마지막으로 선택한 런 ID
+    public string LastSelectedRunID;
+
     //마지막으로 선택한 플레이어 ID
     public string LastSelectedPlayerID;
 
@@ -33,6 +40,12 @@ public class UserSaveData
     public UserSaveData()
     {
         DNA = 0;
+
+        AcquiredRuns = new()
+        {
+            //초기 런은 항상 획득 상태로 시작
+            INITIAL_RUN_ID
+        };
 
         AcquiredPlayers = new()
         {
@@ -48,6 +61,8 @@ public class UserSaveData
         {
             //초기 진화 정보는 빈 상태로 시작
         };
+
+        LastSelectedRunID = INITIAL_RUN_ID;
 
         LastSelectedPlayerID = INITIAL_PLAYER_ID;
 

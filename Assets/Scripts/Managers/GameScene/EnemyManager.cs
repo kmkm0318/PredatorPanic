@@ -109,31 +109,34 @@ public class EnemyManager : MonoBehaviour
     //적 스폰 변수 설정
     public void SetRoundEnemyVariables()
     {
-        //게임 데이터 가져오기
-        var gameData = _gameManager.GameData;
+        //런 데이터 가져오기
+        var runData = GlobalGameManager.Instance.SelectedRunData;
 
         //라운드 인덱스는 현재 라운드 -1
         int roundIdx = _gameManager.CurrentRound - 1;
 
+        //음수 방지
+        if (roundIdx < 0) roundIdx = 0;
+
         //적 테이블 설정
-        var enemyTableIdx = Mathf.Min(roundIdx, gameData.EnemyTableDataList.EnemyTableDatas.Count - 1);
-        _currentEnemyTable = gameData.EnemyTableDataList.EnemyTableDatas[enemyTableIdx];
+        var enemyTableIdx = roundIdx % runData.EnemyTableDataList.EnemyTableDatas.Count;
+        _currentEnemyTable = runData.EnemyTableDataList.EnemyTableDatas[enemyTableIdx];
 
         //보스 라운드 설정
         IsBossRound = _currentEnemyTable.BossEnemyDatas == null || _currentEnemyTable.BossEnemyDatas.Count > 0;
         _isBossSpawned = false;
 
         //스폰 수 계산
-        _spawnCount = Mathf.FloorToInt(gameData.BaseEnemySpawnCount * Mathf.Pow(gameData.EnemySpawnCountIncreaseRate, roundIdx));
+        _spawnCount = Mathf.FloorToInt(runData.BaseEnemySpawnCount * Mathf.Pow(runData.EnemySpawnCountIncreaseRate, roundIdx));
 
         //스폰 속도 계산
-        float enemySpawnSpeed = gameData.BaseEnemySpawnSpeed * Mathf.Pow(gameData.EnemySpawnSpeedIncreaseRate, roundIdx);
+        float enemySpawnSpeed = runData.BaseEnemySpawnSpeed * Mathf.Pow(runData.EnemySpawnSpeedIncreaseRate, roundIdx);
 
         //스폰 간격 계산
         _spawnInterval = 1f / enemySpawnSpeed;
 
         //스탯 성장률 설정
-        _statGrowthRate = Mathf.Pow(gameData.EnemyStatIncreaseRate, roundIdx);
+        _statGrowthRate = runData.BaseEnemyStatGrowthRate * Mathf.Pow(runData.EnemyStatGrowthIncreaseRate, roundIdx);
 
         //다음 스폰 시간 초기화
         _nextSpawnTime = 0f;
