@@ -30,7 +30,7 @@ public class EnemyManager : MonoBehaviour
     private Transform _target;
     private int _spawnCount;
     private float _spawnInterval;
-    private int _spawnLevel;
+    private float _statGrowthRate;
     private float _nextSpawnTime = 0f;
     private EnemyTableData _currentEnemyTable;
     public bool IsBossRound { get; private set; } = false;
@@ -132,8 +132,8 @@ public class EnemyManager : MonoBehaviour
         //스폰 간격 계산
         _spawnInterval = 1f / enemySpawnSpeed;
 
-        //스폰 레벨은 라운드 인덱스와 동일
-        _spawnLevel = roundIdx;
+        //스탯 성장률 설정
+        _statGrowthRate = Mathf.Pow(gameData.EnemyStatIncreaseRate, roundIdx);
 
         //다음 스폰 시간 초기화
         _nextSpawnTime = 0f;
@@ -228,7 +228,7 @@ public class EnemyManager : MonoBehaviour
         enemy.transform.position = spawnPoint;
 
         //적 초기화
-        enemy.SetLevel(_spawnLevel);
+        enemy.InitStats(_statGrowthRate);
         enemy.SetTarget(_target);
 
         //적 사망 이벤트 등록
