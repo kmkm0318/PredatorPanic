@@ -19,7 +19,8 @@ public class SettingsData
     //입력 설정
     public float Sensitivity = 1.0f;
 
-    //접근성 설정
+    //카메라 설정
+    public float CameraDistance = 5.0f;
     public bool EnableCameraShake = true;
 
     //기본 생성자
@@ -35,6 +36,7 @@ public class SettingsData
         BGMVolume = other.BGMVolume;
         SFXVolume = other.SFXVolume;
         Sensitivity = other.Sensitivity;
+        CameraDistance = other.CameraDistance;
         EnableCameraShake = other.EnableCameraShake;
     }
 }

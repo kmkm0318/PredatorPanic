@@ -6250,6 +6250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraManager
   _cinemachineInputAxisController: {fileID: 1872452252}
+  _cinemachineOrbitalFollow: {fileID: 1872452255}
   _cinemachineImpulseListener: {fileID: 1872452258}
   _damageImpulseSource: {fileID: 1750445980}
 --- !u!114 &1750445980
@@ -6602,7 +6603,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
-  OrbitStyle: 1
+  OrbitStyle: 0
   Radius: 5
   Orbits:
     Top:
@@ -6629,7 +6630,7 @@ MonoBehaviour:
   VerticalAxis:
     Value: 1.2
     Center: 17.5
-    Range: {x: -10, y: 45}
+    Range: {x: 0, y: 89}
     Wrap: 0
     Recentering:
       Enabled: 0

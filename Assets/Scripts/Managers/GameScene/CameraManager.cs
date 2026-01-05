@@ -8,6 +8,7 @@ public class CameraManager : MonoBehaviour
 {
     [Header("Cinemachine Camera")]
     [SerializeField] private CinemachineInputAxisController _cinemachineInputAxisController;
+    [SerializeField] private CinemachineOrbitalFollow _cinemachineOrbitalFollow;
     [SerializeField] private CinemachineImpulseListener _cinemachineImpulseListener;
     [SerializeField] private CinemachineImpulseSource _damageImpulseSource;
 
@@ -67,6 +68,9 @@ public class CameraManager : MonoBehaviour
             //Y축 민감도 설정
             _cinemachineInputAxisController.Controllers[1].Input.Gain = data.Sensitivity;
         }
+
+        //카메라 거리 설정
+        _cinemachineOrbitalFollow.Radius = data.CameraDistance;
 
         //카메라 흔들림 설정
         _cinemachineImpulseListener.Gain = data.EnableCameraShake ? 1f : 0f;
