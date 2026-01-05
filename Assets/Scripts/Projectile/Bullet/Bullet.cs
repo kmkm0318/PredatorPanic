@@ -356,6 +356,7 @@ public class Bullet : MonoBehaviour, IManualUpdate
             _context.Player,
             _context.Gun,
             enemy,
+            enemy.CenterPosition,
             damage,
             isCritical,
             damageSourceType

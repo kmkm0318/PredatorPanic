@@ -54,8 +54,8 @@ public class ExplosionOnKillEffect : Effect
         //적 레이어 마스크 가져오기
         var enemyLayerMask = DataManager.Instance.EnemyLayerMask;
 
-        //폭발 위치는 적의 중앙 위치
-        var origin = context.Enemy.CenterPosition;
+        //폭발 위치는 피격 위치
+        var origin = context.HitPoint;
 
         //폭발 폭파 컨텍스트 생성
         ExplosionExplodeContext explosionContext = new(

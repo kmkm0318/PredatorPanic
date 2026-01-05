@@ -43,6 +43,7 @@ public class HealthBasedDamageOnHitEffect : Effect
             context.Player,
             null,
             context.Enemy,
+            context.Enemy.CenterPosition,
             damage,
             false,
             PlayerDamageSourceType.Effect

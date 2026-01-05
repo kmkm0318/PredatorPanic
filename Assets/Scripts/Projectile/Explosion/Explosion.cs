@@ -79,6 +79,7 @@ public class Explosion : MonoBehaviour
                 context.Player,
                 context.Weapon,
                 enemy,
+                enemy.CenterPosition,
                 damage,
                 isCritical,
                 damageSourceType
