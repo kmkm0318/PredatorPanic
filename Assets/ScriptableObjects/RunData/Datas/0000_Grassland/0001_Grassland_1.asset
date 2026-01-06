@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8800d938877e2145b82a5613102408c, type: 3}
-  m_Name: 0001_Run_Default_Normal
+  m_Name: 0001_Grassland_1
   m_EditorClassIdentifier: Assembly-CSharp::RunData
-  _id: Run_Default_Normal
-  _name: "\uBCF4\uD1B5"
+  _id: Run_Grassland_Normal
+  _name: "\uCD08\uC6D0(\uBCF4\uD1B5)"
   _description: 
   _icon: {fileID: 21300000, guid: 1e3575476d935084a9a2e553487c0050, type: 3}
   _rarity: 1
-  _basePrice: 1250
-  _enemyTableDataList: {fileID: 11400000, guid: 2409aa2de67af6d45b5bf44a596409df, type: 2}
-  _baseEnemySpawnCount: 5
+  _basePrice: 1500
+  _enemyTableDataList: {fileID: 11400000, guid: 95a35cbebfa9a004299d458d6384b35b, type: 2}
+  _baseEnemySpawnCount: 4
   _enemySpawnCountIncreaseRate: 1.1
   _baseEnemySpawnSpeed: 0.5
   _enemySpawnSpeedIncreaseRate: 1.1

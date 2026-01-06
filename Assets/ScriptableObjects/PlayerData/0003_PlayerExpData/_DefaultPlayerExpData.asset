@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4e31e8544b71445ae5f6126a2c0128, type: 3}
   m_Name: _DefaultPlayerExpData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerExpData
-  _baseExp: 100
+  _baseExp: 50
   _expGrowthRate: 1.1

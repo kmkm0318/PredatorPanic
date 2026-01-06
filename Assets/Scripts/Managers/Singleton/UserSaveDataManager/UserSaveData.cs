@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class UserSaveData
 {
     #region 상수
-    private const string INITIAL_RUN_ID = "Run_Default_Easy";
+    private const string INITIAL_RUN_ID = "Run_Grassland_Easy";
     private const string INITIAL_PLAYER_ID = "Player_Chicken";
     private const string INITIAL_WEAPON_ID = "Weapon_Gun_Glock";
     #endregion

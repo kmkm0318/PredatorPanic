@@ -17,7 +17,7 @@ MonoBehaviour:
   _description: 
   _icon: {fileID: 21300000, guid: 8c4a7a04e46602c4a9d1a4315ddbaeff, type: 3}
   _rarity: 0
-  _basePrice: 800
+  _basePrice: 320
   _playerPrefab: {fileID: 347489321014641408, guid: d1ba3d6ceede3264a880d0196c002b98, type: 3}
   _playerControllerData: {fileID: 11400000, guid: 9117db5031a74fc41a7652f6ee23eb11, type: 2}
   _playerBaseStatsData: {fileID: 11400000, guid: a154443229cae5747a70711c4d708b92, type: 2}

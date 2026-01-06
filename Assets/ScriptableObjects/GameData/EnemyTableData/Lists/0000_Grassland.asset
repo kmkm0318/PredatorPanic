@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cbe81d1bcf90a954b9e30b3ceb67271d, type: 3}
-  m_Name: 0000_Default_Easy
+  m_Name: 0000_Grassland
   m_EditorClassIdentifier: Assembly-CSharp::EnemyTableListData
   <EnemyTableDatas>k__BackingField:
   - {fileID: 11400000, guid: e632de5de0e130749a9cf753cbba5ea4, type: 2}
@@ -18,3 +18,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e632de5de0e130749a9cf753cbba5ea4, type: 2}
   - {fileID: 11400000, guid: e632de5de0e130749a9cf753cbba5ea4, type: 2}
   - {fileID: 11400000, guid: 61cb0f37911c7df40ab26fc1fa19e90e, type: 2}
+  - {fileID: 11400000, guid: 568e9d53c99f5814a9750c48d55155d0, type: 2}
+  - {fileID: 11400000, guid: 568e9d53c99f5814a9750c48d55155d0, type: 2}
+  - {fileID: 11400000, guid: 568e9d53c99f5814a9750c48d55155d0, type: 2}
+  - {fileID: 11400000, guid: 568e9d53c99f5814a9750c48d55155d0, type: 2}
+  - {fileID: 11400000, guid: b1e20657721f4d942b6db94a45c10112, type: 2}
+  - {fileID: 11400000, guid: 82d93dd391e23bc4bb4450ef098287fc, type: 2}
+  - {fileID: 11400000, guid: 82d93dd391e23bc4bb4450ef098287fc, type: 2}
+  - {fileID: 11400000, guid: 82d93dd391e23bc4bb4450ef098287fc, type: 2}
+  - {fileID: 11400000, guid: 82d93dd391e23bc4bb4450ef098287fc, type: 2}
+  - {fileID: 11400000, guid: 6047b015831cda340a04318ccb85479c, type: 2}
