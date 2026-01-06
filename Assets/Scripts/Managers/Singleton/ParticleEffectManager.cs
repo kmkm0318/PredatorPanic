@@ -8,6 +8,10 @@ using UnityEngine.Pool;
 /// </summary>
 public class ParticleEffectManager : Singleton<ParticleEffectManager>
 {
+    #region 상수
+    private const int MAX_PARTICLE_COUNT = 100;
+    #endregion
+
     #region 오브젝트 풀
     private Dictionary<ParticleEffectData, ObjectPool<ParticleEffect>> _pools = new();
     #endregion
@@ -74,6 +78,9 @@ public class ParticleEffectManager : Singleton<ParticleEffectManager>
 
         //풀 가져오기
         var pool = GetPool(data);
+
+        //최대 개수 초과 시 패스
+        if (pool.CountActive >= MAX_PARTICLE_COUNT) return;
 
         //풀에서 이펙트 가져오기
         var effect = pool.Get();

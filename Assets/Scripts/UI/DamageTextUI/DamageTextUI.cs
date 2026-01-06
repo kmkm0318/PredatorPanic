@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -8,6 +7,10 @@ using UnityEngine.Pool;
 /// </summary>
 public class DamageTextUI : MonoBehaviour
 {
+    #region 상수
+    private const int MAX_DAMAGE_TEXT_COUNT = 100;
+    #endregion
+
     #region 오브젝트 풀
     private Dictionary<DamageTextData, ObjectPool<DamageText>> _pools = new();
     #endregion
@@ -86,6 +89,11 @@ public class DamageTextUI : MonoBehaviour
 
         //오브젝트 풀에서 데미지 텍스트 가져오기
         var pool = GetPool(data);
+
+        //최대 개수 초과 시 패스
+        if (pool.CountActive >= MAX_DAMAGE_TEXT_COUNT) return;
+
+        //데미지 텍스트 가져오기
         var damageText = pool.Get();
 
         //데미지 텍스트 위치, 방향 설정
