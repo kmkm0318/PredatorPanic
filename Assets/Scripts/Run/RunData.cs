@@ -23,14 +23,14 @@ public class RunData : ScriptableObject, IBasicData
 
     [Header("Enemy Settings")]
     [SerializeField] private EnemyTableDataList _enemyTableDataList;
-    [SerializeField] private int _baseEnemySpawnCount = 4;
-    [SerializeField] private float _enemySpawnCountIncreaseRate = 1.25f;
+    [SerializeField] private float _baseEnemySpawnCount = 5f;
+    [SerializeField] private float _enemySpawnCountIncreaseRate = 1.1f;
     [SerializeField] private float _baseEnemySpawnSpeed = 0.5f;
-    [SerializeField] private float _enemySpawnSpeedIncreaseRate = 1.25f;
+    [SerializeField] private float _enemySpawnSpeedIncreaseRate = 1.1f;
     [SerializeField] private float _baseEnemyStatRate = 1f;
     [SerializeField] private float _enemyStatIncreaseRate = 1.25f;
     public EnemyTableDataList EnemyTableDataList => _enemyTableDataList;
-    public int BaseEnemySpawnCount => _baseEnemySpawnCount;
+    public float BaseEnemySpawnCount => _baseEnemySpawnCount;
     public float EnemySpawnCountIncreaseRate => _enemySpawnCountIncreaseRate;
     public float BaseEnemySpawnSpeed => _baseEnemySpawnSpeed;
     public float EnemySpawnSpeedIncreaseRate => _enemySpawnSpeedIncreaseRate;
