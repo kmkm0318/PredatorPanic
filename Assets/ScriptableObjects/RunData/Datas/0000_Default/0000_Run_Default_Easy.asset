@@ -21,7 +21,7 @@ MonoBehaviour:
   _enemyTableDataList: {fileID: 11400000, guid: 27d893cf08ea962438994e6953335326, type: 2}
   _baseEnemySpawnCount: 4
   _enemySpawnCountIncreaseRate: 1.1
-  _baseEnemySpawnSpeed: 0.5
+  _baseEnemySpawnSpeed: 0.4
   _enemySpawnSpeedIncreaseRate: 1.1
   _baseEnemyStatRate: 0.75
   _enemyStatIncreaseRate: 1.25
