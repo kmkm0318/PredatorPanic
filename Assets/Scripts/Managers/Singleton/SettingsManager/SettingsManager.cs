@@ -126,18 +126,11 @@ public class SettingsManager : Singleton<SettingsManager>
         //해상도 설정
         var resolution = ResolutionOptions[CurrentData.ResolutionIndex];
 
-        //전체화면 모드 설정
-        var fullScreenMode = CurrentData.IsFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
-
-        //새로고침 빈도 설정
-        RefreshRate refreshRate = new()
-        {
-            numerator = (uint)CurrentData.RefreshRate,
-            denominator = 1
-        };
-
         //해상도 적용
-        Screen.SetResolution(resolution.Item1, resolution.Item2, fullScreenMode, refreshRate);
+        Screen.SetResolution(resolution.Item1, resolution.Item2, CurrentData.IsFullScreen);
+
+        //최대 프레임 적용
+        Application.targetFrameRate = CurrentData.RefreshRate;
     }
 
     private void ApplyAudioSettings()
