@@ -18,7 +18,7 @@ MonoBehaviour:
   _enemyControllerData: {fileID: 11400000, guid: ce5baaeb6cff8ef439a0f784c8e5de9e, type: 2}
   _baseStats:
   - _statType: 0
-    _value: 5000
+    _value: 500
   - _statType: 1
     _value: 25
   - _statType: 2

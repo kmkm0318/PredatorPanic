@@ -22,7 +22,7 @@ MonoBehaviour:
   - _statType: 1
     _value: 5
   - _statType: 2
-    _value: 3.5
+    _value: 4.5
   _dropItemTable: {fileID: 11400000, guid: a0bb28f3fd9523a4f8a72d0c02ef52ff, type: 2}
   _hitAudio: {fileID: 11400000, guid: b181720f06607de44b55473c79f2456d, type: 2}
   _deathAudio: {fileID: 11400000, guid: a13737c23b96e044981453dfa636402e, type: 2}

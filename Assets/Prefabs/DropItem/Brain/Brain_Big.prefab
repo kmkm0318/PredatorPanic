@@ -93,16 +93,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a1be5c22a9fbc4a9e58c68f8409d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Brain
-  _visual: {fileID: 5426462415816163799}
-  _expAmount: 1000
---- !u!114 &5426462415816163799 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8187711302940391131, guid: 86489e28ab79a094cbc6ba5bee53966c, type: 3}
-  m_PrefabInstance: {fileID: 4246387426623059724}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8b99afbb6281fe44a08ca0cd188b104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropItemVisual
+  _expAmount: 5000

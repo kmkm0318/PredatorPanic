@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8800d938877e2145b82a5613102408c, type: 3}
-  m_Name: 0001_Grassland_1
+  m_Name: 0001_Grassland_Normal
   m_EditorClassIdentifier: Assembly-CSharp::RunData
   _id: Run_Grassland_Normal
   _name: "\uCD08\uC6D0(\uBCF4\uD1B5)"

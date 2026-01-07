@@ -93,16 +93,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b9e0b4e9bdb1540b64b70d0154100b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heart
-  _visual: {fileID: 6623485129153565965}
-  _healAmount: 50
---- !u!114 &6623485129153565965 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8187711302940391131, guid: 86489e28ab79a094cbc6ba5bee53966c, type: 3}
-  m_PrefabInstance: {fileID: 3047741423944311766}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8b99afbb6281fe44a08ca0cd188b104, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropItemVisual
+  _healAmount: 250

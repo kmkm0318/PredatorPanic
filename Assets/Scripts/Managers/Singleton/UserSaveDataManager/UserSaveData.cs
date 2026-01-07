@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class UserSaveData
 {
     #region 상수
+    private const int INITIAL_DNA_AMOUNT = 1000;
     private const string INITIAL_RUN_ID = "Run_Grassland_Easy";
     private const string INITIAL_PLAYER_ID = "Player_Chicken";
     private const string INITIAL_WEAPON_ID = "Weapon_Gun_Glock";
@@ -39,7 +40,7 @@ public class UserSaveData
 
     public UserSaveData()
     {
-        DNA = 0;
+        DNA = INITIAL_DNA_AMOUNT;
 
         AcquiredRuns = new()
         {
