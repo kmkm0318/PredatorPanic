@@ -1,13 +1,16 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 /// <summary>
 /// 진화 아이템 UI 클래스
 /// </summary>
 public class EvolutionItemUI : MonoBehaviour
 {
+    #region 상수
+    private static readonly Color LEVEL_ZERO_COLOR = new(0, 0, 0, 0.5f);
+    #endregion
+
     [Header("UI Elements")]
     [SerializeField] private IconSlot _iconSlot;
     [SerializeField] private PointerHandler _pointerHandler;
@@ -85,8 +88,15 @@ public class EvolutionItemUI : MonoBehaviour
         //레벨 가져오기
         var currentLevel = UserSaveDataManager.Instance.GetEvolutionLevel(_evolutionData.ID);
 
-        //희귀도 색상 가져오기
-        var color = DataManager.Instance.RarityDataList.GetRarityColor(currentLevel - 1);
+        //기본 색상은 레벨 0 색상
+        var color = LEVEL_ZERO_COLOR;
+
+        //현재 레벨이 0보다 크면
+        if (currentLevel > 0)
+        {
+            //희귀도 색상으로 설정
+            color = DataManager.Instance.RarityDataList.GetRarityColor(currentLevel - 1);
+        }
 
         //색 적용
         _iconSlot.SetColor(color);
