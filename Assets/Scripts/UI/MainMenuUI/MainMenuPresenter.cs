@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 /// 메인 메뉴의 프레젠터 클래스
@@ -12,8 +13,6 @@ public class MainMenuPresenter : IPresenter
     private EvolutionPresenter _evolutionPresenter;
     private SettingsPresenter _settingsPresenter;
     #endregion
-
-    public event Action OnExitButtonClicked;
 
     public MainMenuPresenter(MainMenuManager mainMenuManager, MainMenuUI mainMenuUI, StartPresenter startPresenter, EvolutionPresenter evolutionPresenter, SettingsPresenter settingsPresenter)
     {
@@ -120,8 +119,8 @@ public class MainMenuPresenter : IPresenter
 
     private void HandleExitButtonClicked()
     {
-        //종료 버튼 클릭 이벤트 호출
-        OnExitButtonClicked?.Invoke();
+        //게임 종료
+        Application.Quit();
     }
     #endregion
 }
