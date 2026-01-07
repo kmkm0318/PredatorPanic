@@ -93,4 +93,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c60dfb5b30b62c4c924ac5ab9a95523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DNA
-  _dnaAmount: 500
+  _dnaAmount: 100

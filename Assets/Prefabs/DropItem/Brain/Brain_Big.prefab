@@ -93,4 +93,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a1be5c22a9fbc4a9e58c68f8409d6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Brain
-  _expAmount: 5000
+  _expAmount: 1000

@@ -93,4 +93,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 009ef2a54bb34664c8563d2fed4cde17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tooth
-  _toothAmount: 2500
+  _toothAmount: 500

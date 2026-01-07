@@ -93,4 +93,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b9e0b4e9bdb1540b64b70d0154100b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heart
-  _healAmount: 250
+  _healAmount: 50

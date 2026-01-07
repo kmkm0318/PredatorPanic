@@ -21,11 +21,11 @@ MonoBehaviour:
     _dropRate: 0.5
     _minCount: 1
     _maxCount: 1
-  - _dropItemData: {fileID: 11400000, guid: 6b9f050f9986b024796e39b4e5ea31e4, type: 2}
-    _dropRate: 0.01
+  - _dropItemData: {fileID: 11400000, guid: 313e8b5fa1d0c3046b3c85ecdf7012f5, type: 2}
+    _dropRate: 0.1
     _minCount: 1
     _maxCount: 1
-  - _dropItemData: {fileID: 11400000, guid: 313e8b5fa1d0c3046b3c85ecdf7012f5, type: 2}
+  - _dropItemData: {fileID: 11400000, guid: 6b9f050f9986b024796e39b4e5ea31e4, type: 2}
     _dropRate: 0.01
     _minCount: 1
     _maxCount: 1
