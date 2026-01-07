@@ -21,7 +21,7 @@ MonoBehaviour:
   _priceIncreaseRate: 1.5
   _leveleffects:
   - Effects:
-    - {fileID: 11400000, guid: 28a31f6c273c5694d86f14468ead79da, type: 2}
+    - {fileID: 11400000, guid: cba2e9630650a8d458938a52cf6201ea, type: 2}
   - Effects:
     - {fileID: 11400000, guid: e078884c96d76ca448096082475ac70e, type: 2}
   - Effects:
