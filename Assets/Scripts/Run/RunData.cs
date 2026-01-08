@@ -27,25 +27,37 @@ public class RunData : ScriptableObject, IBasicData
     [SerializeField] private float _enemySpawnCountIncreaseRate = 1.1f;
     [SerializeField] private float _baseEnemySpawnSpeed = 0.5f;
     [SerializeField] private float _enemySpawnSpeedIncreaseRate = 1.1f;
-    [SerializeField] private float _baseEnemyStatRate = 1f;
-    [SerializeField] private float _enemyStatIncreaseRate = 1.25f;
+    [SerializeField] private float _baseEnemyHealthRate = 1f;
+    [SerializeField] private float _baseEnemyDamageRate = 1f;
+    [SerializeField] private float _baseEnemySpeedRate = 1f;
+    [SerializeField] private float _enemyHealthIncreaseRate = 1.5f;
+    [SerializeField] private float _enemyDamageIncreaseRate = 1.5f;
+    [SerializeField] private float _enemySpeedIncreaseRate = 1.1f;
     public EnemyTableDataList EnemyTableDataList => _enemyTableDataList;
     public float BaseEnemySpawnCount => _baseEnemySpawnCount;
     public float EnemySpawnCountIncreaseRate => _enemySpawnCountIncreaseRate;
     public float BaseEnemySpawnSpeed => _baseEnemySpawnSpeed;
     public float EnemySpawnSpeedIncreaseRate => _enemySpawnSpeedIncreaseRate;
-    public float BaseEnemyStatRate => _baseEnemyStatRate;
-    public float EnemyStatIncreaseRate => _enemyStatIncreaseRate;
+    public float BaseEnemyHealthRate => _baseEnemyHealthRate;
+    public float BaseEnemyDamageRate => _baseEnemyDamageRate;
+    public float BaseEnemySpeedRate => _baseEnemySpeedRate;
+    public float EnemyHealthIncreaseRate => _enemyHealthIncreaseRate;
+    public float EnemyDamageIncreaseRate => _enemyDamageIncreaseRate;
+    public float EnemySpeedIncreaseRate => _enemySpeedIncreaseRate;
 
     public string GetDescription()
     {
         return
         $"목표 라운드: {_enemyTableDataList.EnemyTableDatas.Count}\n" +
         $"기본 적 수: {_baseEnemySpawnCount}\n" +
-        $"적 수 증가율: {_enemySpawnCountIncreaseRate}\n" +
+        $"적 수 증가율: {_enemySpawnCountIncreaseRate.ToPercent()}\n" +
         $"기본 적 출현 속도: {_baseEnemySpawnSpeed}\n" +
-        $"적 출현 속도 증가율: {_enemySpawnSpeedIncreaseRate}\n" +
-        $"기본 적 능력치 배율: {_baseEnemyStatRate}\n" +
-        $"적 능력치 배율 증가율: {_enemyStatIncreaseRate}";
+        $"적 출현 속도 증가율: {_enemySpawnSpeedIncreaseRate.ToPercent()}\n" +
+        $"기본 적 체력: {_baseEnemyHealthRate}\n" +
+        $"적 체력 증가율: {_enemyHealthIncreaseRate.ToPercent()}\n" +
+        $"기본 적 공격력: {_baseEnemyDamageRate}\n" +
+        $"적 공격력 증가율: {_enemyDamageIncreaseRate.ToPercent()}\n" +
+        $"기본 적 이동속도: {_baseEnemySpeedRate}\n" +
+        $"적 이동속도 증가율: {_enemySpeedIncreaseRate.ToPercent()}";
     }
 }

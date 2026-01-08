@@ -56,28 +56,28 @@ public class Enemy : MonoBehaviour
         EnemyData = enemyData;
     }
 
-    public void InitStats(float statGrowthRate)
+    public void InitStats(float healthGrowthRate, float damageGrowthRate, float speedGrowthRate)
     {
         //레벨에 따른 스탯 재초기화
         //EnemyController에서 Stat를 사용하기 때문에 Stat 먼저 초기화
-        ApplyStatGrowthRate(statGrowthRate);
+        ApplyStatGrowthRate(healthGrowthRate, damageGrowthRate, speedGrowthRate);
         InitComponents();
     }
 
-    private void ApplyStatGrowthRate(float statGrowthRate)
+    private void ApplyStatGrowthRate(float healthGrowthRate, float damageGrowthRate, float speedGrowthRate)
     {
         //기본 스탯 초기화
         EnemyStats = new Stats<EnemyStatType>(EnemyData.BaseStats);
 
-        //레벨에 따른 스탯 증가 적용
-        foreach (var type in Enum.GetValues(typeof(EnemyStatType)))
-        {
-            //스탯 가져오기
-            var stat = EnemyStats.GetStat((EnemyStatType)type);
+        //스탯 가져오기
+        var healthStat = EnemyStats.GetStat(EnemyStatType.Health);
+        var damageStat = EnemyStats.GetStat(EnemyStatType.Damage);
+        var speedStat = EnemyStats.GetStat(EnemyStatType.MoveSpeed);
 
-            //모디파이어 추가
-            stat.AddModifier(new(statGrowthRate, StatModifierType.PercentMult, this));
-        }
+        //체력, 공격력, 이동속도에 레벨에 따른 스탯 증가 적용
+        healthStat.AddModifier(new(healthGrowthRate, StatModifierType.PercentMult, this));
+        damageStat.AddModifier(new(damageGrowthRate, StatModifierType.PercentMult, this));
+        speedStat.AddModifier(new(speedGrowthRate, StatModifierType.PercentMult, this));
     }
 
     private void InitComponents()

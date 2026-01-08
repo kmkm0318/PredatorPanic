@@ -8,7 +8,5 @@ public class EnemyControllerData : ScriptableObject
 {
     [Header("Movement")]
     [SerializeField] private EnemyMoveType _moveType;
-    [SerializeField] private float _minMoveDistanceSqr = 1f;
     public EnemyMoveType MoveType => _moveType;
-    public float MinMoveDistanceSqr => _minMoveDistanceSqr;
 }

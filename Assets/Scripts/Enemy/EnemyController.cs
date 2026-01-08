@@ -47,12 +47,6 @@ public class EnemyController : MonoBehaviour
         //타겟까지의 벡터 계산
         var toTarget = _target.position - transform.position;
 
-        //타겟과의 거리 제곱 계산
-        float distanceSqr = toTarget.sqrMagnitude;
-
-        //최소 이동 거리 이내면 리턴
-        if (distanceSqr < _enemyControllerData.MinMoveDistanceSqr) return;
-
         //속도 가져오기
         _speed = _enemy.EnemyStats.GetStat(EnemyStatType.MoveSpeed).FinalValue;
 

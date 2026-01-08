@@ -17,11 +17,15 @@ MonoBehaviour:
   _description: 
   _icon: {fileID: 21300000, guid: 16ea3c8689b4ace4fbc1ae61f29a25d7, type: 3}
   _rarity: 2
-  _basePrice: 3250
+  _basePrice: 3500
   _enemyTableDataList: {fileID: 11400000, guid: 95a35cbebfa9a004299d458d6384b35b, type: 2}
-  _baseEnemySpawnCount: 6
-  _enemySpawnCountIncreaseRate: 1.1
+  _baseEnemySpawnCount: 5
+  _enemySpawnCountIncreaseRate: 1.2
   _baseEnemySpawnSpeed: 0.5
-  _enemySpawnSpeedIncreaseRate: 1.1
-  _baseEnemyStatRate: 1.5
-  _enemyStatIncreaseRate: 1.25
+  _enemySpawnSpeedIncreaseRate: 1.2
+  _baseEnemyHealthRate: 1.5
+  _baseEnemyDamageRate: 1.5
+  _baseEnemySpeedRate: 1.25
+  _enemyHealthIncreaseRate: 2
+  _enemyDamageIncreaseRate: 2
+  _enemySpeedIncreaseRate: 1.25

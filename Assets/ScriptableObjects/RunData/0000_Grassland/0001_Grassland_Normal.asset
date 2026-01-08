@@ -19,9 +19,13 @@ MonoBehaviour:
   _rarity: 1
   _basePrice: 1500
   _enemyTableDataList: {fileID: 11400000, guid: 95a35cbebfa9a004299d458d6384b35b, type: 2}
-  _baseEnemySpawnCount: 4
+  _baseEnemySpawnCount: 5
   _enemySpawnCountIncreaseRate: 1.1
   _baseEnemySpawnSpeed: 0.5
   _enemySpawnSpeedIncreaseRate: 1.1
-  _baseEnemyStatRate: 1
-  _enemyStatIncreaseRate: 1.25
+  _baseEnemyHealthRate: 1
+  _baseEnemyDamageRate: 1
+  _baseEnemySpeedRate: 1
+  _enemyHealthIncreaseRate: 1.5
+  _enemyDamageIncreaseRate: 1.5
+  _enemySpeedIncreaseRate: 1.1

@@ -20,7 +20,7 @@ public static class StringUtility
                 break;
             case StatModifierType.PercentAdd:
                 color = value >= 0 ? "green" : "red";
-                valueStr = $"{(value >= 0 ? "+" : "")}{value * 100}%";
+                valueStr = $"{(value >= 0 ? "+" : "")}{value.ToPercent()}";
                 break;
             case StatModifierType.PercentMult:
                 color = value >= 1 ? "green" : "red";
@@ -44,5 +44,15 @@ public static class StringUtility
             return (number / 1e3f).ToString("0.##") + "K";
         else
             return number.ToString("0");
+    }
+
+    /// <summary>
+    /// 숫자를 백분율 문자열로 변환하여 반환합니다.
+    /// </summary>
+    /// <param name="number"></param>
+    /// <returns></returns>
+    public static string ToPercent(this float number)
+    {
+        return (number * 100).ToString("0.##") + "%";
     }
 }
