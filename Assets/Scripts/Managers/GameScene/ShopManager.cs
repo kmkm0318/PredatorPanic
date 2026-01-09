@@ -246,8 +246,8 @@ public class ShopManager : MonoBehaviour
     //상품 구매 시도
     public bool TryBuyProduct(IProduct product)
     {
-        //이빨이 부족하면 구매 불가
-        if (_player.Tooth < product.Price) return false;
+        //무기 슬롯이 부족하면 구매 불가
+        if (product is WeaponShopProduct && !_player.CanAddWeapon()) return false;
 
         //플레이어의 이빨을 통해서 구매 시도
         if (!_player.TrySpendTooth(product.Price))

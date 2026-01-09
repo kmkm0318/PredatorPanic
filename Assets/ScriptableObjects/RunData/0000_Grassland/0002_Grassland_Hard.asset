@@ -28,4 +28,4 @@ MonoBehaviour:
   _baseEnemySpeedRate: 1.25
   _enemyHealthIncreaseRate: 2
   _enemyDamageIncreaseRate: 2
-  _enemySpeedIncreaseRate: 1.25
+  _enemySpeedIncreaseRate: 1.2

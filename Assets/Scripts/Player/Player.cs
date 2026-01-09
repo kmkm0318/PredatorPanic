@@ -211,6 +211,14 @@ public class Player : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// 무기 추가 가능 여부 확인
+    /// </summary>
+    public bool CanAddWeapon()
+    {
+        return _playerAttack.Weapons.Count < PlayerData.WeaponCountMax;
+    }
+
     //Weapon으로 무기 제거
     public void RemoveWeapon(Weapon weapon)
     {

@@ -48,16 +48,15 @@ public class RunData : ScriptableObject, IBasicData
     public string GetDescription()
     {
         return
-        $"목표 라운드: {_enemyTableDataList.EnemyTableDatas.Count}\n" +
-        $"기본 적 수: {_baseEnemySpawnCount}\n" +
-        $"적 수 증가율: {_enemySpawnCountIncreaseRate.ToPercent()}\n" +
-        $"기본 적 출현 속도: {_baseEnemySpawnSpeed}\n" +
-        $"적 출현 속도 증가율: {_enemySpawnSpeedIncreaseRate.ToPercent()}\n" +
-        $"기본 적 체력: {_baseEnemyHealthRate}\n" +
-        $"적 체력 증가율: {_enemyHealthIncreaseRate.ToPercent()}\n" +
-        $"기본 적 공격력: {_baseEnemyDamageRate}\n" +
-        $"적 공격력 증가율: {_enemyDamageIncreaseRate.ToPercent()}\n" +
-        $"기본 적 이동속도: {_baseEnemySpeedRate}\n" +
-        $"적 이동속도 증가율: {_enemySpeedIncreaseRate.ToPercent()}";
+        $"기본 적 수: <color=green>{_baseEnemySpawnCount}</color>\n" +
+        $"기본 적 출현 속도: <color=green>{_baseEnemySpawnSpeed}</color>\n" +
+        $"기본 적 체력: {StringUtility.GetModifierDescription(StatModifierType.PercentMult, _baseEnemyHealthRate)}\n" +
+        $"기본 적 공격력: {StringUtility.GetModifierDescription(StatModifierType.PercentMult, _baseEnemyDamageRate)}\n" +
+        $"기본 적 이동속도: {StringUtility.GetModifierDescription(StatModifierType.PercentMult, _baseEnemySpeedRate)}\n" +
+        $"라운드 당 적 수: {StringUtility.GetModifierDescription(StatModifierType.PercentMult, _enemySpawnCountIncreaseRate)}\n" +
+        $"라운드 당 적 출현 속도: {StringUtility.GetModifierDescription(StatModifierType.PercentMult, _enemySpawnSpeedIncreaseRate)}\n" +
+        $"라운드 당 적 체력: {StringUtility.GetModifierDescription(StatModifierType.PercentMult, _enemyHealthIncreaseRate)}\n" +
+        $"라운드 당 적 공격력: {StringUtility.GetModifierDescription(StatModifierType.PercentMult, _enemyDamageIncreaseRate)}\n" +
+        $"라운드 당 적 이동속도: {StringUtility.GetModifierDescription(StatModifierType.PercentMult, _enemySpeedIncreaseRate)}";
     }
 }
