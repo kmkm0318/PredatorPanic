@@ -190,26 +190,34 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private List<WeaponData> GetRandomWeaponDatas(float luckStat, int count)
     {
-        //무기 데이터 리스트 가져오기
-        var weaponDatas = DataManager.Instance.WeaponDataList.WeaponDatas;
-
         //희귀도 가중치 데이터 가져오기
         var rarityWeightData = DataManager.Instance.RarityWeightData;
 
-        //가중치 리스트 생성
-        WeightedList<WeaponData> weightedWeaponDatas = new();
+        //무기 데이터 리스트 가져오기
+        var weaponDataList = DataManager.Instance.WeaponDataList;
 
-        //각 가중치에 따른 무기 데이터 추가
-        foreach (var weaponData in weaponDatas)
+        //리스트 생성
+        List<WeaponData> randomWeaponDatas = new();
+
+        for (int i = 0; i < count; i++)
         {
-            float weight = rarityWeightData.GetTotalWeight(weaponData.Rarity, luckStat);
+            //행운 스탯을 통해 랜덤 희귀도 설정
+            var rarity = rarityWeightData.GetRandomRarity(luckStat);
 
-            weightedWeaponDatas.AddItem(new WeightedItem<WeaponData>(weaponData, weight));
+            //희귀도에 따른 무기 리스트 가져오기
+            var rarityWeaponDatas = weaponDataList.GetRarityDatas(rarity);
+
+            //없으면 패스
+            if (rarityWeaponDatas == null) continue;
+
+            //무작위 무기 데이터 선택
+            var randomWeaponData = rarityWeaponDatas.GetRandomElement();
+
+            //선택된 무기 데이터 추가
+            randomWeaponDatas.Add(randomWeaponData);
         }
 
-        //가중치에 따라 무기 데이터 선택
-        var randomWeaponDatas = weightedWeaponDatas.GetRandomElements(count);
-
+        //선택된 무기 데이터 리스트 반환
         return randomWeaponDatas;
     }
 
@@ -218,26 +226,34 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private List<ItemData> GetRandomItemDatas(float luckStat, int count)
     {
-        //아이템 데이터 리스트 가져오기
-        var itemDatas = DataManager.Instance.ItemDataList.ItemDatas;
-
         //희귀도 가중치 데이터 가져오기
         var rarityWeightData = DataManager.Instance.RarityWeightData;
 
-        //가중치 리스트 생성
-        WeightedList<ItemData> weightedItemDatas = new();
+        //아이템 데이터 리스트 가져오기
+        var weaponDataList = DataManager.Instance.ItemDataList;
 
-        //각 가중치에 따른 아이템 데이터 추가
-        foreach (var itemData in itemDatas)
+        //리스트 생성
+        List<ItemData> randomItemDatas = new();
+
+        for (int i = 0; i < count; i++)
         {
-            float weight = rarityWeightData.GetTotalWeight(itemData.Rarity, luckStat);
+            //행운 스탯을 통해 랜덤 희귀도 설정
+            var rarity = rarityWeightData.GetRandomRarity(luckStat);
 
-            weightedItemDatas.AddItem(new WeightedItem<ItemData>(itemData, weight));
+            //희귀도에 따른 아이템 리스트 가져오기
+            var rarityItemDatas = weaponDataList.GetRarityDatas(rarity);
+
+            //없으면 패스
+            if (rarityItemDatas == null) continue;
+
+            //무작위 아이템 데이터 선택
+            var randomItemData = rarityItemDatas.GetRandomElement();
+
+            //선택된 아이템 데이터 추가
+            randomItemDatas.Add(randomItemData);
         }
 
-        //가중치에 따라 아이템 데이터 선택
-        var randomItemDatas = weightedItemDatas.GetRandomElements(count);
-
+        //선택된 아이템 데이터 리스트 반환
         return randomItemDatas;
     }
     #endregion

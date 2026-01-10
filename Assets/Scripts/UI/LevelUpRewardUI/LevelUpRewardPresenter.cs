@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// 레벨 업 보상 프리젠터
@@ -67,35 +68,41 @@ public class LevelUpRewardPresenter : IPresenter
     /// </summary>
     public bool TryShowRewards(float luckStat = 0f, int count = REWARD_SELECT_COUNT)
     {
-        // 보상 데이터 리스트 가져오기
-        var rewardDataList = DataManager.Instance.LevelUpRewardDataList;
-
         //희귀도 가중치 데이터 가져오기
         var rarityWeightData = DataManager.Instance.RarityWeightData;
 
-        //가중치 리스트 생성
-        WeightedList<LevelUpRewardData> weightedRewardDatas = new();
+        // 보상 데이터 리스트 가져오기
+        var rewardDataList = DataManager.Instance.LevelUpRewardDataList;
 
-        //각 가중치에 따른 보상 데이터 추가
-        foreach (var rewardData in rewardDataList.LevelUpRewardDatas)
+        // 보상 데이터 리스트 생성
+        List<LevelUpRewardData> rewardDatas = new();
+
+        for (int i = 0; i < count; i++)
         {
-            float weight = rarityWeightData.GetTotalWeight(rewardData.Rarity, luckStat);
-            weightedRewardDatas.AddItem(new WeightedItem<LevelUpRewardData>(rewardData, weight));
-        }
+            //행운 스탯을 통해 랜덤 희귀도 설정
+            var rarity = rarityWeightData.GetRandomRarity(luckStat);
 
-        //가중치에 따라 보상 데이터 선택
-        var rewardDatas = weightedRewardDatas.GetRandomElements(count);
+            //희귀도에 따른 보상 리스트 가져오기
+            var rarityRewardDatas = rewardDataList.GetRarityDatas(rarity);
+
+            //없으면 패스
+            if (rarityRewardDatas == null) continue;
+
+            //무작위 보상 데이터 선택
+            var randomRewardData = rarityRewardDatas.GetRandomElement();
+
+            //선택된 보상 데이터 추가
+            rewardDatas.Add(randomRewardData);
+        }
 
         // 보상이 없으면 false 반환
-        if (rewardDatas.Count == 0)
-        {
-            return false;
-        }
+        if (rewardDatas.Count == 0) return false;
 
         // 보상 선택 UI 설정 및 표시
         _levelUpRewardUI.SetRewards(rewardDatas);
         _levelUpRewardUI.Show();
 
+        // 보상 표시 성공
         return true;
     }
 

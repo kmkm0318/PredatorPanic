@@ -49,6 +49,9 @@ public class RarityWeightData : ScriptableObject
     }
     #endregion
 
+    /// <summary>
+    /// 행운 스탯을 고려한 희귀도별 총 가중치 계산
+    /// </summary>
     public float GetTotalWeight(Rarity rarity, float luckStat)
     {
         float weight = 0f;
@@ -64,5 +67,36 @@ public class RarityWeightData : ScriptableObject
         }
 
         return weight;
+    }
+
+    /// <summary>
+    /// 행운 스탯을 고려한 랜덤 희귀도 선택
+    /// </summary>
+    public Rarity GetRandomRarity(float luckStat)
+    {
+        //전체 가중치 계산
+        float totalWeight = 0f;
+        foreach (Rarity rarity in System.Enum.GetValues(typeof(Rarity)))
+        {
+            totalWeight += GetTotalWeight(rarity, luckStat);
+        }
+
+        //가중치 기반 랜덤 선택
+        float randomValue = Random.Range(0f, totalWeight);
+
+        //누적 가중치 계산
+        float sum = 0f;
+
+        foreach (Rarity rarity in System.Enum.GetValues(typeof(Rarity)))
+        {
+            sum += GetTotalWeight(rarity, luckStat);
+            if (randomValue <= sum)
+            {
+                return rarity;
+            }
+        }
+
+        //오류 시 기본값 반환
+        return Rarity.Common;
     }
 }

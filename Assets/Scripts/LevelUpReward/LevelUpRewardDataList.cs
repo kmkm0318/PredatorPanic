@@ -10,4 +10,40 @@ public class LevelUpRewardDataList : ScriptableObject
 {
     [SerializeField] private List<LevelUpRewardData> _levelUpRewardDatas;
     public List<LevelUpRewardData> LevelUpRewardDatas => _levelUpRewardDatas;
+
+    #region 희귀도에 따른 보상 데이터 리스트
+    private Dictionary<Rarity, List<LevelUpRewardData>> _rarityRewardDataDict;
+    public Dictionary<Rarity, List<LevelUpRewardData>> RarityRewardDataDict
+    {
+        get
+        {
+            if (_rarityRewardDataDict == null)
+            {
+                _rarityRewardDataDict = new();
+                foreach (var data in _levelUpRewardDatas)
+                {
+                    if (!_rarityRewardDataDict.ContainsKey(data.Rarity))
+                    {
+                        _rarityRewardDataDict[data.Rarity] = new List<LevelUpRewardData>();
+                    }
+                    _rarityRewardDataDict[data.Rarity].Add(data);
+                }
+            }
+            return _rarityRewardDataDict;
+        }
+    }
+    #endregion
+
+    /// <summary>
+    /// 특정 희귀도의 보상 데이터 리스트 반환
+    /// </summary>
+    public List<LevelUpRewardData> GetRarityDatas(Rarity rarity)
+    {
+        if (RarityRewardDataDict.TryGetValue(rarity, out var rewardDatas))
+        {
+            return rewardDatas;
+        }
+        Debug.LogWarning($"LevelUpRewardDataList: No reward datas found for rarity {rarity}");
+        return null;
+    }
 }
