@@ -17,8 +17,8 @@ MonoBehaviour:
   _description: 
   _icon: {fileID: 21300000, guid: f0d8013d5ba1d664fbd8a25a3f1ecd30, type: 3}
   _rarity: 0
-  _basePrice: 200
-  _priceIncreaseRate: 1.5
+  _basePrice: 500
+  _priceIncreaseRate: 2
   _leveleffects:
   - Effects:
     - {fileID: 11400000, guid: 68f4c9234ab7f0d47abc75f70d7523f5, type: 2}
