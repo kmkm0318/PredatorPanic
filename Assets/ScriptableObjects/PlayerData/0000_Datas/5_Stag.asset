@@ -26,7 +26,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 71d0b5f6a3ad5024794120030d4628b6, type: 2}
   - {fileID: 11400000, guid: b58b43d0f78654241a0dd795e9965e39, type: 2}
   _playerExpData: {fileID: 11400000, guid: 56c6b05865b2d0e45bca3f1b95d9bf19, type: 2}
-  _weaponCountMax: 6
+  _weaponCountMax: 5
   _itemPickupRadiusSqr: 1
   _spawnVisualOffsetY: -10
   _spawnVisualDuration: 0.5

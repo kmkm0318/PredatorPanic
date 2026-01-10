@@ -42,7 +42,7 @@ public class PlayerData : ScriptableObject, IBasicData
     public PlayerExpData PlayerExpData => _playerExpData;
 
     [Header("Weapon")]
-    [SerializeField] private int _weaponCountMax = 6;
+    [SerializeField] private int _weaponCountMax = 5;
     public int WeaponCountMax => _weaponCountMax;
 
     [Header("Item Pickup")]
