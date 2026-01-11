@@ -8,13 +8,13 @@ public abstract class EnemyAttackPatternData : ScriptableObject
 {
     [Header("Enemy Attack Pattern Data")]
     [SerializeField] private IndicatedAttackData _indicatedAttackData;
-    [SerializeField] private bool _isPredict = false;
+    [SerializeField] private EnemyAttackPatternTargetType _targetType;
     [SerializeField] private float _attackRadius = 2f;
     [SerializeField] private float _attackDelay = 1f;
     [SerializeField] private float _minAttackCooldown = 1f;
     [SerializeField] private float _maxAttackCooldown = 2f;
     public IndicatedAttackData IndicatedAttackData => _indicatedAttackData;
-    public bool IsPredict => _isPredict;
+    public EnemyAttackPatternTargetType TargetType => _targetType;
     public float AttackRadius => _attackRadius;
     public float AttackDelay => _attackDelay;
     public float AttackCooldown => Random.Range(_minAttackCooldown, _maxAttackCooldown);
