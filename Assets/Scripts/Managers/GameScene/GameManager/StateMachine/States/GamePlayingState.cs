@@ -24,6 +24,9 @@ public class GamePlayingState : GameBaseState
 
         //플레이어 공격 시작
         GameManager.Player.StartAttack();
+
+        //플레이어 무적 해제
+        GameManager.Player.PlayerHealth.SetInvincible(false);
     }
 
     public override void Update()
@@ -66,6 +69,9 @@ public class GamePlayingState : GameBaseState
 
         //플레이어 공격 중지
         GameManager.Player.StopAttack();
+
+        //플레이어 무적 설정
+        GameManager.Player.PlayerHealth.SetInvincible(true);
     }
 
     #region 이벤트 구독, 해제

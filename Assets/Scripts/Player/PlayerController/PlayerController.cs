@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public float MovementX { get => _movement.x; set => _movement.x = value; }
     public float MovementY { get => _movement.y; set => _movement.y = value; }
     public float MovementZ { get => _movement.z; set => _movement.z = value; }
+    private Vector3 _lastVelocity = Vector3.zero;
     #endregion
 
     #region 컴포넌트
@@ -198,6 +199,9 @@ public class PlayerController : MonoBehaviour
         Vector3 verticalMove = transform.up * _movement.y;
         Vector3 moveVelocity = moveSpeed * horizontalMove + verticalMove;
 
+        //이동 벡터 저장
+        _lastVelocity = moveVelocity;
+
         //캐릭터 컨트롤러로 이동
         _characterController.Move(moveVelocity * Time.deltaTime);
 
@@ -271,4 +275,10 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
+    public Vector3 GetPredictedPosition(float delayTime = 0f)
+    {
+        //현재 이동 벡터를 기반으로 예측 위치 계산
+        return _player.CenterPosition + _lastVelocity * delayTime;
+    }
 }

@@ -457,6 +457,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
+    #region 체력 관리
     /// <summary>
     /// 플레이어 체력 완전 회복
     /// 게임 시작 시에 최대 체력을 맞추기 위해 사용
@@ -473,5 +474,20 @@ public class Player : MonoBehaviour
     public void DamageFull()
     {
         PlayerHealth.TakeDamage(PlayerHealth.CurrentHealth);
+    }
+
+    public void SetInvincible(bool isInvincible)
+    {
+        PlayerHealth.SetInvincible(isInvincible);
+    }
+    #endregion
+
+    /// <summary>
+    /// 예측 위치 반환
+    /// </summary>
+    public Vector3 GetPredictedPosition(float delayTime = 0f)
+    {
+        //플레이어 컨트롤러에 위임
+        return _playerController.GetPredictedPosition(delayTime);
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 /// 레벨에 따라 스탯이 증가합니다.
 /// </summary>
 [RequireComponent(typeof(EnemyController))]
+[RequireComponent(typeof(EnemyAttack))]
 [RequireComponent(typeof(Health))]
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform _centerTransform;
     public Vector3 CenterPosition => _centerTransform.position;
     #endregion
+
     #region 데이터
     public EnemyData EnemyData { get; private set; }
     #endregion
@@ -22,6 +24,7 @@ public class Enemy : MonoBehaviour
     #region 컴포넌트
     private EnemyController _enemyController;
     private EnemyVisual _enemyVisual;
+    private EnemyAttack _enemyAttack;
     public Health Health { get; private set; }
     #endregion
 
@@ -38,22 +41,35 @@ public class Enemy : MonoBehaviour
     {
         _enemyController = GetComponent<EnemyController>();
         _enemyVisual = GetComponentInChildren<EnemyVisual>();
-        Health = GetComponent<Health>();
+        _enemyAttack = GetComponent<EnemyAttack>();
 
-        Health.OnHealthChanged += HandleHealthChanged;
-        Health.OnDeath += Die;
+        Health = GetComponent<Health>();
+        Health.OnHealthChanged += HandleOnHealthChanged;
+        Health.OnDeath += HandleOnDeath;
     }
 
-    private void HandleHealthChanged(float cur, float max)
+    private void HandleOnHealthChanged(float cur, float max)
     {
         //이벤트 호출
         OnHealthChanged?.Invoke(this, cur, max);
     }
 
-    public void Init(EnemyData enemyData)
+    private void HandleOnDeath()
+    {
+        //적 사망 처리
+        Die();
+    }
+
+    public void Init(EnemyData enemyData, IndicatedAttackManager indicatedAttackManager)
     {
         //적 데이터 설정
         EnemyData = enemyData;
+
+        //적 컨트롤러 초기화
+        _enemyController.Init(this);
+
+        //적 공격 초기화
+        _enemyAttack.Init(this, indicatedAttackManager);
     }
 
     public void InitStats(float healthGrowthRate, float damageGrowthRate, float speedGrowthRate)
@@ -61,7 +77,9 @@ public class Enemy : MonoBehaviour
         //레벨에 따른 스탯 재초기화
         //EnemyController에서 Stat를 사용하기 때문에 Stat 먼저 초기화
         ApplyStatGrowthRate(healthGrowthRate, damageGrowthRate, speedGrowthRate);
-        InitComponents();
+
+        //체력 초기화
+        InitHealth();
     }
 
     private void ApplyStatGrowthRate(float healthGrowthRate, float damageGrowthRate, float speedGrowthRate)
@@ -80,11 +98,8 @@ public class Enemy : MonoBehaviour
         speedStat.AddModifier(new(speedGrowthRate, StatModifierType.PercentMult, this));
     }
 
-    private void InitComponents()
+    private void InitHealth()
     {
-        //적 컨트롤러 초기화
-        _enemyController.Init(this);
-
         //Health 컴포넌트 초기화
         float maxHealth = EnemyStats.GetStat(EnemyStatType.Health).FinalValue;
 
@@ -134,9 +149,10 @@ public class Enemy : MonoBehaviour
         OnDeath?.Invoke(this);
     }
 
-    public void SetTarget(Transform target)
+    public void SetTarget(Player player)
     {
-        _enemyController.SetTarget(target);
+        _enemyController.SetTarget(player.transform);
+        _enemyAttack.SetTarget(player);
     }
 
     public void OnSpawn()

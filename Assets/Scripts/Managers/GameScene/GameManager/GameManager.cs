@@ -1,6 +1,5 @@
 using System;
 using Unity.Cinemachine;
-using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -24,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TrailManager _trailManager;
     [SerializeField] private ExplosionManager _explosionManager;
     [SerializeField] private CameraManager _cameraManager;
+    [SerializeField] private IndicatedAttackManager _indicatedAttackManager;
     public GameUIManager GameUIManager => _gameUIManager;
     public EnemyManager EnemyManager => _enemyManager;
     public DropItemManager DropItemManager => _dropItemManager;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public TrailManager TrailManager => _trailManager;
     public ExplosionManager ExplosionManager => _explosionManager;
     public CameraManager CameraManager => _cameraManager;
+    public IndicatedAttackManager IndicatedAttackManager => _indicatedAttackManager;
 
     #region 플레이어
     public Player Player { get; private set; }

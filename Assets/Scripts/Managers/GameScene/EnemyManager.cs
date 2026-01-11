@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
 
     #region 적 스폰 변수
     private bool _isSpawning = false;
-    private Transform _target;
+    private Player _player;
     private int _spawnCount;
     private float _spawnInterval;
     private float _healthGrowthRate;
@@ -50,7 +50,7 @@ public class EnemyManager : MonoBehaviour
     public void Init(GameManager gamemanager)
     {
         _gameManager = gamemanager;
-        _target = _gameManager.Player.transform;
+        _player = _gameManager.Player;
     }
 
     private void Update()
@@ -76,7 +76,7 @@ public class EnemyManager : MonoBehaviour
             () =>
             {
                 var enemy = Instantiate(enemyData.EnemyPrefab, transform);
-                enemy.Init(enemyData);
+                enemy.Init(enemyData, _gameManager.IndicatedAttackManager);
                 return enemy;
             },
             (enemy) => enemy.gameObject.SetActive(true),
@@ -180,7 +180,7 @@ public class EnemyManager : MonoBehaviour
                 continue;
             }
 
-            if (!TryGetRandomSpawnPoint(_target, out var spawnPoint))
+            if (!TryGetRandomSpawnPoint(_player.transform, out var spawnPoint))
             {
                 Debug.LogWarning("EnemyManager: Failed to find valid spawn point.");
                 continue;
@@ -205,7 +205,7 @@ public class EnemyManager : MonoBehaviour
 
         foreach (var bossData in bossDataList)
         {
-            if (!TryGetRandomSpawnPoint(_target, out var spawnPoint))
+            if (!TryGetRandomSpawnPoint(_player.transform, out var spawnPoint))
             {
                 Debug.LogWarning("EnemyManager: Failed to find valid spawn point for boss.");
                 continue;
@@ -240,7 +240,7 @@ public class EnemyManager : MonoBehaviour
 
         //적 초기화
         enemy.InitStats(_healthGrowthRate, _damageGrowthRate, _speedGrowthRate);
-        enemy.SetTarget(_target);
+        enemy.SetTarget(_player);
 
         //적 사망 이벤트 등록
         enemy.OnDeath += HandleEnemyDeath;

@@ -6,14 +6,14 @@ using UnityEngine;
 /// 플레이어 체력 관리 클래스
 /// 무적 시간 등의 특화 기능을 포함합니다.
 /// </summary>
-public class PlayerHealth : Health
+public class PlayerHealth : Health, IDamageable
 {
     #region 참조 변수
     private Player _player;
     #endregion
 
     #region 무적
-    private bool _isInvincible = false;
+    private bool _isInvincible = true;
     private float _invincibleDuration = 0f;
     #endregion
 
@@ -104,6 +104,15 @@ public class PlayerHealth : Health
     }
     #endregion
 
+    public void SetInvincible(bool value)
+    {
+        //무적 코루틴 중지
+        StopInvincible();
+
+        //무적 상태 설정
+        _isInvincible = value;
+    }
+
     #region 충돌 처리
     //충돌 처리. 적은 Trigger를 갖고 있음
     private void OnTriggerEnter(Collider other)
@@ -129,23 +138,29 @@ public class PlayerHealth : Health
             //데미지 가져오기
             float damage = enemy.EnemyStats.GetStat(EnemyStatType.Damage).FinalValue;
 
-            //방어력 가져오기
-            float defense = _player.PlayerStats.GetStat(PlayerStatType.Defense).FinalValue;
-
-            //방어력 적용 후 데미지 계산
-            damage = CombatUtility.CalculateDefensedDamage(damage, defense);
-
-            //적과 충돌 시 데미지 입기
+            //데미지 입기
             TakeDamage(damage);
+        }
+    }
 
-            //데미지 입음 이벤트 호출
-            OnTakeDamage?.Invoke(damage);
+    public override void TakeDamage(float damage)
+    {
+        //방어력 가져오기
+        float defense = _player.PlayerStats.GetStat(PlayerStatType.Defense).FinalValue;
 
-            if (!IsDead)
-            {
-                //피격 후 살아있을 때 무적 상태 시작
-                StartInvincible();
-            }
+        //방어력 적용 후 데미지 계산
+        damage = CombatUtility.CalculateDefensedDamage(damage, defense);
+
+        //적과 충돌 시 데미지 입기
+        base.TakeDamage(damage);
+
+        //데미지 입음 이벤트 호출
+        OnTakeDamage?.Invoke(damage);
+
+        if (!IsDead)
+        {
+            //피격 후 살아있을 때 무적 상태 시작
+            StartInvincible();
         }
     }
     #endregion

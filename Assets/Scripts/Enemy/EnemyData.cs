@@ -21,6 +21,10 @@ public class EnemyData : ScriptableObject
     [SerializeField] private EnemyControllerData _enemyControllerData;
     public EnemyControllerData EnemyControllerData => _enemyControllerData;
 
+    [Header("Attack Data")]
+    [SerializeField] private List<EnemyAttackPatternData> _attackPatterns;
+    public List<EnemyAttackPatternData> AttackPatterns => _attackPatterns;
+
     [Header("Stats")]
     [SerializeField] private List<StatEntity<EnemyStatType>> _baseStats;
     public List<StatEntity<EnemyStatType>> BaseStats => _baseStats;

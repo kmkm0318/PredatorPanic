@@ -16,6 +16,9 @@ MonoBehaviour:
   _isBoss: 1
   _enemyName: "\uC0C1\uC5B4"
   _enemyControllerData: {fileID: 11400000, guid: ce5baaeb6cff8ef439a0f784c8e5de9e, type: 2}
+  _attackPatterns:
+  - {fileID: 11400000, guid: 37fa8306774c1f342820857dbaa83147, type: 2}
+  - {fileID: 11400000, guid: 58a838fff50a78d49a268146b117b396, type: 2}
   _baseStats:
   - _statType: 0
     _value: 500
