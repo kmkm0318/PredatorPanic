@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefaultEnemyAttackPatternData
   _indicatedAttackData: {fileID: 11400000, guid: 491c11c3560fea243b960f16d920b189, type: 2}
   _targetType: 2
-  _attackRadius: 4
-  _attackDelay: 1
-  _minAttackCooldown: 2
-  _maxAttackCooldown: 4
+  _attackRadius: 16
+  _attackDelay: 2
+  _minAttackCooldown: 4
+  _maxAttackCooldown: 8

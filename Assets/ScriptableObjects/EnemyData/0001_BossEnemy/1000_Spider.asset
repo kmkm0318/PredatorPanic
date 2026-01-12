@@ -17,9 +17,9 @@ MonoBehaviour:
   _enemyName: "\uAC70\uBBF8"
   _enemyControllerData: {fileID: 11400000, guid: ace5ab14331167341964fc362450165b, type: 2}
   _attackPatterns:
-  - {fileID: 11400000, guid: 37fa8306774c1f342820857dbaa83147, type: 2}
-  - {fileID: 11400000, guid: 58a838fff50a78d49a268146b117b396, type: 2}
-  - {fileID: 11400000, guid: 0bd3cd04973fd764d9aa56463f5ef88c, type: 2}
+  - {fileID: 11400000, guid: c587382c73487bf47bc2677565cb9ef4, type: 2}
+  - {fileID: 11400000, guid: 5e49908e7e1091d4e95a51c152447fd6, type: 2}
+  - {fileID: 11400000, guid: c97275067beae8147a3a948e2be5d4a9, type: 2}
   _baseStats:
   - _statType: 0
     _value: 750

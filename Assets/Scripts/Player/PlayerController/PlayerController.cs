@@ -278,7 +278,13 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 GetPredictedPosition(float delayTime = 0f)
     {
-        //현재 이동 벡터를 기반으로 예측 위치 계산
-        return _player.CenterPosition + _lastVelocity * delayTime;
+        //마지막 이동 벡터 가져오기
+        var lastVelocity = _lastVelocity;
+
+        //플레이어가 바닥에 있다면 y는 0으로 계산
+        if (IsGrounded) lastVelocity.y = 0f;
+
+        //이동 벡터를 기반으로 예측 위치 계산
+        return _player.CenterPosition + lastVelocity * delayTime;
     }
 }

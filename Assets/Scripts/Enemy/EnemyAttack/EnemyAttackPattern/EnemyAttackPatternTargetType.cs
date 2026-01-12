@@ -7,6 +7,6 @@
 public enum EnemyAttackPatternTargetType
 {
     PlayerPosition,
-    PlayerPredictedPosition,
+    PredictPosition,
     EnemyPosition,
 }

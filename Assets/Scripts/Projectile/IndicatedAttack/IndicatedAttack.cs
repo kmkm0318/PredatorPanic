@@ -7,6 +7,10 @@ using UnityEngine;
 /// </summary>
 public class IndicatedAttack : MonoBehaviour
 {
+    #region 상수
+    private const float OUTER_VISUAL_SPEED_MULTIPLIER = 10f;
+    #endregion
+
     [Header("Object Referneces")]
     [SerializeField] private Transform _OuterVisual;
     [SerializeField] private Transform _InnerVisual;
@@ -50,6 +54,9 @@ public class IndicatedAttack : MonoBehaviour
 
         //시각적 표시 업데이트
         float progress = _timer / _delay;
+        float outerProgress = Mathf.Min(progress * OUTER_VISUAL_SPEED_MULTIPLIER, 1f);
+
+        _OuterVisual.localScale = _radius * 2f * outerProgress * Vector3.one;
         _InnerVisual.localScale = _radius * 2f * progress * Vector3.one;
 
         //딜레이가 지나면 공격 실행
@@ -85,7 +92,7 @@ public class IndicatedAttack : MonoBehaviour
         _damage = damage;
 
         //시각적 표시 초기화
-        _OuterVisual.localScale = radius * 2f * Vector3.one;
+        _OuterVisual.localScale = Vector3.zero;
         _InnerVisual.localScale = Vector3.zero;
 
         //공격 상태 설정

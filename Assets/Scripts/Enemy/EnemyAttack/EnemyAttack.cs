@@ -48,7 +48,8 @@ public class EnemyAttack : MonoBehaviour
 
         foreach (var pattern in _attackPatterns)
         {
-            _patternTimes.Add(pattern, currentTime);
+            //첫 쿨타임 설정
+            _patternTimes.Add(pattern, currentTime + pattern.AttackCooldown);
         }
     }
 
