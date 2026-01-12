@@ -44,7 +44,7 @@ Material:
     - _AlphaClip: 0.5
     - _Amount: 1
     - _ColorMask: 15
-    - _Fade: 1
+    - _Fade: 0
     - _Radius: 0
     - _ShowAmount: 1
     - _Stencil: 0

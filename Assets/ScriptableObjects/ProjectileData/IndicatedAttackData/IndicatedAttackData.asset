@@ -16,3 +16,4 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 8
+  _attackSfx: {fileID: 11400000, guid: d119a707d6120ad429c1e09cf5332268, type: 2}

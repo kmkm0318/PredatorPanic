@@ -75,6 +75,9 @@ public class IndicatedAttack : MonoBehaviour
                 }
             }
 
+            //사운드 재생
+            AudioManager.Instance.PlaySfx(IndicatedAttackData.AttackSfx);
+
             //공격 종료
             StopAttack();
         }

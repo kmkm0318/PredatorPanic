@@ -13,4 +13,8 @@ public class IndicatedAttackData : ScriptableObject
     [Header("Indicated Attack Data")]
     [SerializeField] private LayerMask _targetLayer;
     public LayerMask TargetLayer => _targetLayer;
+
+    [Header("Audio Data")]
+    [SerializeField] private AudioData _attackSfx;
+    public AudioData AttackSfx => _attackSfx;
 }
