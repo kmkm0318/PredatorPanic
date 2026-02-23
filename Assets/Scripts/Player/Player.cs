@@ -468,12 +468,12 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어 체력 완전 소진
+    /// 플레이어 즉시 사망
     /// 게임 종료 시에 사용
     /// </summary>
-    public void DamageFull()
+    public void KillImmediately()
     {
-        PlayerHealth.TakeDamage(PlayerHealth.CurrentHealth);
+        PlayerHealth.Die();
     }
 
     public void SetInvincible(bool isInvincible)

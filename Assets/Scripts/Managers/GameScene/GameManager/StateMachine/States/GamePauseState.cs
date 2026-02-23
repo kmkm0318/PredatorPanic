@@ -71,8 +71,8 @@ public class GamePauseState : GameBaseState
         //게임 플레이 상태로 전환
         ChangeState(Factory.Playing);
 
-        //플레이어 체력 0으로 설정
-        GameManager.Player.DamageFull();
+        //플레이어 사망
+        GameManager.Player.KillImmediately();
     }
     #endregion
 }

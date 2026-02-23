@@ -59,12 +59,17 @@ public class Health : MonoBehaviour
         //체력이 0 이하일 시 사망 처리
         if (CurrentHealth <= 0f)
         {
-            CurrentHealth = 0;
-            IsDead = true;
-
-            //이벤트 호출
-            OnDeath?.Invoke();
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        CurrentHealth = 0;
+        IsDead = true;
+
+        //이벤트 호출
+        OnDeath?.Invoke();
     }
     #endregion
 
