@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edd56034390dd4c845107f551e634c, type: 3}
   m_Name: Luck_3
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpRewardData
-  _rewardName: "\uD589\uC6B4"
+  _rewardName: "\uD1A0\uB07C"
   _rewardIcon: {fileID: 21300000, guid: 8c4a7a04e46602c4a9d1a4315ddbaeff, type: 3}
   _rarity: 3
   _effectDatas:
