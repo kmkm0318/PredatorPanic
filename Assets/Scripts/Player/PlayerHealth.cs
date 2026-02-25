@@ -145,6 +145,9 @@ public class PlayerHealth : Health, IDamageable
 
     public override void TakeDamage(float damage)
     {
+        //무적인 경우, 죽은 경우 무시
+        if (_isInvincible || IsDead) return;
+
         //방어력 가져오기
         float defense = _player.PlayerStats.GetStat(PlayerStatType.Defense).FinalValue;
 
