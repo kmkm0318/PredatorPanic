@@ -15,7 +15,6 @@ public abstract class GameBaseState : IState
     public abstract void Enter();
     public abstract void Update();
     public abstract void Exit();
-    public virtual void InitSubStates() { }
 
     protected void ChangeState(GameBaseState newState)
     {
