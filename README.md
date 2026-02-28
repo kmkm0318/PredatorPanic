@@ -944,5 +944,5 @@ https://game-icons.net
 - Caro Asercion
 
 ### 동물 모델 출처
-"Elephant (Low_Poly)" (https://skfb.ly/pwqWV) by planeta-elefante is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
-"Low-poly animated rabbit" (https://skfb.ly/oHI9x) by Pneshik is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+- "Elephant (Low_Poly)" (https://skfb.ly/pwqWV) by planeta-elefante is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+- "Low-poly animated rabbit" (https://skfb.ly/oHI9x) by Pneshik is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
